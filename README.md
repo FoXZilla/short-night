@@ -12,8 +12,8 @@ npm install
 npm run dev
 ```
 
-You can use `~` to include file, `~` means project root directory
+You can use `@` to include file, `@` means project root directory
 
 ```js
-import '~/src/test.js';//include /src/test.js
+import '@/src/test.js';//include /src/test.js
 ```

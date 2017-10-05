@@ -20,7 +20,7 @@
 </template>
 
 <script>
-import {msg} from '~/src/test.js';
+import {msg} from '@/src/test.js';
 export default {
   name: 'app',
   data () {
