@@ -9,6 +9,7 @@ import AxisPoint from '@/src/module/AxisPoint';
 import Line from '@/src/module/Line';
 import SingleText from '@/src/module/SingleText';
 import Note from '@/src/module/Note';
+import AxisSubline from '@/src/module/AxisSubline';
 export default {
     mounted(){
         var axisPoint =new AxisPoint({
@@ -48,6 +49,15 @@ export default {
                 text :'Can computed line position by dynamically.',
             }),
         ].forEach(note=>note.draw());
+
+        var axisSubline =new AxisSubline({
+            x :axisPoint.x ,y:axisPoint.y,
+            length :200,
+            offset :50,
+            ctx    :this.$refs.axisPoint.getContext('2d'),
+        });
+        axisSubline.draw();
+
     },
 };
 </script>
