@@ -1,6 +1,7 @@
 <template>
   <div id="main">
     <canvas ref="axisPoint" width="500" height="700"></canvas>
+    <div id="app-axis"></div>
   </div>
 </template>
 
@@ -10,6 +11,12 @@ import Line from '@/src/module/Line';
 import SingleText from '@/src/module/SingleText';
 import Note from '@/src/module/Note';
 import AxisSubline from '@/src/module/AxisSubline';
+import AxisLine from '@/src/module/AxisLine';
+import AxisScale from '@/src/module/AxisScale';
+import MilestoneGraph from '@/src/module/MilestoneGraph';
+import Milestone from '@/src/module/Milestone';
+import Axis from '@/src/module/Axis';
+
 export default {
     mounted(){
         var axisPoint =new AxisPoint({
@@ -50,6 +57,7 @@ export default {
             }),
         ].forEach(note=>note.draw());
 
+
         var axisSubline =new AxisSubline({
             x :axisPoint.x ,y:axisPoint.y,
             length :200,
@@ -57,6 +65,91 @@ export default {
             ctx    :this.$refs.axisPoint.getContext('2d'),
         });
         axisSubline.draw();
+
+
+        var axisLine =new AxisLine({
+            ctx :this.$refs.axisPoint.getContext('2d'),
+            x :40,
+            y :10,
+            length :400,
+            width :10,
+        });
+        axisLine.draw();
+
+
+        [
+            new AxisScale({
+                ctx :this.$refs.axisPoint.getContext('2d'),
+                axisWidth :axisLine.width,
+                x :axisLine.x+axisLine.width/2,
+                y :60,
+            }),
+            new AxisScale({
+                ctx :this.$refs.axisPoint.getContext('2d'),
+                axisWidth :axisLine.width,
+                x :axisLine.x+axisLine.width/2,
+                y :120,
+            }),
+            new AxisScale({
+                ctx :this.$refs.axisPoint.getContext('2d'),
+                axisWidth :axisLine.width,
+                x :axisLine.x+axisLine.width/2,
+                y :230,
+            }),
+        ].forEach(item=>item.draw());
+
+
+        {
+            let milestoneGraph =new MilestoneGraph({
+                ctx :this.$refs.axisPoint.getContext('2d'),
+                axisWidth :axisLine.width,
+                alignX :axisLine.x+axisLine.width/2,
+                alignY :280,
+                width :80,
+                height:30,
+            });
+            milestoneGraph.draw();
+
+            let singleText =new SingleText({
+                x :milestoneGraph.alignX,
+                y :milestoneGraph.alignY,
+                text :'2017',
+                container :this.$el,
+            });
+            singleText.x =milestoneGraph.alignX-singleText.width/2;
+            singleText.y =milestoneGraph.alignY-singleText.height/2;
+            singleText.draw();
+        };{
+            let milestone =new Milestone({
+                ctx :this.$refs.axisPoint.getContext('2d'),
+                axisWidth :axisLine.width,
+                text :'2018',
+                container :this.$el,
+                alignX :axisLine.x+axisLine.width/2,
+                alignY :320,
+            });
+            milestone.draw();
+        };
+
+        {
+            let axis =new Axis({
+                el :'#app-axis',
+                length :400,
+                width :5,
+                scales :[.1,.2,.3,.4,.5,.6,.7,.8,.9],
+                milestones :[{
+                    text :2016,
+                    position :.1
+                },{
+                    text :2018,
+                    position :.5
+                },{
+                    text :2020,
+                    position :.9
+                }],
+            });
+            axis.draw();
+        }
 
     },
 };

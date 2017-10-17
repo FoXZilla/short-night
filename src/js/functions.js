@@ -106,3 +106,12 @@ export function getLineLength(line){
     }
     return ~~result;
 }
+
+export function mount(el ,app){
+    el =el instanceof Element ?el :document.querySelector(el);
+    for(let {name,value} of el.attributes){
+        app.setAttribute(name ,value);
+    };
+    el.parentNode.replaceChild(app,el);
+    return app;
+};
