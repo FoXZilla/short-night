@@ -16,90 +16,108 @@ import AxisScale from '@/src/module/AxisScale';
 import MilestoneGraph from '@/src/module/MilestoneGraph';
 import Milestone from '@/src/module/Milestone';
 import Axis from '@/src/module/Axis';
+import SubAxis from '@/src/module/SubAxis';
 
 export default {
     mounted(){
-        var axisPoint =new AxisPoint({
-            ctx :this.$refs.axisPoint.getContext('2d'),
-            x:200,y:300,
-            radius :20,
+        var axisPoint = new AxisPoint({
+            ctx :this.$refs.axisPoint.getContext('2d') ,
+            x :200 ,y :300 ,
+            radius :20 ,
         });
         axisPoint.draw();
 
-        var line =new Line({
-            ctx :this.$refs.axisPoint.getContext('2d'),
-            startX:axisPoint.x ,startY:axisPoint.y,
-            endX:axisPoint.x+50,
-            endY:axisPoint.y+50,
+        var line = new Line({
+            ctx :this.$refs.axisPoint.getContext('2d') ,
+            startX :axisPoint.x ,startY :axisPoint.y ,
+            endX :axisPoint.x + 50 ,
+            endY :axisPoint.y + 50 ,
         });
         line.draw();
 
-        var singleText =new SingleText({
-            x :line.endX,
-            y :line.endY,
-            text :'This is a single line text',
-            container :this.$el,
+        var singleText = new SingleText({
+            x :line.endX ,
+            y :line.endY ,
+            text :'This is a single line text' ,
+            container :this.$el ,
         });
         singleText.draw();
 
         [
             new Note({
-                ctx :this.$refs.axisPoint.getContext('2d'),
-                container :this.$el,
-                targetX:axisPoint.x ,targetY:axisPoint.y,
-                text :'The Note component',
-            }),
+                ctx :this.$refs.axisPoint.getContext('2d') ,
+                container :this.$el ,
+                targetX :axisPoint.x ,targetY :axisPoint.y ,
+                text :'The Note component' ,
+            }) ,
             new Note({
-                ctx :this.$refs.axisPoint.getContext('2d'),
-                container :this.$el,
-                targetX:axisPoint.x ,targetY:axisPoint.y,
-                text :'Can computed line position by dynamically.',
-            }),
-        ].forEach(note=>note.draw());
+                ctx :this.$refs.axisPoint.getContext('2d') ,
+                container :this.$el ,
+                targetX :axisPoint.x ,targetY :axisPoint.y ,
+                text :'Can computed line position by dynamically.' ,
+            }) ,
+        ].forEach(note => note.draw());
 
 
-        var axisSubline =new AxisSubline({
-            x :axisPoint.x ,y:axisPoint.y,
-            length :200,
-            offset :50,
-            ctx    :this.$refs.axisPoint.getContext('2d'),
+        var axisSubline = new AxisSubline({
+            x :axisPoint.x ,y :axisPoint.y ,
+            length :200 ,
+            offset :50 ,
+            ctx :this.$refs.axisPoint.getContext('2d') ,
         });
         axisSubline.draw();
 
 
-        var axisLine =new AxisLine({
-            ctx :this.$refs.axisPoint.getContext('2d'),
-            x :40,
-            y :10,
-            length :400,
-            width :10,
+        var axisLine = new AxisLine({
+            ctx :this.$refs.axisPoint.getContext('2d') ,
+            x :40 ,
+            y :10 ,
+            length :400 ,
+            width :10 ,
         });
         axisLine.draw();
 
 
-        [
-            new AxisScale({
-                ctx :this.$refs.axisPoint.getContext('2d'),
-                axisWidth :axisLine.width,
-                x :axisLine.x+axisLine.width/2,
-                y :60,
-            }),
-            new AxisScale({
-                ctx :this.$refs.axisPoint.getContext('2d'),
-                axisWidth :axisLine.width,
-                x :axisLine.x+axisLine.width/2,
-                y :120,
-            }),
-            new AxisScale({
-                ctx :this.$refs.axisPoint.getContext('2d'),
-                axisWidth :axisLine.width,
-                x :axisLine.x+axisLine.width/2,
-                y :230,
-            }),
-        ].forEach(item=>item.draw());
-
-
         {
+            let scales = [
+                new AxisScale({
+                    ctx :this.$refs.axisPoint.getContext('2d') ,
+                    axisWidth :axisLine.width ,
+                    x :axisLine.x + axisLine.width/2 ,
+                    y :60 ,
+                }) ,
+                new AxisScale({
+                    ctx :this.$refs.axisPoint.getContext('2d') ,
+                    axisWidth :axisLine.width ,
+                    x :axisLine.x + axisLine.width/2 ,
+                    y :120 ,
+                }) ,
+                new AxisScale({
+                    ctx :this.$refs.axisPoint.getContext('2d') ,
+                    axisWidth :axisLine.width ,
+                    x :axisLine.x + axisLine.width/2 ,
+                    y :230 ,
+                }) ,
+            ];
+
+            let subAxis = new SubAxis({
+                x :scales[scales.length-1].x,
+                y :scales[scales.length-1].y,
+                length :scales[0].y-scales[scales.length-1].y,
+                ctx :this.$refs.axisPoint.getContext('2d'),
+                container :this.$el,
+                notes :[{
+                    text :'start' ,
+                    position :0 ,
+                },{
+                    text :'end' ,
+                    position :1 ,
+                }],
+            });
+            subAxis.draw();
+            scales.forEach(item => item.draw());
+
+        };{
             let milestoneGraph =new MilestoneGraph({
                 ctx :this.$refs.axisPoint.getContext('2d'),
                 axisWidth :axisLine.width,
