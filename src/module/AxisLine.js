@@ -3,7 +3,10 @@ import AxisLineInterface from '@/src/interface/AxisLine';
 export default class AxisLine extends AxisLineInterface{
     constructor(...args){
         super(...args);
+
+        this.init();
     };
+    init(){};
     draw(){
         this.ctx.beginPath();
         this.ctx.moveTo(this.x,this.y);

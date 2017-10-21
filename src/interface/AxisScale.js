@@ -6,6 +6,9 @@ export default class AxisScale{
         this.x =x;
         this.y =y;
     };
+    init(){
+        throw new TypeError('"draw" called on an object that does not implement interface AxisScale.');
+    };
     draw(){
         throw new TypeError('"draw" called on an object that does not implement interface AxisScale.');
     };

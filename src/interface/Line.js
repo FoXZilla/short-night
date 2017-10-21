@@ -7,6 +7,9 @@ export default class Line{
         this.endX =endX;
         this.endY =endY;
     };
+    init(){
+        throw new TypeError('"init" called on an object that does not implement interface Line.');
+    };
     draw(){
         throw new TypeError('"draw" called on an object that does not implement interface Line.');
     };

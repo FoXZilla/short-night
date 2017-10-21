@@ -9,10 +9,18 @@ export default class Note{
         this.targetY =targetY;
         this.text =text;
         this.container =container;
-
-        this.textX =null;
-        this.textY =null;
-        this.line  =null;
+    };
+    get textX(){
+        throw new TypeError('"textX" read on an object that does not implement interface Note.')
+    };
+    get textY(){
+        throw new TypeError('"textY" read on an object that does not implement interface Note.')
+    };
+    get line(){
+        throw new TypeError('"line" read on an object that does not implement interface Note.')
+    };
+    init(){
+        throw new TypeError('"init" called on an object that does not implement interface Note.');
     };
     draw(){
         throw new TypeError('"draw" called on an object that does not implement interface Note.');

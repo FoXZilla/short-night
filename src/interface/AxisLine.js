@@ -7,6 +7,9 @@ export default class AxisLine{
         this.x =x;
         this.y =y;
     };
+    init(){
+        throw new TypeError('"init" called on an object that does not implement interface AxisLine.');
+    };
     draw(){
         throw new TypeError('"draw" called on an object that does not implement interface AxisLine.');
     };

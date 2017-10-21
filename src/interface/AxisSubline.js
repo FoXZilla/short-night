@@ -25,6 +25,9 @@ export default class AxisSubline{
         this.offset =offset;
         this.ctx    =ctx;
     };
+    init(){
+        throw new TypeError('"init" called on an object that does not implement interface AxisSubline.');
+    };
     draw(){
         throw new TypeError('"draw" called on an object that does not implement interface AxisSubline.');
     };

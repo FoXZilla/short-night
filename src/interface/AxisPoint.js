@@ -13,6 +13,9 @@ export default class AxisPoint{
         this.x =x;
         this.y =y;
     };
+    init(){
+        throw new TypeError('"init" called on an object that does not implement interface AxisPoint.');
+    };
     draw(){
         throw new TypeError('"draw" called on an object that does not implement interface AxisPoint.');
     };

@@ -4,7 +4,10 @@ import AxisScaleInterface from '@/src/interface/AxisScale';
 export default class AxisScale extends AxisScaleInterface{
     constructor(){
         super(...arguments);
+
+        this.init();
     };
+    init(){};
     draw(){
         this.ctx.beginPath();//draw bg
         this.ctx.fillStyle='#f60';

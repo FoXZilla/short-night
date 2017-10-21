@@ -4,7 +4,9 @@ import MilestoneGraphInterface from '@/src/interface/MilestoneGraph';
 export default class MilestoneGraph extends MilestoneGraphInterface{
     constructor(){
         super(...arguments);
+        this.init();
     };
+    init(){};
     draw(){
         this.ctx.beginPath();
         this.ctx.moveTo(this.alignX-this.width/2 ,this.alignY-this.height/2);

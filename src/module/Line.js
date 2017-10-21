@@ -3,7 +3,9 @@ import LineInterface from '@/src/interface/Line';
 export default class Line extends LineInterface{
     constructor(){
         super(...arguments);
+        this.init();
     };
+    init(){};
     draw(){
         this.ctx.strokeStyle ='#777';
         this.ctx.lineWidth =2;

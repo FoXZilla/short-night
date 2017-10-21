@@ -6,71 +6,91 @@ import {mount} from '@/src/js/functions';
 
 
 export default class Axis extends AxisInterface{
-    constructor(...args){
-        super(...args);
+    constructor(meta ,{paddingTop=10}={}){
+        super(...arguments);
         this._axisLine =null;
-
-        this.el =mount(this.el ,document.createElement('div'));
-        this.el.style.position ='relative';
-        this.canvas =this.el.appendChild(document.createElement('canvas'));
-        this.canvas.width =200;
-        const PaddingTop =10;
-        this.canvas.height =this.length+PaddingTop+200;
+        this._milestones =null;
+        this._scales =null;
+        this.canvas =null;
+        this.paddingTop =paddingTop;
 
         Object.defineProperty(this ,'alignX',{get:()=>this.canvas.width/2});
-        Object.defineProperty(this ,'alignY',{get:()=>PaddingTop});
+        Object.defineProperty(this ,'alignY',{get:()=>this.paddingTop});
+
+        this.init();
+    };
+    init(){
+        this.el =mount(this.el ,document.createElement('div'));
+        this.el.style.position ='relative';
+
+        if(this.canvas &&this.canvas.parentNode){
+            this.canvas.parentNode.removeChild(this.canvas);
+        };
+        this.canvas =this.el.appendChild(document.createElement('canvas'));
+        this.canvas.width =200;
+        this.canvas.height =this.length+this.paddingTop+200;
 
         this._axisLine =new AxisLine({
             ctx :this.canvas.getContext('2d'),
             length :this.length,
             width :this.width,
             x :this.canvas.width/2,
-            y :PaddingTop,
+            y :this.paddingTop,
         });
         this._axisLine.x -=this._axisLine.width/2;//align center
+        this._axisLine.init();
 
-        this.milestones =this.milestones.map(({text,position})=>new Milestone({
+        this._milestones =this.milestones.map(({text,position})=>new Milestone({
             axisWidth :this.width,
             alignX :this.alignX,
-            alignY :position*this.length+PaddingTop,//untreated
+            alignY :position*this.length+this.paddingTop,//untreated
             ctx :this.canvas.getContext('2d'),
             text,
             container:this.el,
         })).sort((m1,m2)=>m1.alignY-m2.alignY);
-        this.milestones.forEach(m=>m.init());
-        this.scales =this.scales.map(scale=>new AxisScale({
+
+        this._scales =this.scales.map(scale=>new AxisScale({
             ctx :this.canvas.getContext('2d'),
             axisWidth :this.width,
             x :this.alignX,
-            y :scale*this.length+PaddingTop
+            y :scale*this.length+this.paddingTop
         })).sort((s1,s2)=>s1.y-s2.y);
-        // the milestones should not detain Axis length
-        for(let scale of this.scales){
-            let beforeIndex =this.milestones.findIndex(m=>m.alignY>scale.y);
+
+        // the milestones should not detain Axis length and Scale compute
+
+        // re-compute Scale
+        for(let scale of this._scales){
+            let beforeIndex =this._milestones.findIndex(m=>m.alignY>scale.y);
             if(!beforeIndex)continue;
-            if(!~beforeIndex)beforeIndex=this.milestones.length;
+            if(!~beforeIndex)beforeIndex=this._milestones.length;
             // hide scale-point when it very adjacent milestone
-            if(Math.abs(this.milestones[beforeIndex-1].alignY-scale.y)<0.001)scale.y=-9999999;
-            let offset =this.milestones
+            if(Math.abs(this._milestones[beforeIndex-1].alignY-scale.y)<0.001){//coincide with milestone
+                scale.y=-9999999;//hidden scale point
+            };
+            let offset =this._milestones
                 .slice(0 ,beforeIndex)
                 .map(m=>m.height)
                 .reduce((m1,m2)=>m1+m2);
             ;
-            offset -=this.milestones[beforeIndex-1].height/2;
+            offset -=this._milestones[beforeIndex-1].height/2;
             scale.y +=offset;
         };
-        var addLength =0;
-        for(let [index,milestone] of this.milestones.entries()){
+
+        // add axis-line length
+        var extraAddLength =0;
+        for(let [index,milestone] of this._milestones.entries()){
             if(index ===0)continue;
-            addLength +=milestone.height;
-            milestone.alignY +=addLength;
+            extraAddLength +=milestone.height;
+            milestone.alignY +=extraAddLength;
             milestone.init();
         };
-        this._axisLine.length +=addLength;
+        this._axisLine.length +=extraAddLength;
+        this._axisLine.init();
+
     };
     draw(){
         this._axisLine.draw();
-        this.milestones.forEach(m=>m.draw());
-        this.scales.forEach(m=>m.draw());
+        this._milestones.forEach(m=>m.draw());
+        this._scales.forEach(m=>m.draw());
     };
 };

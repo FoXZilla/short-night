@@ -118,6 +118,7 @@ export default {
             });
             singleText.x =milestoneGraph.alignX-singleText.width/2;
             singleText.y =milestoneGraph.alignY-singleText.height/2;
+            singleText.init();
             singleText.draw();
         };{
             let milestone =new Milestone({

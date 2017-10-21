@@ -17,6 +17,9 @@ export default class Axis{
         this.scales =scales;
         this.milestones =milestones;
     };
+    init(){
+        throw new TypeError('"init" called on an object that does not implement interface Axis.');
+    };
     draw(){
         throw new TypeError('"draw" called on an object that does not implement interface Axis.');
     };

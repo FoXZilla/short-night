@@ -7,16 +7,14 @@ export default class AxisPoint extends AxisPointInterface{
         this.borderWidth =pointOptions.radius/15+1;
         this.innerRadius =pointOptions.radius;
         this.outerRadius =pointOptions.radius*2+2;
-        Object.defineProperty(this,'radius',{
-            getter :()=>{
-                return this.outerRadius+this.borderWidth;
-            },
-            setter(){
-                // todo: dynamic compute
-                throw new Error('"radius" is read-only');
-            },
+
+        Object.defineProperty(this ,'radius',{
+            get :()=>this.outerRadius+this.borderWidth,
         });
+
+        this.init();
     };
+    init(){};
     draw(){
         // draw options
         // todo: be optional

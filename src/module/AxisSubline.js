@@ -1,10 +1,13 @@
 import AxisSublineInterface from '@/src/interface/AxisSubline';
 
 export default class AxisSubline extends AxisSublineInterface{
-    constructor({serif=5}){
+    constructor(meta ,{serif=5}={}){
         super(...arguments);
-        this.serif  =serif;
+        this.serif =serif;
+
+        this.init();
     };
+    init(){};
     draw(){
         this.ctx.strokeStyle='#999';
         this.ctx.lineWidth =1;

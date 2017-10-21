@@ -8,6 +8,9 @@ export default class MilestoneGraph{
         this.alignX =alignX;
         this.alignY =alignY;
     };
+    init(){
+        throw new TypeError('"init" called on an object that does not implement interface MilestoneGraph.');
+    };
     draw(){
         throw new TypeError('"draw" called on an object that does not implement interface MilestoneGraph.');
     };

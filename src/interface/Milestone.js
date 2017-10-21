@@ -10,6 +10,9 @@ export default class Milestone{
         this.alignY =alignY;
         this.container =container;
     };
+    init(){
+        throw new TypeError('"init" called on an object that does not implement interface Milestone.');
+    };
     draw(){
         throw new TypeError('"draw" called on an object that does not implement interface Milestone.');
     };

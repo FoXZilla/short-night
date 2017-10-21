@@ -9,8 +9,15 @@ export default class SingleText{
         this.text =text;
         this.container =container;
     };
-    get width(){throw new TypeError('"width" read on an object that does not implement interface SingleText.')};
-    get height(){throw new TypeError('"height" read on an object that does not implement interface SingleText.')};
+    get width(){
+        throw new TypeError('"width" read on an object that does not implement interface SingleText.')
+    };
+    get height(){
+        throw new TypeError('"height" read on an object that does not implement interface SingleText.')
+    };
+    init(){
+        throw new TypeError('"init" called on an object that does not implement interface SingleText.');
+    };
     draw(){
         throw new TypeError('"draw" called on an object that does not implement interface SingleText.');
     };

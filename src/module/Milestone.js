@@ -32,6 +32,7 @@ export default class Milestone extends MilestoneInterface{
         });
         this._singleText.x =this._milestoneGraph.alignX-this._singleText.width/2;
         this._singleText.y =this._milestoneGraph.alignY-this._singleText.height/2;
+        this._singleText.init();
     };
     draw(){
         this._singleText.draw();
