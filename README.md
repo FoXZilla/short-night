@@ -2,6 +2,10 @@
 
 :deciduous_tree:A beautiful and powerful timeline UI compontents, No dependency.
 
+> This project need contributors, If you have the will please send a [Issue](https://github.com/pea3nut/timeline/issues/new).
+
+> This project has not yet been completed
+
 # develop
 
 ```bash
@@ -18,6 +22,11 @@ You can use `@` to include file, `@` means project root directory
 import '@/src/test.js';//include /src/test.js
 ```
 
+# example
+
+![](/.github/level-1-result.png)
+
 # module
 
-![a5 eh53 pd0w ieza6_ed4](https://user-images.githubusercontent.com/13781420/31316468-bd233670-ac60-11e7-800b-7248d68d8d19.png)
+![](/.github/modular-structure.png)
+

@@ -1,27 +1,30 @@
 import AxisSublineInterface from '@/src/interface/AxisSubline';
 
 export default class AxisSubline extends AxisSublineInterface{
-    constructor(meta ,{serif=5}={}){
+    constructor(meta ,{serif=7}={}){
         super(...arguments);
         this.serif =serif;
+        this.direction =this.offset/Math.abs(this.offset);
 
         this.init();
     };
     init(){};
     draw(){
-        this.ctx.strokeStyle='#999';
+        this.ctx.strokeStyle='#77';
         this.ctx.lineWidth =1;
+        this.ctx.setLineDash([4,2]);
 
         this.ctx.beginPath();
         this.ctx.moveTo(this.x,this.y);
-        this.ctx.lineTo(this.x+this.offset+this.serif ,this.y);
+        this.ctx.lineTo(this.x+this.offset+this.serif*this.direction ,this.y);
         this.ctx.stroke();
 
         this.ctx.beginPath();
         this.ctx.moveTo(this.x,this.y-this.length);
-        this.ctx.lineTo(this.x+this.offset+this.serif ,this.y-this.length);
+        this.ctx.lineTo(this.x+this.offset+this.serif*this.direction ,this.y-this.length);
         this.ctx.stroke();
 
+        this.ctx.setLineDash([]);
         this.ctx.strokeStyle='#000';
         this.ctx.beginPath();
         this.ctx.lineWidth =2;

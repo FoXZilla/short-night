@@ -9,9 +9,14 @@ export default class AxisScale extends AxisScaleInterface{
     };
     init(){};
     draw(){
-        this.ctx.beginPath();//draw bg
-        this.ctx.fillStyle='#f60';
-        this.ctx.arc(this.x,this.y,this.axisWidth/2+4,0,7);
+        this.ctx.beginPath();
+        this.ctx.moveTo(this.x-this.axisWidth/2 ,this.y-this.axisWidth/6);
+        this.ctx.lineTo(this.x+this.axisWidth/2 ,this.y-this.axisWidth/6);
+        this.ctx.lineTo(this.x+this.axisWidth/2 ,this.y+this.axisWidth/6);
+        this.ctx.lineTo(this.x-this.axisWidth/2 ,this.y+this.axisWidth/6);
+        this.ctx.closePath();
+        this.ctx.fillStyle ='#f60';
         this.ctx.fill();
+
     };
 };
