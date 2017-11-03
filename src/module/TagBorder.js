@@ -11,17 +11,38 @@ export default class TagBorder extends TagBorderInterface{
     draw(){
         Object.assign(this.ctx ,CTX_ORIGIN_DATA);
 
-
         let borderX =this.pointerX<this.x ?this.x :this.x+this.width;
         let h =Math.abs(this.pointerX-borderX);
+
+        var leftTrack =[
+            [borderX ,this.pointerY-(Math.sqrt(3)/3)*h],
+            [this.pointerX ,this.pointerY],
+            [borderX ,this.pointerY+(Math.sqrt(3)/3)*h],
+            [this.x ,this.y+this.height],
+            [this.x+this.width ,this.y+this.height],
+            [this.x+this.width ,this.y],
+        ];
+        var rightTrack =[
+            [this.x+this.width ,this.y],
+            [borderX ,this.pointerY-(Math.sqrt(3)/3)*h],
+            [this.pointerX ,this.pointerY],
+            [borderX ,this.pointerY+(Math.sqrt(3)/3)*h],
+            [this.x+this.width ,this.y+this.height],
+            [this.x ,this.y+this.height],
+        ];
+
+
         this.ctx.beginPath();
         this.ctx.moveTo(this.x ,this.y);
-        this.ctx.lineTo(borderX ,this.pointerY-(Math.sqrt(3)/3)*h);
-        this.ctx.lineTo(this.pointerX ,this.pointerY);
-        this.ctx.lineTo(borderX ,this.pointerY+(Math.sqrt(3)/3)*h);
-        this.ctx.lineTo(this.x ,this.y+this.height);
-        this.ctx.lineTo(this.x+this.width ,this.y+this.height);
-        this.ctx.lineTo(this.x+this.width ,this.y);
+        if(this.pointerX<this.x){
+            for(let [x,y] of leftTrack){
+                this.ctx.lineTo(x,y);
+            };
+        }else{
+            for(let [x,y] of rightTrack){
+                this.ctx.lineTo(x,y);
+            };
+        }
         this.ctx.closePath();
         this.ctx.stroke();
 

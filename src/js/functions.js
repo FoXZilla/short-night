@@ -1,3 +1,4 @@
+
 /**
  * @param {Line} line1
  * @param {Line} line2
@@ -5,10 +6,12 @@
  * @property {Number} Line.startY
  * @property {Number} Line.endX
  * @property {Number} Line.endY
+ * @see https://stackoverflow.com/questions/9043805/test-if-two-lines-intersect-javascript-function?answertab=votes#tab-top
  * */
 export function isIntersect(line1, line2) {
     var {startX :x1,startY:y1,endX:x2,endY:y2} =line1;
     var {startX :x3,startY:y3,endX:x4,endY:y4} =line2;
+    [x1,x2,x3,x4,y1,y2,y3,y4] =[~~x1,~~x2,~~x3,~~x4,~~y1,~~y2,~~y3,~~y4];
 
     var x=((x1*y2-y1*x2)*(x3-x4)-(x1-x2)*(x3*y4-y3*x4))/((x1-x2)*(y3-y4)-(y1-y2)*(x3-x4));
     var y=((x1*y2-y1*x2)*(y3-y4)-(y1-y2)*(x3*y4-y3*x4))/((x1-x2)*(y3-y4)-(y1-y2)*(x3-x4));
@@ -115,3 +118,16 @@ export function mount(el ,app){
     el.parentNode.replaceChild(app,el);
     return app;
 };
+
+export function object2style(obj){
+    let styles ='';
+    for(let attr of Object.keys(obj)){
+        styles +=
+            attr.replace(/([A-Z])/g,'-$1').toLowerCase()
+            +':'
+            +obj[attr]
+            +'; '
+        ;
+    };
+    return styles;
+}

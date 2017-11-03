@@ -2,11 +2,13 @@
  * @property {Line} line
  * */
 export default class Note{
-    constructor({ctx,targetX,targetY,container,text}){
+    constructor({ctx,targetX,targetY,container,text,offsetX,offsetY}){
         if(new.target===Note)throw new TypeError('Illegal constructor.');
         this.ctx =ctx;
         this.targetX =targetX;
         this.targetY =targetY;
+        this.offsetX =offsetX;
+        this.offsetY =offsetY;
         this.text =text;
         this.container =container;
     };

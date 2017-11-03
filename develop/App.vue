@@ -1,30 +1,36 @@
 <template>
     <div id="main">
-        <div ref="rank-1" class="rank-container">
+        <div ref="rank-1" class="rank-container" v-show="false">
             <canvas ref="rank-1-canvas" width="600" height="700"></canvas>
+        </div>
+        <div ref="rank-2" class="rank-container">
+            <canvas ref="rank-2-canvas" width="600" height="700"></canvas>
         </div>
     </div>
 </template>
 
 <script>
 import AxisPoint from '@/src/module/AxisPoint';
-import Line from '@/src/module/Line';
-import SingleText from '@/src/module/SingleText';
-import MultiText from '@/src/module/MultiText';
-import Note from '@/src/module/Note';
+//import Line from '@/src/module/Line';
+//import SingleText from '@/src/module/SingleText';
+//import MultiText from '@/src/module/MultiText';
 import AxisSubline from '@/src/module/AxisSubline';
 import AxisLine from '@/src/module/AxisLine';
 import AxisScale from '@/src/module/AxisScale';
-import MilestoneGraph from '@/src/module/MilestoneGraph';
+//import MilestoneGraph from '@/src/module/MilestoneGraph';
 import Milestone from '@/src/module/Milestone';
-import Axis from '@/src/module/Axis';
-import SubAxis from '@/src/module/SubAxis';
-import TagBorder from '@/src/module/TagBorder';
+//import Axis from '@/src/module/Axis';
+//import SubAxis from '@/src/module/SubAxis';
+//import TagBorder from '@/src/module/TagBorder';
 import Tag from '@/src/module/Tag';
+//
+import Text from '@/src/module/Text';
+import Note from '@/src/module/Note';
+
 
 export default {
     mounted(){
-        {// Level 1
+        ()=>{// Level 1
             const Canvas =this.$refs['rank-1-canvas'];
             const Container =this.$refs['rank-1'];
             const getCtx =function(){
@@ -174,7 +180,93 @@ export default {
             axisPoint.draw();
 
 
-        };{};{};
+        };{// Level 2
+            const Canvas =this.$refs['rank-2-canvas'];
+            const Container =this.$refs['rank-2'];
+            const Ctx =Canvas.getContext('2d');
+
+
+            let axisLine = new AxisLine({
+                ctx :Ctx,
+                x :Canvas.width/2,
+                y :10,
+                length :600,
+                width :10,
+            });
+            axisLine.x -=axisLine.width/2;
+            axisLine.init();
+
+
+            let scales =[...new Array(10)].map((item,index)=>new AxisScale({
+                ctx :Ctx,
+                axisWidth :axisLine.width,
+                x :axisLine.x +axisLine.width/2,
+                y :axisLine.y +axisLine.length*(index/10)+axisLine.length/20,
+            }));
+
+            let milestones =[
+                new Milestone({
+                    ctx :Ctx,
+                    axisWidth :axisLine.width,
+                    text :2017..toString(),
+                    alignX :scales[1].x,
+                    alignY :scales[1].y,
+                    container :Container,
+                }),
+                new Milestone({
+                    ctx :Ctx,
+                    container :Container,
+                    axisWidth :axisLine.width,
+                    text :2018..toString(),
+                    alignX :scales[scales.length-2].x,
+                    alignY :scales[scales.length-2].y,
+                }),
+            ];
+
+
+
+            let axisPoint =new AxisPoint({
+                ctx :Ctx,
+                x :scales[7].x,
+                y :scales[7].y,
+                radius :axisLine.width/2+2,
+            });
+
+
+            let tag =new Tag({
+                ctx :Ctx,
+                container :Container,
+                text :`
+                    <h4>2017-11-3</h4>
+                    <p>Some event have been.</p>
+                `,
+                targetX :axisPoint.x,
+                targetY :axisPoint.y,
+            });
+
+
+            let axisSubline = new AxisSubline({
+                ctx :Ctx,
+                x :axisPoint.x ,y :axisPoint.y ,
+                length :200 ,
+                offset :30 ,
+            });
+            axisSubline.draw();
+            let note =new Note({
+                ctx :Ctx,
+                container :Container,
+                targetX :axisSubline.x+axisSubline.offset,
+                targetY :axisSubline.y-axisSubline.length,
+                text :'End of event.',
+            });
+
+            tag.draw();
+            axisLine.draw();
+            scales.forEach(i=>i.draw());
+            milestones.forEach(i=>i.draw());
+            axisPoint.draw();
+            note.draw();
+        };{};
 
 
 

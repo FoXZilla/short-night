@@ -1,41 +1,45 @@
 import MilestoneInterface from '@/src/interface/Milestone';
-import SingleText from '@/src/module/SingleText';
+import Text from '@/src/module/Text';
 import MilestoneGraph from '@/src/module/MilestoneGraph';
 
 
 export default class Milestone extends MilestoneInterface{
     constructor(){
         super(...arguments);
-        this._singleText =null;
+        this._text =null;
         this._milestoneGraph =null;
 
-        Object.defineProperty(this ,'width' ,{get:()=>this._milestoneGraph.width});
-        Object.defineProperty(this ,'height',{get:()=>this._milestoneGraph.height});
-
         this.init();
+    };
+    get width(){
+        return this._milestoneGraph.width;
+    };
+    get height(){
+        return this._milestoneGraph.height;
     };
     init(){
         const PaddingUpDown =3;
         const PaddingLeftRight =8;
 
-        this._singleText =new SingleText({
+        this._text =new Text({
             text :this.text,
             container :this.container,
+            style :Text.SINGLE_STYLE,
         });
         this._milestoneGraph =new MilestoneGraph({
             ctx :this.ctx,
             axisWidth :this.axisWidth,
             alignX :this.alignX,
             alignY :this.alignY,
-            width :this._singleText.width+PaddingLeftRight*2,
-            height:this._singleText.height+PaddingUpDown*2,
+            width :this._text.width+PaddingLeftRight*2,
+            height:this._text.height+PaddingUpDown*2,
         });
-        this._singleText.x =this._milestoneGraph.alignX-this._singleText.width/2;
-        this._singleText.y =this._milestoneGraph.alignY-this._singleText.height/2;
-        this._singleText.init();
+        this._text.x =this._milestoneGraph.alignX-this._text.width/2;
+        this._text.y =this._milestoneGraph.alignY-this._text.height/2;
+        this._text.init();
     };
     draw(){
-        this._singleText.draw();
+        this._text.draw();
         this._milestoneGraph.draw();
     };
 };

@@ -1,7 +1,6 @@
 export default class Tag{
     /**
      * @param {Element} container - relative to who positioning
-     * @param {String<left|right>|Null} - preference
      * @param {Number} aspectRatio -  expect width/height
      * */
     constructor({targetX,targetY,text,ctx,container,offsetX,offsetY,maxWidth,aspectRatio}){
