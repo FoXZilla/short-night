@@ -33,6 +33,12 @@ export default class Tag extends TagInterface{
     set offsetY(value){
         this._user_offsetY =value;
     };
+    get width(){
+        return this._tagBorder.width;
+    };
+    get height(){
+        return this._tagBorder.height;
+    };
     init(){
         if(this.needGenerateOffset()){
             this.generateOffset();

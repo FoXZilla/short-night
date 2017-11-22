@@ -4,8 +4,8 @@ export default class SubAxis{
      * @property {Number} NoteInfo.position < 1
      * @property {String} NoteInfo.text
      * */
-    constructor({notes=[],x,y,length,offset,ctx,container}){
-        this.notes =notes;
+    constructor({endText,x,y,length,offset,ctx,container}){
+        this.endText =endText;
         this.x =x;
         this.y =y;
         this.length =Math.abs(length);

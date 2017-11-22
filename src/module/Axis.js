@@ -13,22 +13,21 @@ export default class Axis extends AxisInterface{
         this._scales =null;
         this.canvas =null;
         this.paddingTop =paddingTop;
-
-        Object.defineProperty(this ,'alignX',{get:()=>this.canvas.width/2});
-        Object.defineProperty(this ,'alignY',{get:()=>this.paddingTop});
+        this._el =null;
 
         this.init();
     };
+    get alignX(){
+        return this.canvas.width/2;
+    };
+    get startY(){
+        return this.paddingTop;
+    };
+    get height(){
+        return this._axisLine.length;
+    };
     init(){
-        this.el =mount(this.el ,document.createElement('div'));
-        this.el.style.position ='relative';
-
-        if(this.canvas &&this.canvas.parentNode){
-            this.canvas.parentNode.removeChild(this.canvas);
-        };
-        this.canvas =this.el.appendChild(document.createElement('canvas'));
-        this.canvas.width =200;
-        this.canvas.height =this.length+this.paddingTop+200;
+        this.createEl();
 
         this._axisLine =new AxisLine({
             ctx :this.canvas.getContext('2d'),
@@ -46,7 +45,7 @@ export default class Axis extends AxisInterface{
             alignY :position*this.length+this.paddingTop,//untreated
             ctx :this.canvas.getContext('2d'),
             text,
-            container:this.el,
+            container:this._el,
         })).sort((m1,m2)=>m1.alignY-m2.alignY);
 
         this._scales =this.scales.map(scale=>new AxisScale({
@@ -55,6 +54,7 @@ export default class Axis extends AxisInterface{
             x :this.alignX,
             y :scale*this.length+this.paddingTop
         })).sort((s1,s2)=>s1.y-s2.y);
+
 
         // the milestones should not detain Axis length and Scale compute
 
@@ -88,7 +88,31 @@ export default class Axis extends AxisInterface{
         this._axisLine.init();
 
     };
+    createEl(){
+        if(this._el){
+            this._el.parentNode.removeChild(this._el);
+        };
+        this._el =document.createElement('div');
+        this._el.style.position ='absolute';
+        this._el.style.visibility ='hidden';
+        this._el.style.left =-999999+'px';
+        this._el.style.top  =-999999+'px';
+
+        this.canvas =this._el.appendChild(document.createElement('canvas'));
+        this.canvas.width =200;
+        this.canvas.height =this.length+this.paddingTop+200;
+
+        document.body.appendChild(this._el);
+    };
+    mountEl(){
+        this._el.style.position ='relative';
+        this._el.style.visibility =null;
+        this._el.style.left =null;
+        this._el.style.top  =null;
+        this.el =mount(this.el ,this._el);
+    };
     draw(){
+        this.mountEl();
         this._axisLine.draw();
         this._milestones.forEach(m=>m.draw());
         this._scales.forEach(m=>m.draw());

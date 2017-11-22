@@ -113,7 +113,13 @@ export function getLineLength(line){
 export function mount(el ,app){
     el =el instanceof Element ?el :document.querySelector(el);
     for(let {name,value} of el.attributes){
-        app.setAttribute(name ,value);
+        if(name ==='style'){
+            app.setAttribute(name ,app.getAttribute(name) + ';' + value);
+        }else if(name ==='class'){
+            app.setAttribute(name ,app.getAttribute(name) + ' ' + value);
+        }else{
+            app.setAttribute(name ,value);
+        };
     };
     el.parentNode.replaceChild(app,el);
     return app;

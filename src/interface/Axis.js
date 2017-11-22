@@ -11,11 +11,17 @@ export default class Axis{
         this.el =el;
         this.length =length;
         this.width  =width;
-        this.height =null;
-        this.alignX =null;
-        this.startY =null;
         this.scales =scales;
         this.milestones =milestones;
+    };
+    get height(){
+        throw new TypeError('"height" read on an object that does not implement interface Axis.')
+    };
+    get alignX(){
+        throw new TypeError('"alignX" read on an object that does not implement interface Axis.')
+    };
+    get startY(){
+        throw new TypeError('"startY" read on an object that does not implement interface Axis.')
     };
     init(){
         throw new TypeError('"init" called on an object that does not implement interface Axis.');

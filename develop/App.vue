@@ -3,8 +3,12 @@
         <div ref="rank-1" class="rank-container" v-show="false">
             <canvas ref="rank-1-canvas" width="600" height="700"></canvas>
         </div>
-        <div ref="rank-2" class="rank-container">
+        <div ref="rank-2" class="rank-container" v-show="false">
             <canvas ref="rank-2-canvas" width="600" height="700"></canvas>
+        </div>
+        <div ref="rank-3" class="rank-container">
+            <div ref="rank-3-axis" class="rank-3-axis"></div>
+            <canvas ref="rank-3-canvas" class="rank-3-canvas"></canvas>
         </div>
     </div>
 </template>
@@ -19,13 +23,15 @@ import AxisLine from '@/src/module/AxisLine';
 import AxisScale from '@/src/module/AxisScale';
 //import MilestoneGraph from '@/src/module/MilestoneGraph';
 import Milestone from '@/src/module/Milestone';
-//import Axis from '@/src/module/Axis';
-//import SubAxis from '@/src/module/SubAxis';
+import Axis from '@/src/module/Axis';
+import SubAxis from '@/src/module/SubAxis';
 //import TagBorder from '@/src/module/TagBorder';
 import Tag from '@/src/module/Tag';
 //
 import Text from '@/src/module/Text';
 import Note from '@/src/module/Note';
+import Event from '@/src/module/Event';
+import {getElementPosition} from 'pea-scripts/dist/function.browser';
 
 
 export default {
@@ -180,7 +186,8 @@ export default {
             axisPoint.draw();
 
 
-        };{// Level 2
+        };
+        ()=>{// Level 2
             const Canvas =this.$refs['rank-2-canvas'];
             const Container =this.$refs['rank-2'];
             const Ctx =Canvas.getContext('2d');
@@ -266,156 +273,16 @@ export default {
             milestones.forEach(i=>i.draw());
             axisPoint.draw();
             note.draw();
-        };{};
+        };{//Level 3
+            const Canvas =this.$refs['rank-3-canvas'];
+            const Ctx =Canvas.getContext('2d');
+            const Container =this.$refs['rank-3'];
 
+            Canvas.width =parseInt(getComputedStyle(Canvas.parentNode).width);
+            Canvas.height =parseInt(getComputedStyle(Canvas.parentNode).height);
 
-
-        return;
-        var axisPoint = new AxisPoint({
-            ctx :this.$refs.axisPoint.getContext('2d') ,
-            x :200 ,y :300 ,
-            radius :20 ,
-        });
-        axisPoint.draw();
-
-        var line = new Line({
-            ctx :this.$refs.axisPoint.getContext('2d') ,
-            startX :axisPoint.x ,startY :axisPoint.y ,
-            endX :axisPoint.x + 50 ,
-            endY :axisPoint.y + 50 ,
-        });
-        line.draw();
-
-        var singleText = new SingleText({
-            x :line.endX ,
-            y :line.endY ,
-            text :'This is a single line text' ,
-            container :this.$el ,
-        });
-        singleText.draw();
-
-        [
-            new Note({
-                ctx :this.$refs.axisPoint.getContext('2d') ,
-                container :this.$el ,
-                targetX :axisPoint.x ,targetY :axisPoint.y ,
-                text :'The Note component' ,
-            }) ,
-            new Note({
-                ctx :this.$refs.axisPoint.getContext('2d') ,
-                container :this.$el ,
-                targetX :axisPoint.x ,targetY :axisPoint.y ,
-                text :'Can computed line position by dynamically.' ,
-            }) ,
-        ].forEach(note => note.draw());
-
-
-        var axisSubline = new AxisSubline({
-            x :axisPoint.x ,y :axisPoint.y ,
-            length :200 ,
-            offset :50 ,
-            ctx :this.$refs.axisPoint.getContext('2d') ,
-        });
-        axisSubline.draw();
-
-
-        var axisLine = new AxisLine({
-            ctx :this.$refs.axisPoint.getContext('2d') ,
-            x :40 ,
-            y :10 ,
-            length :400 ,
-            width :10 ,
-        });
-        axisLine.draw();
-
-
-        {
-            let scales = [
-                new AxisScale({
-                    ctx :this.$refs.axisPoint.getContext('2d') ,
-                    axisWidth :axisLine.width ,
-                    x :axisLine.x + axisLine.width/2 ,
-                    y :60 ,
-                }) ,
-                new AxisScale({
-                    ctx :this.$refs.axisPoint.getContext('2d') ,
-                    axisWidth :axisLine.width ,
-                    x :axisLine.x + axisLine.width/2 ,
-                    y :120 ,
-                }) ,
-                new AxisScale({
-                    ctx :this.$refs.axisPoint.getContext('2d') ,
-                    axisWidth :axisLine.width ,
-                    x :axisLine.x + axisLine.width/2 ,
-                    y :230 ,
-                }) ,
-            ];
-
-            let subAxis = new SubAxis({
-                x :scales[scales.length-1].x,
-                y :scales[scales.length-1].y,
-                length :scales[0].y-scales[scales.length-1].y,
-                ctx :this.$refs.axisPoint.getContext('2d'),
-                container :this.$el,
-                notes :[{
-                    text :'start' ,
-                    position :0 ,
-                },{
-                    text :'end' ,
-                    position :1 ,
-                }],
-            });
-            subAxis.draw();
-            scales.forEach(item => item.draw());
-
-            let tag =new Tag({
-                text :'This is a Tag Component.This is a Tag Component.This is a Tag Component.',
-                targetX:scales[1].x ,targetY:scales[1].y,
-                ctx :this.$refs.axisPoint.getContext('2d'),
-                container :this.$el,
-                offsetX:30,
-                offsetY:0,
-                maxWidth:200,
-                aspectRatio:1-0.618,
-            });
-            tag.draw();
-
-        };{
-            let milestoneGraph =new MilestoneGraph({
-                ctx :this.$refs.axisPoint.getContext('2d'),
-                axisWidth :axisLine.width,
-                alignX :axisLine.x+axisLine.width/2,
-                alignY :280,
-                width :80,
-                height:30,
-            });
-            milestoneGraph.draw();
-
-            let singleText =new SingleText({
-                x :milestoneGraph.alignX,
-                y :milestoneGraph.alignY,
-                text :'2017',
-                container :this.$el,
-            });
-            singleText.x =milestoneGraph.alignX-singleText.width/2;
-            singleText.y =milestoneGraph.alignY-singleText.height/2;
-            singleText.init();
-            singleText.draw();
-        };{
-            let milestone =new Milestone({
-                ctx :this.$refs.axisPoint.getContext('2d'),
-                axisWidth :axisLine.width,
-                text :'2018',
-                container :this.$el,
-                alignX :axisLine.x+axisLine.width/2,
-                alignY :320,
-            });
-            milestone.draw();
-        };
-
-        {
             let axis =new Axis({
-                el :'#app-axis',
+                el :this.$refs['rank-3-axis'],
                 length :400,
                 width :5,
                 scales :[.1,.2,.3,.4,.5,.6,.7,.8,.9],
@@ -426,37 +293,65 @@ export default {
                     text :2018,
                     position :.5
                 },{
-                    text :2020,
+                    text :2019,
                     position :.9
                 }],
             });
+            axis.el.style.width =axis.alignX*2+'px';
+
+
+            let axisPoint =new AxisPoint({
+                ctx :Ctx,
+                x :axis.alignX+parseInt(getElementPosition(axis.el).x),
+                y :axis.startY+parseInt(getElementPosition(axis.el).y)+axis.length*0.4,
+                radius :axis.width/2+2,
+            });
+
+            let subAxis =new SubAxis({
+                endText :'end of event.',
+                x :axisPoint.x,
+                y :axisPoint.y,
+                length :50,
+                offset :20,
+                ctx :Ctx,
+                container :Container,
+            });
+
+            let tag =new Tag({
+                ctx :Ctx,
+                container :Container,
+                text :`
+                    <h4>2017-11-3</h4>
+                    <p>Some event have been.</p>
+                `,
+                targetX :axisPoint.x,
+                targetY :axisPoint.y,
+            });
+
+            let event =new Event({
+                length:100,
+                endText :'end of event',
+                ctx :Ctx,
+                container :Container,
+                contentText :`
+                    <h4>2018-11-3</h4>
+                    <p>Some event have started.</p>
+                `,
+                targetX :axis.alignX+parseInt(getElementPosition(axis.el).x),
+                targetY :axis.startY+parseInt(getElementPosition(axis.el).y)+axis.length*0.9,
+            });
+            event._tag.offsetX =-event._tag.offsetX;
+            event._tag.init();
+
+            axisPoint.draw();
             axis.draw();
-        };{
-            var leftTabBorder =new TagBorder({
-                ctx :this.$refs.axisPoint.getContext('2d'),
-                width:120,
-                height:50,
-                x:300,
-                y:10,
-            });
-            leftTabBorder.pointerX =leftTabBorder.x-20;
-            leftTabBorder.pointerY =leftTabBorder.y+15;
-            var rightTabBorder =new TagBorder({
-                ctx :this.$refs.axisPoint.getContext('2d'),
-                width:120,
-                height:50,
-                x:300,
-                y:10+leftTabBorder.y+leftTabBorder.height,
-            });
-            rightTabBorder.pointerX =rightTabBorder.x+rightTabBorder.width+20;
-            rightTabBorder.pointerY =rightTabBorder.y+15;
-
-
-            leftTabBorder.init();
-            leftTabBorder.draw();
-            rightTabBorder.init();
-            rightTabBorder.draw();
+            subAxis.draw();
+            tag.draw();
+            event.draw();
         };
+
+
+
 
     },
 };
@@ -479,6 +374,20 @@ canvas{
                 font-size :12px;
             }
         }
+        &:nth-child(3){
+            canvas{
+                background-image: none;
+            }
+            .rank-3-axis{
+                margin :0 auto;
+            };
+            .rank-3-canvas{
+                position: absolute;
+                top:0;
+                left:0;
+            }
+        }
+
     }
 }
 </style>
