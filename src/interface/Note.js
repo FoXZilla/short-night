@@ -18,6 +18,12 @@ export default class Note{
     get textY(){
         throw new TypeError('"textY" read on an object that does not implement interface Note.')
     };
+    get textWidth(){
+        throw new TypeError('"textWidth" read on an object that does not implement interface Note.')
+    };
+    get textHeight(){
+        throw new TypeError('"textHeight" read on an object that does not implement interface Note.')
+    };
     get line(){
         throw new TypeError('"line" read on an object that does not implement interface Note.')
     };

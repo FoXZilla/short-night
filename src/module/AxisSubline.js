@@ -4,11 +4,12 @@ export default class AxisSubline extends AxisSublineInterface{
     constructor(meta ,{serif=7}={}){
         super(...arguments);
         this.serif =serif;
-        this.direction =this.offset/Math.abs(this.offset);
 
         this.init();
     };
-    init(){};
+    init(){
+        this.direction =this.offset/Math.abs(this.offset);
+    };
     draw(){
         this.ctx.strokeStyle='#77';
         this.ctx.lineWidth =1;
@@ -31,5 +32,11 @@ export default class AxisSubline extends AxisSublineInterface{
         this.ctx.moveTo(this.x+this.offset,this.y);
         this.ctx.lineTo(this.x+this.offset,this.y-this.length);
         this.ctx.stroke();
+    };
+    area(){
+        return [
+            [this.x+this.offset  ,this.y],
+            [this.x+this.offset  ,this.y-this.length],
+        ];
     };
 };

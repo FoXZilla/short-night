@@ -6,19 +6,30 @@ import {mount} from '@/src/js/functions';
 
 
 export default class Axis extends AxisInterface{
-    constructor(meta ,{paddingTop=10}={}){
+    constructor(meta ,{paddingTop=50,paddingBottom=50}={}){
         super(...arguments);
         this._axisLine =null;
         this._milestones =null;
         this._scales =null;
         this.canvas =null;
         this.paddingTop =paddingTop;
+        this.paddingBottom =paddingBottom;
         this._el =null;
 
         this.init();
+
+        this.affiliateTo.join({
+            name :'axis-line',
+            area :()=>[
+                [this.alignX-this.width/2 , this.startY],
+                [this.alignX+this.width/2 , this.startY],
+                [this.alignX+this.width/2 , this.startY+this.length],
+                [this.alignX-this.width/2 , this.startY+this.length],
+            ],
+        });
     };
     get alignX(){
-        return this.canvas.width/2;
+        return this.canvas.width/2+this.canvas.offsetLeft;
     };
     get startY(){
         return this.paddingTop;
@@ -31,17 +42,17 @@ export default class Axis extends AxisInterface{
 
         this._axisLine =new AxisLine({
             ctx :this.canvas.getContext('2d'),
-            length :this.length,
+            length :this.length+this.paddingBottom+this.paddingTop,
             width :this.width,
             x :this.canvas.width/2,
-            y :this.paddingTop,
+            y :0,
         });
         this._axisLine.x -=this._axisLine.width/2;//align center
         this._axisLine.init();
 
         this._milestones =this.milestones.map(({text,position})=>new Milestone({
             axisWidth :this.width,
-            alignX :this.alignX,
+            alignX :this._axisLine.x+this._axisLine.width/2,
             alignY :position*this.length+this.paddingTop,//untreated
             ctx :this.canvas.getContext('2d'),
             text,
@@ -51,7 +62,7 @@ export default class Axis extends AxisInterface{
         this._scales =this.scales.map(scale=>new AxisScale({
             ctx :this.canvas.getContext('2d'),
             axisWidth :this.width,
-            x :this.alignX,
+            x :this._axisLine.x+this._axisLine.width/2,
             y :scale*this.length+this.paddingTop
         })).sort((s1,s2)=>s1.y-s2.y);
 
@@ -61,8 +72,8 @@ export default class Axis extends AxisInterface{
         // re-compute Scale
         for(let scale of this._scales){
             let beforeIndex =this._milestones.findIndex(m=>m.alignY>scale.y);
-            if(!beforeIndex)continue;
             if(!~beforeIndex)beforeIndex=this._milestones.length;
+            if(!beforeIndex)continue;
             // hide scale-point when it very adjacent milestone
             if(Math.abs(this._milestones[beforeIndex-1].alignY-scale.y)<0.001){//coincide with milestone
                 scale.y=-9999999;//hidden scale point
@@ -93,16 +104,17 @@ export default class Axis extends AxisInterface{
             this._el.parentNode.removeChild(this._el);
         };
         this._el =document.createElement('div');
-        this._el.style.position ='absolute';
-        this._el.style.visibility ='hidden';
-        this._el.style.left =-999999+'px';
-        this._el.style.top  =-999999+'px';
+        this._el.style.position ='relative';
+        this._el.style.textAlign  ='center';
+        // this._el.style.visibility ='hidden';
+        // this._el.style.left =-999999+'px';
+        // this._el.style.top  =-999999+'px';
 
         this.canvas =this._el.appendChild(document.createElement('canvas'));
         this.canvas.width =200;
         this.canvas.height =this.length+this.paddingTop+200;
 
-        document.body.appendChild(this._el);
+        this.el.parentNode.appendChild(this._el);
     };
     mountEl(){
         this._el.style.position ='relative';

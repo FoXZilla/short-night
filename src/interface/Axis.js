@@ -6,12 +6,13 @@ export default class Axis{
      * @property {String} MilestoneData.text
      * */
 
-    constructor({el,length,width,scales,milestones}){
+    constructor({el,length,width,scales=[],milestones=[],affiliateTo}){
         if(new.target===Axis)throw new TypeError('Illegal constructor.');
         this.el =el;
         this.length =length;
         this.width  =width;
         this.scales =scales;
+        this.affiliateTo =affiliateTo;
         this.milestones =milestones;
     };
     get height(){

@@ -5,7 +5,7 @@ export default class Event{
      * @param {String} [text]
      * @param {String} [endText]
      * */
-    constructor({targetX,targetY,length,contentText,endText,ctx,container}){
+    constructor({targetX,targetY,length,contentText,endText=null,ctx,container,affiliateTo,tagOffsetX,tagOffsetY}){
         if(new.target===Text)throw new TypeError('Illegal constructor.');
         this.targetX =targetX;
         this.targetY =targetY;
@@ -14,6 +14,9 @@ export default class Event{
         this.endText =endText;
         this.ctx =ctx;
         this.container =container;
+        this.affiliateTo =affiliateTo;
+        this.tagOffsetX =tagOffsetX;
+        this.tagOffsetY =tagOffsetY;
     };
     get x(){
         throw new TypeError('"x" read on an object that does not implement interface Tag.')

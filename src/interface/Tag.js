@@ -3,7 +3,7 @@ export default class Tag{
      * @param {Element} container - relative to who positioning
      * @param {Number} aspectRatio -  expect width/height
      * */
-    constructor({targetX,targetY,text,ctx,container,offsetX,offsetY,maxWidth,aspectRatio}){
+    constructor({targetX,targetY,text,ctx,container,offsetX,offsetY,maxWidth,aspectRatio,affiliateTo}){
         if(new.target===Text)throw new TypeError('Illegal constructor.');
         this.targetX =targetX;
         this.targetY =targetY;
@@ -14,6 +14,7 @@ export default class Tag{
         this.maxWidth =maxWidth;
         this.aspectRatio =aspectRatio;
         this.container =container;
+        this.affiliateTo =affiliateTo;
     };
     get x(){
         throw new TypeError('"x" read on an object that does not implement interface Tag.')

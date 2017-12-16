@@ -10,12 +10,12 @@ export default class AxisScale extends AxisScaleInterface{
     init(){};
     draw(){
         this.ctx.beginPath();
-        this.ctx.moveTo(this.x-this.axisWidth/2 ,this.y-this.axisWidth/5);
-        this.ctx.lineTo(this.x+this.axisWidth/2 ,this.y-this.axisWidth/5);
-        this.ctx.lineTo(this.x+this.axisWidth/2 ,this.y+this.axisWidth/5);
-        this.ctx.lineTo(this.x-this.axisWidth/2 ,this.y+this.axisWidth/5);
+        this.ctx.moveTo(this.x-this.axisWidth/2 ,this.y-this.axisWidth/3);
+        this.ctx.lineTo(this.x+this.axisWidth/2 ,this.y-this.axisWidth/3);
+        this.ctx.lineTo(this.x+this.axisWidth/2 ,this.y+this.axisWidth/3);
+        this.ctx.lineTo(this.x-this.axisWidth/2 ,this.y+this.axisWidth/3);
         this.ctx.closePath();
-        this.ctx.fillStyle ='#f60';
+        this.ctx.fillStyle ='#fff';
         this.ctx.fill();
 
     };

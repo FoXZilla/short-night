@@ -6,16 +6,20 @@
         <div ref="rank-2" class="rank-container" v-show="false">
             <canvas ref="rank-2-canvas" width="600" height="700"></canvas>
         </div>
-        <div ref="rank-3" class="rank-container">
+        <div ref="rank-3" class="rank-container" v-show="false">
             <div ref="rank-3-axis" class="rank-3-axis"></div>
             <canvas ref="rank-3-canvas" class="rank-3-canvas"></canvas>
+        </div>
+        <div ref="rank-last" class="rank-container rank-last">
+            <div ref="rank-last-app"></div>
+            <canvas id="dev-canvas" style="position: absolute;top:0;left:0;"></canvas>
         </div>
     </div>
 </template>
 
 <script>
 import AxisPoint from '@/src/module/AxisPoint';
-//import Line from '@/src/module/Line';
+import Line from '@/src/module/Line';
 //import SingleText from '@/src/module/SingleText';
 //import MultiText from '@/src/module/MultiText';
 import AxisSubline from '@/src/module/AxisSubline';
@@ -31,7 +35,10 @@ import Tag from '@/src/module/Tag';
 import Text from '@/src/module/Text';
 import Note from '@/src/module/Note';
 import Event from '@/src/module/Event';
+import Family from '@/src/module/Family';
 import {getElementPosition} from 'pea-scripts/dist/function.browser';
+
+import {default as Timeline ,TimelineEvent} from '@/src/module/Timeline';
 
 
 export default {
@@ -273,7 +280,8 @@ export default {
             milestones.forEach(i=>i.draw());
             axisPoint.draw();
             note.draw();
-        };{//Level 3
+        };
+        ()=>{//Level 3
             const Canvas =this.$refs['rank-3-canvas'];
             const Ctx =Canvas.getContext('2d');
             const Container =this.$refs['rank-3'];
@@ -349,7 +357,75 @@ export default {
             tag.draw();
             event.draw();
         };
+        {//Last level
 
+            window.devCanvas =document.getElementById('dev-canvas');
+            devCanvas.width =parseInt(getComputedStyle(devCanvas.parentNode).width);
+            devCanvas.height =1400;
+            devCanvas.style.borderBottom ='1px solid #F60';
+            window.devCtx =devCanvas.getContext('2d');
+            window.drawLine =function(data){
+                var line =new Line(
+                    Object.assign({
+                        ctx :devCanvas.getContext('2d'),
+                    },data),
+                    {color:'#F00'}
+                );
+                line.draw();
+                //console.log(data);
+            };
+            window.drawLines =function(...lines){
+                var ctx =devCanvas.getContext('2d');
+                ctx.strokeStyle ='#00ff14';
+                ctx.lineWidth =2;
+                ctx.beginPath();
+                ctx.moveTo(lines[0][0],lines[0][1]);
+                for(let [x,y] of lines.slice(1)){
+                    ctx.lineTo(x,y);
+                };
+                ctx.stroke();
+            };
+
+            var timeline =new Timeline({
+                el :this.$refs['rank-last-app'],
+                affiliateTo :new Family({liveIn:this.$refs['rank-last']}),
+                events :[
+                    {
+                        date :new Date('2014-5'),
+                        title:'开始 自学Web开发'
+                    },
+                    {
+                        date :new Date('2014-9'),
+                        title:'入学 青岛理工大学',
+                    },
+                    {
+                        date :new Date('2014-12'),
+                        title:'青理Web开发协会',
+                        text :'创建青理Web开发协会，担当会长',
+                        endDate :new Date('2016-6'),
+                        endText :'协会换届'
+                    },
+                    {
+                        date :new Date('2015-6'),
+                        title:'注册 青岛卓然独立网络科技有限公司',
+                        endDate :new Date('2017-6-19'),
+                    },
+                    {
+                        title :'360前端星计划',
+                        text :'《360前端星计划》由360前端团队和校园招聘团队合办，面向在校大学生，为培养最优秀最有潜力的前端人才举办的前端技术系列课程',
+                        date :new Date('2017-4-9'),
+                        endDate :new Date('2017-4-14'),
+                    },
+                    {
+                        title :'Mozilla 实习',
+                        date :new Date('2017-7-14'),
+                    },
+                ],
+            });
+
+            timeline.draw();
+            console.log(window.timeline =timeline);
+        };
 
 
 
@@ -360,7 +436,6 @@ export default {
 
 <style lang="scss">
 canvas{
-    background-image: url("/assets/layer01.bg.gif");
 }
 *{margin:0;padding:0;}
 #main{
@@ -387,6 +462,11 @@ canvas{
                 left:0;
             }
         }
+        &.rank-last{
+            border:1px solid #000;
+            width :700px;
+            margin :10px auto;
+        };
 
     }
 }

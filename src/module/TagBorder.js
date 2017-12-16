@@ -4,13 +4,11 @@ import {CTX_ORIGIN_DATA} from '@/src/js/constants';
 export default class TagBorder extends TagBorderInterface{
     constructor(){
         super(...arguments);
+        this._area =[];
 
         this.init();
     };
-    init(){};
-    draw(){
-        Object.assign(this.ctx ,CTX_ORIGIN_DATA);
-
+    init(){
         let borderX =this.pointerX<this.x ?this.x :this.x+this.width;
         let h =Math.abs(this.pointerX-borderX);
 
@@ -31,18 +29,18 @@ export default class TagBorder extends TagBorderInterface{
             [this.x ,this.y+this.height],
         ];
 
+        this.pointerX<this.x ?this._area=leftTrack :this._area=rightTrack;
+    };
+    draw(){
+        Object.assign(this.ctx ,CTX_ORIGIN_DATA);
+
+
 
         this.ctx.beginPath();
         this.ctx.moveTo(this.x ,this.y);
-        if(this.pointerX<this.x){
-            for(let [x,y] of leftTrack){
-                this.ctx.lineTo(x,y);
-            };
-        }else{
-            for(let [x,y] of rightTrack){
-                this.ctx.lineTo(x,y);
-            };
-        }
+        for(let [x,y] of this._area){
+            this.ctx.lineTo(x,y);
+        };
         this.ctx.closePath();
         this.ctx.stroke();
 

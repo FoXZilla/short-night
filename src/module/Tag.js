@@ -4,16 +4,13 @@ import Line from '@/src/module/Line';
 import TagBorder from '@/src/module/TagBorder';
 
 export default class Tag extends TagInterface{
-    constructor(){
+    constructor({}){
         super(...arguments);
 
         this.triangleH =10;
         this.padding =5;
-
-        this._auto_offsetX =null;
-        this._auto_offsetY =null;
-        this._user_offsetX =this._user_offsetX ||null;
-        this._user_offsetY =this._user_offsetY ||null;
+        if(typeof this.offsetY!=='number')this.offsetY=-this.triangleH;
+        if(typeof this.offsetX!=='number')this.offsetX=-20;
 
         this._text =null;
         this._tagBorder =null;
@@ -21,28 +18,15 @@ export default class Tag extends TagInterface{
 
         this.init();
     };
-    get offsetX(){
-        return this._user_offsetX ||this._auto_offsetX;
-    };
-    get offsetY(){
-        return this._user_offsetY ||this._auto_offsetY;
-    };
-    set offsetX(value){
-        this._user_offsetX =value;
-    };
-    set offsetY(value){
-        this._user_offsetY =value;
-    };
-    get width(){
-        return this._tagBorder.width;
-    };
-    get height(){
-        return this._tagBorder.height;
-    };
+    get x(){return this._tagBorder.x};
+    get y(){return this._tagBorder.y};
+    get width(){return this._tagBorder.width};
+    get height(){return this._tagBorder.height};
+    area(){return [
+        [this._tagBorder.x,this._tagBorder.y],
+        ...this._tagBorder._area,
+    ]};
     init(){
-        if(this.needGenerateOffset()){
-            this.generateOffset();
-        };
         this._text =new Text({
             x:this.targetX+this.offsetX,
             y:this.targetY+this.offsetY,
@@ -51,7 +35,6 @@ export default class Tag extends TagInterface{
             maxWidth:this.maxWidth,
             container:this.container,
         });
-        this._text.y -=this._text.height/2;
         if(this.offsetX<0)this._text.x -=this._text.width;
         this._text.init();
 
@@ -78,15 +61,9 @@ export default class Tag extends TagInterface{
                 endY :this.targetY,
                 ctx :this.ctx,
             });
+        }else{
+            this._line =null;
         };
-
-    };
-    generateOffset(){
-        this._auto_offsetX =-25;
-        this._auto_offsetY =-25;
-    };
-    needGenerateOffset(){
-        return !this._user_offsetX || !this._user_offsetY;
     };
     draw(){
         if(this._line)this._line.draw();

@@ -16,6 +16,8 @@ export default class Note extends NoteInterface{
     get line(){return this._line};
     get textX(){return this._text.x};
     get textY(){return this._text.y};
+    get textWidth(){return this._text.width};
+    get textHeight(){return this._text.height};
     init(){
 
         this._text =new Text({
@@ -28,6 +30,7 @@ export default class Note extends NoteInterface{
         this._text.x -=this._text.width/2;
         this._text.y -=this._text.height/2;
         this._text.init();
+
 
         // line between target and singleText
         this._line =this.getTextLinkablePoint()
@@ -49,6 +52,12 @@ export default class Note extends NoteInterface{
         this._line.draw();
         this._text.draw();
     };
+    area(){return [
+        [this.textX                 , this.textY],
+        [this.textX+this.textWidth  , this.textY],
+        [this.textX+this.textWidth  , this.textY+this.textHeight],
+        [this.textX                 , this.textY+this.textHeight],
+    ]};
     getTextLinkablePoint(){
         /*
                       0
