@@ -56,12 +56,17 @@ module.exports = {
       },
       {
         test: /\.tsx?$/,
-        loader: 'ts-loader',
-        options: {
-            contextAsConfigBasePath: true,
-            configFile: "develop/tsconfig.json",
-            appendTsSuffixTo: [/\.vue$/],
-        }
+        use: [
+            // "babel-loader",
+            {
+              loader: "ts-loader",
+              options: {
+                contextAsConfigBasePath: true,
+                configFile: "develop/tsconfig.json",
+                appendTsSuffixTo: [/\.vue$/],
+              }
+            }
+        ],
       }
     ]
   },
