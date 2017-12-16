@@ -4,7 +4,7 @@ var webpack = require('webpack')
 process.noDeprecation = true;//see: https://github.com/webpack/loader-utils/issues/56
 
 module.exports = {
-  entry: path.join(__dirname, './main.js'),
+  entry: path.join(__dirname, './main.ts'),
   output: {
     path: path.resolve(__dirname, './dev-dist'),
     publicPath: '/dev-dist/',
@@ -36,7 +36,8 @@ module.exports = {
             // the "scss" and "sass" values for the lang attribute to the right configs here.
             // other preprocessors should work out of the box, no loader config like this necessary.
             'scss': 'vue-style-loader!css-loader!sass-loader',
-            'sass': 'vue-style-loader!css-loader!sass-loader?indentedSyntax'
+            'sass': 'vue-style-loader!css-loader!sass-loader?indentedSyntax',
+            // 'ts'  : 'ts-loader',
           }
           // other vue-loader options go here
         }
@@ -52,6 +53,15 @@ module.exports = {
         options: {
           name: '[name].[ext]?[hash]'
         }
+      },
+      {
+        test: /\.tsx?$/,
+        loader: 'ts-loader',
+        options: {
+            contextAsConfigBasePath: true,
+            configFile: "develop/tsconfig.json",
+            appendTsSuffixTo: [/\.vue$/],
+        }
       }
     ]
   },
@@ -59,7 +69,8 @@ module.exports = {
     alias: {
       '@': path.resolve(__dirname, '../'),
       'vue$': 'vue/dist/vue.esm.js'
-    }
+    },
+    extensions: ['.ts', '.tsx', '.js'],
   },
   devServer: {
     contentBase :__dirname,
