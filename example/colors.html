@@ -2,11 +2,19 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <script src="../dist/short-night.js"></script>
+    <script src="../dist/engine.js"></script>
     <script src="../dist/themes/colors.js"></script>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+    </style>
     <title>The theme of colors</title>
 </head>
 <body>
-    <canvas></canvas>
+    <div id="container" class="short-night" style="background:#eee;">
+        <canvas id="canvas" width="700" height="4000"></canvas>
+    </div>
 </body>
 </html>

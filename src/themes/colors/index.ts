@@ -1,1 +1,1 @@
-console.log('colors!');
+console.log('おつ colors!');

@@ -2,7 +2,7 @@ const Path = require('path');
 
 module.exports = {
     entry: {
-        'short-night': './src/engine/index.ts',
+        'engine': './src/engine/index.ts',
         'themes/colors': './src/themes/colors/index.ts',
     },
     output: {
@@ -12,12 +12,14 @@ module.exports = {
     module: {
         rules: [
             { test: /\.ts$/, use: 'ts-loader' },
+            { test: /\.scss$/, use: ["style-loader","css-loader","sass-loader"] },
         ],
     },
     resolve: {
+        extensions: ['.ts','.js'],
         alias: {
-            'vue$': 'vue/dist/vue.esm.js',
             '@': Path.resolve(__dirname,'./src'),
+            '@engine': Path.resolve(__dirname,'./src/engine'),
         }
     },
 };
