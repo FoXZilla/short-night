@@ -1,10 +1,11 @@
-import Tipy, {WalkOnResult} from "@engine/tipy/index";
+import Tipy, {Breakpoint, WalkOnResult} from "@engine/tipy/index";
 import {DEBUG} from "@engine/common/config";
 import {GridConfig, SN} from "@engine/types";
 import EventBody from "@engine/event/body";
 import {Conflict} from "@engine/tipy/move-event";
 import MoveEvent from "@engine/tipy/move-event";
 import Component from "@engine/common/component";
+import {isOverlap} from "@engine/common/functions";
 
 export default class FloatEvent {
     constructor(public tipy: Tipy){
@@ -19,16 +20,23 @@ export default class FloatEvent {
     ).sort((eb1,eb2)=>eb1.drawInfo.target.y - eb2.drawInfo.target.y);
 
     static isConflict(eb1:EventBody, eb2:EventBody) :boolean{
+        if(eb1 === eb2) return false;
         if(eb1.drawInfo.floated || eb2.drawInfo.floated) return false;
 
-        return eb1.drawInfo.box.y > eb2.drawInfo.box.y && eb1.drawInfo.box.y < (eb2.drawInfo.box.y + eb2.drawInfo.box.height)
-            || eb2.drawInfo.box.y > eb1.drawInfo.box.y && eb2.drawInfo.box.y < (eb1.drawInfo.box.y + eb1.drawInfo.box.height)
-        ;
+        return isOverlap(eb1.drawInfo.box, eb2.drawInfo.box);
+
+        // todo: confirm & delete that
+        // return eb1.drawInfo.box.y > eb2.drawInfo.box.y && eb1.drawInfo.box.y < (eb2.drawInfo.box.y + eb2.drawInfo.box.height)
+        //     || eb2.drawInfo.box.y > eb1.drawInfo.box.y && eb2.drawInfo.box.y < (eb1.drawInfo.box.y + eb1.drawInfo.box.height)
+        // ;
     };
-    static async float(conflicts:Conflict, grid:GridConfig){
+    async float(conflicts:Conflict){
         const maxWidthInConflict = Math.max(...conflicts.with.map(c => c.drawInfo.box.width));
         conflicts.self.drawInfo.box.x -= maxWidthInConflict +1;
-        conflicts.self.drawInfo.box.width = Math.min(grid.eventWidth, grid.axisAlign.x - maxWidthInConflict);
+        conflicts.self.drawInfo.maxWidth = Math.min(
+            this.tipy.grid.eventWidth,
+            this.tipy.axis.drawInfo.box.x - maxWidthInConflict
+        );
         conflicts.self.drawInfo.floated = true;
         await conflicts.self.apply();
     }
@@ -40,24 +48,64 @@ export default class FloatEvent {
             this.countConflict();
             if(this.conflicts.length === 0) {
                 return alleviated
-                    ?WalkOnResult.Alleviated
-                    :WalkOnResult.NoConflict
+                    ? WalkOnResult.Alleviated
+                    : WalkOnResult.NoConflict
                 ;
             }
 
-            let ringleader = this.conflicts.find(
-                c1 => this.conflicts.every(c2 => c1.with.length >= c2.with.length)
-            )!;
-            await FloatEvent.float(ringleader, this.tipy.grid);
+            const conflict = this.pickRingleader()!;
+            await this.tipy.setBreakpoint(
+                Breakpoint.FloatEventBody,
+                {
+                    onBreak: async ()=>{
+                        await Promise.all([
+                            ...conflict.with.map(c=>c.draw()),
+                            conflict.self.draw(),
+                            ...this.tipy.components[SN.Axis].map(c=>c.draw()),
+                        ]);
+                    },
+                    onNext: ()=>{
+                        this.tipy.clearCanvas();
+                        [
+                            ...conflict.with,
+                            conflict.self,
+                            ...this.tipy.components[SN.Axis],
+                        ].forEach(c=>c.hide());
+                    },
+                },
+            );
+            await this.float(conflict);
+            await this.tipy.setBreakpoint(
+                Breakpoint.FloatEventBody,
+                {
+                    onBreak: async ()=>{
+                        await Promise.all([
+                            ...conflict.with.map(c=>c.draw()),
+                            conflict.self.draw(),
+                            ...this.tipy.components[SN.Axis].map(c=>c.draw()),
+                        ]);
+                    },
+                    onNext: ()=>{
+                        this.tipy.clearCanvas();
+                        [
+                            ...conflict.with,
+                            conflict.self,
+                            ...this.tipy.components[SN.Axis],
+                        ].forEach(c=>c.hide());
+                    },
+                },
+            );
 
             alleviated = true;
 
         }
-
-
     };
 
-
+    private pickRingleader() :Conflict|undefined {
+        return this.conflicts.find(
+            c1 => this.conflicts.every(c2 => c1.with.length >= c2.with.length)
+        );
+    };
     private countConflict(){
         this.conflicts.length = 0;
 

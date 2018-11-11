@@ -7,6 +7,7 @@ import Timeline from "@engine/timeline";
 import EventBody from "@engine/event/body";
 import MoveEvent from "./move-event";
 import FloatEvent from "@engine/tipy/float-event";
+import Axis from "@engine/axis";
 
 export enum Breakpoint{
     DrawAxisBody,
@@ -15,6 +16,7 @@ export enum Breakpoint{
     PushScalesAndMilestones,
     WalkOn,
     MoveEventBody,
+    FloatEventBody,
     Debug,
 }
 
@@ -38,8 +40,6 @@ export default class Tipy{
         );
     }
 
-    get canvas(){return this.components[SN.TimeLine][0].drawInfo.canvas};
-    get grid(){return (<Timeline>this.components[SN.TimeLine][0]).grid}
 
     components
     :{
@@ -55,6 +55,12 @@ export default class Tipy{
         [SN.EventMark]: [],
         [SN.EventAxis]: [],
     };
+    get timeline(){return this.components[SN.TimeLine][0] as Timeline}
+    get axis(){return this.components[SN.Axis][0] as Axis}
+    get canvas(){return this.components[SN.TimeLine][0].drawInfo.canvas};
+    get grid(){return this.timeline.grid}
+
+
     async walkOn(){
         await this.fix_EventBody2AxisMilestone();
         await this.fix_EventAxis2EventAxis();
@@ -136,7 +142,7 @@ export default class Tipy{
         this.floater = new FloatEvent(this);
 
         await this.mover.walkOn();
-        // await this.floater.walkOn();
+        await this.floater.walkOn();
     };
 
     // push support

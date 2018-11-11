@@ -66,8 +66,7 @@ export default class Timeline extends Component{
         await this._countDate();
         await this._initAxis();
         await this._initEvents();
-        await this.drawInfo.tipy.walkOn();
-        console.log('applied');
+        console.log(`walkOn result is ${await this.drawInfo.tipy.walkOn()}`);
     };
 
     async draw(){

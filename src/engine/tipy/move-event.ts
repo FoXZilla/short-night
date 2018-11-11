@@ -77,15 +77,11 @@ export default class MoveEvent{
         this.countConflict();
         this.countSpace();
 
-        console.log('all', this.conflicts);
-
         if(this.conflicts.length === 0) return WalkOnResult.NoConflict;
         this.conflicts = this.conflicts.filter(
             conflict => this.isPossible(conflict)
         );
         if(this.conflicts.length === 0) return WalkOnResult.Failed;
-
-        console.log('filtered', this.conflicts);
 
         const conflict = this.conflicts.find(
             conflict1 => this.conflicts.every(
