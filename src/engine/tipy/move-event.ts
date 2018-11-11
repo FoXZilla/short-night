@@ -1,9 +1,8 @@
 import EventBody from "@engine/event/body";
 import Component from "@engine/common/component";
-import {Breakpoint, WalkOnResult} from "@engine/tipy";
+import Tipy, {Breakpoint, WalkOnResult} from "@engine/tipy";
 import {SN} from "@engine/types";
 import {DEBUG} from "@engine/common/config";
-import Tipy from "@engine/tipy";
 import {isOverlap} from "@engine/common/functions";
 
 export interface Conflict{
@@ -77,11 +76,13 @@ export default class MoveEvent{
         this.countConflict();
         this.countSpace();
 
+        this.tipy.l`mover # all conflict ${this.conflicts}`;
         if(this.conflicts.length === 0) return WalkOnResult.NoConflict;
         this.conflicts = this.conflicts.filter(
             conflict => this.isPossible(conflict)
         );
         if(this.conflicts.length === 0) return WalkOnResult.Failed;
+        this.tipy.l`mover # isPossible conflict ${this.conflicts}`;
 
         const conflict = this.conflicts.find(
             conflict1 => this.conflicts.every(
@@ -89,7 +90,7 @@ export default class MoveEvent{
             )
         )!;
 
-        console.log('fix', conflict);
+        this.tipy.l`mover # fix ${conflict}`;
 
         await this.tipy.setBreakpoint(
             Breakpoint.MoveEventBody,
@@ -138,6 +139,10 @@ export default class MoveEvent{
     };
     private isPossible(conflict:Conflict){
         if(conflict.with.length > 1) return false;
+        if(
+            conflict.self.drawInfo.floated === true
+            && conflict.with.some(eb => !eb.drawInfo.floated)
+        ) return false;
 
         const needed = this.countNeeded(conflict);
         const space = this.spaceMap.get(conflict.self)!;

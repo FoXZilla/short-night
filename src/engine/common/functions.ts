@@ -1,4 +1,5 @@
 import {Box ,DateBy ,Line} from "@engine/types";
+import {WalkOnResult} from "@engine/tipy";
 
 export function isBox(obj:any): obj is Box{
     return typeof obj === 'object'
@@ -266,4 +267,44 @@ export function drawLine(ctx:CanvasRenderingContext2D, line:Line): void{
     ctx.moveTo(line.startX, line.startY);
     ctx.lineTo(line.endX, line.endY);
     ctx.stroke();
+}
+
+export async function WalkLoop(
+    fn: ()=>Promise<WalkOnResult[]>,
+    max = 100,
+) :Promise<WalkOnResult>{
+    let alleviated = false;
+
+    for(let i=0 ;i<max ;i++){
+        const result = await fn();
+
+        if(result.includes(WalkOnResult.Alleviated)) {
+            alleviated = true;
+            continue;
+        }
+
+        if(
+            result.includes(WalkOnResult.Failed)
+            && result.includes(WalkOnResult.NoConflict)
+        ){
+            return alleviated
+                ? WalkOnResult.Alleviated
+                : WalkOnResult.NoConflict
+            ;
+        }
+
+        if(result.every(r => r === WalkOnResult.Failed)){
+            return alleviated
+                ? WalkOnResult.Alleviated
+                : WalkOnResult.NoConflict
+            ;
+        }
+        if(result.every(r => r === WalkOnResult.NoConflict)){
+            return WalkOnResult.NoConflict;
+        }
+
+    }
+
+    throw new Error('too many loop');
+
 }

@@ -61,6 +61,8 @@ export default class EventBody extends Component{
             {
                 left: 0,
                 top: 0,
+                width: null,
+                height: null,
                 maxWidth: `${this.drawInfo.maxWidth}px`,
                 visibility: 'hidden',
             },

@@ -10,8 +10,9 @@ document.addEventListener('DOMContentLoaded', async function(){
                 title:'开始 自学Web开发',
             },
             {
-                date :new Date('2014-9'),
                 title:'入学 青岛理工大学',
+                date :new Date('2014-9-1'),
+                endDate :new Date('2018-7-29'),
             },
             {
                 date :new Date('2014-12'),
@@ -35,7 +36,24 @@ document.addEventListener('DOMContentLoaded', async function(){
             {
                 title :'Mozilla 实习',
                 date :new Date('2017-7-14'),
+                endDate :new Date('2018-2-9'),
             },
+            {
+                title :'百度 KITT.IA 实习',
+                date :new Date('2018-3-21'),
+                endDate :new Date('2018-5-28'),
+            },
+            {
+                title :'KITT.IA 团队 2倍简单奖',
+                date :new Date('2018-6-29'),
+            },
+            {
+                title :'百度 SWAN 团队',
+                date :new Date('2018-7-4'),
+                //todo: endDate :new Date('9999-1-1'),
+            },
+            // text data
+
             {
                 date :new Date('2015-7-25'),
                 title:'2015-7-25',
@@ -62,6 +80,7 @@ document.addEventListener('DOMContentLoaded', async function(){
     });
     console.log((<any>window).t = timeline);
     console.log((<any>window).tipy = timeline.drawInfo.tipy);
+    (<any>window).n = timeline.drawInfo.tipy.next.bind(timeline.drawInfo.tipy);
     await timeline.apply();
     timeline.draw();
 });

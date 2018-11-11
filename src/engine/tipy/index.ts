@@ -1,6 +1,6 @@
 import {Line, SN} from "@engine/types";
 import Component from "@engine/common/component";
-import {drawLine, isIntersecting, isOverlap} from "@engine/common/functions";
+import {drawLine, isIntersecting, isOverlap, WalkLoop} from "@engine/common/functions";
 import EventAxis from "@engine/event/axis";
 import {DEBUG, WALK_ON} from "@engine/common/config";
 import Timeline from "@engine/timeline";
@@ -71,6 +71,7 @@ export default class Tipy{
             // const timeline = this.components[SN.TimeLine][0] as Timeline;
             // timeline.drawInfo.axisLength *= 1.05;
             // await timeline.apply();
+            return false;
         }
     };
     async fix_EventBody2AxisMilestone(){
@@ -141,8 +142,10 @@ export default class Tipy{
         this.mover = new MoveEvent(this);
         this.floater = new FloatEvent(this);
 
-        await this.mover.walkOn();
-        await this.floater.walkOn();
+        return await WalkLoop(async ()=>[
+            await this.mover.walkOn(),
+            await this.floater.walkOn(),
+        ]);
     };
 
     // push support
@@ -189,5 +192,15 @@ export default class Tipy{
                 };
             });
         }
+    };
+
+    l(stringArr:TemplateStringsArray, ...values:any[]){
+        if(!DEBUG) return;
+
+        let message = [stringArr[0]];
+        for (let index = 0; index < values.length; index++) {
+            message.push(values[index], stringArr[index+1]);
+        }
+        console.log(...message);
     };
 }

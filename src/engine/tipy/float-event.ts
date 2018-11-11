@@ -42,63 +42,59 @@ export default class FloatEvent {
     }
 
     async walkOn(){
-        let alleviated = false;
 
-        while(true){
-            this.countConflict();
-            if(this.conflicts.length === 0) {
-                return alleviated
-                    ? WalkOnResult.Alleviated
-                    : WalkOnResult.NoConflict
-                ;
-            }
-
-            const conflict = this.pickRingleader()!;
-            await this.tipy.setBreakpoint(
-                Breakpoint.FloatEventBody,
-                {
-                    onBreak: async ()=>{
-                        await Promise.all([
-                            ...conflict.with.map(c=>c.draw()),
-                            conflict.self.draw(),
-                            ...this.tipy.components[SN.Axis].map(c=>c.draw()),
-                        ]);
-                    },
-                    onNext: ()=>{
-                        this.tipy.clearCanvas();
-                        [
-                            ...conflict.with,
-                            conflict.self,
-                            ...this.tipy.components[SN.Axis],
-                        ].forEach(c=>c.hide());
-                    },
-                },
-            );
-            await this.float(conflict);
-            await this.tipy.setBreakpoint(
-                Breakpoint.FloatEventBody,
-                {
-                    onBreak: async ()=>{
-                        await Promise.all([
-                            ...conflict.with.map(c=>c.draw()),
-                            conflict.self.draw(),
-                            ...this.tipy.components[SN.Axis].map(c=>c.draw()),
-                        ]);
-                    },
-                    onNext: ()=>{
-                        this.tipy.clearCanvas();
-                        [
-                            ...conflict.with,
-                            conflict.self,
-                            ...this.tipy.components[SN.Axis],
-                        ].forEach(c=>c.hide());
-                    },
-                },
-            );
-
-            alleviated = true;
-
+        this.countConflict();
+        if(this.conflicts.length === 0) {
+            return WalkOnResult.NoConflict;
         }
+        this.tipy.l`floater # all conflict ${this.conflicts}`;
+
+        const conflict = this.pickRingleader()!;
+        this.tipy.l`floater # fix conflict ${conflict}`;
+
+        await this.tipy.setBreakpoint(
+            Breakpoint.FloatEventBody,
+            {
+                onBreak: async ()=>{
+                    await Promise.all([
+                        ...conflict.with.map(c=>c.draw()),
+                        conflict.self.draw(),
+                        ...this.tipy.components[SN.Axis].map(c=>c.draw()),
+                    ]);
+                },
+                onNext: ()=>{
+                    this.tipy.clearCanvas();
+                    [
+                        ...conflict.with,
+                        conflict.self,
+                        ...this.tipy.components[SN.Axis],
+                    ].forEach(c=>c.hide());
+                },
+            },
+        );
+        await this.float(conflict);
+        await this.tipy.setBreakpoint(
+            Breakpoint.FloatEventBody,
+            {
+                onBreak: async ()=>{
+                    await Promise.all([
+                        ...conflict.with.map(c=>c.draw()),
+                        conflict.self.draw(),
+                        ...this.tipy.components[SN.Axis].map(c=>c.draw()),
+                    ]);
+                },
+                onNext: ()=>{
+                    this.tipy.clearCanvas();
+                    [
+                        ...conflict.with,
+                        conflict.self,
+                        ...this.tipy.components[SN.Axis],
+                    ].forEach(c=>c.hide());
+                },
+            },
+        );
+        return WalkOnResult.Alleviated;
+
     };
 
     private pickRingleader() :Conflict|undefined {
