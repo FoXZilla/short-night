@@ -3,7 +3,7 @@ import Component from "@engine/common/component";
 import Tipy, {Breakpoint, WalkOnResult} from "@engine/tipy";
 import {SN} from "@engine/types";
 import {DEBUG} from "@engine/common/config";
-import {isOverlap} from "@engine/common/functions";
+import {isOverlap, walkLoop} from "@engine/common/functions";
 
 export interface Conflict{
     with: EventBody[],
@@ -48,24 +48,10 @@ export default class MoveEvent{
         return isOverlap(eb1.drawInfo.box,eb2.drawInfo.box);
     }
 
-    public async walkOn(){
-        let alleviated = false;
-
-        repair: while(true){
-            switch(await this.tryFixOne()){
-                case WalkOnResult.NoConflict:
-                    return WalkOnResult.NoConflict;
-                case WalkOnResult.Alleviated:
-                    alleviated = true;
-                    continue repair;
-                case WalkOnResult.Failed:
-                    return alleviated
-                        ?WalkOnResult.Alleviated
-                        :WalkOnResult.NoConflict
-                    ;
-            }
-        }
-
+    public async walkOn() :Promise<WalkOnResult> {
+        return await walkLoop(async ()=>[
+            await this.tryFixOne(),
+        ]);
     };
 
 
@@ -138,7 +124,6 @@ export default class MoveEvent{
 
     };
     private isPossible(conflict:Conflict){
-        if(conflict.with.length > 1) return false;
         if(
             conflict.self.drawInfo.floated === true
             && conflict.with.some(eb => !eb.drawInfo.floated)

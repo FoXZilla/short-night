@@ -1,6 +1,6 @@
 import {Line, SN} from "@engine/types";
 import Component from "@engine/common/component";
-import {drawLine, isIntersecting, isOverlap, WalkLoop} from "@engine/common/functions";
+import {drawLine, isIntersecting, isOverlap, walkLoop} from "@engine/common/functions";
 import EventAxis from "@engine/event/axis";
 import {DEBUG, WALK_ON} from "@engine/common/config";
 import Timeline from "@engine/timeline";
@@ -26,9 +26,9 @@ interface PushConfig{
 }
 
 export enum WalkOnResult {
-    Failed, // the conflict cannot be fixed by move
-    Alleviated, // fixed, but still has conflict
-    NoConflict, // no conflict or all conflict have been fixed
+    Failed = 'failed', // the conflict cannot be fixed by move
+    Alleviated = 'alleviated', // fixed, but still has conflict
+    NoConflict = 'no-conflict', // no conflict or all conflict have been fixed
 };
 
 export default class Tipy{
@@ -62,19 +62,13 @@ export default class Tipy{
 
 
     async walkOn(){
-        await this.fix_EventBody2AxisMilestone();
-        await this.fix_EventAxis2EventAxis();
-
-        if(await this.fix_EventBody2EventBody()){
-            return true;
-        }else{
-            // const timeline = this.components[SN.TimeLine][0] as Timeline;
-            // timeline.drawInfo.axisLength *= 1.05;
-            // await timeline.apply();
-            return false;
-        }
+        return await walkLoop(async ()=>[
+            await this.fix_EventBody2AxisMilestone(),
+            await this.fix_EventAxis2EventAxis(),
+            await this.fix_EventBody2EventBody(),
+        ]);
     };
-    async fix_EventBody2AxisMilestone(){
+    async fix_EventBody2AxisMilestone() :Promise<WalkOnResult> {
         for(let eventBody of this.components[SN.EventBody]){
             for(let axisMilestone of this.components[SN.AxisMilestone]){
                 if(isOverlap(eventBody.drawInfo.box, axisMilestone.drawInfo.box)){
@@ -83,8 +77,9 @@ export default class Tipy{
                 }
             }
         }
+        return WalkOnResult.NoConflict;
     };
-    async fix_EventAxis2EventAxis(){
+    async fix_EventAxis2EventAxis() :Promise<WalkOnResult> {
         const isConflict = function(ea1:EventAxis, ea2:EventAxis) :boolean{
             if(ea1 === ea2) return false;
             const line1:Line = {
@@ -134,6 +129,7 @@ export default class Tipy{
                 }
             }
         }
+        return WalkOnResult.NoConflict;
     };
 
     mover:any = null;
@@ -142,7 +138,7 @@ export default class Tipy{
         this.mover = new MoveEvent(this);
         this.floater = new FloatEvent(this);
 
-        return await WalkLoop(async ()=>[
+        return await walkLoop(async ()=>[
             await this.mover.walkOn(),
             await this.floater.walkOn(),
         ]);

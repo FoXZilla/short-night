@@ -41,7 +41,7 @@ export default class FloatEvent {
         await conflicts.self.apply();
     }
 
-    async walkOn(){
+    async walkOn() :Promise<WalkOnResult> {
 
         this.countConflict();
         if(this.conflicts.length === 0) {

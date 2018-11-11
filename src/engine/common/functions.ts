@@ -269,7 +269,7 @@ export function drawLine(ctx:CanvasRenderingContext2D, line:Line): void{
     ctx.stroke();
 }
 
-export async function WalkLoop(
+export async function walkLoop(
     fn: ()=>Promise<WalkOnResult[]>,
     max = 100,
 ) :Promise<WalkOnResult>{
@@ -282,25 +282,15 @@ export async function WalkLoop(
             alleviated = true;
             continue;
         }
-
-        if(
-            result.includes(WalkOnResult.Failed)
-            && result.includes(WalkOnResult.NoConflict)
-        ){
-            return alleviated
-                ? WalkOnResult.Alleviated
-                : WalkOnResult.NoConflict
-            ;
-        }
-
-        if(result.every(r => r === WalkOnResult.Failed)){
-            return alleviated
-                ? WalkOnResult.Alleviated
-                : WalkOnResult.NoConflict
-            ;
-        }
         if(result.every(r => r === WalkOnResult.NoConflict)){
             return WalkOnResult.NoConflict;
+        }
+
+        if(result.includes(WalkOnResult.Failed)){
+            return alleviated
+                ? WalkOnResult.Alleviated
+                : WalkOnResult.Failed
+            ;
         }
 
     }

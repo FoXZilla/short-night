@@ -55,16 +55,16 @@ document.addEventListener('DOMContentLoaded', async function(){
             // text data
 
             {
-                date :new Date('2015-7-25'),
                 title:'2015-7-25',
+                date :new Date('2015-7-25'),
             },
             {
-                date :new Date('2015-5'),
                 title:'2015-5',
+                date :new Date('2015-5-1'),
             },
             {
                 title :'2015-4',
-                date :new Date('2015-4-15'),
+                date :new Date('2015-5-15'),
                 endDate: new Date('2015-7'),
                 endText: '2015-7',
             },
