@@ -13,6 +13,8 @@ export interface DrawInfo extends ComponentDrawInfo{
     title: string;
     contentText?: string;
 
+    floated: boolean,
+
     folded: boolean;
     foldedText?: string;
 }
@@ -30,6 +32,7 @@ export default class EventBody extends Component{
         date: null as any,
         title: 'untitled',
 
+        floated: false,
         folded: false,
 
         box: {

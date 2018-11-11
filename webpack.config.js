@@ -1,6 +1,7 @@
 const Path = require('path');
 
 module.exports = {
+    devtool: 'inline-source-map',//todo
     entry: {
         'engine': './src/engine/index.ts',
         'themes/colors': './src/themes/colors/index.ts',

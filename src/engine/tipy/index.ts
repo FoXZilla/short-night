@@ -6,6 +6,7 @@ import {DEBUG, WALK_ON} from "@engine/common/config";
 import Timeline from "@engine/timeline";
 import EventBody from "@engine/event/body";
 import MoveEvent from "./move-event";
+import FloatEvent from "@engine/tipy/float-event";
 
 export enum Breakpoint{
     DrawAxisBody,
@@ -22,15 +23,23 @@ interface PushConfig{
     additional: number;
 }
 
+export enum WalkOnResult {
+    Failed, // the conflict cannot be fixed by move
+    Alleviated, // fixed, but still has conflict
+    NoConflict, // no conflict or all conflict have been fixed
+};
+
 export default class Tipy{
     constructor(public breakpoints:Breakpoint[] = []){};
 
     clearCanvas(){
-        const canvas = this.components[SN.TimeLine][0].drawInfo.canvas;
-        canvas.getContext('2d')!.clearRect(
-            0, 0, canvas.width, canvas.height
+        this.canvas.getContext('2d')!.clearRect(
+            0, 0, this.canvas.width, this.canvas.height
         );
     }
+
+    get canvas(){return this.components[SN.TimeLine][0].drawInfo.canvas};
+    get grid(){return (<Timeline>this.components[SN.TimeLine][0]).grid}
 
     components
     :{
@@ -121,10 +130,13 @@ export default class Tipy{
     };
 
     mover:any = null;
+    floater:any = null;
     async fix_EventBody2EventBody(){
         this.mover = new MoveEvent(this);
+        this.floater = new FloatEvent(this);
 
         await this.mover.walkOn();
+        // await this.floater.walkOn();
     };
 
     // push support

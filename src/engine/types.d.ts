@@ -46,3 +46,12 @@ export interface Line{
     endX: number;
     endY:number;
 }
+
+export interface GridConfig{
+    axisAlign: {
+        x: number;
+        y: number;
+    };
+    eventWidth: number;
+    canvasWidth: number;
+}

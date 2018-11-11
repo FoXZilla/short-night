@@ -2,7 +2,7 @@
   "compilerOptions": {
     "outDir": "./dist/",
     "strict": true,
-    "module": "es6",
+    "module": "commonjs",
     "target": "es5",
     "moduleResolution": "node",
     "lib": ["es2015", "es2017","esnext", "dom"],
@@ -11,6 +11,7 @@
       "@/*" :["./src/*"],
       "@engine/*" :["./src/engine/*"]
     },
+    "sourceMap": true,
     "allowJs": true
   },
   "exclude": [

@@ -1,4 +1,4 @@
-import {Box, ComponentDrawInfo, DateBy, SN} from "@engine/types";
+import {Box, ComponentDrawInfo, DateBy, GridConfig, SN} from "@engine/types";
 import Component from "@engine/common/component";
 import Tipy from "@engine/tipy";
 import Event from "@engine/event";
@@ -30,10 +30,11 @@ export interface RuntimeInfo{
     axisLength: number;
 }
 
+
 export default class Timeline extends Component{
     name = SN.TimeLine;
     fixedKeys: (keyof (ConstructInfo&RuntimeInfo))[];
-    grid = GRID['700'];//TODO: make dynamic
+    grid:GridConfig = GRID[700];//TODO: make dynamic
     constructor(info: ConstructInfo&Partial<RuntimeInfo>){
         super();
         this.drawInfo = Object.assign(
@@ -41,7 +42,7 @@ export default class Timeline extends Component{
             {
                 tipy: new Tipy,
                 box: {x:0, y:0, width:0, height:0,},
-                // Mock
+                //todo: Mock
                 milestoneBy: DateBy.Year,
                 scaleBy: DateBy.Quarter,
                 axisLength: 1200,

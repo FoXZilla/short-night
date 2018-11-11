@@ -1,14 +1,15 @@
-import {DateBy, SN} from "@engine/types";
+import {DateBy, GridConfig, SN} from "@engine/types";
 
 export const DEBUG = true;
 
-export const GRID = {
+export const GRID :{ [canvasWidth:number]:GridConfig } = {
     700: {
         axisAlign: {
             x: 550,
             y: 10,
         },
         eventWidth: 350,
+        canvasWidth: 700,
     },
 };
 
