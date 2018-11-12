@@ -12,7 +12,7 @@ export interface ConstructInfo{
         title: string,
 
         text?: string,
-        endDate?: Date,
+        endDate?: Date | 'now',
         endText?: string,
 
         folded?: boolean,
@@ -163,7 +163,9 @@ export default class Timeline extends Component{
             event.drawInfo.foldedText = data.foldedText;
             event.drawInfo.axisText = data.endText;
             if(data.endDate){
-                event.drawInfo.axisLength = (data.endDate.getTime()-data.date.getTime())
+                const endDate :Date = data.endDate === 'now' ? this.drawInfo.endDate : data.endDate;
+
+                event.drawInfo.axisLength = (endDate.getTime()-data.date.getTime())
                     /dateLength
                     *this.drawInfo.tipy.realLength
                 ;

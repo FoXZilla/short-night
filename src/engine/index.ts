@@ -50,7 +50,7 @@ document.addEventListener('DOMContentLoaded', async function(){
             {
                 title :'百度 SWAN 团队',
                 date :new Date('2018-7-4'),
-                //todo: endDate :new Date('9999-1-1'),
+                endDate :'now',
             },
             // text data
 
