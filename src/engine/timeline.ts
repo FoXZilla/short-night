@@ -25,34 +25,30 @@ export interface ConstructInfo{
 export interface RuntimeInfo{
     startDate: Date;
     endDate: Date;
-    milestoneBy: DateBy;
-    scaleBy: DateBy;
+    milestoneBy?: DateBy;
+    scaleBy?: DateBy;
     axisLength: number;
 }
 
 
 export default class Timeline extends Component{
     name = SN.TimeLine;
-    fixedKeys: (keyof (ConstructInfo&RuntimeInfo))[];
+    fixedKeys: (keyof (ConstructInfo & RuntimeInfo))[];
     grid:GridConfig = GRID[700];//TODO: make dynamic
-    constructor(info: ConstructInfo&Partial<RuntimeInfo>){
+    constructor(info: ConstructInfo & Partial<RuntimeInfo>){
         super();
         this.drawInfo = Object.assign(
             {} as RuntimeInfo,// All props of RuntimeInfo will be set in apply()
             {
                 tipy: new Tipy,
                 box: {x:0, y:0, width:0, height:0,},
-                //todo: Mock
-                milestoneBy: DateBy.Year,
-                scaleBy: DateBy.Quarter,
-                axisLength: 1200,
             },
             info,
         );
         this.fixedKeys =
             Object.entries(info)
                 .filter(([key,value])=>typeof value !=='undefined')
-                .map(([key])=>key) as any
+                .map(([key]) => key) as any
         ;
     }
 
@@ -76,6 +72,7 @@ export default class Timeline extends Component{
     destroy(){};
 
     _countDate(){
+        // count data of start and end
         const events =Array.from(this.drawInfo.events).sort(
             (e1,e2)=>Number(e1.date)-Number(e2.date)
         );
@@ -93,37 +90,87 @@ export default class Timeline extends Component{
                 return new Date(Math.max(option1,option2));
             }(events);
         }
-        this.drawInfo.startDate = new Date(this.drawInfo.startDate.getTime() - DATE_COUNT_EXTRA[this.drawInfo.scaleBy]);
-        this.drawInfo.endDate = new Date(this.drawInfo.endDate.getTime() + DATE_COUNT_EXTRA[this.drawInfo.scaleBy]);
+
+        // count milestoneBy
+        if(!this.fixedKeys.includes('milestoneBy') && !this.fixedKeys.includes('scaleBy')){
+            let milestoneBy = null;
+            let scaleBy = null;
+
+            const TWO_WEEK      =1000*60*60*24*7 * 2;
+            const TWO_MONTH     =1000*60*60*24*30 * 2;
+            const TWO_QUARTER   =1000*60*60*24*30*3 * 2;//todo: Is this quarter?
+            const TWO_YEAR      =1000*60*60*24*30*12 * 2;
+
+            const dataScope = this.drawInfo.endDate.getTime() - this.drawInfo.startDate.getTime();
+            switch (true) {
+                case dataScope > TWO_YEAR:
+                    milestoneBy = DateBy.Year;
+                    scaleBy = DateBy.Quarter;
+                    break;
+                case dataScope > TWO_QUARTER:
+                    milestoneBy = DateBy.Quarter;
+                    scaleBy = DateBy.Month;
+                    break;
+                case dataScope > TWO_MONTH:
+                    milestoneBy = DateBy.Month;
+                    scaleBy = DateBy.Week;
+                    break;
+                case dataScope > TWO_WEEK:
+                    milestoneBy = DateBy.Week;
+                    scaleBy = DateBy.Day;
+                    break;
+                default:
+                    scaleBy = DateBy.Day;
+            }
+
+            if(milestoneBy !== null && !this.fixedKeys.includes('milestoneBy'))
+                this.drawInfo.milestoneBy = milestoneBy;
+            if(scaleBy !== null && !this.fixedKeys.includes('scaleBy'))
+                this.drawInfo.scaleBy = scaleBy;
+
+        }
+
+        // count axisLength
+        if(!this.fixedKeys.includes('startDate')){
+            this.drawInfo.axisLength = 500 + this.drawInfo.events.length * 100;
+        }
+
+        // aligning scaleBy
+        this.drawInfo.startDate = new Date(this.drawInfo.startDate.getTime() - DATE_COUNT_EXTRA[this.drawInfo.scaleBy || DateBy.Day]);
+        this.drawInfo.endDate = new Date(this.drawInfo.endDate.getTime() + DATE_COUNT_EXTRA[this.drawInfo.scaleBy || DateBy.Day]);
     };
     async _initAxis(){
         const dateLength = this.drawInfo.endDate.getTime() - this.drawInfo.startDate.getTime();
         this.axis.drawInfo.container = this.drawInfo.container;
         this.axis.drawInfo.canvas = this.drawInfo.canvas;
         this.axis.drawInfo.tipy = this.drawInfo.tipy;
-        this.axis.drawInfo.milestones =
-            TimeNodeGetter[this.drawInfo.milestoneBy](this.drawInfo.startDate, this.drawInfo.endDate)
-                .map(date=>{
-                        const result = {
-                            position: 0,
-                            text: '',
-                        };
-                        result.position = (this.drawInfo.endDate.getTime() - date.getTime())/dateLength;
-                        switch(this.drawInfo.milestoneBy){
-                            case 'year':result.text = `${date.getFullYear()}`;break;
-                            case 'quarter':result.text = `${date.toDateString().split(" ")[1]}. ${date.getFullYear()}`;break;
-                            case 'month':result.text = `${date.toDateString().split(" ")[1]}.`;break;
-                            case 'week':result.text = `${date.getMonth()+1}.${date.getDate()}`;break;
-                            case 'day':result.text = `${date.getMonth()+1}.${date.getDate()}`;break;
-                        };
-                        return result;
-                    }
-                )
-        ;
-        this.axis.drawInfo.scales =
-            TimeNodeGetter[this.drawInfo.scaleBy](this.drawInfo.startDate, this.drawInfo.endDate)
-            .map(date=>(this.drawInfo.endDate.getTime() - date.getTime())/dateLength)
-        ;
+        if(typeof this.drawInfo.milestoneBy !== "undefined"){
+            this.axis.drawInfo.milestones =
+                TimeNodeGetter[this.drawInfo.milestoneBy](this.drawInfo.startDate, this.drawInfo.endDate)
+                    .map(date=>{
+                            const result = {
+                                position: 0,
+                                text: '',
+                            };
+                            result.position = (this.drawInfo.endDate.getTime() - date.getTime())/dateLength;
+                            switch(this.drawInfo.milestoneBy){
+                                case 'year':result.text = `${date.getFullYear()}`;break;
+                                case 'quarter':result.text = `${date.toDateString().split(" ")[1]}. ${date.getFullYear()}`;break;
+                                case 'month':result.text = `${date.toDateString().split(" ")[1]}.`;break;
+                                case 'week':result.text = `${date.getMonth()+1}.${date.getDate()}`;break;
+                                case 'day':result.text = `${date.getMonth()+1}.${date.getDate()}`;break;
+                            };
+                            return result;
+                        }
+                    )
+            ;
+        }
+        if(typeof this.drawInfo.scaleBy !== "undefined"){
+            this.axis.drawInfo.scales =
+                TimeNodeGetter[this.drawInfo.scaleBy](this.drawInfo.startDate, this.drawInfo.endDate)
+                .map(date=>(this.drawInfo.endDate.getTime() - date.getTime())/dateLength)
+            ;
+        }
         Object.assign(this.axis.drawInfo.axisBox,{
             x: this.grid.axisAlign.x,
             y: this.grid.axisAlign.y,
