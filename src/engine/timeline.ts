@@ -1,10 +1,10 @@
-import {Box, ComponentDrawInfo, DateBy, GridConfig, SN} from "@engine/types";
+import {ComponentDrawInfo, DateBy, GridConfig, SN} from "@engine/types";
 import Component from "@engine/common/component";
-import Tipy from "@engine/tipy";
+import Tipy, {WalkOnResult} from "@engine/tipy";
 import Event from "@engine/event";
 import Axis from "@engine/axis";
 import {TimeNodeGetter} from "@engine/common/functions";
-import {DATE_COUNT_EXTRA ,GRID} from "@engine/common/config";
+import {DATE_COUNT_EXTRA, GRID} from "@engine/common/config";
 
 export interface ConstructInfo{
     events: {
@@ -58,11 +58,19 @@ export default class Timeline extends Component{
     axis:Axis = new Axis;
 
     async apply(){
-        await super.apply();
-        await this._countDate();
-        await this._initAxis();
-        await this._initEvents();
-        console.log(`walkOn result is ${await this.drawInfo.tipy.walkOn()}`);
+        for(let i=0; i<100; i++){
+            await super.apply();
+            await this._countDate();
+            await this._initAxis();
+            await this._initEvents();
+            if(await this.drawInfo.tipy.walkOn() === WalkOnResult.NoConflict){
+                break;
+            } else {
+                if(!this.fixedKeys.includes('axisLength')) this.fixedKeys.push('axisLength');
+                this.drawInfo.axisLength *= 1.1;
+                this.drawInfo.tipy.l`axisLength *= 1.1 >> ${this.drawInfo.axisLength}`
+            }
+        }
     };
 
     async draw(){
@@ -131,7 +139,7 @@ export default class Timeline extends Component{
         }
 
         // count axisLength
-        if(!this.fixedKeys.includes('startDate')){
+        if(!this.fixedKeys.includes('axisLength')){
             this.drawInfo.axisLength = 500 + this.drawInfo.events.length * 100;
         }
 
