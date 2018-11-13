@@ -231,7 +231,7 @@ export default class Timeline extends Component{
             event.drawInfo.offset.x -= event.body.drawInfo.box.width;
             await event.apply();
             this.events.push(event);
-        };
+        }
 
     };
 };
