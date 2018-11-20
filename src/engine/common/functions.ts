@@ -1,5 +1,6 @@
 import {Box ,DateBy ,Line} from "@engine/types";
-import {WalkOnResult} from "@engine/tipy";
+import {DEBUG} from "@engine/common/config";
+import {FixResult} from "@/extensions/conflict-fixer";
 
 export function isBox(obj:any): obj is Box{
     return typeof obj === 'object'
@@ -270,26 +271,26 @@ export function drawLine(ctx:CanvasRenderingContext2D, line:Line): void{
 }
 
 export async function walkLoop(
-    fn: ()=>Promise<WalkOnResult[]>,
+    fn: ()=>Promise<FixResult[]>,
     max = 100,
-) :Promise<WalkOnResult>{
+) :Promise<FixResult>{
     let alleviated = false;
 
     for(let i=0 ;i<max ;i++){
         const result = await fn();
 
-        if(result.includes(WalkOnResult.Alleviated)) {
+        if(result.includes(FixResult.Alleviated)) {
             alleviated = true;
             continue;
         }
-        if(result.every(r => r === WalkOnResult.NoConflict)){
-            return WalkOnResult.NoConflict;
+        if(result.every(r => r === FixResult.NoConflict)){
+            return FixResult.NoConflict;
         }
 
-        if(result.includes(WalkOnResult.Failed)){
+        if(result.includes(FixResult.Failed)){
             return alleviated
-                ? WalkOnResult.Alleviated
-                : WalkOnResult.Failed
+                ? FixResult.Alleviated
+                : FixResult.Failed
             ;
         }
 
@@ -297,4 +298,16 @@ export async function walkLoop(
 
     throw new Error('too many loop');
 
+}
+
+export function createLogFunction(prefix:string) {
+    return function (stringArr:TemplateStringsArray, ...values:any[]){
+        if(!DEBUG) return;
+
+        let message = [stringArr[0]];
+        for (let index = 0; index < values.length; index++) {
+            message.push(values[index], stringArr[index+1]);
+        }
+        console.log(`${prefix} #`, ...message);
+    };
 }

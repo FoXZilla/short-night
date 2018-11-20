@@ -1,6 +1,7 @@
-import {SN, ComponentDrawInfo} from "@engine/types";
+import {ComponentDrawInfo} from "@engine/types";
 import {countBox} from "@engine/common/functions";
 import Component from "@engine/common/component";
+import {SN} from "@engine/common/config";
 
 export interface DrawInfo extends ComponentDrawInfo{
     text: string;
@@ -20,20 +21,17 @@ export default class AxisMilestone extends Component{
             width: 0,
             height: 0,
         },
-        tipy: null as any,
-        container: null as any,
-        canvas: null as any,
     };
 
     apply(){
-        if(!this._elt) {
-            this._elt = this.createElement();
-            this.drawInfo.container.appendChild(this._elt);
+        if(!this.element) {
+            this.element = AxisMilestone.createElement();
+            this.container.appendChild(this.element);
         }
 
-        this._elt.innerHTML = this.drawInfo.text;
+        this.element.innerHTML = this.drawInfo.text;
         Object.assign(
-            this._elt.style,
+            this.element.style,
             {
                 left: `${this.drawInfo.box.x}px`,
                 top: `${this.drawInfo.box.y}px`,
@@ -41,19 +39,21 @@ export default class AxisMilestone extends Component{
             },
         );
 
-        const box = countBox(this._elt);
+        const box = countBox(this.element);
         this.drawInfo.box.width = box.width;
         this.drawInfo.box.height = box.height;
 
-        super.apply();
+        return super.apply();
     };
+
     draw(){
-        this._elt.style.visibility = null;
         this._drawOnCanvas();
+        return super.draw();
     };
-    _drawOnCanvas(){
+
+    private _drawOnCanvas(){
         const box = this.drawInfo.box;
-        const ctx = this.drawInfo.canvas.getContext('2d')!;
+        const ctx = this.canvas.getContext('2d')!;
 
         ctx.fillStyle='#000';
         ctx.fillRect(
@@ -80,21 +80,14 @@ export default class AxisMilestone extends Component{
         );
     };
 
-    _elt: HTMLElement = null as any;
-    _elts: HTMLElement[] = [];
-    createElement(){
+    static createElement(){
         const elt = document.createElement('div');
         elt.className = 'axis-milestone';
-        this._elts.push(elt);
+        elt.style.visibility = 'hidden';
         return elt;
     }
 
-    destroy(){
-        super.destroy();
-        for(let elt of this._elts){
-            if(elt.parentElement){
-                elt.parentElement.removeChild(elt);
-            }
-        }
-    };
+    static is(comp:Component) :comp is AxisMilestone{
+        return comp.name === SN.AxisMilestone;
+    }
 };

@@ -1,9 +1,10 @@
 import Component from "@engine/common/component";
-import {ComponentDrawInfo ,SN} from "@engine/types";
+import {ComponentDrawInfo} from "@engine/types";
 import EventMark from "@engine/event/mark";
 import EventBody from "@engine/event/body";
 import EventAxis from "@engine/event/axis";
 import {mergeBox} from "@engine/common/functions";
+import {SN} from "@engine/common/config";
 
 export interface DrawInfo extends ComponentDrawInfo{
     target: {
@@ -54,27 +55,18 @@ export default class Event extends Component{
             width: 500,
             height: 500,
         },
-        tipy: null as any,
-        container: null as any,
-        canvas: null as any,
     };
 
-    mark = new EventMark;
-    body = new EventBody;
+    mark = new EventMark(this);
+    body = new EventBody(this);
     axis:EventAxis|null = null;
 
     async apply(){
 
-        this.mark.drawInfo.tipy = this.drawInfo.tipy;
-        this.mark.drawInfo.container = this.drawInfo.container;
-        this.mark.drawInfo.canvas = this.drawInfo.canvas;
         this.mark.drawInfo.box.x = this.drawInfo.target.x - this.mark.drawInfo.box.width/2;
         this.mark.drawInfo.box.y = this.drawInfo.target.y - this.mark.drawInfo.box.height/2;
         await this.mark.apply();
 
-        this.body.drawInfo.tipy = this.drawInfo.tipy;
-        this.body.drawInfo.container = this.drawInfo.container;
-        this.body.drawInfo.canvas = this.drawInfo.canvas;
         this.body.drawInfo.target.x = this.drawInfo.target.x;
         this.body.drawInfo.target.y = this.drawInfo.target.y;
         this.body.drawInfo.box.x = this.drawInfo.target.x + this.drawInfo.offset.x;
@@ -88,10 +80,7 @@ export default class Event extends Component{
         await this.body.apply();
 
         if(this.drawInfo.axisLength){
-            if(!this.axis) this.axis = new EventAxis;
-            this.axis.drawInfo.tipy = this.drawInfo.tipy;
-            this.axis.drawInfo.container = this.drawInfo.container;
-            this.axis.drawInfo.canvas = this.drawInfo.canvas;
+            if(!this.axis) this.axis = new EventAxis(this);
             this.axis.drawInfo.start = this.drawInfo.target;
             this.axis.drawInfo.length = this.drawInfo.axisLength;
             this.axis.drawInfo.text = this.drawInfo.axisText;
@@ -113,19 +102,37 @@ export default class Event extends Component{
                 this.drawInfo.box,
                 this.axis.drawInfo.box,
             );
-        };
-        await super.apply();
+        }
+
+        return super.apply();
     };
+
     destroy(){
         this.mark.destroy();
-        this.axis && this.axis.destroy();
         this.body.destroy();
+        this.axis && this.axis.destroy();
+
+        return super.destroy();
+    };
+
+    hide(){
+        this.mark.hide();
+        this.body.hide();
+        this.axis && this.axis.hide();
+
+        return super.hide();
     };
 
     draw(){
         this.body.draw();
         this.axis && this.axis.draw();
         this.mark.draw();
+
+        return super.draw();
     };
+
+    static is(comp:Component) :comp is Event{
+        return comp.name === SN.Event;
+    }
 
 };

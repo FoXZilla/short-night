@@ -1,6 +1,18 @@
-import {DateBy, GridConfig, SN} from "@engine/types";
+import {DateBy, GridConfig} from "@engine/types";
 
 export const DEBUG = true;
+
+export enum SN{
+    Timeline = 'time_line',
+    Axis = 'axis',
+    AxisBody = 'axis_body',
+    AxisScale = 'axis_scale',
+    AxisMilestone = 'axis_milestone',
+    Event = 'event',
+    EventBody = 'event_body',
+    EventMark = 'event_mark',
+    EventAxis = 'event_axis',
+}
 
 export const GRID :{ [canvasWidth:number]:GridConfig } = {
     700: {

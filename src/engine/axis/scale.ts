@@ -1,7 +1,8 @@
-import {ComponentDrawInfo, SN} from "@engine/types";
+import {ComponentDrawInfo} from "@engine/types";
 import Component from "@engine/common/component";
+import {SN} from "@engine/common/config";
 
-export interface DrawInfo extends ComponentDrawInfo{};
+export interface DrawInfo extends ComponentDrawInfo{}
 
 export default class AxisScale extends Component{
     name = SN.AxisScale;
@@ -13,14 +14,11 @@ export default class AxisScale extends Component{
             width: 10,
             height: 6,
         },
-        tipy: null as any,
-        container: null as any,
-        canvas: null as any,
     };
 
     draw(){
         const box = this.drawInfo.box;
-        const ctx = this.drawInfo.canvas.getContext('2d')!;
+        const ctx = this.canvas.getContext('2d')!;
 
         ctx.fillStyle='rgba(255, 255, 255, 0.8)';
         ctx.fillRect(
@@ -29,5 +27,11 @@ export default class AxisScale extends Component{
             box.width,
             box.height,
         );
+
+        return super.draw();
     };
+
+    static is(comp:Component) :comp is AxisScale{
+        return comp.name === SN.AxisScale;
+    }
 };

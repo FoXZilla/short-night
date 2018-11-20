@@ -1,35 +1,28 @@
 import EventBody from "@engine/event/body";
 import Component from "@engine/common/component";
-import Tipy, {Breakpoint, WalkOnResult} from "@engine/tipy";
-import {SN} from "@engine/types";
-import {DEBUG} from "@engine/common/config";
 import {isOverlap, walkLoop} from "@engine/common/functions";
+import {SN} from "@engine/common/config";
+import {ExtensionManager} from "@/extensions";
+import {FixResult, Conflict} from "@/extensions/conflict-fixer/index";
+import {Breakpoint} from "@/extensions/breakpoint-animation";
 
-export interface Conflict{
-    with: EventBody[],
-    self: EventBody,
-}
-
-export default class MoveEvent{
-    constructor(public tipy:Tipy){
-        if(DEBUG){
-            (<any>window).mover = this;
-        }
-    };
+export default class EventBody2EventBody__move {
+    constructor(public ext:ExtensionManager){}
 
     conflicts:Conflict[] = [];
-    allEventBody = Array.from( // above EventBody is above, below EventBody is below
-        this.tipy.components[SN.EventBody] as EventBody[]
-    ).sort((eb1,eb2)=>eb1.drawInfo.target.y - eb2.drawInfo.target.y);
+    /**
+     * above EventBody is above, below EventBody is below
+     * */
+    eventBodyList:EventBody[] = [];
     spaceMap = new Map as Map<EventBody, {top:number, bottom:number}>;
 
-    static avoid({mover, fixed, direction}:{mover:Component, fixed:Component, direction:1|-1}){
+    static async avoid({mover, fixed, direction}:{mover:Component, fixed:Component, direction:1|-1}){
         if(direction > 0){
             mover.drawInfo.box.y = fixed.drawInfo.box.y + fixed.drawInfo.box.height +1;
         }else{
             mover.drawInfo.box.y = fixed.drawInfo.box.y - mover.drawInfo.box.height - 1;
         }
-        mover.apply();
+        await mover.apply();
     };
     static isConflict(eb1:EventBody, eb2:EventBody){
         if(eb1 === eb2) return false;
@@ -48,7 +41,11 @@ export default class MoveEvent{
         return isOverlap(eb1.drawInfo.box,eb2.drawInfo.box);
     }
 
-    public async walkOn() :Promise<WalkOnResult> {
+    public async fix() :Promise<FixResult> {
+        this.eventBodyList = Array.from(this.ext.components[SN.EventBody])
+            .sort((eb1,eb2)=>eb1.drawInfo.target.y - eb2.drawInfo.target.y)
+        ;
+
         return await walkLoop(async ()=>[
             await this.tryFixOne(),
         ]);
@@ -58,17 +55,15 @@ export default class MoveEvent{
     /**
      * @return {boolean} have fixed one of conflicts?
      * */
-    private async tryFixOne() :Promise<WalkOnResult>{
+    private async tryFixOne() :Promise<FixResult>{
         this.countConflict();
         this.countSpace();
 
-        this.tipy.l`mover # all conflict ${this.conflicts}`;
-        if(this.conflicts.length === 0) return WalkOnResult.NoConflict;
+        if(this.conflicts.length === 0) return FixResult.NoConflict;
         this.conflicts = this.conflicts.filter(
             conflict => this.isPossible(conflict)
         );
-        if(this.conflicts.length === 0) return WalkOnResult.Failed;
-        this.tipy.l`mover # isPossible conflict ${this.conflicts}`;
+        if(this.conflicts.length === 0) return FixResult.Failed;
 
         const conflict = this.conflicts.find(
             conflict1 => this.conflicts.every(
@@ -76,51 +71,25 @@ export default class MoveEvent{
             )
         )!;
 
-        this.tipy.l`mover # fix ${conflict}`;
+        const showedComponents = [
+            ...this.ext.components[SN.AxisBody],
+            conflict.self,
+            this.ext.getParent(conflict.self).mark,
+            ...conflict.with,
+            ...conflict.with.map(eb => this.ext.getParent(eb).mark),
+        ];
 
-        await this.tipy.setBreakpoint(
-            Breakpoint.MoveEventBody,
-            {
-                onBreak: async ()=>{
-                    await Promise.all([
-                        ...conflict.with.map(c=>c.draw()),
-                        conflict.self.draw(),
-                        ...this.tipy.components[SN.Axis].map(c=>c.draw()),
-                    ]);
-                },
-                onNext: ()=>{
-                    this.tipy.clearCanvas();
-                    [
-                        ...conflict.with,
-                        conflict.self,
-                        ...this.tipy.components[SN.Axis],
-                    ].forEach(c=>c.hide());
-                },
-            },
+        await this.ext.breakpoint.block(
+            Breakpoint.FixEventBody2EventBody__move,
+            { components:showedComponents },
         );
         await this.fixConflict(conflict);
-        await this.tipy.setBreakpoint(
-            Breakpoint.MoveEventBody,
-            {
-                onBreak: async ()=>{
-                    await Promise.all([
-                        ...conflict.with.map(c=>c.draw()),
-                        conflict.self.draw(),
-                        ...this.tipy.components[SN.Axis].map(c=>c.draw()),
-                    ]);
-                },
-                onNext: ()=>{
-                    this.tipy.clearCanvas();
-                    [
-                        ...conflict.with,
-                        conflict.self,
-                        ...this.tipy.components[SN.Axis],
-                    ].forEach(c=>c.hide());
-                },
-            },
+        await this.ext.breakpoint.block(
+            Breakpoint.FixEventBody2EventBody__move,
+            { components:showedComponents },
         );
 
-        return WalkOnResult.Alleviated;
+        return FixResult.Alleviated;
 
     };
     private isPossible(conflict:Conflict){
@@ -134,7 +103,7 @@ export default class MoveEvent{
 
         return (needed.bottom === 0 || needed.top === 0)
             && (space.bottom >= needed.bottom && space.top >= needed.top)
-        ;
+            ;
     };
     private async fixConflict(conflict:Conflict){
         const needed = this.countNeeded(conflict);
@@ -143,10 +112,10 @@ export default class MoveEvent{
 
         // fix conflict
         conflict.self.drawInfo.box.y += moveDistance;
-        conflict.self.apply();
+        await conflict.self.apply();
 
         // and fix side-effect
-        const effectable = this.allEventBody.filter(
+        const effectable = this.eventBodyList.filter(
             eb => eb.drawInfo.floated === conflict.self.drawInfo.floated
         );
         for(
@@ -156,8 +125,8 @@ export default class MoveEvent{
         ){
             const last = effectable[i - direction];
             const now = effectable[i];
-            if(MoveEvent.isConflict(last, now)){
-                MoveEvent.avoid({
+            if(EventBody2EventBody__move.isConflict(last, now)){
+                await EventBody2EventBody__move.avoid({
                     mover: now,
                     fixed: last,
                     direction: direction,
@@ -170,11 +139,11 @@ export default class MoveEvent{
     private countConflict(){
         this.conflicts.length = 0;
 
-        for(let eb of this.allEventBody){
+        for(let eb of this.eventBodyList){
             const conflict = {
                 self: eb,
-                with: this.tipy.components[SN.EventBody].filter(
-                    target => MoveEvent.isConflict(eb, <EventBody>target)
+                with: this.eventBodyList.filter(
+                    target => EventBody2EventBody__move.isConflict(eb, <EventBody>target)
                 ) as EventBody[],
             };
             if(conflict.with.length) this.conflicts.push(conflict);
@@ -227,13 +196,7 @@ export default class MoveEvent{
         if(result.top) result.top++;
         if(result.bottom) result.bottom++;
 
-        if(DEBUG){
-            origin.drawInfo.debug=Object.assign(
-                {},
-                origin.drawInfo.debug,
-                {needed: result},
-            );
-        }
+        origin.extraData.needed = result;
 
         return result;
     };
@@ -244,13 +207,13 @@ export default class MoveEvent{
         const spacePadding = 4;//FIXME: remove supported
 
         // Itself's can move space
-        this.allEventBody.forEach(
+        this.eventBodyList.forEach(
             eb => this.spaceMap.set(eb, {
                 top: eb.drawInfo.target.y - eb.drawInfo.box.y - spacePadding,
                 bottom: eb.drawInfo.box.y + eb.drawInfo.box.height - eb.drawInfo.target.y - spacePadding,
             })
         );
-        
+
         const applyLimiting = (allEventBody:EventBody[]) => {
             if(allEventBody.length === 0) return;
 
@@ -266,7 +229,7 @@ export default class MoveEvent{
             const last = allEventBody[allEventBody.length-1];
             this.spaceMap.get(last)!.top = Math.min(
                 this.spaceMap.get(last)!.top,
-                this.tipy.canvas.height - (last.drawInfo.box.y + last.drawInfo.box.height),
+                last.canvas.height - (last.drawInfo.box.y + last.drawInfo.box.height),
             );
             // clamp by neighbor
             for(let i = 1; i<allEventBody.length; i++){
@@ -303,15 +266,9 @@ export default class MoveEvent{
             });
         };
 
-        applyLimiting(this.allEventBody.filter(eb => eb.drawInfo.floated));
-        applyLimiting(this.allEventBody.filter(eb => !eb.drawInfo.floated));
+        applyLimiting(this.eventBodyList.filter(eb => eb.drawInfo.floated));
+        applyLimiting(this.eventBodyList.filter(eb => !eb.drawInfo.floated));
 
-        if(DEBUG){
-            this.allEventBody.forEach(eb => eb.drawInfo.debug=Object.assign(
-                {},
-                eb.drawInfo.debug,
-                {space: this.spaceMap.get(eb)},
-            ))
-        }
+        this.eventBodyList.forEach(eb => eb.extraData.space = this.spaceMap.get(eb));
     }
-};
+}

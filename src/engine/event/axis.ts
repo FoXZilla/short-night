@@ -1,6 +1,7 @@
-import {SN, ComponentDrawInfo} from "@engine/types";
+import {ComponentDrawInfo} from "@engine/types";
 import {countBox ,mergeBox} from "@engine/common/functions";
 import Component from "@engine/common/component";
+import {SN} from "@engine/common/config";
 
 export interface DrawInfo extends ComponentDrawInfo{
     text?: string;
@@ -31,9 +32,6 @@ export default class EventAxis extends Component{
             width: 0,
             height: 0,
         },
-        tipy: null as any,
-        container: null as any,
-        canvas: null as any,
     };
 
     apply(){
@@ -44,41 +42,40 @@ export default class EventAxis extends Component{
             height: this.drawInfo.length,
         };
 
-        if(!this._elt && this.drawInfo.text){
-            this._elt = this.createElement();
-            Object.assign(
-                this._elt.style,
-                {
-                    visibility: 'hidden',
-                },
-            );
-            this.drawInfo.container.appendChild(this._elt);
+        if(!this.element && this.drawInfo.text){
+            this.element = EventAxis.createElement();
+            this.container.appendChild(this.element);
+        } else if (this.element && this.element.parentNode) {
+            this.element.parentNode.removeChild(this.element);
         }
-        if(this.drawInfo.text){
-            this._elt.innerHTML = this.drawInfo.text;
+
+        if(this.element && this.drawInfo.text){
+            this.element.innerHTML = this.drawInfo.text;
             Object.assign(
-                this._elt.style,
+                this.element.style,
                 {
                     left: `${this.drawInfo.start.x + this.drawInfo.offset + this.drawInfo.textOffset}px`,
                     top: `${this.drawInfo.start.y - this.drawInfo.length}px`,
+                    visibility: 'hidden',
                 },
             );
 
-            const eltBox = countBox(this._elt);
-            this._elt.style.top = eltBox.y - eltBox.height/2 + 'px';
+            const eltBox = countBox(this.element);
+            this.element.style.top = eltBox.y - eltBox.height/2 + 'px';
 
-            this.drawInfo.box = mergeBox(this.drawInfo.box, countBox(this._elt));
+            this.drawInfo.box = mergeBox(this.drawInfo.box, countBox(this.element));
         }
 
+        return super.apply();
 
-        super.apply();
     };
+
     draw(){
-        if(this._elt) this._elt.style.visibility = null;
-        if(this.drawInfo.length > 10 || this._elt) this._drawOnCanvas();
+        if(this.drawInfo.length > 10 || this.element) this._drawOnCanvas();
+        return super.draw();
     };
     _drawOnCanvas(){
-        const ctx = this.drawInfo.canvas.getContext('2d')!;
+        const ctx = this.canvas.getContext('2d')!;
 
         // line
         ctx.beginPath();
@@ -126,21 +123,14 @@ export default class EventAxis extends Component{
         }
     };
 
-    _elt: HTMLElement = null as any;
-    _elts: HTMLElement[] = [];
-    createElement(){
+    static createElement(){
         const elt = document.createElement('div');
         elt.className = 'event-axis-endText';
-        this._elts.push(elt);
+        elt.style.visibility = 'hidden';
         return elt;
     }
 
-    destroy(){
-        super.destroy();
-        for(let elt of this._elts){
-            if(elt.parentElement){
-                elt.parentElement.removeChild(elt);
-            }
-        }
-    };
+    static is(comp:Component) :comp is EventAxis{
+        return comp.name === SN.EventAxis;
+    }
 };

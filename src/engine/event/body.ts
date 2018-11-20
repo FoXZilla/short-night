@@ -1,6 +1,7 @@
-import {ConstLevel, SN, ComponentDrawInfo} from "@engine/types";
+import {ConstLevel, ComponentDrawInfo} from "@engine/types";
 import {countBox, deepAssign} from "@engine/common/functions";
 import Component from "@engine/common/component";
+import {SN} from "@engine/common/config";
 
 export interface DrawInfo extends ComponentDrawInfo{
     target: {
@@ -22,6 +23,8 @@ export interface DrawInfo extends ComponentDrawInfo{
 export default class EventBody extends Component{
     name = SN.EventBody;
 
+    element :HTMLElement = null as any;
+
     drawInfo:DrawInfo = {
         target: {
             x: 0,
@@ -41,23 +44,30 @@ export default class EventBody extends Component{
             width: 300,
             height: 0,
         },
-        tipy: null as any,
-        container: null as any,
-        canvas: null as any,
     };
 
-    async apply(){
-        if(!this._elt){
-            this._elt = this.createElement();
-            this.drawInfo.container.appendChild(this._elt);
-        }
-        if(this.drawInfo.folded){
-            this._elt.classList.add('folded');
+    resetElement(){
+        if(this.drawInfo.folded){ // TODO: reconstruct here
+            this.element.innerHTML = `
+                <h4 class="foldedText">${this.drawInfo.foldedText || this.drawInfo.title}</h4>
+                <h5 class="date">${this.drawInfo.date.toDateString()}</h5>
+            `;
         }else{
-            this._elt.classList.remove('folded');
+            this.element.innerHTML = `
+                <h4 class="title">${this.drawInfo.title}</h4>
+                <h5 class="date">${this.drawInfo.date.toDateString()}</h5>
+                ${this.drawInfo.contentText ?`<p>${this.drawInfo.contentText}</p>` :''}
+            `;
         }
+
+        if(this.drawInfo.folded){
+            this.element.classList.add('folded');
+        }else{
+            this.element.classList.remove('folded');
+        }
+        
         Object.assign(
-            this._elt.style,
+            this.element.style,
             {
                 left: 0,
                 top: 0,
@@ -67,10 +77,13 @@ export default class EventBody extends Component{
                 visibility: 'hidden',
             },
         );
-        this.drawInfo.box.width = countBox(this._elt).width;
-        this.drawInfo.box.height = countBox(this._elt).height;
+    }
+    syncBox(){
+
+        this.drawInfo.box.width = countBox(this.element).width;
+        this.drawInfo.box.height = countBox(this.element).height;
         Object.assign(
-            this._elt.style,
+            this.element.style,
             {
                 left: `${this.drawInfo.box.x}px`,
                 top: `${this.drawInfo.box.y}px`,
@@ -78,19 +91,28 @@ export default class EventBody extends Component{
                 height: `${this.drawInfo.box.height}px`,
             },
         );
-        this.drawInfo.box = countBox(this._elt);
-        await super.apply();
+        this.drawInfo.box = countBox(this.element);
+
+    }
+    async apply(){
+        if(!this.element) {
+            this.element = EventBody.createElement();
+            this.container.appendChild(this.element);
+        }
+        
+        this.resetElement();
+        this.syncBox();
+        
+        return super.apply();
     };
     draw(){
-        this._elt.style.visibility = null;
         this._drawOnCanvas();
-    };
-    hide(){
-        this._elt.style.visibility = 'hidden';
+        
+        return super.draw();
     };
     _drawOnCanvas(){
         const box = this.drawInfo.box;
-        const ctx = this.drawInfo.canvas.getContext('2d')!;
+        const ctx = this.canvas.getContext('2d')!;
 
         // border
         ctx.fillStyle='#000';
@@ -137,33 +159,15 @@ export default class EventBody extends Component{
         ctx.stroke();
     };
 
-    _elt: HTMLElement = null as any;
-    _elts: HTMLElement[] = [];
-    createElement(){
+    
+    static createElement(){
         const elt = document.createElement('div');
         elt.className = 'event-body';
-        this._elts.push(elt);
-        if(this.drawInfo.folded){
-            elt.innerHTML = `
-                <h4 class="foldedText">${this.drawInfo.foldedText || this.drawInfo.title}</h4>
-                <h5 class="date">${this.drawInfo.date.toDateString()}</h5>
-            `;
-        }else{
-            elt.innerHTML = `
-                <h4 class="title">${this.drawInfo.title}</h4>
-                <h5 class="date">${this.drawInfo.date.toDateString()}</h5>
-                ${this.drawInfo.contentText ?`<p>${this.drawInfo.contentText}</p>` :''}
-            `;
-        }
+        elt.style.visibility = 'hidden';
         return elt;
     }
 
-    destroy(){
-        super.destroy();
-        for(let elt of this._elts){
-            if(elt.parentElement){
-                elt.parentElement.removeChild(elt);
-            }
-        }
-    };
+    static is(comp:Component) :comp is EventBody{
+        return comp.name === SN.EventBody;
+    }
 };

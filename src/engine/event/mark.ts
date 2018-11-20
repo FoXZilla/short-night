@@ -1,7 +1,8 @@
 import Component from "@engine/common/component";
-import {ComponentDrawInfo, SN} from "@engine/types";
+import {ComponentDrawInfo} from "@engine/types";
+import {SN} from "@engine/common/config";
 
-export interface DrawInfo extends ComponentDrawInfo{};
+export interface DrawInfo extends ComponentDrawInfo{}
 
 export default class EventMark extends Component{
     name = SN.EventMark;
@@ -13,14 +14,11 @@ export default class EventMark extends Component{
             width: 12,
             height: 12,
         },
-        tipy: null as any,
-        container: null as any,
-        canvas: null as any,
     };
 
     draw(){
         const box = this.drawInfo.box;
-        const ctx = this.drawInfo.canvas.getContext('2d')!;
+        const ctx = this.canvas.getContext('2d')!;
 
         ctx.beginPath();
         ctx.fillStyle='#f00';
@@ -32,6 +30,12 @@ export default class EventMark extends Component{
             Math.PI*2,
         );
         ctx.fill();
+
+        return super.draw();
     };
 
+
+    static is(comp:Component) :comp is EventMark{
+        return comp.name === SN.EventMark;
+    }
 };

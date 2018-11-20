@@ -1,16 +1,3 @@
-import Tipy from "@engine/tipy";
-
-export const enum SN{
-    TimeLine = 'time_line',
-    Axis = 'axis',
-    AxisBody = 'axis_body',
-    AxisScale = 'axis_scale',
-    AxisMilestone = 'axis_milestone',
-    Event = 'event',
-    EventBody = 'event_body',
-    EventMark = 'event_mark',
-    EventAxis = 'event_axis',
-}
 export const enum ConstLevel{
     No = 0,
     Few = 1,
@@ -26,12 +13,7 @@ export const enum DateBy{
 }
 export type Count = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10;
 export interface ComponentDrawInfo{
-    tipy: Tipy;
-    canvas: HTMLCanvasElement;
-    container: HTMLElement;
     box: Box;
-
-    debug?: any,
 }
 
 export interface Box{
