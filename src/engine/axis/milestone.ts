@@ -1,19 +1,23 @@
-import {ComponentDrawInfo} from "@engine/types";
+import {Box, ComponentDrawInfo} from "@engine/types";
 import {countBox} from "@engine/common/functions";
 import Component from "@engine/common/component";
 import {SN} from "@engine/common/config";
+import {DrawInfo as AxisBodyDrawInfo} from "@engine/axis/body";
 
 export interface DrawInfo extends ComponentDrawInfo{
+    box: Readonly<Box>;
+    bodyDrawInfo: Readonly<AxisBodyDrawInfo>;
+    alignY: number;
     text: string;
-    borderWidth: number;
 }
 
-export default class AxisMilestone extends Component{
+export default abstract class AxisMilestone extends Component{
     name = SN.AxisMilestone;
 
     drawInfo:DrawInfo = {
+        bodyDrawInfo: {} as any,
+        alignY: 0,
         text: '0_o',
-        borderWidth: 4,
 
         box: {
             x: 0,
@@ -30,54 +34,26 @@ export default class AxisMilestone extends Component{
         }
 
         this.element.innerHTML = this.drawInfo.text;
+
+        const {width, height} = countBox(this.element);
+        const x = this.drawInfo.bodyDrawInfo.box.x
+            + this.drawInfo.bodyDrawInfo.box.width/2
+            - width/2
+        ;
+        const y = this.drawInfo.alignY - height/2;
+
         Object.assign(
             this.element.style,
             {
-                left: `${this.drawInfo.box.x}px`,
-                top: `${this.drawInfo.box.y}px`,
+                left: `${x}px`,
+                top: `${y}px`,
                 visibility: 'hidden',
             },
         );
 
-        const box = countBox(this.element);
-        this.drawInfo.box.width = box.width;
-        this.drawInfo.box.height = box.height;
+        this.drawInfo.box = countBox(this.element);
 
         return super.apply();
-    };
-
-    draw(){
-        this._drawOnCanvas();
-        return super.draw();
-    };
-
-    private _drawOnCanvas(){
-        const box = this.drawInfo.box;
-        const ctx = this.canvas.getContext('2d')!;
-
-        ctx.fillStyle='#000';
-        ctx.fillRect(
-            box.x,
-            box.y,
-            box.width,
-            box.height,
-        );
-
-        ctx.fillStyle='#fff';
-        ctx.fillRect(
-            box.x+1,
-            box.y+1,
-            box.width-2,
-            box.height-2,
-        );
-
-        ctx.fillStyle='#000';
-        ctx.fillRect(
-            box.x+1+this.drawInfo.borderWidth,
-            box.y+1+this.drawInfo.borderWidth,
-            box.width-2-this.drawInfo.borderWidth*2,
-            box.height-2-this.drawInfo.borderWidth*2
-        );
     };
 
     static createElement(){

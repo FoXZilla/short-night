@@ -13,11 +13,6 @@ export enum Breakpoint{
 
 export default class BreakpointAnimation {
     breakpoints:Breakpoint[] = [
-        Breakpoint.PushScalesAndMilestones,
-        Breakpoint.FixEventBody2AxisMilestone,
-        Breakpoint.FixEventAxis2EventAxis,
-        Breakpoint.FixEventBody2EventBody__move,
-        Breakpoint.FixEventBody2EventBody__float,
     ];
 
     constructor(public etx:ExtensionManager){

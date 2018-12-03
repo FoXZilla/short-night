@@ -25,7 +25,7 @@ export default class EventBody2AxisMilestone {
                         Breakpoint.FixEventBody2AxisMilestone,
                         { components: showedComponents },
                     );
-                    eventBody.drawInfo.box.x = axisMilestone.drawInfo.box.x - eventBody.drawInfo.box.width;
+                    eventBody.drawInfo.offset.x = axisMilestone.drawInfo.box.width / 2 + 1;
                     await eventBody.apply();
                     await this.ext.breakpoint.block(
                         Breakpoint.FixEventBody2AxisMilestone,

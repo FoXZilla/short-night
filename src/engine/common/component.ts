@@ -1,8 +1,16 @@
-import {ComponentDrawInfo} from "@engine/types";
+import {ComponentDrawInfo, GridConfig} from "@engine/types";
 import {ExtensionManager} from "@/extensions";
 import {DEBUG, SN} from "@engine/common/config";
 
+export interface ComponentConstructorInfo {
+    ext:ExtensionManager;
+    grid?: GridConfig;
+    canvas?:HTMLCanvasElement;
+    container?:HTMLElement;
+}
+
 export default abstract class Component{
+    abstract theme :string;
     name :SN;
 
     /**
@@ -19,19 +27,18 @@ export default abstract class Component{
         realLength ?:number,
         needed?: {top:number, bottom:number},
         space?: {top:number, bottom:number},
+        [key: string]: any,
     } = {};
 
     /**
      * There are must be init before self.apply called.
      * */
+    grid :GridConfig;
     canvas :HTMLCanvasElement;
     container :HTMLElement;
 
     ext: ExtensionManager;
-    public constructor(
-        {ext,canvas,container}
-        :{ext:ExtensionManager, canvas?:HTMLCanvasElement, container?:HTMLElement}
-    ){
+    public constructor({ext,canvas,container,grid}:ComponentConstructorInfo){
         if(!(this.constructor.name in SN)) {
             throw new TypeError(`Class name "${this.constructor.name}" illegal, it must following ${Object.keys(SN)}`);
         }
@@ -40,6 +47,7 @@ export default abstract class Component{
 
         this.ext = ext;
 
+        this.grid = grid as any;
         this.canvas = canvas as any;
         this.container = container as any;
 
@@ -54,6 +62,7 @@ export default abstract class Component{
 
     /**
      * Draw self base on self.drawInfo.
+     * There should not count any runtime states.
      * It should can be call multiple times.
      * */
     draw(){

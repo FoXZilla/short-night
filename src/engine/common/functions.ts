@@ -272,7 +272,7 @@ export function drawLine(ctx:CanvasRenderingContext2D, line:Line): void{
 
 export async function walkLoop(
     fn: ()=>Promise<FixResult[]>,
-    max = 100,
+    max = 10,
 ) :Promise<FixResult>{
     let alleviated = false;
 
@@ -309,5 +309,38 @@ export function createLogFunction(prefix:string) {
             message.push(values[index], stringArr[index+1]);
         }
         console.log(`${prefix} #`, ...message);
+    };
+}
+
+/**
+ * Return a freezed object base on specified object.
+ * */
+export function deepFreeze<T>(object:T) :Readonly<T>{
+
+    object = JSON.parse(JSON.stringify(object));
+
+    // Retrieve the property names defined on object
+    var propNames = Object.getOwnPropertyNames(object) as (keyof T)[];
+
+    // Freeze properties before freezing self
+
+    for (let name of propNames) {
+        let value = object[name];
+
+        object[name] = <any>(value && typeof value === "object"
+            ? deepFreeze(value)
+            : value
+        );
+    }
+
+    return Object.freeze(object);
+}
+
+export function shrinkBox(box:Box, distance=1) :Box{
+    return {
+        x: box.x + distance,
+        y: box.y + distance,
+        width: box.width - distance*2,
+        height: box.height - distance*2,
     };
 }

@@ -3,7 +3,7 @@ import Component from "@engine/common/component";
 import Event from "@engine/event";
 import Axis from "@engine/axis";
 import {TimeNodeGetter} from "@engine/common/functions";
-import {DATE_COUNT_EXTRA, GRID, SN} from "@engine/common/config";
+import {DATE_COUNT_EXTRA, SN} from "@engine/common/config";
 
 export interface DrawInfo extends ComponentDrawInfo{
     events: {
@@ -26,9 +26,9 @@ export interface RuntimeInfo{
     axisLength: number;
 }
 
-export default class Timeline extends Component{
+export default abstract class Timeline extends Component{
     name = SN.Timeline;
-    grid:GridConfig = GRID[700];
+    grid:GridConfig = Timeline.defaultGrid;
 
     runtime :RuntimeInfo = {} as any;
 
@@ -37,8 +37,10 @@ export default class Timeline extends Component{
         events: [],
     };
 
+    abstract AxisConstructer :typeof Axis;
+    abstract EventConstructor :typeof Event;
     events:Event[] = [];
-    axis:Axis = new Axis(this);
+    axis :Axis = null as any;
 
 
     countStartData() :Date{
@@ -119,7 +121,12 @@ export default class Timeline extends Component{
     async apply(runtime?:Partial<RuntimeInfo>){
         this.initRuntime(runtime);
 
+        //@ts-ignore
+        if(!this.axis) this.axis = new this.AxisConstructer(this);
         await this.updateAxis();
+
+        this.events.forEach(e => e.destroy());
+        this.events.length = 0;
         await this.createEvents();
 
         return super.apply();
@@ -131,7 +138,9 @@ export default class Timeline extends Component{
     };
 
     async updateAxis(){
+
         const dateLength = this.runtime.endDate.getTime() - this.runtime.startDate.getTime();
+        this.axis.drawInfo.length = this.runtime.axisLength;
         if(this.runtime.milestoneBy !== null){
             this.axis.drawInfo.milestones =
                 TimeNodeGetter[this.runtime.milestoneBy](this.runtime.startDate, this.runtime.endDate)
@@ -159,25 +168,16 @@ export default class Timeline extends Component{
                 .map(date=>(this.runtime.endDate.getTime() - date.getTime())/dateLength)
             ;
         }
-        Object.assign(this.axis.drawInfo.bodyBox,{
-            x: this.grid.axisAlign.x,
-            y: this.grid.axisAlign.y,
-            height: this.runtime.axisLength,
-        });
-        await this.axis.apply();
-        // align center
-        this.axis.drawInfo.bodyBox.x -= this.axis.drawInfo.bodyBox.width/2;
         await this.axis.apply();
     };
     async createEvents(){
-        this.events.forEach(e => e.destroy());
-        this.events.length = 0;
         const events = Array.from(this.drawInfo.events)
             .sort((e1,e2)=>e1.date.getTime()-e2.date.getTime())
         ;
         const dateLength = this.runtime.endDate.getTime() - this.runtime.startDate.getTime();
         for(let data of events){
-            const event = new Event(this);
+            //@ts-ignore
+            const event = new this.EventConstructor(this);
             event.drawInfo.target = {
                 x: this.axis.body.drawInfo.box.x + this.axis.body.drawInfo.box.width/2,
                 y: (this.runtime.endDate.getTime() - data.date.getTime()) / dateLength, // recomputed in PositionCounter
@@ -196,8 +196,6 @@ export default class Timeline extends Component{
 
             }
             await event.apply();
-            event.drawInfo.offset.x -= event.body.drawInfo.box.width;
-            await event.apply();
             this.events.push(event);
         }
 
@@ -205,5 +203,19 @@ export default class Timeline extends Component{
 
     static is(comp:Component) :comp is Timeline{
         return comp.name === SN.Timeline;
+    }
+
+    static defaultGrid:GridConfig = {
+        eventOffset: {x:20, y:0},
+        minEventAxisOffset: 25,
+        markWidth: 15,
+        scaleHeight: 5,
+        axisWidth: 12,
+        axisStart: {
+            x: 400,
+            y: 10,
+        },
+        eventWidth: 350,
+        canvasWidth: 700,
     }
 };

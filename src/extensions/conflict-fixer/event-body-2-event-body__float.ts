@@ -31,8 +31,8 @@ export default class EventBody2EventBody__float {
         // ;
     };
     async float(conflicts:Conflict){
-        const maxWidthInConflict = Math.max(...conflicts.with.map(c => c.drawInfo.box.width));
-        conflicts.self.drawInfo.box.x -= maxWidthInConflict +1;
+        const maxWidthInConflict = Math.max(...conflicts.with.map(c => c.drawInfo.box.width+c.drawInfo.offset.x));
+        conflicts.self.drawInfo.offset.x = maxWidthInConflict +1;
         conflicts.self.drawInfo.maxWidth = Math.min(
             this.timeline!.grid.eventWidth,
             this.axis!.drawInfo.box.x - maxWidthInConflict
@@ -46,7 +46,7 @@ export default class EventBody2EventBody__float {
         this.timeline = this.ext.components[SN.Timeline][0];
         this.axis = this.ext.components[SN.Axis][0];
         this.eventBodyList = Array.from(this.ext.components[SN.EventBody])
-            .sort((eb1,eb2)=>eb1.drawInfo.target.y - eb2.drawInfo.target.y)
+            .sort((eb1,eb2)=>eb1.drawInfo.markDrawInfo.target.y - eb2.drawInfo.markDrawInfo.target.y)
         ;
 
         this.countConflict();

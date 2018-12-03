@@ -33,7 +33,7 @@ export default class EventAxis2EventAxis {
                         Breakpoint.FixEventAxis2EventAxis,
                         { components: showedComponents },
                     );
-                    ea1.drawInfo.offset += 15;//TODO: configurable
+                    ea1.drawInfo.offsetX += 15;//TODO: configurable
                     await ea1.apply();
                     await this.ext.breakpoint.block(
                         Breakpoint.FixEventAxis2EventAxis,
@@ -49,16 +49,16 @@ export default class EventAxis2EventAxis {
     static isConflict (ea1:EventAxis, ea2:EventAxis) :boolean{
         if(ea1 === ea2) return false;
         const line1:Line = {
-            startX: ea1.drawInfo.start.x + ea1.drawInfo.offset,
-            startY: ea1.drawInfo.start.y,
-            endX: ea1.drawInfo.start.x + ea1.drawInfo.offset,
-            endY: ea1.drawInfo.start.y - ea1.drawInfo.length,
+            startX: ea1.drawInfo.markDrawInfo.target.x + ea1.drawInfo.offsetX,
+            startY: ea1.drawInfo.markDrawInfo.target.y,
+            endX: ea1.drawInfo.markDrawInfo.target.x + ea1.drawInfo.offsetX,
+            endY: ea1.drawInfo.markDrawInfo.target.y - ea1.drawInfo.length,
         };
         const line2:Line = {
-            startX: ea2.drawInfo.start.x + ea2.drawInfo.offset,
-            startY: ea2.drawInfo.start.y,
-            endX: ea2.drawInfo.start.x + ea2.drawInfo.offset,
-            endY: ea2.drawInfo.start.y - ea2.drawInfo.length,
+            startX: ea2.drawInfo.markDrawInfo.target.x + ea2.drawInfo.offsetX,
+            startY: ea2.drawInfo.markDrawInfo.target.y,
+            endX: ea2.drawInfo.markDrawInfo.target.x + ea2.drawInfo.offsetX,
+            endY: ea2.drawInfo.markDrawInfo.target.y - ea2.drawInfo.length,
         };
         return isIntersecting(line1,line2);
     }

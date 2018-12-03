@@ -6,6 +6,7 @@ import {mergeBox} from "@engine/common/functions";
 import {Breakpoint} from "@/extensions/breakpoint-animation";
 import {SN} from "@engine/common/config";
 import Timeline from "@engine/timeline";
+import AxisScale from "@engine/axis/scale";
 
 interface PushConfig{
     critical: number;
@@ -29,7 +30,7 @@ export default class PositionCounter implements Partial<Extension> {
 
         // Milestone cannot occupy the space of Axis
         axis.extraData.realLength =
-            axis.drawInfo.bodyBox.height
+            axis.drawInfo.length
             - axis.milestones.reduce( // Reserved space for Milestone
                 (h:number, m: AxisMilestone) =>h + m.drawInfo.box.height,
                 0,
@@ -37,20 +38,10 @@ export default class PositionCounter implements Partial<Extension> {
         ;
 
         // Set real Y in milestones and scales
-        axis.milestones.forEach(m=>m.drawInfo.box.y*=axis.extraData.realLength!);
-        axis.scales.forEach(s=>s.drawInfo.box.y*=axis.extraData.realLength!);
+        axis.milestones.forEach(m => m.drawInfo.alignY *=axis.extraData.realLength!);
+        axis.scales.forEach(s => s.drawInfo.alignY *=axis.extraData.realLength!);
 
-        // align center
-        axis.scales.forEach(scale=>{
-            scale.drawInfo.box.y -= scale.drawInfo.box.height/2 - axis.drawInfo.bodyBox.y;
-            scale.drawInfo.box.x -= (scale.drawInfo.box.width - axis.drawInfo.bodyBox.width) / 2;
-            scale.apply();
-        });
-        axis.milestones.forEach(milestone=>{
-            milestone.drawInfo.box.y += axis.drawInfo.bodyBox.y;
-            milestone.drawInfo.box.x -= (milestone.drawInfo.box.width - axis.drawInfo.bodyBox.width) / 2;
-            milestone.apply();
-        });
+        await Promise.all([...axis.milestones, ...axis.scales].map(c => c.apply()));
 
         // Set Push-config
         axis.milestones.forEach(milestone => this.addPushConfig({
@@ -65,11 +56,14 @@ export default class PositionCounter implements Partial<Extension> {
             components: childComponents,
         });
 
-        const pushTarget = [...axis.milestones, ...axis.scales].sort(function (comp1:Component, comp2:Component) {
-            return comp1.drawInfo.box.y - comp2.drawInfo.box.y;
-        });
+        const pushTarget :(AxisMilestone|AxisScale)[] =
+            [...axis.milestones, ...axis.scales]
+            .sort(function (comp1, comp2) {
+                return comp1.drawInfo.alignY - comp2.drawInfo.alignY;
+            })
+        ;
         for(let comp of pushTarget){
-            const distance = this.countCritical(comp.drawInfo.box.y);
+            const distance = this.countCritical(comp.drawInfo.alignY);
             if(distance === 0) continue;
 
             if(comp.name === SN.AxisMilestone){
@@ -79,7 +73,7 @@ export default class PositionCounter implements Partial<Extension> {
                 });
             }
 
-            comp.drawInfo.box.y += distance;
+            comp.drawInfo.alignY += distance;
         }
 
         await Promise.all(pushTarget.map(comp => comp.apply()));

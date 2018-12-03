@@ -16,11 +16,17 @@ export default class EventBody2EventBody__move {
     eventBodyList:EventBody[] = [];
     spaceMap = new Map as Map<EventBody, {top:number, bottom:number}>;
 
-    static async avoid({mover, fixed, direction}:{mover:Component, fixed:Component, direction:1|-1}){
+    static async avoid({mover, fixed, direction}:{mover:EventBody, fixed:EventBody, direction:1|-1}){
         if(direction > 0){
-            mover.drawInfo.box.y = fixed.drawInfo.box.y + fixed.drawInfo.box.height +1;
+            mover.drawInfo.offset.y +=
+                (fixed.drawInfo.box.y + fixed.drawInfo.box.height)
+                - mover.drawInfo.box.y
+                +1;
         }else{
-            mover.drawInfo.box.y = fixed.drawInfo.box.y - mover.drawInfo.box.height - 1;
+            mover.drawInfo.offset.y -=
+                (mover.drawInfo.box.y + mover.drawInfo.box.height)
+                - fixed.drawInfo.box.y
+                +1;
         }
         await mover.apply();
     };
@@ -31,9 +37,9 @@ export default class EventBody2EventBody__move {
             const floated = (eb1.drawInfo.floated ? eb1 : eb2) as EventBody;
             const another =  (eb1 === floated ? eb2 : eb1) as EventBody;
 
-            if(
-                (floated.drawInfo.target.y > another.drawInfo.box.y)
-                && floated.drawInfo.target.y < (another.drawInfo.box.y + another.drawInfo.box.height)
+            if( // floated's line overlapped with another's body
+                (floated.drawInfo.markDrawInfo.target.y > another.drawInfo.box.y)
+                && floated.drawInfo.markDrawInfo.target.y < (another.drawInfo.box.y + another.drawInfo.box.height)
             ) return true;
 
         }
@@ -43,7 +49,7 @@ export default class EventBody2EventBody__move {
 
     public async fix() :Promise<FixResult> {
         this.eventBodyList = Array.from(this.ext.components[SN.EventBody])
-            .sort((eb1,eb2)=>eb1.drawInfo.target.y - eb2.drawInfo.target.y)
+            .sort((eb1,eb2)=>eb1.drawInfo.markDrawInfo.target.y - eb2.drawInfo.markDrawInfo.target.y)
         ;
 
         return await walkLoop(async ()=>[
@@ -56,7 +62,7 @@ export default class EventBody2EventBody__move {
      * @return {boolean} have fixed one of conflicts?
      * */
     private async tryFixOne() :Promise<FixResult>{
-        this.countConflict();
+        await this.countConflict();
         this.countSpace();
 
         if(this.conflicts.length === 0) return FixResult.NoConflict;
@@ -111,7 +117,7 @@ export default class EventBody2EventBody__move {
         const direction = moveDistance/Math.abs(moveDistance) as (1 | -1);
 
         // fix conflict
-        conflict.self.drawInfo.box.y += moveDistance;
+        conflict.self.drawInfo.offset.y += moveDistance;
         await conflict.self.apply();
 
         // and fix side-effect
@@ -136,8 +142,10 @@ export default class EventBody2EventBody__move {
 
     };
 
-    private countConflict(){
+    private async countConflict(){
         this.conflicts.length = 0;
+
+        await Promise.all(this.eventBodyList.map(eb => eb.apply()));
 
         for(let eb of this.eventBodyList){
             const conflict = {
@@ -162,8 +170,8 @@ export default class EventBody2EventBody__move {
             top: 0,
             bottom: 0,
         };
-        const above:EventBody[] = conflict.with.filter(cb => cb.drawInfo.target.y < origin.drawInfo.target.y);
-        const below:EventBody[] = conflict.with.filter(cb => cb.drawInfo.target.y > origin.drawInfo.target.y);
+        const above:EventBody[] = conflict.with.filter(cb => cb.drawInfo.markDrawInfo.target.y < origin.drawInfo.markDrawInfo.target.y);
+        const below:EventBody[] = conflict.with.filter(cb => cb.drawInfo.markDrawInfo.target.y > origin.drawInfo.markDrawInfo.target.y);
 
         if(above.length){
             result.top = Math.max(
@@ -171,9 +179,9 @@ export default class EventBody2EventBody__move {
                     if(upper.drawInfo.floated === origin.drawInfo.floated)
                         return upper.drawInfo.box.y + upper.drawInfo.box.height - origin.drawInfo.box.y;
                     else if (origin.drawInfo.floated)
-                        return (upper.drawInfo.box.y + upper.drawInfo.box.height) - origin.drawInfo.target.y;
+                        return (upper.drawInfo.box.y + upper.drawInfo.box.height) - origin.drawInfo.markDrawInfo.target.y;
                     else if (upper.drawInfo.floated)
-                        return upper.drawInfo.target.y - origin.drawInfo.box.y;
+                        return upper.drawInfo.markDrawInfo.target.y - origin.drawInfo.box.y;
                     else throw SyntaxError('floated is not a boolean');
                 })
             );
@@ -184,9 +192,9 @@ export default class EventBody2EventBody__move {
                     if(lower.drawInfo.floated === origin.drawInfo.floated)
                         return origin.drawInfo.box.y + origin.drawInfo.box.height - lower.drawInfo.box.y;
                     else if (origin.drawInfo.floated)
-                        return origin.drawInfo.target.y - lower.drawInfo.box.y;
+                        return origin.drawInfo.markDrawInfo.target.y - lower.drawInfo.box.y;
                     else if (lower.drawInfo.floated)
-                        return (origin.drawInfo.box.y + origin.drawInfo.box.height) - lower.drawInfo.target.y;
+                        return (origin.drawInfo.box.y + origin.drawInfo.box.height) - lower.drawInfo.markDrawInfo.target.y;
                     else throw SyntaxError('floated is not a boolean');
                 })
             );
@@ -209,8 +217,8 @@ export default class EventBody2EventBody__move {
         // Itself's can move space
         this.eventBodyList.forEach(
             eb => this.spaceMap.set(eb, {
-                top: eb.drawInfo.target.y - eb.drawInfo.box.y - spacePadding,
-                bottom: eb.drawInfo.box.y + eb.drawInfo.box.height - eb.drawInfo.target.y - spacePadding,
+                top: eb.drawInfo.markDrawInfo.target.y - eb.drawInfo.box.y - spacePadding,
+                bottom: eb.drawInfo.box.y + eb.drawInfo.box.height - eb.drawInfo.markDrawInfo.target.y - spacePadding,
             })
         );
 

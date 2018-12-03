@@ -3,8 +3,11 @@ import {ComponentDrawInfo} from "@engine/types";
 import EventMark from "@engine/event/mark";
 import EventBody from "@engine/event/body";
 import EventAxis from "@engine/event/axis";
-import {mergeBox} from "@engine/common/functions";
+import {deepFreeze, mergeBox} from "@engine/common/functions";
 import {SN} from "@engine/common/config";
+import AxisMilestone from "@engine/axis/milestone";
+import AxisScale from "@engine/axis/scale";
+import AxisBody from "@engine/axis/body";
 
 export interface DrawInfo extends ComponentDrawInfo{
     target: {
@@ -29,7 +32,7 @@ export interface DrawInfo extends ComponentDrawInfo{
     axisOffset?: number;
 }
 
-export default class Event extends Component{
+export default abstract class Event extends Component{
     name = SN.Event;
 
     drawInfo:DrawInfo = {
@@ -37,10 +40,7 @@ export default class Event extends Component{
             x: 30,
             y: 50,
         },
-        offset: {
-            x: -20,
-            y: -30,
-        },
+        offset: this.grid.eventOffset,
         bodyWidth: 300,
 
         date: null as any,
@@ -57,37 +57,43 @@ export default class Event extends Component{
         },
     };
 
-    mark = new EventMark(this);
-    body = new EventBody(this);
+    abstract BodyConstructor :typeof EventBody;
+    abstract AxisConstructor :typeof EventAxis;
+    abstract MarkConstructor :typeof EventMark;
+    mark:EventMark = null as any;
+    body:EventBody = null as any;
     axis:EventAxis|null = null;
 
     async apply(){
-
-        this.mark.drawInfo.box.x = this.drawInfo.target.x - this.mark.drawInfo.box.width/2;
-        this.mark.drawInfo.box.y = this.drawInfo.target.y - this.mark.drawInfo.box.height/2;
+        //@ts-ignore
+        if(!this.mark) this.mark = new this.MarkConstructor(this);
+        this.mark.drawInfo.target = this.drawInfo.target;
+        this.mark.drawInfo.width = this.grid.markWidth;
+        this.mark.drawInfo.height = this.grid.markHeight;
         await this.mark.apply();
 
-        this.body.drawInfo.target.x = this.drawInfo.target.x;
-        this.body.drawInfo.target.y = this.drawInfo.target.y;
-        this.body.drawInfo.box.x = this.drawInfo.target.x + this.drawInfo.offset.x;
-        this.body.drawInfo.box.y = this.drawInfo.target.y + this.drawInfo.offset.y;
-        this.body.drawInfo.maxWidth = this.drawInfo.bodyWidth;
+        //@ts-ignore
+        if(!this.body) this.body = new this.BodyConstructor(this);
+        this.body.drawInfo.markDrawInfo = deepFreeze(this.mark.drawInfo);
+        this.body.drawInfo.maxWidth = this.grid.eventWidth;
         this.body.drawInfo.date = this.drawInfo.date;
         this.body.drawInfo.title = this.drawInfo.title;
         this.body.drawInfo.contentText = this.drawInfo.contentText;
         this.body.drawInfo.folded = this.drawInfo.folded;
         this.body.drawInfo.foldedText = this.drawInfo.foldedText;
+        this.body.drawInfo.offset =  Object.assign({},this.drawInfo.offset);
         await this.body.apply();
 
         if(this.drawInfo.axisLength){
-            if(!this.axis) this.axis = new EventAxis(this);
-            this.axis.drawInfo.start = this.drawInfo.target;
-            this.axis.drawInfo.length = this.drawInfo.axisLength;
-            this.axis.drawInfo.text = this.drawInfo.axisText;
-            if(typeof this.drawInfo.axisOffset !== 'undefined'){
-                this.axis.drawInfo.offset = this.drawInfo.axisOffset;
-            }
-            await this.axis.apply();
+            //@ts-ignore
+            const axis = this.axis || new this.AxisConstructor(this);
+            axis.drawInfo.axisBodyDrawInfo = deepFreeze(this.ext.components[SN.Axis][0].drawInfo);
+            axis.drawInfo.markDrawInfo = deepFreeze(this.mark.drawInfo);
+            axis.drawInfo.offsetX = this.grid.minEventAxisOffset;
+            axis.drawInfo.length = this.drawInfo.axisLength;
+            axis.drawInfo.text = this.drawInfo.axisText;
+            await axis.apply();
+            this.axis = axis;
         }else if(this.axis){
             this.axis.destroy();
             this.axis = null;

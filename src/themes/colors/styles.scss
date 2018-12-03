@@ -1,14 +1,8 @@
 .short-night{
-    position:relative;
-    box-sizing: border-box;
-    *{
-        margin: 0;
-        padding: 0;
-        box-sizing: inherit;
-    }
+    $black: #333;
     .axis-milestone{
-        font-family: sans-serif;
-        position: absolute;
+        font-size: 18px;
+        color: $black;
         padding: 5px 10px;
     }
     .event-body{

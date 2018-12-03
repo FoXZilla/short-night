@@ -1,4 +1,4 @@
-import {DateBy, GridConfig} from "@engine/types";
+import {DateBy} from "@engine/types";
 
 export const DEBUG = true;
 
@@ -13,17 +13,6 @@ export enum SN{
     EventMark = 'event_mark',
     EventAxis = 'event_axis',
 }
-
-export const GRID :{ [canvasWidth:number]:GridConfig } = {
-    700: {
-        axisAlign: {
-            x: 550,
-            y: 10,
-        },
-        eventWidth: 350,
-        canvasWidth: 700,
-    },
-};
 
 export const DATE_COUNT_EXTRA = {
     [DateBy.Day]:       1000*60*60*24 / 2,

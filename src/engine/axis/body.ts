@@ -1,34 +1,33 @@
-import {ComponentDrawInfo} from "@engine/types";
+import {Box, ComponentDrawInfo} from "@engine/types";
 import Component from "@engine/common/component";
 import {SN} from "@engine/common/config";
 
-export interface DrawInfo extends ComponentDrawInfo{}
+export interface DrawInfo extends ComponentDrawInfo{
+    box: Readonly<Box>;
+    length :number;
+}
 
-export default class AxisBody extends Component{
+export default abstract class AxisBody extends Component{
     name = SN.AxisBody;
 
     drawInfo: DrawInfo = {
         box: {
             x: 0,
             y: 0,
-            width: 10,
-            height: 1200,
+            width: 0,
+            height: 0,
         },
+        length: 0,
     };
 
-    draw(){
-        const box = this.drawInfo.box;
-        const ctx = this.canvas.getContext('2d')!;
-
-        ctx.fillStyle='#000';
-        ctx.fillRect(
-            box.x,
-            box.y,
-            box.width,
-            box.height,
-        );
-
-        return super.draw();
+    async apply(){
+        this.drawInfo.box = {
+            x: this.grid.axisStart.x - this.grid.axisWidth/2,
+            y: this.grid.axisStart.y,
+            width: this.grid.axisWidth,
+            height: this.drawInfo.length,
+        };
+        return super.apply();
     };
 
     static is(comp:Component) :comp is AxisBody{
