@@ -12,6 +12,24 @@ module.exports = {
     },
     module: {
         rules: [
+            {
+                test: /\.js$/,
+                use: {
+                    loader: 'eslint-loader',
+                    options: {
+                        emitWarning: true,
+                    }
+                },
+            }, {
+                test: /\.ts$/,
+                enforce: 'pre',
+                use: {
+                    loader: 'tslint-loader',
+                    options: {
+                        configuration: require('./tslint'),
+                    },
+                },
+            },
             { test: /\.ts$/, use: 'ts-loader' },
             { test: /\.scss$/, use: ["style-loader","css-loader","sass-loader"] },
         ],

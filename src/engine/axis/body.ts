@@ -1,6 +1,6 @@
-import {Box, ComponentDrawInfo} from "@engine/types";
-import Component from "@engine/common/component";
-import {SN} from "@engine/common/config";
+import {Box, ComponentDrawInfo} from '@engine/types';
+import Component from '@engine/common/component';
+import {SN} from '@engine/common/config';
 
 export interface DrawInfo extends ComponentDrawInfo{
     box: Readonly<Box>;
@@ -20,17 +20,17 @@ export default abstract class AxisBody extends Component{
         length: 0,
     };
 
-    async apply(){
+    async apply() {
         this.drawInfo.box = {
-            x: this.grid.axisStart.x - this.grid.axisWidth/2,
+            x: this.grid.axisStart.x - this.grid.axisWidth / 2,
             y: this.grid.axisStart.y,
             width: this.grid.axisWidth,
             height: this.drawInfo.length,
         };
         return super.apply();
-    };
+    }
 
-    static is(comp:Component) :comp is AxisBody{
+    static is(comp:Component) :comp is AxisBody {
         return comp.name === SN.AxisBody;
     }
-};
+}

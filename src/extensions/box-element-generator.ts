@@ -1,12 +1,12 @@
-import {Extension, ExtensionManager} from "@/extensions/index";
-import Component from "@engine/common/component";
+import {Extension, ExtensionManager} from '@/extensions/index';
+import Component from '@engine/common/component';
 
 /**
  * Create element following comp.drawInfo.box
  * @depend GeneratorId
  * */
 export default class BoxElementGenerator implements Partial<Extension>{
-    constructor(public etx:ExtensionManager){}
+    constructor(public etx:ExtensionManager) {}
     /**
      * Create a element append to container.
      * The element size equal component.drawInfo.box
@@ -19,17 +19,17 @@ export default class BoxElementGenerator implements Partial<Extension>{
             comp.extraData.boxElement = elt;
         }
 
-        for (let [key, value] of Object.entries(comp.drawInfo)) {
+        for (const [key, value] of Object.entries(comp.drawInfo)) {
             if (typeof value === 'undefined') continue;
             elt.dataset[key] = JSON.stringify(value);
         }
 
-        Object.assign(elt.style,{
+        Object.assign(elt.style, {
             position: 'absolute',
-            left: comp.drawInfo.box.x + 'px',
-            top: comp.drawInfo.box.y + 'px',
-            width: comp.drawInfo.box.width + 'px',
-            height: comp.drawInfo.box.height + 'px',
+            left: `${comp.drawInfo.box.x}px`,
+            top: `${comp.drawInfo.box.y}px`,
+            width: `${comp.drawInfo.box.width}px`,
+            height: `${comp.drawInfo.box.height}px`,
             zIndex: 9999999 - ~~(comp.drawInfo.box.width * comp.drawInfo.box.height),
         });
 
@@ -41,7 +41,7 @@ export default class BoxElementGenerator implements Partial<Extension>{
     onDestroy(comp:Component) {
         const elt :HTMLElement|undefined = comp.extraData.boxElement;
 
-        if(elt && elt.parentNode){
+        if (elt && elt.parentNode) {
             elt.parentNode.removeChild(elt);
         }
     }

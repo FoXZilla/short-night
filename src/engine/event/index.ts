@@ -1,13 +1,13 @@
-import Component from "@engine/common/component";
-import {ComponentDrawInfo} from "@engine/types";
-import EventMark from "@engine/event/mark";
-import EventBody from "@engine/event/body";
-import EventAxis from "@engine/event/axis";
-import {deepFreeze, mergeBox} from "@engine/common/functions";
-import {SN} from "@engine/common/config";
-import AxisMilestone from "@engine/axis/milestone";
-import AxisScale from "@engine/axis/scale";
-import AxisBody from "@engine/axis/body";
+import Component from '@engine/common/component';
+import {ComponentDrawInfo} from '@engine/types';
+import EventMark from '@engine/event/mark';
+import EventBody from '@engine/event/body';
+import EventAxis from '@engine/event/axis';
+import {deepFreeze, mergeBox} from '@engine/common/functions';
+import {SN} from '@engine/common/config';
+import AxisMilestone from '@engine/axis/milestone';
+import AxisScale from '@engine/axis/scale';
+import AxisBody from '@engine/axis/body';
 
 export interface DrawInfo extends ComponentDrawInfo{
     target: {
@@ -18,9 +18,9 @@ export interface DrawInfo extends ComponentDrawInfo{
         x: number,
         y: number,
     };
-    bodyWidth: number,
+    bodyWidth: number;
 
-    date: Date,
+    date: Date;
     title: string;
     contentText?: string;
 
@@ -64,16 +64,16 @@ export default abstract class Event extends Component{
     body:EventBody = null as any;
     axis:EventAxis|null = null;
 
-    async apply(){
-        //@ts-ignore
-        if(!this.mark) this.mark = new this.MarkConstructor(this);
+    async apply() {
+        // @ts-ignore
+        if (!this.mark) this.mark = new this.MarkConstructor(this);
         this.mark.drawInfo.target = this.drawInfo.target;
         this.mark.drawInfo.width = this.grid.markWidth;
         this.mark.drawInfo.height = this.grid.markHeight;
         await this.mark.apply();
 
-        //@ts-ignore
-        if(!this.body) this.body = new this.BodyConstructor(this);
+        // @ts-ignore
+        if (!this.body) this.body = new this.BodyConstructor(this);
         this.body.drawInfo.markDrawInfo = deepFreeze(this.mark.drawInfo);
         this.body.drawInfo.maxWidth = this.grid.eventWidth;
         this.body.drawInfo.date = this.drawInfo.date;
@@ -81,11 +81,11 @@ export default abstract class Event extends Component{
         this.body.drawInfo.contentText = this.drawInfo.contentText;
         this.body.drawInfo.folded = this.drawInfo.folded;
         this.body.drawInfo.foldedText = this.drawInfo.foldedText;
-        this.body.drawInfo.offset =  Object.assign({},this.drawInfo.offset);
+        this.body.drawInfo.offset =  Object.assign({}, this.drawInfo.offset);
         await this.body.apply();
 
-        if(this.drawInfo.axisLength){
-            //@ts-ignore
+        if (this.drawInfo.axisLength) {
+            // @ts-ignore
             const axis = this.axis || new this.AxisConstructor(this);
             axis.drawInfo.axisBodyDrawInfo = deepFreeze(this.ext.components[SN.Axis][0].drawInfo);
             axis.drawInfo.markDrawInfo = deepFreeze(this.mark.drawInfo);
@@ -94,7 +94,7 @@ export default abstract class Event extends Component{
             axis.drawInfo.text = this.drawInfo.axisText;
             await axis.apply();
             this.axis = axis;
-        }else if(this.axis){
+        }else if (this.axis) {
             this.axis.destroy();
             this.axis = null;
         }
@@ -103,7 +103,7 @@ export default abstract class Event extends Component{
             this.body.drawInfo.box,
             this.mark.drawInfo.box,
         );
-        if(this.axis){
+        if (this.axis) {
             this.drawInfo.box = mergeBox(
                 this.drawInfo.box,
                 this.axis.drawInfo.box,
@@ -111,34 +111,34 @@ export default abstract class Event extends Component{
         }
 
         return super.apply();
-    };
+    }
 
-    destroy(){
+    destroy() {
         this.mark.destroy();
         this.body.destroy();
         this.axis && this.axis.destroy();
 
         return super.destroy();
-    };
+    }
 
-    hide(){
+    hide() {
         this.mark.hide();
         this.body.hide();
         this.axis && this.axis.hide();
 
         return super.hide();
-    };
+    }
 
-    draw(){
+    draw() {
         this.body.draw();
         this.axis && this.axis.draw();
         this.mark.draw();
 
         return super.draw();
-    };
+    }
 
-    static is(comp:Component) :comp is Event{
+    static is(comp:Component) :comp is Event {
         return comp.name === SN.Event;
     }
 
-};
+}

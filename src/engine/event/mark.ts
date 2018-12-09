@@ -1,13 +1,13 @@
-import Component from "@engine/common/component";
-import {ComponentDrawInfo, Coordinate} from "@engine/types";
-import {SN} from "@engine/common/config";
-import Axis from "@engine/axis";
+import Component from '@engine/common/component';
+import {ComponentDrawInfo, Coordinate} from '@engine/types';
+import {SN} from '@engine/common/config';
+import Axis from '@engine/axis';
 
 export interface DrawInfo extends ComponentDrawInfo{
     axisBodyDrawInfo: Readonly<Axis['drawInfo']>;
     target: Coordinate;
-    width: number,
-    height?: number,
+    width: number;
+    height?: number;
 }
 
 export default abstract class EventMark extends Component{
@@ -28,19 +28,19 @@ export default abstract class EventMark extends Component{
         width: 0,
     };
 
-    async apply(){
+    async apply() {
         const width = this.drawInfo.width;
         const height = this.drawInfo.height || width;
         this.drawInfo.box = {
-            x: this.drawInfo.target.x - width/2,
-            y: this.drawInfo.target.y - height/2,
+            x: this.drawInfo.target.x - width / 2,
+            y: this.drawInfo.target.y - height / 2,
             width,
             height,
         };
         return super.apply();
     }
 
-    static is(comp:Component) :comp is EventMark{
+    static is(comp:Component) :comp is EventMark {
         return comp.name === SN.EventMark;
     }
-};
+}

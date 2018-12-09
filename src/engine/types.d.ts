@@ -1,4 +1,4 @@
-import Event from "@engine/event";
+import Event from '@engine/event';
 
 export const enum ConstLevel{
     No = 0,
@@ -19,12 +19,12 @@ export interface ComponentDrawInfo{
 }
 
 export interface Coordinate{
-    x: number,
-    y: number,
+    x: number;
+    y: number;
 }
 export interface Box extends Coordinate{
-    width: number,
-    height: number,
+    width: number;
+    height: number;
 }
 export interface Line{
     startX: number;

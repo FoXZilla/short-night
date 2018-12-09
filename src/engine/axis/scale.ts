@@ -1,6 +1,6 @@
-import {Box, ComponentDrawInfo, Coordinate} from "@engine/types";
-import Component from "@engine/common/component";
-import {SN} from "@engine/common/config";
+import {Box, ComponentDrawInfo, Coordinate} from '@engine/types';
+import Component from '@engine/common/component';
+import {SN} from '@engine/common/config';
 import {DrawInfo as AxisBodyDrawInfo} from '@engine/axis/body';
 
 export interface DrawInfo extends ComponentDrawInfo{
@@ -26,17 +26,17 @@ export default abstract class AxisScale extends Component{
         },
     };
 
-    async apply(){
+    async apply() {
         this.drawInfo.box = {
             x: this.drawInfo.bodyDrawInfo.box.x,
-            y: this.drawInfo.alignY - this.drawInfo.height /2,
+            y: this.drawInfo.alignY - this.drawInfo.height / 2,
             height: this.drawInfo.height,
             width: this.drawInfo.bodyDrawInfo.box.width,
         };
         return super.apply();
     }
 
-    static is(comp:Component) :comp is AxisScale{
+    static is(comp:Component) :comp is AxisScale {
         return comp.name === SN.AxisScale;
     }
-};
+}

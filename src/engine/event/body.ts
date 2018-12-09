@@ -1,8 +1,8 @@
-import {ConstLevel, ComponentDrawInfo, Coordinate, Box} from "@engine/types";
-import {countBox, deepAssign} from "@engine/common/functions";
-import Component from "@engine/common/component";
-import {SN} from "@engine/common/config";
-import EventMark from "@engine/event/mark";
+import {ConstLevel, ComponentDrawInfo, Coordinate, Box} from '@engine/types';
+import {countBox, deepAssign} from '@engine/common/functions';
+import Component from '@engine/common/component';
+import {SN} from '@engine/common/config';
+import EventMark from '@engine/event/mark';
 
 export interface DrawInfo extends ComponentDrawInfo{
     markDrawInfo: EventMark['drawInfo'];
@@ -47,26 +47,26 @@ export default abstract class EventBody extends Component{
         },
     };
 
-    resetElement(){
-        if(this.drawInfo.folded){ // TODO: reconstruct here
+    resetElement() {
+        if (this.drawInfo.folded) { // TODO: reconstruct here
             this.element.innerHTML = `
                 <h4 class="foldedText">${this.drawInfo.foldedText || this.drawInfo.title}</h4>
                 <h5 class="date">${this.drawInfo.date.toDateString()}</h5>
             `;
-        }else{
+        }else {
             this.element.innerHTML = `
                 <h4 class="title">${this.drawInfo.title}</h4>
                 <h5 class="date">${this.drawInfo.date.toDateString()}</h5>
-                ${this.drawInfo.contentText ?`<p>${this.drawInfo.contentText}</p>` :''}
+                ${this.drawInfo.contentText ? `<p>${this.drawInfo.contentText}</p>` :''}
             `;
         }
 
-        if(this.drawInfo.folded){
+        if (this.drawInfo.folded) {
             this.element.classList.add('folded');
-        }else{
+        }else {
             this.element.classList.remove('folded');
         }
-        
+
         Object.assign(
             this.element.style,
             {
@@ -79,7 +79,7 @@ export default abstract class EventBody extends Component{
             },
         );
     }
-    syncBox(){
+    syncBox() {
         const eltBox = countBox(this.element);
         const box:Box = {
             width: eltBox.width,
@@ -87,7 +87,7 @@ export default abstract class EventBody extends Component{
             ...this.drawInfo.markDrawInfo.target,
         };
         box.x -= box.width;
-        box.y -= box.height/2;
+        box.y -= box.height / 2;
 
         box.x -= this.drawInfo.offset.x;
         box.y += this.drawInfo.offset.y;
@@ -103,27 +103,26 @@ export default abstract class EventBody extends Component{
         );
         this.drawInfo.box = box;
 
-
     }
-    async apply(){
-        if(!this.element) {
+    async apply() {
+        if (!this.element) {
             this.element = EventBody.createElement();
             this.container.appendChild(this.element);
         }
         this.resetElement();
         this.syncBox();
-        
+
         return super.apply();
-    };
-    
-    static createElement(){
+    }
+
+    static createElement() {
         const elt = document.createElement('div');
         elt.className = 'event-body';
         elt.style.visibility = 'hidden';
         return elt;
     }
 
-    static is(comp:Component) :comp is EventBody{
+    static is(comp:Component) :comp is EventBody {
         return comp.name === SN.EventBody;
     }
-};
+}

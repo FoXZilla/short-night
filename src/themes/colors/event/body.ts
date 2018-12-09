@@ -1,25 +1,25 @@
 import * as Engine from '@engine';
-import {RoughCanvas} from "roughjs/bin/canvas";
-import {ConstructorInfo} from "@/themes/colors/timeline";
-import {shrinkBox} from "@engine/common/functions";
+import {RoughCanvas} from 'roughjs/bin/canvas';
+import {ConstructorInfo} from '@/themes/colors/timeline';
+import {shrinkBox} from '@engine/common/functions';
 
 export default class EventBody extends Engine.EventBody {
     theme = 'colors';
 
     roughCanvas:RoughCanvas;
-    constructor(info:ConstructorInfo){
+    constructor(info:ConstructorInfo) {
         super(info);
         this.roughCanvas = info.roughCanvas;
     }
 
-    draw(){
+    draw() {
         const strokeWidth = 1.5;
         const box = shrinkBox(this.drawInfo.box, strokeWidth);
         const options = {
             stroke: this.ext.getParent(this).extraData.mainColor,
             strokeWidth,
 
-            fill: "#fff",
+            fill: '#fff',
             fillWeight: 0.5,
             fillStyle: 'solid',
 

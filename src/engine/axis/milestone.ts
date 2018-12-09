@@ -1,8 +1,8 @@
-import {Box, ComponentDrawInfo} from "@engine/types";
-import {countBox} from "@engine/common/functions";
-import Component from "@engine/common/component";
-import {SN} from "@engine/common/config";
-import {DrawInfo as AxisBodyDrawInfo} from "@engine/axis/body";
+import {Box, ComponentDrawInfo} from '@engine/types';
+import {countBox} from '@engine/common/functions';
+import Component from '@engine/common/component';
+import {SN} from '@engine/common/config';
+import {DrawInfo as AxisBodyDrawInfo} from '@engine/axis/body';
 
 export interface DrawInfo extends ComponentDrawInfo{
     box: Readonly<Box>;
@@ -27,8 +27,8 @@ export default abstract class AxisMilestone extends Component{
         },
     };
 
-    apply(){
-        if(!this.element) {
+    apply() {
+        if (!this.element) {
             this.element = AxisMilestone.createElement();
             this.container.appendChild(this.element);
         }
@@ -37,10 +37,10 @@ export default abstract class AxisMilestone extends Component{
 
         const {width, height} = countBox(this.element);
         const x = this.drawInfo.bodyDrawInfo.box.x
-            + this.drawInfo.bodyDrawInfo.box.width/2
-            - width/2
+            + this.drawInfo.bodyDrawInfo.box.width / 2
+            - width / 2
         ;
-        const y = this.drawInfo.alignY - height/2;
+        const y = this.drawInfo.alignY - height / 2;
 
         Object.assign(
             this.element.style,
@@ -54,16 +54,16 @@ export default abstract class AxisMilestone extends Component{
         this.drawInfo.box = countBox(this.element);
 
         return super.apply();
-    };
+    }
 
-    static createElement(){
+    static createElement() {
         const elt = document.createElement('div');
         elt.className = 'axis-milestone';
         elt.style.visibility = 'hidden';
         return elt;
     }
 
-    static is(comp:Component) :comp is AxisMilestone{
+    static is(comp:Component) :comp is AxisMilestone {
         return comp.name === SN.AxisMilestone;
     }
-};
+}

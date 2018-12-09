@@ -1,22 +1,21 @@
-import {ComponentDrawInfo} from "@engine/types";
-import {countBox ,mergeBox} from "@engine/common/functions";
-import Component from "@engine/common/component";
-import {SN} from "@engine/common/config";
-import Axis from "@engine/axis";
-import EventMark from "@engine/event/mark";
+import {ComponentDrawInfo} from '@engine/types';
+import {countBox , mergeBox} from '@engine/common/functions';
+import Component from '@engine/common/component';
+import {SN} from '@engine/common/config';
+import Axis from '@engine/axis';
+import EventMark from '@engine/event/mark';
 
 export interface DrawInfo extends ComponentDrawInfo{
     axisBodyDrawInfo: Readonly<Axis['drawInfo']>;
     markDrawInfo: Readonly<EventMark['drawInfo']>;
 
     text?: string;
-    length: number,
-    offsetX: number,
+    length: number;
+    offsetX: number;
 }
 
 export default abstract class EventAxis extends Component{
     name = SN.EventAxis;
-
     drawInfo:DrawInfo = {
         axisBodyDrawInfo: {} as any,
         markDrawInfo: {} as any,
@@ -30,16 +29,17 @@ export default abstract class EventAxis extends Component{
             height: 0,
         },
     };
+    apply() {
+        const target = this.drawInfo.markDrawInfo.target;
 
-    apply(){
         this.drawInfo.box = {
-            x: this.drawInfo.markDrawInfo.target.x,
-            y: this.drawInfo.markDrawInfo.target.y - this.drawInfo.length,
+            x: target.x,
+            y: target.y - this.drawInfo.length,
             width: this.drawInfo.offsetX,
             height: this.drawInfo.length,
         };
 
-        if(this.drawInfo.text && !this.element){
+        if (this.drawInfo.text && !this.element) {
             this.element = EventAxis.createElement();
             this.container.appendChild(this.element);
         }
@@ -48,10 +48,10 @@ export default abstract class EventAxis extends Component{
             delete this.element;
         }
 
-        if(this.element && this.drawInfo.text){
+        if (this.element && this.drawInfo.text) {
             this.element.innerHTML = this.drawInfo.text;
-            this.element.style.left = `${this.drawInfo.markDrawInfo.target.x + this.drawInfo.offsetX}px`;
-            this.element.style.top = `${this.drawInfo.markDrawInfo.target.y - this.drawInfo.length}px`;
+            this.element.style.left = `${target.x + this.drawInfo.offsetX}px`;
+            this.element.style.top = `${target.y - this.drawInfo.length}px`;
 
             this.drawInfo.box = mergeBox(
                 this.drawInfo.box,
@@ -60,16 +60,16 @@ export default abstract class EventAxis extends Component{
         }
 
         return super.apply();
-    };
+    }
 
-    static createElement(){
+    static createElement() {
         const elt = document.createElement('div');
         elt.className = 'event-axis-endText';
         elt.style.visibility = 'hidden';
         return elt;
     }
 
-    static is(comp:Component) :comp is EventAxis{
+    static is(comp:Component) :comp is EventAxis {
         return comp.name === SN.EventAxis;
     }
-};
+}

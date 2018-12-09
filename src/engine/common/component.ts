@@ -1,6 +1,6 @@
-import {ComponentDrawInfo, GridConfig} from "@engine/types";
-import {ExtensionManager} from "@/extensions";
-import {DEBUG, SN} from "@engine/common/config";
+import {ComponentDrawInfo, GridConfig} from '@engine/types';
+import {ExtensionManager} from '@/extensions';
+import {DEBUG, SN} from '@engine/common/config';
 
 export interface ComponentConstructorInfo {
     ext:ExtensionManager;
@@ -38,9 +38,12 @@ export default abstract class Component{
     container :HTMLElement;
 
     ext: ExtensionManager;
-    public constructor({ext,canvas,container,grid}:ComponentConstructorInfo){
-        if(!(this.constructor.name in SN)) {
-            throw new TypeError(`Class name "${this.constructor.name}" illegal, it must following ${Object.keys(SN)}`);
+    public constructor({ext, canvas, container, grid}:ComponentConstructorInfo) {
+        if (!(this.constructor.name in SN)) {
+            throw new TypeError(
+                `Class name "${this.constructor.name}" illegal, `
+                + `it must following ${Object.keys(SN)}`,
+            );
         }
 
         this.name = SN[this.constructor.name as any] as SN;
@@ -52,7 +55,7 @@ export default abstract class Component{
         this.container = container as any;
 
         this.ext.onConstruct(this);
-    };
+    }
 
     /**
      * All info about draw.
@@ -65,12 +68,12 @@ export default abstract class Component{
      * There should not count any runtime states.
      * It should can be call multiple times.
      * */
-    draw(){
+    draw() {
         this._checkDestroy();
 
-        if(this.element) this.element.style.visibility = 'visible';
+        if (this.element) this.element.style.visibility = 'visible';
         this.ext.onDraw(this);
-    };
+    }
 
     /**
      * If the view of component depend on DOM element, that's element will set here.
@@ -82,16 +85,16 @@ export default abstract class Component{
      * Don't clear Canvas in there!
      * This method will try set "visibility: 'hidden'" for self.element
      * */
-    hide(){
+    hide() {
         this._checkDestroy();
 
-        if(this.element) this.element.style.visibility = 'hidden';
+        if (this.element) this.element.style.visibility = 'hidden';
         this.canvas.getContext('2d')!.clearRect(
-            0, 0, this.canvas.width, this.canvas.height
+            0, 0, this.canvas.width, this.canvas.height,
         );
 
         this.ext.onHide(this);
-    };
+    }
 
     /**
      * Update component use self.drawInfo
@@ -99,7 +102,7 @@ export default abstract class Component{
     async apply(...args :any[]) :Promise<any> {
         this._checkDestroy();
         await this.ext.onApply(this);
-    };
+    }
 
     /**
      * The component has bean destroyed.
@@ -110,31 +113,35 @@ export default abstract class Component{
      * Destroy this component.
      * It should remove all element from dom if that's created by this component
      * */
-    destroy(){
+    destroy() {
         this._checkDestroy();
         this.destroyed = true;
 
         this.ext.onDestroy(this);
-    };
+    }
 
     /**
      * Print log if DEBUG is true.
      * @example this.l`Hello world`
      * */
-    l(stringArr:TemplateStringsArray, ...values:any[]){
-        if(!DEBUG) return;
+    l(stringArr:TemplateStringsArray, ...values:any[]) {
+        if (!DEBUG) return;
 
-        let message = [stringArr[0]];
+        const message = [stringArr[0]];
         for (let index = 0; index < values.length; index++) {
-            message.push(values[index], stringArr[index+1]);
+            message.push(values[index], stringArr[index + 1]);
         }
         console.log(`${this.name} #`, ...message);
-    };
+    }
 
     /**
      * Verify a component is destroyed or not, if yes throw an error.
      * */
-    private _checkDestroy(){
-        if(this.destroyed) throw new Error(`${this.name} has bean destroyed, however, you still call it's method.`);
-    };
+    private _checkDestroy() {
+        if (this.destroyed) {
+            throw new Error(
+                `${this.name} has bean destroyed, however, you still call it's method.`,
+            );
+        }
+    }
 }

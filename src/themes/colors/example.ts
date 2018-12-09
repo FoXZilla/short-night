@@ -1,8 +1,8 @@
-import {ExtensionManager} from "@/extensions";
-import Timeline from "./timeline";
+import {ExtensionManager} from '@/extensions';
+import Timeline from './timeline';
 // import EngineTimeline from "@engine/timeline";
 
-document.addEventListener('DOMContentLoaded', async function(){
+document.addEventListener('DOMContentLoaded', async function () {
     const timeline = new Timeline({
         canvas: document.querySelector('#canvas') as HTMLCanvasElement,
         container: document.querySelector('#container') as HTMLElement,
@@ -28,7 +28,7 @@ document.addEventListener('DOMContentLoaded', async function(){
             title:'青理Web开发协会',
             text :'创建青理Web开发协会，担当会长',
             endDate :new Date('2016-6'),
-            endText :'协会换届'
+            endText :'协会换届',
         },
         {
             date :new Date('2015-6'),
