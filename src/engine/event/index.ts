@@ -94,7 +94,7 @@ export default abstract class Event extends Component{
             axis.drawInfo.text = this.drawInfo.axisText;
             await axis.apply();
             this.axis = axis;
-        }else if (this.axis) {
+        } else if (this.axis) {
             this.axis.destroy();
             this.axis = null;
         }

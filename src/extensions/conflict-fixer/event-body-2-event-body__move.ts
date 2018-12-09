@@ -25,7 +25,7 @@ export default class EventBody2EventBodyMover {
                 (fixed.drawInfo.box.y + fixed.drawInfo.box.height)
                 - mover.drawInfo.box.y
                 + 1;
-        }else {
+        } else {
             mover.drawInfo.offset.y -=
                 (mover.drawInfo.box.y + mover.drawInfo.box.height)
                 - fixed.drawInfo.box.y
@@ -194,8 +194,7 @@ export default class EventBody2EventBodyMover {
                             + upper.drawInfo.box.height
                             - origin.drawInfo.box.y
                         );
-                    }
-                    else if (origin.drawInfo.floated) {
+                    } else if (origin.drawInfo.floated) {
                         return ((
                             upper.drawInfo.box.y + upper.drawInfo.box.height)
                             - origin.drawInfo.markDrawInfo.target.y

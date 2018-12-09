@@ -79,7 +79,7 @@ export default class BreakpointAnimation {
                             },         300);
                         },
                     });
-                }else {
+                } else {
                     setTimeout(() => {
                         this.next();
                     },         300);

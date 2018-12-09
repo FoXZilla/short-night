@@ -53,7 +53,7 @@ export default abstract class EventBody extends Component{
                 <h4 class="foldedText">${this.drawInfo.foldedText || this.drawInfo.title}</h4>
                 <h5 class="date">${this.drawInfo.date.toDateString()}</h5>
             `;
-        }else {
+        } else {
             this.element.innerHTML = `
                 <h4 class="title">${this.drawInfo.title}</h4>
                 <h5 class="date">${this.drawInfo.date.toDateString()}</h5>
@@ -63,7 +63,7 @@ export default abstract class EventBody extends Component{
 
         if (this.drawInfo.folded) {
             this.element.classList.add('folded');
-        }else {
+        } else {
             this.element.classList.remove('folded');
         }
 

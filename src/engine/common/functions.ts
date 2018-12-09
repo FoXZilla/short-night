@@ -61,12 +61,12 @@ export function deepAssign(...args:any[]) {
             if (key in result) {
                 if (Array.isArray(value) && Array.isArray(result[key])) {
                     result[key].push(...value);
-                }else if (typeof value === 'object' && typeof result[key] === 'object') {
+                } else if (typeof value === 'object' && typeof result[key] === 'object') {
                     deepAssign(result[key], value);
-                }else {
+                } else {
                     result[key] = value;
                 }
-            }else {
+            } else {
                 result[key] = value;
             }
         }
@@ -116,7 +116,7 @@ export const TimeNodeGetter: {
                     if (date.getMonth() + 3 >= 12) {
                         date.setFullYear(date.getFullYear() + 1);
                         date.setMonth(0 , 1);
-                    }else {
+                    } else {
                         date.setMonth(date.getMonth() + 3 , 1);
                     }
                 },
@@ -129,7 +129,7 @@ export const TimeNodeGetter: {
                     if (date.getMonth() === 11) {
                         date.setFullYear(date.getFullYear() + 1);
                         date.setMonth(0 , 1);
-                    }else {
+                    } else {
                         date.setMonth(date.getMonth() + 1 , 1);
                     }
                 },
@@ -221,12 +221,12 @@ export function isIntersecting(line1: Line, line2: Line): boolean {
     ;
     if (isNaN(x) || isNaN(y)) {
         return false;
-    }else {
+    } else {
         if (x1 >= x2) {
             if (!(x2 <= x && x <= x1)) {
                 return false;
             }
-        }else {
+        } else {
             if (!(x1 <= x && x <= x2)) {
                 return false;
             }
@@ -235,7 +235,7 @@ export function isIntersecting(line1: Line, line2: Line): boolean {
             if (!(y2 <= y && y <= y1)) {
                 return false;
             }
-        }else {
+        } else {
             if (!(y1 <= y && y <= y2)) {
                 return false;
             }
@@ -244,7 +244,7 @@ export function isIntersecting(line1: Line, line2: Line): boolean {
             if (!(x4 <= x && x <= x3)) {
                 return false;
             }
-        }else {
+        } else {
             if (!(x3 <= x && x <= x4)) {
                 return false;
             }
@@ -253,7 +253,7 @@ export function isIntersecting(line1: Line, line2: Line): boolean {
             if (!(y4 <= y && y <= y3)) {
                 return false;
             }
-        }else {
+        } else {
             if (!(y3 <= y && y <= y4)) {
                 return false;
             }
