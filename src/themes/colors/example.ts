@@ -6,7 +6,11 @@ document.addEventListener('DOMContentLoaded', async function(){
     const timeline = new Timeline({
         canvas: document.querySelector('#canvas') as HTMLCanvasElement,
         container: document.querySelector('#container') as HTMLElement,
-        ext: new ExtensionManager,
+        ext: new ExtensionManager({
+            breakpointAnimation: {
+                playAnimation: true,
+            },
+        }),
     });
     console.log((<any>window).t = timeline);
     timeline.drawInfo.events = [

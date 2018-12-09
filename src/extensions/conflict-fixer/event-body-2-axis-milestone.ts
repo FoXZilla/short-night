@@ -17,9 +17,9 @@ export default class EventBody2AxisMilestone {
             for(let axisMilestone of axisMilestoneList){
                 if(isOverlap(eventBody.drawInfo.box, axisMilestone.drawInfo.box)){
                     const showedComponents = [
+                        ...this.ext.components[SN.AxisBody],
                         axisMilestone,
                         eventBody,
-                        ...this.ext.components[SN.AxisBody],
                     ];
                     await this.ext.breakpoint.block(
                         Breakpoint.FixEventBody2AxisMilestone,

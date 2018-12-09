@@ -22,6 +22,7 @@
   },
   "homepage": "https://github.com/pea3nut/short-night#readme",
   "devDependencies": {
+    "@types/moveto": "^1.7.0",
     "css-loader": "^1.0.0",
     "node-sass": "^4.9.3",
     "sass-loader": "^7.1.0",
@@ -32,6 +33,7 @@
     "webpack-cli": "^3.0.8"
   },
   "dependencies": {
+    "moveto": "^1.7.4",
     "roughjs": "^2.2.5"
   }
 }

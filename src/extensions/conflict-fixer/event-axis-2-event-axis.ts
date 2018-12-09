@@ -25,9 +25,9 @@ export default class EventAxis2EventAxis {
                 );
                 if(conflictWith.length){
                     const showedComponents = [
+                        ...this.ext.components[SN.AxisBody],
                         this.ext.getParent(ea1),
                         ...conflictWith.map(ea => this.ext.getParent(ea)),
-                        ...this.ext.components[SN.AxisBody],
                     ];
                     await this.ext.breakpoint.block(
                         Breakpoint.FixEventAxis2EventAxis,

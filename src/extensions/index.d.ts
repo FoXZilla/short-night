@@ -1,5 +1,5 @@
 import Component from "@engine/common/component";
-import BreakpointAnimation from "@/extensions/breakpoint-animation";
+import BreakpointAnimation, {BreakpointAnimationConfig} from "@/extensions/breakpoint-animation";
 import {SN} from "@engine/common/config";
 import Timeline from "@engine/timeline";
 import Axis from "@engine/axis";
@@ -20,6 +20,14 @@ export interface Extension {
 }
 
 export declare class ExtensionManager implements Extension {
+    constructor(
+        {breakpointAnimation}
+        ?:{
+            breakpointAnimation ?:BreakpointAnimationConfig,
+        }
+    );
+
+
     breakpoint: BreakpointAnimation;
     components: {
         [SN.Timeline]: Timeline[];

@@ -19,7 +19,7 @@ const METHODS = ['onConstruct','onApply','onDestroy','onHide','onDraw'];
  * Create a ExtensionManager
  * @constructor
  * */
-export function ExtensionManager() {
+export function ExtensionManager({breakpointAnimation}={}) {
     this.components = {
         [SN.Timeline]: [],
         [SN.Axis]: [],
@@ -31,7 +31,7 @@ export function ExtensionManager() {
         [SN.EventMark]: [],
         [SN.EventAxis]: [],
     };
-    this.breakpoint = new BreakpointAnimation(this);
+    this.breakpoint = new BreakpointAnimation(this,breakpointAnimation);
 
     this.extensions = [
         new Base(this),
