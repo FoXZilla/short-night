@@ -1,14 +1,12 @@
 const Path = require('path');
 
 module.exports = {
-    devtool: 'inline-source-map', // Todo
     entry: {
-        engine: './src/engine/index.ts',
-        'themes/colors': './src/themes/colors/index.ts',
+        'sn-colors': './src/themes/colors/index.ts',
     },
     output: {
         filename: '[name].js',
-        path: Path.resolve(__dirname,'./dist'),
+        path: Path.resolve(__dirname, './dist'),
     },
     module: {
         rules: [
@@ -32,7 +30,8 @@ module.exports = {
     resolve: {
         extensions: ['.ts', '.js'],
         alias: {
-            '@': Path.resolve(__dirname,'./src'),
+            '@root': Path.resolve(__dirname),
+            '@': Path.resolve(__dirname, './src'),
             '@engine': Path.resolve(__dirname, './src/engine'),
         },
     },

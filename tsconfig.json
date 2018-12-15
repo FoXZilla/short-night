@@ -9,6 +9,7 @@
     "lib": ["es2015", "es2017","esnext", "dom"],
     "baseUrl":"./",
     "paths": {
+      "@root/*" :["./*"],
       "@/*" :["./src/*"],
       "@engine" :["./src/engine/index.ts"],
       "@engine/*" :["./src/engine/*"]

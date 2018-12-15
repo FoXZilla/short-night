@@ -1,4 +1,6 @@
 import { DateBy } from '@engine/types';
+// @ts-ignore
+import packageJson = require('@root/package.json');
 
 export const DEBUG = true;
 
@@ -27,3 +29,5 @@ export const WALK_ON = {
         offsetOneStep: 15,
     },
 };
+
+export const VERSION =  packageJson.version;

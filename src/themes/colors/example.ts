@@ -1,6 +1,5 @@
 import { ExtensionManager } from '@/extensions';
 import Timeline from './Timeline';
-// import EngineTimeline from "@engine/timeline";
 
 document.addEventListener('DOMContentLoaded', async () => {
     const timeline = new Timeline({
@@ -8,7 +7,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         container: document.querySelector('#container') as HTMLElement,
         ext: new ExtensionManager({
             breakpointAnimation: {
-                playAnimation: true,
+                playAnimation: false,
             },
         }),
     });
