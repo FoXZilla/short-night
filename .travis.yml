@@ -1,10 +1,10 @@
 language: node_js
-test:
+node_js:
+- "node"
+script:
 - npm run eslint
 - npm run tslint
 - tsc
-node_js:
-- "node"
 cache:
   directories:
   - "node_modules"

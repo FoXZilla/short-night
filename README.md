@@ -1,4 +1,4 @@
-# Shot Night
+# Shot Night <img src="https://api.travis-ci.org/FoXZilla/short-night.svg?branch=short-night-is-engine" />
 
 > The night is short, walk on girl.
 
