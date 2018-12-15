@@ -1,6 +1,6 @@
-import {ComponentDrawInfo, GridConfig} from '@engine/types';
-import {ExtensionManager} from '@/extensions';
-import {DEBUG, SN} from '@engine/common/config';
+import { ComponentDrawInfo, GridConfig } from '@engine/types';
+import { ExtensionManager } from '@/extensions';
+import { DEBUG, SN } from '@engine/common/config';
 
 export interface ComponentConstructorInfo {
     ext:ExtensionManager;
@@ -38,7 +38,7 @@ export default abstract class Component{
     container :HTMLElement;
 
     ext: ExtensionManager;
-    public constructor({ext, canvas, container, grid}:ComponentConstructorInfo) {
+    public constructor({ ext, canvas, container, grid }:ComponentConstructorInfo) {
         if (!(this.constructor.name in SN)) {
             throw new TypeError(
                 `Class name "${this.constructor.name}" illegal, `
@@ -69,7 +69,7 @@ export default abstract class Component{
      * It should can be call multiple times.
      * */
     draw() {
-        this._checkDestroy();
+        this.checkDestroy();
 
         if (this.element) this.element.style.visibility = 'visible';
         this.ext.onDraw(this);
@@ -86,7 +86,7 @@ export default abstract class Component{
      * This method will try set "visibility: 'hidden'" for self.element
      * */
     hide() {
-        this._checkDestroy();
+        this.checkDestroy();
 
         if (this.element) this.element.style.visibility = 'hidden';
         this.canvas.getContext('2d')!.clearRect(
@@ -100,7 +100,7 @@ export default abstract class Component{
      * Update component use self.drawInfo
      * */
     async apply(...args :any[]) :Promise<any> {
-        this._checkDestroy();
+        this.checkDestroy();
         await this.ext.onApply(this);
     }
 
@@ -114,7 +114,7 @@ export default abstract class Component{
      * It should remove all element from dom if that's created by this component
      * */
     destroy() {
-        this._checkDestroy();
+        this.checkDestroy();
         this.destroyed = true;
 
         this.ext.onDestroy(this);
@@ -124,7 +124,7 @@ export default abstract class Component{
      * Print log if DEBUG is true.
      * @example this.l`Hello world`
      * */
-    l(stringArr:TemplateStringsArray, ...values:any[]) {
+    l(stringArr:TemplateStringsArray, ...values:any[]) {// tslint:disable-line: function-name
         if (!DEBUG) return;
 
         const message = [stringArr[0]];
@@ -137,7 +137,7 @@ export default abstract class Component{
     /**
      * Verify a component is destroyed or not, if yes throw an error.
      * */
-    private _checkDestroy() {
+    private checkDestroy() {
         if (this.destroyed) {
             throw new Error(
                 `${this.name} has bean destroyed, however, you still call it's method.`,

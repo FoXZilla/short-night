@@ -1,7 +1,7 @@
-import Component from '@engine/common/component';
-import {ComponentDrawInfo, Coordinate} from '@engine/types';
-import {SN} from '@engine/common/config';
-import Axis from '@engine/axis';
+import Component from '@engine/common/Component';
+import { ComponentDrawInfo, Coordinate } from '@engine/types';
+import { SN } from '@engine/common/config';
+import Axis from '@engine/Axis';
 
 export interface DrawInfo extends ComponentDrawInfo{
     axisBodyDrawInfo: Readonly<Axis['drawInfo']>;
@@ -32,10 +32,10 @@ export default abstract class EventMark extends Component{
         const width = this.drawInfo.width;
         const height = this.drawInfo.height || width;
         this.drawInfo.box = {
-            x: this.drawInfo.target.x - width / 2,
-            y: this.drawInfo.target.y - height / 2,
             width,
             height,
+            x: this.drawInfo.target.x - width / 2,
+            y: this.drawInfo.target.y - height / 2,
         };
         return super.apply();
     }

@@ -1,8 +1,8 @@
 import * as Engine from '@engine';
-import {RoughCanvas} from 'roughjs/bin/canvas';
-import {ConstructorInfo} from '@/themes/colors/timeline';
+import { RoughCanvas } from 'roughjs/bin/canvas';
+import { ConstructorInfo } from '@/themes/colors/Timeline';
 
-export default class AxisMilestone extends Engine.AxisMilestone {
+export default class AxisScale extends Engine.AxisScale {
     theme = 'colors';
 
     roughCanvas:RoughCanvas;
@@ -20,16 +20,16 @@ export default class AxisMilestone extends Engine.AxisMilestone {
             box.width,
             box.height,
             {
-                stroke: '#333',
-                strokeWidth: 1.5,
+                strokeWidth: 0,
+                stroke: 'rgba(0,0,0,0)',
 
                 fill: '#fff',
-                fillWeight: 0.5,
+                fillWeight: 0.3,
                 fillStyle: 'solid',
 
-                hachureGap: 2,
-                roughness: 0.7,
-                bowing: 0.5,
+                hachureGap: 0,
+                roughness: 0,
+                bowing: 0,
             },
         );
         return super.draw();

@@ -1,13 +1,13 @@
-import {Extension, ExtensionManager} from '@/extensions/index';
-import Component from '@engine/common/component';
-import {DEBUG} from '@engine/common/config';
-import Timeline from '@engine/timeline';
-import EventBody from '@engine/event/body';
-import {walkLoop} from '@engine/common/functions';
-import EventBody2AxisMilestone from './event-body-2-axis-milestone';
-import EventAxis2EventAxis from './event-axis-2-event-axis';
-import EventBody2EventBodyMover from './event-body-2-event-body__move';
-import EventBody2EventBodyFloater from './event-body-2-event-body__float';
+import { Extension, ExtensionManager } from '@/extensions/index';
+import Component from '@engine/common/Component';
+import { DEBUG } from '@engine/common/config';
+import Timeline from '@engine/Timeline';
+import EventBody from '@engine/Event/EventBody';
+import { walkLoop } from '@engine/common/functions';
+import EventBody2AxisMilestone from './EventBody2AxisMilestone';
+import EventAxis2EventAxis from './EventAxis2EventAxis';
+import EventBody2EventBodyMover from './EventBody2EventBodyMover';
+import EventBody2EventBodyFloater from './EventBody2EventBodyFloater';
 
 export enum FixResult {
     Failed = 'failed', // the conflict cannot be fixed

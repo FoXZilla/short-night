@@ -1,10 +1,10 @@
-import {ExtensionManager} from '@/extensions';
-import {FixResult} from '@/extensions/conflict-fixer/index';
-import {SN} from '@engine/common/config';
-import {isIntersecting} from '@engine/common/functions';
-import EventAxis from '@engine/event/axis';
-import {Line} from '@engine/types';
-import {Breakpoint} from '@/extensions/breakpoint-animation';
+import { ExtensionManager } from '@/extensions';
+import { FixResult } from '@/extensions/conflict-fixer/index';
+import { SN } from '@engine/common/config';
+import { isIntersecting } from '@engine/common/functions';
+import EventAxis from '@engine/Event/EventAxis';
+import { Line } from '@engine/types';
+import { Breakpoint } from '@/extensions/breakpoint-animation';
 
 export default class EventAxis2EventAxis {
     constructor(public ext:ExtensionManager) {}

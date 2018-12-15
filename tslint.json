@@ -1,9 +1,12 @@
 {
     "extends": "tslint-config-airbnb",
-    "jsRules": {},
+    "jsRules": {
+        "no-empty": true
+    },
     "rules": {
-        "indent": [true, "spaces", 4],
-        "variable-name": [true, "ban-keywords"]
+        "ter-indent": [true, 4, { "SwitchCase": 1 }],
+        "no-increment-decrement": false,
+        "no-else-after-return": [true, "allow-else-if"]
     },
     "rulesDirectory": []
 }

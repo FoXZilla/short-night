@@ -1,15 +1,15 @@
-import Component from '@engine/common/component';
-import BreakpointAnimation, {BreakpointAnimationConfig} from '@/extensions/breakpoint-animation';
-import {SN} from '@engine/common/config';
-import Timeline from '@engine/timeline';
-import Axis from '@engine/axis';
-import AxisBody from '@engine/axis/body';
-import AxisScale from '@engine/axis/scale';
-import AxisMilestone from '@engine/axis/milestone';
-import Event from '@engine/event';
-import EventBody from '@engine/event/body';
-import EventMark from '@engine/event/mark';
-import EventAxis from '@engine/event/axis';
+import Component from '@engine/common/Component';
+import BreakpointAnimation, { BreakpointAnimationConfig } from '@/extensions/breakpoint-animation';
+import { SN } from '@engine/common/config';
+import Timeline from '@engine/Timeline';
+import Axis from '@engine/Axis';
+import AxisBody from '@engine/Axis/AxisBody';
+import AxisScale from '@engine/Axis/AxisScale';
+import AxisMilestone from '@engine/Axis/AxisMilestone';
+import Event from '@engine/Event';
+import EventBody from '@engine/Event/EventBody';
+import EventMark from '@engine/Event/EventMark';
+import EventAxis from '@engine/Event/EventAxis';
 
 export interface Extension {
     onConstruct(comp:Component) :void;
@@ -21,7 +21,7 @@ export interface Extension {
 
 export declare class ExtensionManager implements Extension {
     constructor(
-        {breakpointAnimation}
+        { breakpointAnimation }
         ?:{
             breakpointAnimation ?:BreakpointAnimationConfig,
         },

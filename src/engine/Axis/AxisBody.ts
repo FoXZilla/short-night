@@ -1,6 +1,6 @@
-import {Box, ComponentDrawInfo} from '@engine/types';
-import Component from '@engine/common/component';
-import {SN} from '@engine/common/config';
+import { Box, ComponentDrawInfo } from '@engine/types';
+import Component from '@engine/common/Component';
+import { SN } from '@engine/common/config';
 
 export interface DrawInfo extends ComponentDrawInfo{
     box: Readonly<Box>;

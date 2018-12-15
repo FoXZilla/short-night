@@ -1,8 +1,8 @@
-import {Box, ComponentDrawInfo} from '@engine/types';
-import {countBox} from '@engine/common/functions';
-import Component from '@engine/common/component';
-import {SN} from '@engine/common/config';
-import {DrawInfo as AxisBodyDrawInfo} from '@engine/axis/body';
+import { Box, ComponentDrawInfo } from '@engine/types';
+import { countBox } from '@engine/common/functions';
+import Component from '@engine/common/Component';
+import { SN } from '@engine/common/config';
+import { DrawInfo as AxisBodyDrawInfo } from '@engine/Axis/AxisBody';
 
 export interface DrawInfo extends ComponentDrawInfo{
     box: Readonly<Box>;
@@ -35,7 +35,7 @@ export default abstract class AxisMilestone extends Component{
 
         this.element.innerHTML = this.drawInfo.text;
 
-        const {width, height} = countBox(this.element);
+        const { width, height } = countBox(this.element);
         const x = this.drawInfo.bodyDrawInfo.box.x
             + this.drawInfo.bodyDrawInfo.box.width / 2
             - width / 2

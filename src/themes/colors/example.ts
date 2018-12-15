@@ -1,8 +1,8 @@
-import {ExtensionManager} from '@/extensions';
-import Timeline from './timeline';
+import { ExtensionManager } from '@/extensions';
+import Timeline from './Timeline';
 // import EngineTimeline from "@engine/timeline";
 
-document.addEventListener('DOMContentLoaded', async function () {
+document.addEventListener('DOMContentLoaded', async () => {
     const timeline = new Timeline({
         canvas: document.querySelector('#canvas') as HTMLCanvasElement,
         container: document.querySelector('#container') as HTMLElement,

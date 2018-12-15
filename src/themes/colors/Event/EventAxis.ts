@@ -1,6 +1,6 @@
 import * as Engine from '@engine';
-import {RoughCanvas} from 'roughjs/bin/canvas';
-import {ConstructorInfo} from '@/themes/colors/timeline';
+import { RoughCanvas } from 'roughjs/bin/canvas';
+import { ConstructorInfo } from '@/themes/colors/Timeline';
 
 export default class EventAxis extends Engine.EventAxis {
     theme = 'colors';

@@ -1,4 +1,4 @@
-import Event from '@engine/event';
+import Event from '@engine/Event';
 
 export const enum ConstLevel{
     No = 0,

@@ -4,14 +4,14 @@ import GeneratorId from '@/extensions/generator-id';
 import PositionCounter from '@/extensions/position-counter';
 import BreakpointAnimation from '@/extensions/breakpoint-animation';
 import ConflictFixer from '@/extensions/conflict-fixer';
-import AxisBody from '@/engine/axis/body';
-import AxisMilestone from '@/engine/axis/milestone';
-import AxisScale from '@/engine/axis/scale';
-import EventBody from '@/engine/event/body';
-import EventAxis from '@/engine/event/axis';
-import EventMark from '@/engine/event/mark';
-import Axis from '@/engine/axis';
-import Event from '@/engine/event';
+import AxisBody from '@/engine/Axis/AxisBody';
+import AxisMilestone from '@/engine/Axis/AxisMilestone';
+import AxisScale from '@/engine/Axis/AxisScale';
+import EventBody from '@/engine/Event/EventBody';
+import EventAxis from '@/engine/Event/EventAxis';
+import EventMark from '@/engine/Event/EventMark';
+import Axis from '@/engine/Axis';
+import Event from '@/engine/Event';
 
 const METHODS = ['onConstruct', 'onApply', 'onDestroy', 'onHide', 'onDraw'];
 

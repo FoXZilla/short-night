@@ -1,10 +1,10 @@
-import Roughjs from 'roughjs';
+import roughjs from 'roughjs';
 import * as Engine from '@engine';
-import Axis from './axis';
-import Event from './event';
-import {ComponentConstructorInfo} from '@engine/common/component';
-import {RoughCanvas} from 'roughjs/bin/canvas';
-import ColorPicker from './extensions/color-picker';
+import Axis from './Axis';
+import Event from './Event';
+import { ComponentConstructorInfo } from '@engine/common/Component';
+import { RoughCanvas } from 'roughjs/bin/canvas';
+import ColorPicker from './extensions/ColorPicker';
 
 export interface ConstructorInfo extends ComponentConstructorInfo{
     roughCanvas: RoughCanvas;
@@ -25,9 +25,9 @@ export default class Timeline extends Engine.Timeline {
         this.ext.extensions.push(
             new ColorPicker(info.ext),
         );
-        this.roughCanvas = Roughjs.canvas(this.canvas) as RoughCanvas;
+        this.roughCanvas = roughjs.canvas(this.canvas) as RoughCanvas;
     }
 
-    AxisConstructer = Axis;
-    EventConstructor = Event;
+    axisConstructor = Axis;
+    eventConstructor = Event;
 }

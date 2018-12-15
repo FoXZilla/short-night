@@ -1,9 +1,9 @@
 const Path = require('path');
 
 module.exports = {
-    devtool: 'inline-source-map',//todo
+    devtool: 'inline-source-map', // Todo
     entry: {
-        'engine': './src/engine/index.ts',
+        engine: './src/engine/index.ts',
         'themes/colors': './src/themes/colors/index.ts',
     },
     output: {
@@ -18,27 +18,22 @@ module.exports = {
                     loader: 'eslint-loader',
                     options: {
                         emitWarning: true,
-                    }
+                    },
                 },
             }, {
                 test: /\.ts$/,
                 enforce: 'pre',
-                use: {
-                    loader: 'tslint-loader',
-                    options: {
-                        configuration: require('./tslint'),
-                    },
-                },
+                use: 'tslint-loader',
             },
             { test: /\.ts$/, use: 'ts-loader' },
-            { test: /\.scss$/, use: ["style-loader","css-loader","sass-loader"] },
+            { test: /\.scss$/, use: ['style-loader', 'css-loader', 'sass-loader'] },
         ],
     },
     resolve: {
-        extensions: ['.ts','.js'],
+        extensions: ['.ts', '.js'],
         alias: {
             '@': Path.resolve(__dirname,'./src'),
-            '@engine': Path.resolve(__dirname,'./src/engine'),
-        }
+            '@engine': Path.resolve(__dirname, './src/engine'),
+        },
     },
 };

@@ -1,10 +1,10 @@
-import {ComponentDrawInfo, Box, Coordinate} from '@engine/types';
-import Component from '@engine/common/component';
-import AxisMilestone from '@engine/axis/milestone';
-import AxisScale from '@engine/axis/scale';
-import AxisBody from '@engine/axis/body';
-import {SN} from '@engine/common/config';
-import {deepFreeze, mergeBox} from '@engine/common/functions';
+import { ComponentDrawInfo, Box, Coordinate } from '@engine/types';
+import Component from '@engine/common/Component';
+import AxisMilestone from '@engine/Axis/AxisMilestone';
+import AxisScale from '@engine/Axis/AxisScale';
+import AxisBody from '@engine/Axis/AxisBody';
+import { SN } from '@engine/common/config';
+import { deepFreeze, mergeBox } from '@engine/common/functions';
 
 export interface DrawInfo extends ComponentDrawInfo{
     scales: number[];
@@ -30,16 +30,16 @@ export default abstract class Axis extends Component{
         },
     };
 
-    abstract MilestoneConstructor :typeof AxisMilestone;
-    abstract ScaleConstructor :typeof AxisScale;
-    abstract BodyConstructor :typeof AxisBody;
+    abstract milestoneConstructor :typeof AxisMilestone;
+    abstract scaleConstructor :typeof AxisScale;
+    abstract bodyConstructor :typeof AxisBody;
     milestones:AxisMilestone[] = [];
     scales:AxisScale[] = [];
     body:AxisBody = null as any;
 
     async apply() {
         // @ts-ignore
-        if (!this.body) this.body = new this.BodyConstructor(this);
+        if (!this.body) this.body = new this.bodyConstructor(this);
         this.body.drawInfo.length = this.drawInfo.length;
         await this.body.apply();
 
@@ -53,7 +53,7 @@ export default abstract class Axis extends Component{
         for (const position of this.drawInfo.scales) {
             if (this.drawInfo.milestones.some(m => m.position === position)) continue;
             // @ts-ignore
-            const scale:AxisScale = new this.ScaleConstructor(this);
+            const scale:AxisScale = new this.scaleConstructor(this);
             scale.drawInfo.bodyDrawInfo = deepFreeze(this.body.drawInfo);
             scale.drawInfo.alignY = position; // recomputed in PositionCounter
             scale.drawInfo.height = this.grid.scaleHeight; // recomputed in PositionCounter
@@ -61,9 +61,9 @@ export default abstract class Axis extends Component{
         }
 
         // Init milestones
-        for (const {position, text} of this.drawInfo.milestones) {
+        for (const { position, text } of this.drawInfo.milestones) {
             // @ts-ignore
-            const milestone = new this.MilestoneConstructor(this);
+            const milestone = new this.milestoneConstructor(this);
             milestone.drawInfo.bodyDrawInfo = deepFreeze(this.body.drawInfo);
             milestone.drawInfo.alignY = position; // recomputed in PositionCounter
             milestone.drawInfo.text = text;

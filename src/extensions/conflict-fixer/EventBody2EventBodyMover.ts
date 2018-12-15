@@ -1,10 +1,10 @@
-import EventBody from '@engine/event/body';
-import Component from '@engine/common/component';
-import {isOverlap, walkLoop} from '@engine/common/functions';
-import {SN} from '@engine/common/config';
-import {ExtensionManager} from '@/extensions';
-import {FixResult, Conflict} from '@/extensions/conflict-fixer/index';
-import {Breakpoint} from '@/extensions/breakpoint-animation';
+import EventBody from '@engine/Event/EventBody';
+import Component from '@engine/common/Component';
+import { isOverlap, walkLoop } from '@engine/common/functions';
+import { SN } from '@engine/common/config';
+import { ExtensionManager } from '@/extensions';
+import { FixResult, Conflict } from '@/extensions/conflict-fixer/index';
+import { Breakpoint } from '@/extensions/breakpoint-animation';
 
 export default class EventBody2EventBodyMover {
     constructor(public ext:ExtensionManager) {}
@@ -17,7 +17,7 @@ export default class EventBody2EventBodyMover {
     spaceMap = new Map as Map<EventBody, {top:number, bottom:number}>;
 
     static async avoid(
-        {mover, fixed, direction}
+        { mover, fixed, direction }
         :{mover:EventBody, fixed:EventBody, direction:1|-1},
     ) {
         if (direction > 0) {
@@ -141,9 +141,9 @@ export default class EventBody2EventBodyMover {
             const now = effectable[i];
             if (EventBody2EventBodyMover.isConflict(last, now)) {
                 await EventBody2EventBodyMover.avoid({
+                    direction,
                     mover: now,
                     fixed: last,
-                    direction,
                 });
             } else break;
         }
@@ -187,7 +187,7 @@ export default class EventBody2EventBodyMover {
 
         if (above.length) {
             result.top = Math.max(
-                ...above.map(upper => {
+                ...above.map((upper) => {
                     if (upper.drawInfo.floated === origin.drawInfo.floated) {
                         return (
                             upper.drawInfo.box.y
@@ -201,13 +201,14 @@ export default class EventBody2EventBodyMover {
                         );
                     } else if (upper.drawInfo.floated) {
                         return upper.drawInfo.markDrawInfo.target.y - origin.drawInfo.box.y;
-                    } else throw SyntaxError('floated is not a boolean');
+                    }
+                    throw SyntaxError('floated is not a boolean');
                 }),
             );
         }
         if (below.length) {
             result.bottom = Math.max(
-                ...below.map(lower => {
+                ...below.map((lower) => {
                     if (lower.drawInfo.floated === origin.drawInfo.floated) {
                         return (
                             origin.drawInfo.box.y
@@ -221,7 +222,8 @@ export default class EventBody2EventBodyMover {
                             (origin.drawInfo.box.y + origin.drawInfo.box.height)
                             - lower.drawInfo.markDrawInfo.target.y
                         );
-                    } else throw SyntaxError('floated is not a boolean');
+                    }
+                    throw SyntaxError('floated is not a boolean');
                 }),
             );
         }
@@ -304,7 +306,7 @@ export default class EventBody2EventBodyMover {
             }
 
             // Set number which < 0 as 0
-            Array.from(this.spaceMap.values()).forEach(value => {
+            Array.from(this.spaceMap.values()).forEach((value) => {
                 value.top = Math.max(0, value.top);
                 value.bottom = Math.max(0, value.bottom);
             });

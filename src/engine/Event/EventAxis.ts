@@ -1,9 +1,9 @@
-import {ComponentDrawInfo} from '@engine/types';
-import {countBox , mergeBox} from '@engine/common/functions';
-import Component from '@engine/common/component';
-import {SN} from '@engine/common/config';
-import Axis from '@engine/axis';
-import EventMark from '@engine/event/mark';
+import { ComponentDrawInfo } from '@engine/types';
+import { countBox , mergeBox } from '@engine/common/functions';
+import Component from '@engine/common/Component';
+import { SN } from '@engine/common/config';
+import Axis from '@engine/Axis';
+import EventMark from '@engine/Event/EventMark';
 
 export interface DrawInfo extends ComponentDrawInfo{
     axisBodyDrawInfo: Readonly<Axis['drawInfo']>;

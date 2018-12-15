@@ -1,4 +1,4 @@
-import {DateBy} from '@engine/types';
+import { DateBy } from '@engine/types';
 
 export const DEBUG = true;
 

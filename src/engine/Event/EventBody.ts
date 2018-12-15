@@ -1,8 +1,8 @@
-import {ConstLevel, ComponentDrawInfo, Coordinate, Box} from '@engine/types';
-import {countBox, deepAssign} from '@engine/common/functions';
-import Component from '@engine/common/component';
-import {SN} from '@engine/common/config';
-import EventMark from '@engine/event/mark';
+import { ConstLevel, ComponentDrawInfo, Coordinate, Box } from '@engine/types';
+import { countBox, deepAssign } from '@engine/common/functions';
+import Component from '@engine/common/Component';
+import { SN } from '@engine/common/config';
+import EventMark from '@engine/Event/EventMark';
 
 export interface DrawInfo extends ComponentDrawInfo{
     markDrawInfo: EventMark['drawInfo'];

@@ -1,7 +1,7 @@
-import {ExtensionManager} from '@/extensions/index';
-import Component from '@engine/common/component';
-import {DEBUG, SN} from '@engine/common/config';
-import MoveTo = require('moveto');
+import { ExtensionManager } from '@/extensions/index';
+import Component from '@engine/common/Component';
+import { DEBUG, SN } from '@engine/common/config';
+import moveto = require('moveto');
 
 export enum Breakpoint{
     PushScalesAndMilestones = 'PushScalesAndMilestones',
@@ -23,7 +23,7 @@ export default class BreakpointAnimation {
 
     constructor(
         public etx:ExtensionManager,
-        {breakpoints= [], playAnimation= false}:BreakpointAnimationConfig = {},
+        { breakpoints= [], playAnimation= false }:BreakpointAnimationConfig = {},
     ) {
         this.breakpoints = breakpoints;
         this.playAnimation = playAnimation;
@@ -36,8 +36,8 @@ export default class BreakpointAnimation {
         }
     }
 
-    private _next :
-        ( (value ?:any | PromiseLike<any>) => void )
+    private stepIn :
+        ((value ?:any | PromiseLike<any>) => void)
         | null
     = null;
     /**
@@ -45,9 +45,9 @@ export default class BreakpointAnimation {
      * You can call window.next() to do same thing when DEBUG is true.
      * */
     next() {
-        if (this._next) {
-            this._next();
-            this._next = null;
+        if (this.stepIn) {
+            this.stepIn();
+            this.stepIn = null;
         } else console.error('cannot next');
     }
 
@@ -56,7 +56,7 @@ export default class BreakpointAnimation {
      * */
     async block(
         name :Breakpoint,
-        {onBlock, onNext, components= [] }:{
+        { onBlock, onNext, components= [] }:{
             components?: Component[],
             onBlock?: () => void,
             onNext?: () => void,
@@ -71,14 +71,12 @@ export default class BreakpointAnimation {
                     ),
                 );
                 if (topElement) {
-                    new MoveTo().move(
-                        topElement.extraData.boxElement!.getBoundingClientRect().top - 100, {
-                        callback: () => {
-                            setTimeout(() => {
-                                this.next();
-                            },         300);
+                    new moveto().move(
+                        topElement.extraData.boxElement!.getBoundingClientRect().top - 100,
+                        {
+                            callback: () => setTimeout(() => this.next(), 300),
                         },
-                    });
+                    );
                 } else {
                     setTimeout(() => {
                         this.next();
@@ -89,8 +87,8 @@ export default class BreakpointAnimation {
                 if (onBlock) await onBlock();
                 await Promise.all(components.map(c => c.draw()));
 
-                await new Promise(resolve => {
-                    this._next = async () => {
+                await new Promise((resolve) => {
+                    this.stepIn = async () => {
                         if (onNext) await onNext();
                         await Promise.all(components.map(c => c.hide()));
                         resolve();

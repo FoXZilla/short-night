@@ -1,11 +1,11 @@
-import {DEBUG, SN} from '@engine/common/config';
-import EventBody from '@engine/event/body';
-import {isOverlap} from '@engine/common/functions';
-import {ExtensionManager} from '@/extensions';
-import {Conflict, FixResult} from '@/extensions/conflict-fixer';
-import Timeline from '@engine/timeline';
-import Axis from '@engine/axis';
-import {Breakpoint} from '@/extensions/breakpoint-animation';
+import { DEBUG, SN } from '@engine/common/config';
+import EventBody from '@engine/Event/EventBody';
+import { isOverlap } from '@engine/common/functions';
+import { ExtensionManager } from '@/extensions';
+import { Conflict, FixResult } from '@/extensions/conflict-fixer';
+import Timeline from '@engine/Timeline';
+import Axis from '@engine/Axis';
+import { Breakpoint } from '@/extensions/breakpoint-animation';
 
 export default class EventBody2EventBodyFloater {
     timeline ?:Timeline;

@@ -1,12 +1,12 @@
-import {Extension, ExtensionManager} from '@/extensions/index';
-import Component from '@engine/common/component';
-import Axis from '@engine/axis';
-import AxisMilestone from '@engine/axis/milestone';
-import {mergeBox} from '@engine/common/functions';
-import {Breakpoint} from '@/extensions/breakpoint-animation';
-import {SN} from '@engine/common/config';
-import Timeline from '@engine/timeline';
-import AxisScale from '@engine/axis/scale';
+import { Extension, ExtensionManager } from '@/extensions/index';
+import Component from '@engine/common/Component';
+import Axis from '@engine/Axis';
+import AxisMilestone from '@engine/Axis/AxisMilestone';
+import { mergeBox } from '@engine/common/functions';
+import { Breakpoint } from '@/extensions/breakpoint-animation';
+import { SN } from '@engine/common/config';
+import Timeline from '@engine/Timeline';
+import AxisScale from '@engine/Axis/AxisScale';
 
 interface PushConfig{
     critical: number;
@@ -57,10 +57,9 @@ export default class PositionCounter implements Partial<Extension> {
         });
 
         const pushTarget :(AxisMilestone|AxisScale)[] =
-            [...axis.milestones, ...axis.scales]
-            .sort(function (comp1, comp2) {
-                return comp1.drawInfo.alignY - comp2.drawInfo.alignY;
-            })
+            [...axis.milestones, ...axis.scales].sort(
+                (comp1, comp2) => comp1.drawInfo.alignY - comp2.drawInfo.alignY,
+            )
         ;
         for (const comp of pushTarget) {
             const distance = this.countCritical(comp.drawInfo.alignY);

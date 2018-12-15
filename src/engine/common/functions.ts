@@ -1,6 +1,6 @@
-import {Box , DateBy , Line} from '@engine/types';
-import {DEBUG} from '@engine/common/config';
-import {FixResult} from '@/extensions/conflict-fixer';
+import { Box , DateBy , Line } from '@engine/types';
+import { DEBUG } from '@engine/common/config';
+import { FixResult } from '@/extensions/conflict-fixer';
 
 export function isBox(obj:any): obj is Box {
     return typeof obj === 'object'
@@ -74,7 +74,7 @@ export function deepAssign(...args:any[]) {
     return result;
 }
 
-export const TimeNodeGetter: {
+export const timeNodeGetter: {
     [key in DateBy]: (start: Date , end: Date) => Date[]
 } = function () {
     const getNodes = function (start: Date , end: Date , step: (date: Date) => void): Date[] {
@@ -112,7 +112,7 @@ export const TimeNodeGetter: {
         quarter(start: Date , end: Date): Date[] {
             return getNodes(
                 start , end ,
-                date => {
+                (date) => {
                     if (date.getMonth() + 3 >= 12) {
                         date.setFullYear(date.getFullYear() + 1);
                         date.setMonth(0 , 1);
@@ -125,7 +125,7 @@ export const TimeNodeGetter: {
         month(start: Date , end: Date): Date[] {
             return getNodes(
                 start , end ,
-                date => {
+                (date) => {
                     if (date.getMonth() === 11) {
                         date.setFullYear(date.getFullYear() + 1);
                         date.setMonth(0 , 1);
@@ -138,7 +138,7 @@ export const TimeNodeGetter: {
         week(start: Date , end: Date): Date[] {
             return getNodes(
                 start , end ,
-                date => {
+                (date) => {
                     do {
                         date.setTime(date.getTime() + 1000 * 60 * 60 * 24);
                     }while (date.getDay() !== 1);
@@ -178,8 +178,8 @@ export function mergeBox(...args:Box[]):Box {
 }
 
 export function isIntersecting(line1: Line, line2: Line): boolean {
-    let {startX: x1, startY: y1, endX: x2, endY: y2} = line1;
-    let {startX: x3, startY: y3, endX: x4, endY: y4} = line2;
+    let { startX: x1, startY: y1, endX: x2, endY: y2 } = line1;
+    let { startX: x3, startY: y3, endX: x4, endY: y4 } = line2;
 
     if ([x1, x2, x3, x4, y1, y2, y3, y4].some(isNaN)) {
         throw TypeError('Unexpected NaN');
@@ -221,7 +221,7 @@ export function isIntersecting(line1: Line, line2: Line): boolean {
     ;
     if (isNaN(x) || isNaN(y)) {
         return false;
-    } else {
+    } else { // tslint:disable-line
         if (x1 >= x2) {
             if (!(x2 <= x && x <= x1)) {
                 return false;

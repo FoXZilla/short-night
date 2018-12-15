@@ -1,13 +1,13 @@
-import Component from '@engine/common/component';
-import {ComponentDrawInfo} from '@engine/types';
-import EventMark from '@engine/event/mark';
-import EventBody from '@engine/event/body';
-import EventAxis from '@engine/event/axis';
-import {deepFreeze, mergeBox} from '@engine/common/functions';
-import {SN} from '@engine/common/config';
-import AxisMilestone from '@engine/axis/milestone';
-import AxisScale from '@engine/axis/scale';
-import AxisBody from '@engine/axis/body';
+import Component from '@engine/common/Component';
+import { ComponentDrawInfo } from '@engine/types';
+import EventMark from '@engine/Event/EventMark';
+import EventBody from '@engine/Event/EventBody';
+import EventAxis from '@engine/Event/EventAxis';
+import { deepFreeze, mergeBox } from '@engine/common/functions';
+import { SN } from '@engine/common/config';
+import AxisMilestone from '@engine/Axis/AxisMilestone';
+import AxisScale from '@engine/Axis/AxisScale';
+import AxisBody from '@engine/Axis/AxisBody';
 
 export interface DrawInfo extends ComponentDrawInfo{
     target: {
@@ -57,23 +57,23 @@ export default abstract class Event extends Component{
         },
     };
 
-    abstract BodyConstructor :typeof EventBody;
-    abstract AxisConstructor :typeof EventAxis;
-    abstract MarkConstructor :typeof EventMark;
+    abstract bodyConstructor :typeof EventBody;
+    abstract axisConstructor :typeof EventAxis;
+    abstract barkConstructor :typeof EventMark;
     mark:EventMark = null as any;
     body:EventBody = null as any;
     axis:EventAxis|null = null;
 
     async apply() {
         // @ts-ignore
-        if (!this.mark) this.mark = new this.MarkConstructor(this);
+        if (!this.mark) this.mark = new this.barkConstructor(this);
         this.mark.drawInfo.target = this.drawInfo.target;
         this.mark.drawInfo.width = this.grid.markWidth;
         this.mark.drawInfo.height = this.grid.markHeight;
         await this.mark.apply();
 
         // @ts-ignore
-        if (!this.body) this.body = new this.BodyConstructor(this);
+        if (!this.body) this.body = new this.bodyConstructor(this);
         this.body.drawInfo.markDrawInfo = deepFreeze(this.mark.drawInfo);
         this.body.drawInfo.maxWidth = this.grid.eventWidth;
         this.body.drawInfo.date = this.drawInfo.date;
@@ -86,7 +86,7 @@ export default abstract class Event extends Component{
 
         if (this.drawInfo.axisLength) {
             // @ts-ignore
-            const axis = this.axis || new this.AxisConstructor(this);
+            const axis = this.axis || new this.axisConstructor(this);
             axis.drawInfo.axisBodyDrawInfo = deepFreeze(this.ext.components[SN.Axis][0].drawInfo);
             axis.drawInfo.markDrawInfo = deepFreeze(this.mark.drawInfo);
             axis.drawInfo.offsetX = this.grid.minEventAxisOffset;
