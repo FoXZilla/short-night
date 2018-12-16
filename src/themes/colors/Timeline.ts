@@ -16,7 +16,8 @@ export default class Timeline extends Engine.Timeline {
     grid = {
         ...Engine.Timeline.defaultGrid,
         scaleHeight: 3,
-        axisWidth: 10,
+        axisWidth: 5,
+        markWidth: 10,
     };
 
     roughCanvas: RoughCanvas;

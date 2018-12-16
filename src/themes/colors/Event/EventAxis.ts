@@ -12,6 +12,10 @@ export default class EventAxis extends Engine.EventAxis {
     }
 
     draw() {
+        const color = this.ext.getParent(this).extraData.mainColor;
+        const strokeWidth = 1.5;
+        const radius = 10;
+
         this.roughCanvas.linearPath(
             [
                 [this.drawInfo.markDrawInfo.target.x, this.drawInfo.markDrawInfo.target.y],
@@ -21,15 +25,27 @@ export default class EventAxis extends Engine.EventAxis {
                 ],
                 [
                     this.drawInfo.markDrawInfo.target.x + this.drawInfo.offsetX,
-                    this.drawInfo.markDrawInfo.target.y - this.drawInfo.length,
+                    this.drawInfo.markDrawInfo.target.y - this.drawInfo.length + radius / 2,
                 ],
             ],
             {
-                stroke: this.ext.getParent(this).extraData.mainColor,
-                strokeWidth: 1.5,
+                strokeWidth,
+                stroke: color,
 
                 roughness: 0.7,
                 bowing: 0,
+            },
+        );
+
+        this.roughCanvas.circle(
+            this.drawInfo.markDrawInfo.target.x + this.drawInfo.offsetX,
+            this.drawInfo.markDrawInfo.target.y - this.drawInfo.length,
+            radius,
+            {
+                strokeWidth,
+                stroke: color,
+
+                roughness: 0.2,
             },
         );
 
