@@ -11,8 +11,13 @@ export default class EventAxis extends Engine.EventAxis {
         this.roughCanvas = info.roughCanvas;
     }
 
+    drawInfo: Engine.EventAxis['drawInfo'] & {mainColor:string} = Object.assign(
+        {},
+        this.drawInfo,
+        { mainColor: '' },
+    );
+
     draw() {
-        const color = this.ext.getParent(this).extraData.mainColor;
         const strokeWidth = 1.5;
         const radius = 10;
 
@@ -30,7 +35,7 @@ export default class EventAxis extends Engine.EventAxis {
             ],
             {
                 strokeWidth,
-                stroke: color,
+                stroke: this.drawInfo.mainColor,
 
                 roughness: 0.7,
                 bowing: 0,
@@ -43,7 +48,7 @@ export default class EventAxis extends Engine.EventAxis {
             radius,
             {
                 strokeWidth,
-                stroke: color,
+                stroke: this.drawInfo.mainColor,
 
                 roughness: 0.2,
             },

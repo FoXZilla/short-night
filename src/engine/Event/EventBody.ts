@@ -9,7 +9,7 @@ export interface DrawInfo extends ComponentDrawInfo{
     offset: Coordinate;
     maxWidth: number;
 
-    date: Date;
+    date: string;
     title: string;
     contentText?: string;
 
@@ -51,12 +51,12 @@ export default abstract class EventBody extends Component{
         if (this.drawInfo.folded) { // TODO: reconstruct here
             this.element.innerHTML = `
                 <h4 class="foldedText">${this.drawInfo.foldedText || this.drawInfo.title}</h4>
-                <h5 class="date">${this.drawInfo.date.toDateString()}</h5>
+                <h5 class="date">${new Date(this.drawInfo.date).toDateString()}</h5>
             `;
         } else {
             this.element.innerHTML = `
                 <h4 class="title">${this.drawInfo.title}</h4>
-                <h5 class="date">${this.drawInfo.date.toDateString()}</h5>
+                <h5 class="date">${new Date(this.drawInfo.date).toDateString()}</h5>
                 ${this.drawInfo.contentText ? `<p>${this.drawInfo.contentText}</p>` :''}
             `;
         }
@@ -75,11 +75,10 @@ export default abstract class EventBody extends Component{
                 width: null,
                 height: null,
                 maxWidth: `${this.drawInfo.maxWidth}px`,
-                visibility: 'hidden',
             },
         );
     }
-    syncBox() {
+    initBoxFromElement() {
         const eltBox = countBox(this.element);
         const box:Box = {
             width: eltBox.width,
@@ -92,37 +91,31 @@ export default abstract class EventBody extends Component{
         box.x -= this.drawInfo.offset.x;
         box.y += this.drawInfo.offset.y;
 
-        Object.assign(
-            this.element.style,
-            {
-                left: `${box.x}px`,
-                top: `${box.y}px`,
-                width: `${box.width}px`,
-                height: `${box.height}px`,
-            },
-        );
         this.drawInfo.box = box;
-
     }
     async apply() {
-        if (!this.element) {
-            this.element = EventBody.createElement();
-            this.container.appendChild(this.element);
-        }
-        this.resetElement();
-        this.syncBox();
+        this.createElement();
+        this.initBoxFromElement();
+        this.createElement();
+        this.element.style.visibility = 'hidden';
 
         return super.apply();
     }
 
-    static createElement() {
-        const elt = document.createElement('div');
-        elt.className = 'event-body';
-        elt.style.visibility = 'hidden';
-        return elt;
+    createElement() {
+        super.createElement();
+        this.resetElement();
+
+        this.element.style.left = `${this.drawInfo.box.x}px`;
+        this.element.style.top = `${this.drawInfo.box.y}px`;
     }
 
     static is(comp:Component) :comp is EventBody {
         return comp.name === SN.EventBody;
+    }
+
+    draw() {
+        this.createElement();
+        return super.draw();
     }
 }

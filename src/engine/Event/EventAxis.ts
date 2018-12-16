@@ -39,20 +39,15 @@ export default abstract class EventAxis extends Component{
             height: this.drawInfo.length,
         };
 
-        if (this.drawInfo.text && !this.element) {
-            this.element = EventAxis.createElement();
-            this.container.appendChild(this.element);
+        if (!this.element && this.drawInfo.text) {
+            this.createElement();
+            this.element!.style.visibility = 'hidden';
         }
-        if (!this.drawInfo.text && this.element && this.element.parentNode) {
-            this.element.parentNode.removeChild(this.element);
+        if (this.element && !this.drawInfo.text) {
+            this.container.removeChild(this.element);
             delete this.element;
         }
-
         if (this.element && this.drawInfo.text) {
-            this.element.innerHTML = this.drawInfo.text;
-            this.element.style.left = `${target.x + this.drawInfo.offsetX}px`;
-            this.element.style.top = `${target.y - this.drawInfo.length}px`;
-
             this.drawInfo.box = mergeBox(
                 this.drawInfo.box,
                 countBox(this.element),
@@ -62,14 +57,23 @@ export default abstract class EventAxis extends Component{
         return super.apply();
     }
 
-    static createElement() {
-        const elt = document.createElement('div');
-        elt.className = 'event-axis-endText';
-        elt.style.visibility = 'hidden';
-        return elt;
+    createElement() {
+        super.createElement();
+
+        const target = this.drawInfo.markDrawInfo.target;
+
+        this.element!.classList.add('event_axis-endText');
+        this.element!.innerHTML = this.drawInfo.text!;
+        this.element!.style.left = `${target.x + this.drawInfo.offsetX}px`;
+        this.element!.style.top = `${target.y - this.drawInfo.length}px`;
     }
 
     static is(comp:Component) :comp is EventAxis {
         return comp.name === SN.EventAxis;
+    }
+
+    draw() {
+        if (this.drawInfo.text) this.createElement();
+        return super.draw();
     }
 }

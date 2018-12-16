@@ -20,7 +20,7 @@ export interface DrawInfo extends ComponentDrawInfo{
     };
     bodyWidth: number;
 
-    date: Date;
+    date: string;
     title: string;
     contentText?: string;
 
@@ -59,14 +59,14 @@ export default abstract class Event extends Component{
 
     abstract bodyConstructor :typeof EventBody;
     abstract axisConstructor :typeof EventAxis;
-    abstract barkConstructor :typeof EventMark;
+    abstract markConstructor :typeof EventMark;
     mark:EventMark = null as any;
     body:EventBody = null as any;
     axis:EventAxis|null = null;
 
     async apply() {
         // @ts-ignore
-        if (!this.mark) this.mark = new this.barkConstructor(this);
+        if (!this.mark) this.mark = new this.markConstructor(this);
         this.mark.drawInfo.target = this.drawInfo.target;
         this.mark.drawInfo.width = this.grid.markWidth;
         this.mark.drawInfo.height = this.grid.markHeight;

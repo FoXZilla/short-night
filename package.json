@@ -7,6 +7,7 @@
     "eslint": "eslint src/**/*.js",
     "tslint": "tslint --project tsconfig.json",
     "build": "webpack --mode production",
+    "test": "npm run eslint && npm run tslint && tsc",
     "dev": "webpack --mode development --watch"
   },
   "repository": {

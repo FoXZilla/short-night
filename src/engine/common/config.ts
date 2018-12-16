@@ -1,6 +1,5 @@
 import { DateBy } from '@engine/types';
-// @ts-ignore
-import packageJson = require('@root/package.json');
+import packageJson from '@root/package.json';
 
 export const DEBUG = true;
 
@@ -30,4 +29,4 @@ export const WALK_ON = {
     },
 };
 
-export const VERSION =  packageJson.version;
+export const SN_VERSION:string =  packageJson.version;

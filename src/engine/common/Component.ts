@@ -71,8 +71,15 @@ export default abstract class Component{
     draw() {
         this.checkDestroy();
 
-        if (this.element) this.element.style.visibility = 'visible';
         this.ext.onDraw(this);
+    }
+
+    createElement() {
+        if (this.element) this.container.removeChild(this.element);
+
+        this.element = document.createElement('div');
+        this.element.classList.add('short-night', this.theme, this.name);
+        this.container.appendChild(this.element);
     }
 
     /**
@@ -143,5 +150,10 @@ export default abstract class Component{
                 `${this.name} has bean destroyed, however, you still call it's method.`,
             );
         }
+    }
+
+    from(drawInfo:ComponentDrawInfo) {
+        this.drawInfo = drawInfo;
+        return this;
     }
 }

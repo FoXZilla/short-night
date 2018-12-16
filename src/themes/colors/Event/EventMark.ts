@@ -11,9 +11,13 @@ export default class EventMark extends Engine.EventMark {
         this.roughCanvas = info.roughCanvas;
     }
 
-    draw() {
-        const color = this.ext.getParent(this).extraData.mainColor;
+    drawInfo: Engine.EventMark['drawInfo'] & {mainColor:string} = Object.assign(
+        {},
+        this.drawInfo,
+        { mainColor: '' },
+    );
 
+    draw() {
         this.roughCanvas.circle(
             this.drawInfo.target.x,
             this.drawInfo.target.y,
@@ -22,7 +26,7 @@ export default class EventMark extends Engine.EventMark {
                 strokeWidth: 0,
                 stroke: 'rgba(0, 0, 0, 0)',
 
-                fill: color,
+                fill: this.drawInfo.mainColor,
                 fillWeight: 0.5,
                 fillStyle: 'solid',
 

@@ -2,16 +2,16 @@ import { ComponentDrawInfo, DateBy, GridConfig } from '@engine/types';
 import Component from '@engine/common/Component';
 import Event from '@engine/Event';
 import Axis from '@engine/Axis';
-import { timeNodeGetter } from '@engine/common/functions';
-import { DATE_COUNT_EXTRA, SN } from '@engine/common/config';
+import { deepFreeze, timeNodeGetter } from '@engine/common/functions';
+import { DATE_COUNT_EXTRA, SN, SN_VERSION } from '@engine/common/config';
 
 export interface DrawInfo extends ComponentDrawInfo{
     events: {
-        date: Date,
+        date: string,
         title: string,
 
         text?: string,
-        endDate?: Date | 'now',
+        endDate?: string | 'now',
         endText?: string,
 
         folded?: boolean,
@@ -19,8 +19,8 @@ export interface DrawInfo extends ComponentDrawInfo{
     }[];
 }
 export interface RuntimeInfo{
-    startDate: Date;
-    endDate: Date;
+    startDate: string;
+    endDate: string;
     milestoneBy: DateBy | null;
     scaleBy: DateBy | null;
     axisLength: number;
@@ -44,14 +44,14 @@ export default abstract class Timeline extends Component{
 
     countStartData() :Date {
         const events = Array.from(this.drawInfo.events).sort(
-            (e1, e2) => Number(e1.date) - Number(e2.date),
+            (e1, e2) => Number(new Date(e1.date)) - Number(new Date(e2.date)),
         );
-        return events[0].date;
+        return new Date(events[0].date);
     }
     countEndData() :Date {
         const events = this.drawInfo.events;
 
-        const maxStartData = Math.max(...events.map(event => Number(event.date)));
+        const maxStartData = Math.max(...events.map(event => Number(new Date(event.date))));
         const maxEndData = Math.max(
             ...events
                 .filter(event => ('endDate' in event))
@@ -66,7 +66,10 @@ export default abstract class Timeline extends Component{
         const TWO_QUARTER   = 1000 * 60 * 60 * 24 * 30 * 3 * 2;
         const TWO_YEAR      = 1000 * 60 * 60 * 24 * 30 * 12 * 2;
 
-        const dataScope = this.runtime.endDate.getTime() - this.runtime.startDate.getTime();
+        const dataScope =
+            new Date(this.runtime.endDate).getTime()
+            - new Date(this.runtime.startDate).getTime()
+        ;
 
         switch (true) {
             case dataScope > TWO_YEAR:
@@ -105,12 +108,11 @@ export default abstract class Timeline extends Component{
         this.runtime = Object.create(runtime || Object.prototype);
 
         this.runtime.startDate   = ('startDate'   in this.runtime)
-            ? this.runtime.startDate
-            : this.countStartData();
+            ? new Date(this.runtime.startDate).toISOString()
+            : this.countStartData().toISOString();
         this.runtime.endDate     = ('endDate'     in this.runtime)
-            ? this.runtime.endDate
-
-            : this.countEndData();
+            ? new Date(this.runtime.endDate).toISOString()
+            : this.countEndData().toISOString();
         this.runtime.milestoneBy = ('milestoneBy' in this.runtime)
             ? this.runtime.milestoneBy
             : this.countMilestoneBy();
@@ -124,13 +126,13 @@ export default abstract class Timeline extends Component{
         // FIXME: What is it???
         // aligning scaleBy
         this.runtime.startDate = new Date(
-            this.runtime.startDate!.getTime()
+            new Date(this.runtime.startDate!).getTime()
             - DATE_COUNT_EXTRA[this.runtime.scaleBy || DateBy.Day],
-        );
+        ).toISOString();
         this.runtime.endDate = new Date(
-            this.runtime.endDate!.getTime()
+            new Date(this.runtime.endDate!).getTime()
             + DATE_COUNT_EXTRA[this.runtime.scaleBy || DateBy.Day],
-        );
+        ).toISOString();
 
         return runtime as RuntimeInfo;
     }
@@ -154,16 +156,17 @@ export default abstract class Timeline extends Component{
     }
 
     async updateAxis() {
-
-        const dateLength = this.runtime.endDate.getTime() - this.runtime.startDate.getTime();
+        const endDate:number = new Date(this.runtime.endDate).getTime();
+        const startDate:number = new Date(this.runtime.startDate).getTime();
+        const dateLength = endDate - startDate;
         this.axis.drawInfo.length = this.runtime.axisLength;
         if (this.runtime.milestoneBy !== null) {
             this.axis.drawInfo.milestones =
                 timeNodeGetter[this.runtime.milestoneBy](
-                    this.runtime.startDate, this.runtime.endDate,
+                    new Date(startDate), new Date(endDate),
                 ).map((date) => {
                     const result = {
-                        position: (this.runtime.endDate.getTime() - date.getTime())
+                        position: (endDate - date.getTime())
                             / dateLength,
                         text: '',
                     };
@@ -191,24 +194,35 @@ export default abstract class Timeline extends Component{
         }
         if (this.runtime.scaleBy !== null) {
             this.axis.drawInfo.scales =
-                timeNodeGetter[this.runtime.scaleBy](this.runtime.startDate, this.runtime.endDate)
-                .map(date => (this.runtime.endDate.getTime() - date.getTime()) / dateLength)
+                timeNodeGetter[this.runtime.scaleBy](
+                    new Date(this.runtime.startDate),
+                    new Date(this.runtime.endDate),
+                ).map(date =>
+                    (new Date(this.runtime.endDate).getTime() - date.getTime())
+                    / dateLength,
+                )
             ;
         }
         await this.axis.apply();
     }
     async createEvents() {
         const events = Array.from(this.drawInfo.events)
-            .sort((e1, e2) => e1.date.getTime() - e2.date.getTime())
+            .sort((e1, e2) => new Date(e1.date).getTime() - new Date(e2.date).getTime())
         ;
-        const dateLength = this.runtime.endDate.getTime() - this.runtime.startDate.getTime();
+        const dateLength =
+            new Date(this.runtime.endDate).getTime()
+            - new Date(this.runtime.startDate).getTime()
+        ;
         for (const data of events) {
             // @ts-ignore
             const event = new this.eventConstructor(this);
             event.drawInfo.target = {
                 x: this.axis.body.drawInfo.box.x + this.axis.body.drawInfo.box.width / 2,
                 // recomputed in PositionCounter
-                y: (this.runtime.endDate.getTime() - data.date.getTime()) / dateLength,
+                y:
+                    (new Date(this.runtime.endDate).getTime() - new Date(data.date).getTime())
+                    / dateLength
+                ,
             };
             event.drawInfo.bodyWidth = this.grid.eventWidth;
             event.drawInfo.date = data.date;
@@ -218,9 +232,17 @@ export default abstract class Timeline extends Component{
             event.drawInfo.foldedText = data.foldedText;
             event.drawInfo.axisText = data.endText;
             if (data.endDate) {
-                const endDate :Date = data.endDate === 'now' ? this.runtime.endDate : data.endDate;
+                const endDate :Date = new Date(
+                    data.endDate === 'now'
+                        ? this.runtime.endDate
+                        : data.endDate
+                    ,
+                );
                 // recomputed in PositionCounter
-                event.drawInfo.axisLength = (endDate.getTime() - data.date.getTime()) / dateLength;
+                event.drawInfo.axisLength =
+                    (endDate.getTime() - new Date(data.date).getTime())
+                    / dateLength
+                ;
             }
             await event.apply();
             this.events.push(event);
@@ -245,4 +267,79 @@ export default abstract class Timeline extends Component{
         eventWidth: 350,
         canvasWidth: 700,
     };
+
+    drawFrom(input:any) {
+        const data:any  = typeof input === 'string' ? JSON.parse(input).data : input.data;
+        console.log(data);
+        // @ts-ignore
+        const axis:Axis = new this.axisConstructor(this);
+        // @ts-ignore
+        const event:Event = new this.eventConstructor(this);
+
+        for (const { bodyDrawInfo, markDrawInfo, axisDrawInfo } of data.events) {
+            // @ts-ignore
+            new event.bodyConstructor(this).from(bodyDrawInfo).draw();
+            // @ts-ignore
+            const eventMark = new event.markConstructor(this);
+            eventMark.drawInfo = markDrawInfo;
+            eventMark.draw();
+
+            if (axisDrawInfo !== null) {
+                // @ts-ignore
+                const eventAxis = new event.axisConstructor(this);
+                eventAxis.drawInfo = axisDrawInfo;
+                eventAxis.draw();
+            }
+        }
+
+        {
+            const { bodyDrawInfo, scalesDrawInfo, milestonesDrawInfo } = data.axis;
+            // @ts-ignore
+            const axisBody = new axis.bodyConstructor(this);
+            axisBody.drawInfo = bodyDrawInfo;
+            axisBody.draw();
+
+            scalesDrawInfo.forEach((scaleDrawInfo:any) => {
+                // @ts-ignore
+                const axisScale = new axis.scaleConstructor(this);
+                axisScale.drawInfo = scaleDrawInfo;
+                axisScale.draw();
+            });
+
+            milestonesDrawInfo.forEach((milestoneDrawInfo:any) => {
+                // @ts-ignore
+                const axisMilestone = new axis.milestoneConstructor(this);
+                axisMilestone.drawInfo = milestoneDrawInfo;
+                axisMilestone.draw();
+            });
+        }
+
+    }
+    export() {
+        const timeline = this.ext.components[SN.Timeline][0];
+        return deepFreeze(JSON.parse(JSON.stringify({
+            theme: timeline.theme,
+            version: SN_VERSION,
+            data: {
+                timeline: timeline.drawInfo,
+                runtime: timeline.runtime,
+                events: timeline.events.map((event) => {
+                    return {
+                        drawInfo: event.drawInfo,
+                        bodyDrawInfo: event.body.drawInfo,
+                        markDrawInfo: event.mark.drawInfo,
+                        axisDrawInfo: event.axis ? event.axis.drawInfo :null,
+                    };
+                }),
+                axis: {
+                    drawInfo: timeline.axis.drawInfo,
+                    bodyDrawInfo: timeline.axis.body.drawInfo,
+                    scalesDrawInfo: timeline.axis.scales.map(scale => scale.drawInfo),
+                    milestonesDrawInfo: timeline.axis.milestones.map(
+                        milestone => milestone.drawInfo,
+                    ),
+                },
+            },
+        })));
+    }
 }

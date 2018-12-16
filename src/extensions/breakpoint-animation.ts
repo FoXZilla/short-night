@@ -1,7 +1,7 @@
 import { ExtensionManager } from '@/extensions/index';
 import Component from '@engine/common/Component';
 import { DEBUG, SN } from '@engine/common/config';
-import moveto = require('moveto');
+import * as moveto from 'moveto';
 
 export enum Breakpoint{
     PushScalesAndMilestones = 'PushScalesAndMilestones',

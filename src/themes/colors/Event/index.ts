@@ -16,6 +16,6 @@ export default class Event extends Engine.Event {
 
     bodyConstructor = EventBody;
     axisConstructor = EventAxis;
-    barkConstructor = EventMark;
+    markConstructor = EventMark;
 
 }

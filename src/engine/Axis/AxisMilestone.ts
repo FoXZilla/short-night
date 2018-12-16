@@ -28,42 +28,35 @@ export default abstract class AxisMilestone extends Component{
     };
 
     apply() {
-        if (!this.element) {
-            this.element = AxisMilestone.createElement();
-            this.container.appendChild(this.element);
-        }
+        this.createElement();
+        this.element!.style.visibility = 'hidden';
+        this.drawInfo.box = countBox(this.element!);
 
-        this.element.innerHTML = this.drawInfo.text;
+        return super.apply();
+    }
 
-        const { width, height } = countBox(this.element);
+    static is(comp:Component) :comp is AxisMilestone {
+        return comp.name === SN.AxisMilestone;
+    }
+
+    createElement() {
+        super.createElement();
+        this.element!.innerHTML = this.drawInfo.text;
+
+        const { width, height } = countBox(this.element!);
         const x = this.drawInfo.bodyDrawInfo.box.x
             + this.drawInfo.bodyDrawInfo.box.width / 2
             - width / 2
         ;
         const y = this.drawInfo.alignY - height / 2;
 
-        Object.assign(
-            this.element.style,
-            {
-                left: `${x}px`,
-                top: `${y}px`,
-                visibility: 'hidden',
-            },
-        );
+        this.element!.style.left = `${x}px`;
+        this.element!.style.top = `${y}px`;
 
-        this.drawInfo.box = countBox(this.element);
-
-        return super.apply();
     }
 
-    static createElement() {
-        const elt = document.createElement('div');
-        elt.className = 'axis-milestone';
-        elt.style.visibility = 'hidden';
-        return elt;
-    }
-
-    static is(comp:Component) :comp is AxisMilestone {
-        return comp.name === SN.AxisMilestone;
+    draw() {
+        this.createElement();
+        return super.draw();
     }
 }

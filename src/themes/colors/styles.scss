@@ -1,16 +1,15 @@
-.short-night{
+.short-night.colors{
     $black: #333;
-    .axis-milestone{
+    &.axis_milestone{
         font-size: 18px;
         color: $black;
         padding: 2px 7px;
     }
-    .event-body{
-        position: absolute;
+    &.event_body{
         color: #fff;
         padding: 7px 10px 7px 5px;
         text-align: right;
-        &.folded{
+        .folded{
             cursor: pointer;
             .title{
                 overflow: hidden;
@@ -31,8 +30,7 @@
             @extend .title;
         }
     }
-    .event-axis-endText{
-        position: absolute;
+    &.event_axis-endText{
         padding: 0 0 2px 3px;
         font-size: 0.8em;
     }

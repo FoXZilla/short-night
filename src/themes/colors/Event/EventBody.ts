@@ -12,8 +12,13 @@ export default class EventBody extends Engine.EventBody {
         this.roughCanvas = info.roughCanvas;
     }
 
+    drawInfo: Engine.EventBody['drawInfo'] & {mainColor:string} = Object.assign(
+        {},
+        this.drawInfo,
+        { mainColor: '' },
+    );
+
     draw() {
-        const color = this.ext.getParent(this).extraData.mainColor;
         const strokeWidth = 1.5;
         const box = shrinkBox(this.drawInfo.box, strokeWidth);
 
@@ -26,7 +31,7 @@ export default class EventBody extends Engine.EventBody {
                 strokeWidth: 0,
                 stroke: 'rgba(0, 0, 0, 0)',
 
-                fill: color,
+                fill: this.drawInfo.mainColor,
                 fillWeight: 0.5,
                 fillStyle: 'solid',
             },
@@ -41,7 +46,7 @@ export default class EventBody extends Engine.EventBody {
                 strokeWidth,
                 roughness: 1.3,
                 bowing: 0.5,
-                stroke: color,
+                stroke: this.drawInfo.mainColor,
             },
         );
 
