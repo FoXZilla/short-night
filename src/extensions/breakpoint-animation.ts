@@ -2,6 +2,8 @@ import { ExtensionManager } from '@/extensions/index';
 import Component from '@engine/common/Component';
 import { DEBUG, SN } from '@engine/common/config';
 import * as moveto from 'moveto';
+import Axis from '@engine/Axis';
+import AxisBody from '@engine/Axis/AxisBody';
 
 export enum Breakpoint{
     PushScalesAndMilestones = 'PushScalesAndMilestones',
@@ -33,6 +35,7 @@ export default class BreakpointAnimation {
         if (DEBUG) {
             this.breakpoints.push(Breakpoint.Debug);
             (<any>window).next = this.next.bind(this);
+            (<any>window).abort = () => { delete this.stepIn; };
         }
     }
 
@@ -56,31 +59,45 @@ export default class BreakpointAnimation {
      * */
     async block(
         name :Breakpoint,
-        { onBlock, onNext, components= [] }:{
+        { onBlock, onNext, components = [], protagonist, forward = false }:{
+            protagonist?: Component,
             components?: Component[],
+            forward?: boolean,
             onBlock?: () => void,
             onNext?: () => void,
         } = {},
     ) {
-        if (this.breakpoints.includes(name)) {
-            console.log(`blocking at ${name}`);
-            if (this.playAnimation) {
-                const topElement = components.find(
-                    comp1 => components.every(
+        const getMoveTarget = function ():number|null {
+            const topPadding = 100;
+            if (protagonist) return protagonist.drawInfo.box.y - topPadding;
+            if (components && components.length) {
+                const getTopped = (compList:Component[]) => compList.find(
+                    comp1 => compList.every(
                         comp2 => comp1.drawInfo.box.y >= comp2.drawInfo.box.y,
                     ),
                 );
-                if (topElement) {
-                    new moveto().move(
-                        topElement.extraData.boxElement!.getBoundingClientRect().top - 100,
-                        {
-                            callback: () => setTimeout(() => this.next(), 300),
-                        },
+
+                const componentListWithoutAxis = components.filter(
+                    comp => !Axis.is(comp) && !AxisBody.is(comp),
+                );
+
+                return getTopped(componentListWithoutAxis)!.drawInfo.box.x - topPadding;
+            }
+
+            return null;
+        };
+        if (this.breakpoints.includes(name)) {
+            console.log(`blocking at ${name}`);
+            if (this.playAnimation) {
+                const scrollTarget = getMoveTarget();
+                if (scrollTarget && !forward) {
+                    console.log('scrollTarget', scrollTarget);
+                    new moveto({ duration: 500 }).move(
+                        scrollTarget - document.documentElement.scrollTop,
+                        { callback: () => setTimeout(() => this.next(), 200) },
                     );
                 } else {
-                    setTimeout(() => {
-                        this.next();
-                    },         300);
+                    setTimeout(() => this.next(), 300);
                 }
             }
             return (async () => {

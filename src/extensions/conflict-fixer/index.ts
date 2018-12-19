@@ -14,9 +14,9 @@ export enum FixResult {
     Alleviated = 'alleviated', // fixed, but still has conflict
     NoConflict = 'no-conflict', // no conflict or all conflict have been fixed
 }
-export interface Conflict{
-    with: EventBody[];
-    self: EventBody;
+export interface Conflict<T = Component>{
+    with: T[];
+    self: T;
 }
 
 export default class ConflictFixer implements Partial<Extension> {

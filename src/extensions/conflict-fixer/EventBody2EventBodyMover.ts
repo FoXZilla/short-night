@@ -1,10 +1,11 @@
 import EventBody from '@engine/Event/EventBody';
-import Component from '@engine/common/Component';
 import { isOverlap, walkLoop } from '@engine/common/functions';
 import { SN } from '@engine/common/config';
 import { ExtensionManager } from '@/extensions';
-import { FixResult, Conflict } from '@/extensions/conflict-fixer/index';
+import { FixResult, Conflict as ComponentConflict } from '@/extensions/conflict-fixer/index';
 import { Breakpoint } from '@/extensions/breakpoint-animation';
+
+type Conflict = ComponentConflict<EventBody>;
 
 export default class EventBody2EventBodyMover {
     constructor(public ext:ExtensionManager) {}
@@ -85,22 +86,23 @@ export default class EventBody2EventBodyMover {
             ),
         )!;
 
-        const showedComponents = [
-            ...this.ext.components[SN.AxisBody],
-            conflict.self,
-            this.ext.getParent(conflict.self).mark,
-            ...conflict.with,
-            ...conflict.with.map(eb => this.ext.getParent(eb).mark),
-        ];
+        const options = {
+            components: [
+                ...this.ext.components[SN.AxisBody],
+                conflict.self,
+                ...conflict.with,
+            ],
+            protagonist: conflict.self,
+        };
 
-        await this.ext.breakpoint.block(
-            Breakpoint.FixEventBody2EventBodyMover,
-            { components:showedComponents },
-        );
+        await this.ext.breakpoint.block(Breakpoint.FixEventBody2EventBodyMover, options);
         await this.fixConflict(conflict);
         await this.ext.breakpoint.block(
             Breakpoint.FixEventBody2EventBodyMover,
-            { components:showedComponents },
+            {
+                ...options,
+                forward: true,
+            },
         );
 
         return FixResult.Alleviated;

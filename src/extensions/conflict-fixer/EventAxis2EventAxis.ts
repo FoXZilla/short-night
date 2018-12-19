@@ -1,5 +1,5 @@
 import { ExtensionManager } from '@/extensions';
-import { FixResult } from '@/extensions/conflict-fixer/index';
+import { Conflict, FixResult } from '@/extensions/conflict-fixer/index';
 import { SN } from '@engine/common/config';
 import { isIntersecting } from '@engine/common/functions';
 import EventAxis from '@engine/Event/EventAxis';
@@ -24,20 +24,23 @@ export default class EventAxis2EventAxis {
                     ea2 => EventAxis2EventAxis.isConflict(ea1, ea2),
                 );
                 if (conflictWith.length) {
-                    const showedComponents = [
-                        ...this.ext.components[SN.AxisBody],
-                        this.ext.getParent(ea1),
-                        ...conflictWith.map(ea => this.ext.getParent(ea)),
-                    ];
-                    await this.ext.breakpoint.block(
-                        Breakpoint.FixEventAxis2EventAxis,
-                        { components: showedComponents },
-                    );
+                    const options = {
+                        protagonist: ea1,
+                        components: [
+                            ...this.ext.components[SN.AxisBody],
+                            this.ext.getParent(ea1),
+                            ...conflictWith.map(ea => this.ext.getParent(ea)),
+                        ],
+                    };
+                    await this.ext.breakpoint.block(Breakpoint.FixEventAxis2EventAxis, options);
                     ea1.drawInfo.offsetX += 15; // TODO: configurable
                     await ea1.apply();
                     await this.ext.breakpoint.block(
                         Breakpoint.FixEventAxis2EventAxis,
-                        { components: showedComponents },
+                        {
+                            ...options,
+                            forward: true,
+                        },
                     );
                     break;
                 }

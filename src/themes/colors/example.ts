@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         container: document.querySelector('#container') as HTMLElement,
         ext: new ExtensionManager({
             breakpointAnimation: {
-                playAnimation: false,
+                playAnimation: true,
             },
         }),
     });
@@ -61,7 +61,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             endDate :'now',
         },
 
-        // text data
+        // test data
         {
             title :'Mozilla 实习 123',
             date :'2017-9-10',
@@ -84,5 +84,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         },
     ];
     await timeline.apply();
-    timeline.drawFrom(timeline.export()); // should same as timeline.draw()
+    // timeline.drawFrom(timeline.export()); // should same as timeline.draw()
+    timeline.draw();
 });

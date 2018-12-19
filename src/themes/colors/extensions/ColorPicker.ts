@@ -1,5 +1,6 @@
 import { Extension, ExtensionManager } from '@/extensions/index';
 import Timeline from '@engine/Timeline';
+import Event from '@engine/Event';
 import EventBody from '@engine/Event/EventBody';
 import EventMark from '@engine/Event/EventMark';
 import EventAxis from '@engine/Event/EventAxis';
@@ -16,6 +17,10 @@ export default class ColorPicker implements Partial<Extension> {
             || EventMark.is(comp)
             || EventAxis.is(comp)
         ) this.setColorIntoDrawInfo(comp);
+    }
+
+    onConstruct(comp:Component) {
+        if (Event.is(comp)) comp.extraData.mainColor = '#000';
     }
 
     setColorIntoDrawInfo(comp:EventBody|EventMark|EventAxis) {

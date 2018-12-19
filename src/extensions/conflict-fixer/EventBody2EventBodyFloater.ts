@@ -2,14 +2,16 @@ import { DEBUG, SN } from '@engine/common/config';
 import EventBody from '@engine/Event/EventBody';
 import { isOverlap } from '@engine/common/functions';
 import { ExtensionManager } from '@/extensions';
-import { Conflict, FixResult } from '@/extensions/conflict-fixer';
+import { Conflict as ComponentConflict, FixResult } from '@/extensions/conflict-fixer';
 import Timeline from '@engine/Timeline';
-import Axis from '@engine/Axis';
+import AxisBody from '@engine/Axis/AxisBody';
 import { Breakpoint } from '@/extensions/breakpoint-animation';
+
+type Conflict = ComponentConflict<EventBody>;
 
 export default class EventBody2EventBodyFloater {
     timeline ?:Timeline;
-    axis ?:Axis;
+    axisBody ?:AxisBody;
 
     constructor(public ext: ExtensionManager) {}
 
@@ -32,7 +34,7 @@ export default class EventBody2EventBodyFloater {
         conflicts.self.drawInfo.offset.x = maxWidthInConflict + 1;
         conflicts.self.drawInfo.maxWidth = Math.min(
             this.timeline!.grid.eventWidth,
-            this.axis!.drawInfo.box.x - maxWidthInConflict,
+            this.axisBody!.drawInfo.box.x - maxWidthInConflict,
         );
         conflicts.self.drawInfo.floated = true;
         await conflicts.self.apply();
@@ -41,7 +43,7 @@ export default class EventBody2EventBodyFloater {
     async fix() :Promise<FixResult> {
 
         this.timeline = this.ext.components[SN.Timeline][0];
-        this.axis = this.ext.components[SN.Axis][0];
+        this.axisBody = this.ext.components[SN.AxisBody][0];
         this.eventBodyList = Array.from(this.ext.components[SN.EventBody])
             .sort((eb1, eb2) =>
                 eb1.drawInfo.markDrawInfo.target.y - eb2.drawInfo.markDrawInfo.target.y,
@@ -55,22 +57,23 @@ export default class EventBody2EventBodyFloater {
 
         const conflict = this.pickRingleader()!;
 
-        const showedComponents = [
-            this.axis,
-            conflict.self,
-            this.ext.getParent(conflict.self).mark,
-            ...conflict.with,
-            ...conflict.with.map(eb => this.ext.getParent(eb).mark),
-        ];
+        const options = {
+            components: [
+                this.axisBody,
+                conflict.self,
+                ...conflict.with,
+            ],
+            protagonist: conflict.self,
+        };
 
-        await this.ext.breakpoint.block(
-            Breakpoint.FixEventBody2EventBodyFloater,
-            { components:showedComponents },
-        );
+        await this.ext.breakpoint.block(Breakpoint.FixEventBody2EventBodyFloater, options);
         await this.float(conflict);
         await this.ext.breakpoint.block(
             Breakpoint.FixEventBody2EventBodyFloater,
-            { components:showedComponents },
+            {
+                ...options,
+                forward: true,
+            },
         );
         return FixResult.Alleviated;
 

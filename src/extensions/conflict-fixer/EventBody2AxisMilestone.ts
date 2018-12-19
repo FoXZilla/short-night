@@ -16,20 +16,23 @@ export default class EventBody2AxisMilestone {
         for (const eventBody of eventBodyList) {
             for (const axisMilestone of axisMilestoneList) {
                 if (isOverlap(eventBody.drawInfo.box, axisMilestone.drawInfo.box)) {
-                    const showedComponents = [
-                        ...this.ext.components[SN.AxisBody],
-                        axisMilestone,
-                        eventBody,
-                    ];
-                    await this.ext.breakpoint.block(
-                        Breakpoint.FixEventBody2AxisMilestone,
-                        { components: showedComponents },
-                    );
+                    const options = {
+                        protagonist: axisMilestone,
+                        components: [
+                            ...this.ext.components[SN.AxisBody],
+                            axisMilestone,
+                            eventBody,
+                        ],
+                    };
+                    await this.ext.breakpoint.block(Breakpoint.FixEventBody2AxisMilestone, options);
                     eventBody.drawInfo.offset.x = axisMilestone.drawInfo.box.width / 2 + 1;
                     await eventBody.apply();
                     await this.ext.breakpoint.block(
                         Breakpoint.FixEventBody2AxisMilestone,
-                        { components: showedComponents },
+                        {
+                            ...options,
+                            forward: true,
+                        },
                     );
                 }
             }
