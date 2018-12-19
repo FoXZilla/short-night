@@ -270,34 +270,15 @@ export default abstract class Timeline extends Component{
 
     drawFrom(input:any) {
         const data:any  = typeof input === 'string' ? JSON.parse(input).data : input.data;
-        console.log(data);
         // @ts-ignore
         const axis:Axis = new this.axisConstructor(this);
         // @ts-ignore
         const event:Event = new this.eventConstructor(this);
 
-        for (const { bodyDrawInfo, markDrawInfo, axisDrawInfo } of data.events) {
-            // @ts-ignore
-            new event.bodyConstructor(this).from(bodyDrawInfo).draw();
-            // @ts-ignore
-            const eventMark = new event.markConstructor(this);
-            eventMark.drawInfo = markDrawInfo;
-            eventMark.draw();
-
-            if (axisDrawInfo !== null) {
-                // @ts-ignore
-                const eventAxis = new event.axisConstructor(this);
-                eventAxis.drawInfo = axisDrawInfo;
-                eventAxis.draw();
-            }
-        }
-
         {
             const { bodyDrawInfo, scalesDrawInfo, milestonesDrawInfo } = data.axis;
             // @ts-ignore
-            const axisBody = new axis.bodyConstructor(this);
-            axisBody.drawInfo = bodyDrawInfo;
-            axisBody.draw();
+            new axis.bodyConstructor(this).from(bodyDrawInfo).draw();
 
             scalesDrawInfo.forEach((scaleDrawInfo:any) => {
                 // @ts-ignore
@@ -312,6 +293,18 @@ export default abstract class Timeline extends Component{
                 axisMilestone.drawInfo = milestoneDrawInfo;
                 axisMilestone.draw();
             });
+        }
+
+        for (const { bodyDrawInfo, markDrawInfo, axisDrawInfo } of data.events) {
+            // @ts-ignore
+            new event.bodyConstructor(this).from(bodyDrawInfo).draw();
+            // @ts-ignore
+            new event.markConstructor(this).from(markDrawInfo).draw();
+
+            if (axisDrawInfo !== null) {
+                // @ts-ignore
+                new event.axisConstructor(this).from(axisDrawInfo).draw();
+            }
         }
 
     }
