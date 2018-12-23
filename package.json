@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "fix-lint": "eslint src/**/*.js --fix && tslint --project tsconfig.json --fix",
     "eslint": "eslint src/**/*.js",
     "tslint": "tslint --project tsconfig.json",
     "build": "webpack --mode production",

@@ -2,10 +2,10 @@ import { DEBUG, SN } from '@engine/common/config';
 import EventBody from '@engine/Event/EventBody';
 import { isOverlap } from '@engine/common/functions';
 import { ExtensionManager } from '@/extensions';
-import { Conflict as ComponentConflict, FixResult } from '@/extensions/conflict-fixer';
+import { Conflict as ComponentConflict, FixResult } from '@/extensions/ConflictFixer';
 import Timeline from '@engine/Timeline';
 import AxisBody from '@engine/Axis/AxisBody';
-import { Breakpoint } from '@/extensions/breakpoint-animation';
+import { Breakpoint } from '@/extensions/BreakpointAnimation';
 
 type Conflict = ComponentConflict<EventBody>;
 

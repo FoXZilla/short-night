@@ -1,9 +1,10 @@
-import { ExtensionManager } from '@/extensions/index';
+import { Extension, ExtensionManager } from '@/extensions/index';
 import Component from '@engine/common/Component';
 import { DEBUG, SN } from '@engine/common/config';
 import * as moveto from 'moveto';
 import Axis from '@engine/Axis';
 import AxisBody from '@engine/Axis/AxisBody';
+import { Timeline } from '@engine';
 
 export enum Breakpoint{
     PushScalesAndMilestones = 'PushScalesAndMilestones',
@@ -11,6 +12,7 @@ export enum Breakpoint{
     FixEventAxis2EventAxis = 'FixEventAxis2EventAxis',
     FixEventBody2EventBodyMover = 'FixEventBody2EventBodyMover',
     FixEventBody2EventBodyFloater = 'FixEventBody2EventBodyFloater',
+    DrawFrom = 'DrawFrom',
     Debug = 'Debug',
 }
 
@@ -19,9 +21,9 @@ export interface BreakpointAnimationConfig {
     playAnimation?: boolean;
 }
 
-export default class BreakpointAnimation {
-    breakpoints:Breakpoint[];
-    playAnimation: boolean;
+export default class BreakpointAnimation implements Partial<Extension>{
+    private breakpoints:Breakpoint[];
+    private readonly playAnimation: boolean;
 
     constructor(
         public etx:ExtensionManager,
@@ -36,6 +38,12 @@ export default class BreakpointAnimation {
             this.breakpoints.push(Breakpoint.Debug);
             (<any>window).next = this.next.bind(this);
             (<any>window).abort = () => { delete this.stepIn; };
+        }
+    }
+
+    onDraw(comp:Component) {
+        if (Timeline.is(comp) && this.playAnimation) {
+            new moveto().move(this.etx.components[SN.Timeline][0].canvas);
         }
     }
 
@@ -67,6 +75,12 @@ export default class BreakpointAnimation {
             onNext?: () => void,
         } = {},
     ) {
+        const animationInterval =
+            name === Breakpoint.DrawFrom
+                ? 300
+                : forward ? 200 : 300
+        ;
+
         const getMoveTarget = function ():number|null {
             const topPadding = 100;
             if (protagonist) return protagonist.drawInfo.box.y - topPadding;
@@ -91,13 +105,12 @@ export default class BreakpointAnimation {
             if (this.playAnimation) {
                 const scrollTarget = getMoveTarget();
                 if (scrollTarget && !forward) {
-                    console.log('scrollTarget', scrollTarget);
                     new moveto({ duration: 500 }).move(
                         scrollTarget - document.documentElement.scrollTop,
-                        { callback: () => setTimeout(() => this.next(), 200) },
+                        { callback: () => setTimeout(() => this.next(), animationInterval) },
                     );
                 } else {
-                    setTimeout(() => this.next(), 300);
+                    setTimeout(() => this.next(), animationInterval);
                 }
             }
             return (async () => {
@@ -121,5 +134,6 @@ export default class BreakpointAnimation {
         Breakpoint.FixEventAxis2EventAxis,
         Breakpoint.FixEventBody2EventBodyMover,
         Breakpoint.FixEventBody2EventBodyFloater,
+        Breakpoint.DrawFrom,
     ];
 }

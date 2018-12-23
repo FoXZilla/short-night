@@ -3,7 +3,7 @@ import Component from '@engine/common/Component';
 import Axis from '@engine/Axis';
 import AxisMilestone from '@engine/Axis/AxisMilestone';
 import { mergeBox } from '@engine/common/functions';
-import { Breakpoint } from '@/extensions/breakpoint-animation';
+import { Breakpoint } from '@/extensions/BreakpointAnimation';
 import { SN } from '@engine/common/config';
 import Timeline from '@engine/Timeline';
 import AxisScale from '@engine/Axis/AxisScale';

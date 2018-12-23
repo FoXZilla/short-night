@@ -1,10 +1,10 @@
 import { ExtensionManager } from '@/extensions';
-import { FixResult } from '@/extensions/conflict-fixer/index';
+import { FixResult } from '@/extensions/ConflictFixer/index';
 import EventBody from '@engine/Event/EventBody';
 import { SN } from '@engine/common/config';
 import AxisMilestone from '@engine/Axis/AxisMilestone';
 import { isOverlap } from '@engine/common/functions';
-import { Breakpoint } from '@/extensions/breakpoint-animation';
+import { Breakpoint } from '@/extensions/BreakpointAnimation';
 
 export default class EventBody2AxisMilestone {
     constructor(public ext:ExtensionManager) {}

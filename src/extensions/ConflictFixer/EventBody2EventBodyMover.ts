@@ -2,8 +2,8 @@ import EventBody from '@engine/Event/EventBody';
 import { isOverlap, walkLoop } from '@engine/common/functions';
 import { SN } from '@engine/common/config';
 import { ExtensionManager } from '@/extensions';
-import { FixResult, Conflict as ComponentConflict } from '@/extensions/conflict-fixer/index';
-import { Breakpoint } from '@/extensions/breakpoint-animation';
+import { FixResult, Conflict as ComponentConflict } from '@/extensions/ConflictFixer/index';
+import { Breakpoint } from '@/extensions/BreakpointAnimation';
 
 type Conflict = ComponentConflict<EventBody>;
 

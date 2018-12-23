@@ -1,5 +1,5 @@
 import Component from '@engine/common/Component';
-import BreakpointAnimation, { BreakpointAnimationConfig } from '@/extensions/breakpoint-animation';
+import BreakpointAnimation, { BreakpointAnimationConfig } from '@/extensions/BreakpointAnimation';
 import { SN } from '@engine/common/config';
 import Timeline from '@engine/Timeline';
 import Axis from '@engine/Axis';

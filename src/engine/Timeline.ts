@@ -4,6 +4,8 @@ import Event from '@engine/Event';
 import Axis from '@engine/Axis';
 import { deepFreeze, timeNodeGetter } from '@engine/common/functions';
 import { DATE_COUNT_EXTRA, SN, SN_VERSION } from '@engine/common/config';
+import { AxisMilestone, AxisScale } from '@engine';
+import { Breakpoint } from '@/extensions/BreakpointAnimation';
 
 export interface DrawInfo extends ComponentDrawInfo{
     events: {
@@ -153,6 +155,12 @@ export default abstract class Timeline extends Component{
     draw() {
         this.axis.draw();
         this.events.forEach(event => event.draw());
+        return super.draw();
+    }
+    hide() {
+        this.events.forEach(event => event.hide());
+        this.axis.hide();
+        return super.hide();
     }
 
     async updateAxis() {
@@ -268,43 +276,59 @@ export default abstract class Timeline extends Component{
         canvasWidth: 700,
     };
 
-    drawFrom(input:any) {
+    async drawFrom(input:any) {
         const data:any  = typeof input === 'string' ? JSON.parse(input).data : input.data;
         // @ts-ignore
         const axis:Axis = new this.axisConstructor(this);
         // @ts-ignore
         const event:Event = new this.eventConstructor(this);
 
+        const allComponents:Component[] = [];
+
         {
             const { bodyDrawInfo, scalesDrawInfo, milestonesDrawInfo } = data.axis;
             // @ts-ignore
-            new axis.bodyConstructor(this).from(bodyDrawInfo).draw();
+            allComponents.push(new axis.bodyConstructor(this).from(bodyDrawInfo));
 
+            const scalesAndMilestones:(AxisScale | AxisMilestone)[] = [];
             scalesDrawInfo.forEach((scaleDrawInfo:any) => {
                 // @ts-ignore
-                const axisScale = new axis.scaleConstructor(this);
-                axisScale.drawInfo = scaleDrawInfo;
-                axisScale.draw();
+                scalesAndMilestones.push(new axis.scaleConstructor(this).from(scaleDrawInfo));
             });
 
             milestonesDrawInfo.forEach((milestoneDrawInfo:any) => {
-                // @ts-ignore
-                const axisMilestone = new axis.milestoneConstructor(this);
-                axisMilestone.drawInfo = milestoneDrawInfo;
-                axisMilestone.draw();
+                scalesAndMilestones.push(
+                    // @ts-ignore
+                    new axis.milestoneConstructor(this).from(milestoneDrawInfo),
+                );
             });
+
+            scalesAndMilestones.sort(
+                (comp1, comp2) => comp1.drawInfo.alignY - comp2.drawInfo.alignY,
+            );
+
+            allComponents.push(...scalesAndMilestones);
         }
 
-        for (const { bodyDrawInfo, markDrawInfo, axisDrawInfo } of data.events) {
+        const events:any[] = Array.from(data.events)
+            .sort((e1:any, e2:any) => e1.drawInfo.target.y - e2.drawInfo.target.y)
+        ;
+        for (const { bodyDrawInfo, markDrawInfo, axisDrawInfo } of events) {
             // @ts-ignore
-            new event.bodyConstructor(this).from(bodyDrawInfo).draw();
+            allComponents.push(new event.markConstructor(this).from(markDrawInfo));
             // @ts-ignore
-            new event.markConstructor(this).from(markDrawInfo).draw();
+            allComponents.push(new event.bodyConstructor(this).from(bodyDrawInfo));
 
             if (axisDrawInfo !== null) {
                 // @ts-ignore
-                new event.axisConstructor(this).from(axisDrawInfo).draw();
+                allComponents.push(new event.axisConstructor(this).from(axisDrawInfo));
             }
+        }
+
+        // TODO: Maybe there is slow when want not play animation?
+        for (const comp of allComponents) {
+            await this.ext.breakpoint.block(Breakpoint.DrawFrom);
+            comp.draw();
         }
 
     }

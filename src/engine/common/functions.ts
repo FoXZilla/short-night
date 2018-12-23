@@ -1,6 +1,6 @@
 import { Box , DateBy , Line } from '@engine/types';
 import { DEBUG } from '@engine/common/config';
-import { FixResult } from '@/extensions/conflict-fixer';
+import { FixResult } from '@/extensions/ConflictFixer';
 
 export function isBox(obj:any): obj is Box {
     return typeof obj === 'object'

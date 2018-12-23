@@ -1,9 +1,9 @@
 import { DEBUG, SN } from '@/engine/common/config';
-import BoxElementGenerator from '@/extensions/box-element-generator';
-import GeneratorId from '@/extensions/generator-id';
+import BoxElementGenerator from '@/extensions/BoxElementGenerator';
+import GeneratorId from '@/extensions/GeneratorId';
 import PositionCounter from '@/extensions/position-counter';
-import BreakpointAnimation from '@/extensions/breakpoint-animation';
-import ConflictFixer from '@/extensions/conflict-fixer';
+import BreakpointAnimation from '@/extensions/BreakpointAnimation';
+import ConflictFixer from '@/extensions/ConflictFixer';
 import AxisBody from '@/engine/Axis/AxisBody';
 import AxisMilestone from '@/engine/Axis/AxisMilestone';
 import AxisScale from '@/engine/Axis/AxisScale';
@@ -58,6 +58,7 @@ export function ExtensionManager({ breakpointAnimation } = {}) {
         new GeneratorId(this),
         new PositionCounter(this),
         new ConflictFixer(this),
+        this.breakpoint,
     ];
 
     if (DEBUG) {

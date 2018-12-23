@@ -1,18 +1,9 @@
 import { ExtensionManager } from '@/extensions';
 import Timeline from './Timeline';
+import BreakpointAnimation from '@/extensions/BreakpointAnimation';
 
 document.addEventListener('DOMContentLoaded', async () => {
-    const timeline = new Timeline({
-        canvas: document.querySelector('#canvas') as HTMLCanvasElement,
-        container: document.querySelector('#container') as HTMLElement,
-        ext: new ExtensionManager({
-            breakpointAnimation: {
-                playAnimation: true,
-            },
-        }),
-    });
-    console.log((<any>window).t = timeline);
-    timeline.drawInfo.events = [
+    const events = [
         {
             date :'2014-5',
             title:'开始 自学Web开发',
@@ -55,11 +46,11 @@ document.addEventListener('DOMContentLoaded', async () => {
             title :'KITT.IA 团队 2倍简单奖',
             date :'2018-6-29',
         },
-        {
-            title :'百度 SWAN 团队',
-            date :'2018-7-4',
-            endDate :'now',
-        },
+        // {
+        //     title :'百度 SWAN 团队',
+        //     date :'2018-7-4',
+        //     endDate :'now',
+        // },
 
         // test data
         {
@@ -83,7 +74,32 @@ document.addEventListener('DOMContentLoaded', async () => {
             date :'2015-5-1',
         },
     ];
+
+    const timeline = new Timeline({
+        canvas: document.querySelector('#canvas') as HTMLCanvasElement,
+        container: document.querySelector('#container') as HTMLElement,
+        ext: new ExtensionManager({
+            breakpointAnimation: {
+                playAnimation: true,
+            },
+        }),
+    });
+    console.log((<any>window).t = timeline);
+    timeline.drawInfo.events = events;
+
+    // Play walk-on animation
     await timeline.apply();
-    // timeline.drawFrom(timeline.export()); // should same as timeline.draw()
     timeline.draw();
+
+    // Wait a minute
+    await new Promise(r => setTimeout(r, 1000));
+    timeline.hide();
+    await new Promise(r => setTimeout(r, 500));
+
+    // Play drawFrom animation
+    const breakpointBackup = timeline.ext.breakpoint;
+    timeline.ext.breakpoint = new BreakpointAnimation(timeline.ext, { playAnimation: false });
+    await timeline.apply();
+    timeline.ext.breakpoint = breakpointBackup;
+    await timeline.drawFrom(timeline.export()); // should same as timeline.draw()
 });
