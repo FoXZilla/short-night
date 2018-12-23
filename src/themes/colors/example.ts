@@ -38,19 +38,20 @@ document.addEventListener('DOMContentLoaded', async () => {
             endDate :'2018-2-9',
         },
         {
-            title :'百度 KITT.IA 实习',
+            title :'百度 KITT.AI 实习',
             date :'2018-3-21',
             endDate :'2018-5-28',
+            endText : 'Team 被解散',
         },
         {
-            title :'KITT.IA 团队 2倍简单奖',
+            title :'KITT.AI 团队 2倍简单奖',
             date :'2018-6-29',
         },
-        // {
-        //     title :'百度 SWAN 团队',
-        //     date :'2018-7-4',
-        //     endDate :'now',
-        // },
+        {
+            title :'百度 SWAN 团队',
+            date :'2018-7-4',
+            endDate :'now',
+        },
 
         // test data
         {

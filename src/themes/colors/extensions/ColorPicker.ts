@@ -1,10 +1,5 @@
 import { Extension, ExtensionManager } from '@/extensions/index';
-import Timeline from '@engine/Timeline';
-import Event from '@engine/Event';
-import EventBody from '@engine/Event/EventBody';
-import EventMark from '@engine/Event/EventMark';
-import EventAxis from '@engine/Event/EventAxis';
-import Component from '@engine/common/Component';
+import { Timeline, Event, EventBody, EventMark, EventAxis, Component } from '@engine';
 
 export default class ColorPicker implements Partial<Extension> {
     colors = ['rgb(213, 57, 38)', 'rgb(252, 200, 29)', 'rgb(0, 163, 201)'];

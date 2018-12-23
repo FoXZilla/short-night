@@ -1,5 +1,3 @@
-import Event from '@engine/Event';
-
 export const enum ConstLevel{
     No = 0,
     Few = 1,
@@ -34,7 +32,7 @@ export interface Line{
 }
 
 export interface GridConfig{
-    eventOffset: Event['drawInfo']['offset'];
+    eventOffset: Coordinate;
 
     minEventAxisOffset: number;
 
@@ -46,4 +44,10 @@ export interface GridConfig{
     axisStart: Coordinate;
     eventWidth: number;
     canvasWidth: number;
+}
+
+export const enum ConflictFixResult {
+    Failed = 'failed', // the conflict cannot be fixed
+    Alleviated = 'alleviated', // fixed, but still has conflict
+    NoConflict = 'no-conflict', // no conflict or all conflict have been fixed
 }

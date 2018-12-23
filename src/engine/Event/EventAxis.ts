@@ -30,6 +30,14 @@ export default abstract class EventAxis extends Component{
         },
     };
     apply() {
+        if (this.drawInfo.text) {
+            this.createElement();
+            this.element!.style.visibility = 'hidden';
+        } else if (this.element) {
+            this.element.parentNode!.removeChild(this.element);
+            delete this.element;
+        }
+
         const target = this.drawInfo.markDrawInfo.target;
 
         this.drawInfo.box = {
@@ -38,21 +46,6 @@ export default abstract class EventAxis extends Component{
             width: this.drawInfo.offsetX,
             height: this.drawInfo.length,
         };
-
-        if (!this.element && this.drawInfo.text) {
-            this.createElement();
-            this.element!.style.visibility = 'hidden';
-        }
-        if (this.element && !this.drawInfo.text) {
-            this.container.removeChild(this.element);
-            delete this.element;
-        }
-        if (this.element && this.drawInfo.text) {
-            this.drawInfo.box = mergeBox(
-                this.drawInfo.box,
-                countBox(this.element),
-            );
-        }
 
         return super.apply();
     }
@@ -64,8 +57,12 @@ export default abstract class EventAxis extends Component{
 
         this.element!.classList.add('event_axis-endText');
         this.element!.innerHTML = this.drawInfo.text!;
+
+        const box = countBox(this.element!);
+
         this.element!.style.left = `${target.x + this.drawInfo.offsetX}px`;
-        this.element!.style.top = `${target.y - this.drawInfo.length}px`;
+        this.element!.style.top = `${target.y - this.drawInfo.length - box.height / 2}px`;
+
     }
 
     static is(comp:Component) :comp is EventAxis {

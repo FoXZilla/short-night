@@ -1,15 +1,14 @@
 import { ExtensionManager } from '@/extensions';
-import { Conflict, FixResult } from '@/extensions/ConflictFixer/index';
 import { SN } from '@engine/common/config';
 import { isIntersecting } from '@engine/common/functions';
 import EventAxis from '@engine/Event/EventAxis';
-import { Line } from '@engine/types';
+import { ConflictFixResult, Line } from '@engine/types';
 import { Breakpoint } from '@/extensions/BreakpointAnimation';
 
 export default class EventAxis2EventAxis {
     constructor(public ext:ExtensionManager) {}
 
-    async fix():Promise<FixResult> {
+    async fix():Promise<ConflictFixResult> {
         const eventAxisList:EventAxis[] = Array.from(this.ext.components[SN.EventAxis])
             .sort((ea1, ea2) => ea2.drawInfo.length - ea1.drawInfo.length)
         ;
@@ -46,7 +45,7 @@ export default class EventAxis2EventAxis {
                 }
             }
         }
-        return FixResult.NoConflict;
+        return ConflictFixResult.NoConflict;
     }
 
     static isConflict (ea1:EventAxis, ea2:EventAxis) :boolean {

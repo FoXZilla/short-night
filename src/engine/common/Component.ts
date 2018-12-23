@@ -1,6 +1,7 @@
 import { ComponentDrawInfo, GridConfig } from '@engine/types';
 import { ExtensionManager } from '@/extensions';
 import { DEBUG, SN } from '@engine/common/config';
+import { countBox, mergeBox } from '@engine/common/functions';
 
 export interface ComponentConstructorInfo {
     ext:ExtensionManager;
@@ -108,6 +109,12 @@ export default abstract class Component{
      * */
     async apply(...args :any[]) :Promise<any> {
         this.checkDestroy();
+        if (this.element) {
+            this.drawInfo.box = mergeBox(
+                this.drawInfo.box,
+                countBox(this.element),
+            );
+        }
         await this.ext.onApply(this);
     }
 

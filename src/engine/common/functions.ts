@@ -1,6 +1,5 @@
-import { Box , DateBy , Line } from '@engine/types';
+import { Box, DateBy, Line, ConflictFixResult } from '@engine/types';
 import { DEBUG } from '@engine/common/config';
-import { FixResult } from '@/extensions/ConflictFixer';
 
 export function isBox(obj:any): obj is Box {
     return typeof obj === 'object'
@@ -278,26 +277,26 @@ export function drawLine(ctx:CanvasRenderingContext2D, line:Line): void {
 }
 
 export async function walkLoop(
-    fn: () => Promise<FixResult[]>,
+    fn: () => Promise<ConflictFixResult[]>,
     max = 10,
-) :Promise<FixResult> {
+) :Promise<ConflictFixResult> {
     let alleviated = false;
 
     for (let i = 0 ; i < max ; i++) {
         const result = await fn();
 
-        if (result.includes(FixResult.Alleviated)) {
+        if (result.includes(ConflictFixResult.Alleviated)) {
             alleviated = true;
             continue;
         }
-        if (result.every(r => r === FixResult.NoConflict)) {
-            return FixResult.NoConflict;
+        if (result.every(r => r === ConflictFixResult.NoConflict)) {
+            return ConflictFixResult.NoConflict;
         }
 
-        if (result.includes(FixResult.Failed)) {
+        if (result.includes(ConflictFixResult.Failed)) {
             return alleviated
-                ? FixResult.Alleviated
-                : FixResult.Failed
+                ? ConflictFixResult.Alleviated
+                : ConflictFixResult.Failed
             ;
         }
 

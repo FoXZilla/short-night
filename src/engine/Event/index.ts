@@ -5,9 +5,6 @@ import EventBody from '@engine/Event/EventBody';
 import EventAxis from '@engine/Event/EventAxis';
 import { deepFreeze, mergeBox } from '@engine/common/functions';
 import { SN } from '@engine/common/config';
-import AxisMilestone from '@engine/Axis/AxisMilestone';
-import AxisScale from '@engine/Axis/AxisScale';
-import AxisBody from '@engine/Axis/AxisBody';
 
 export interface DrawInfo extends ComponentDrawInfo{
     target: {

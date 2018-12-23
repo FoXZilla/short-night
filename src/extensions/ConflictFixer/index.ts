@@ -2,18 +2,13 @@ import { Extension, ExtensionManager } from '@/extensions/index';
 import Component from '@engine/common/Component';
 import { DEBUG } from '@engine/common/config';
 import Timeline from '@engine/Timeline';
-import EventBody from '@engine/Event/EventBody';
 import { walkLoop } from '@engine/common/functions';
 import EventBody2AxisMilestone from './EventBody2AxisMilestone';
 import EventAxis2EventAxis from './EventAxis2EventAxis';
 import EventBody2EventBodyMover from './EventBody2EventBodyMover';
 import EventBody2EventBodyFloater from './EventBody2EventBodyFloater';
+import { ConflictFixResult } from '@engine/types';
 
-export enum FixResult {
-    Failed = 'failed', // the conflict cannot be fixed
-    Alleviated = 'alleviated', // fixed, but still has conflict
-    NoConflict = 'no-conflict', // no conflict or all conflict have been fixed
-}
 export interface Conflict<T = Component>{
     with: T[];
     self: T;
@@ -22,7 +17,7 @@ export interface Conflict<T = Component>{
 export default class ConflictFixer implements Partial<Extension> {
     constructor(public ext:ExtensionManager) {}
 
-    fixers :{ fix():Promise<FixResult> }[] = [
+    fixers :{ fix():Promise<ConflictFixResult> }[] = [
         new EventBody2AxisMilestone(this.ext),
         new EventAxis2EventAxis(this.ext),
         new EventBody2EventBodyMover(this.ext),
@@ -32,7 +27,7 @@ export default class ConflictFixer implements Partial<Extension> {
     private counter = 0;
     async onApply(timeline:Component) {
         if (!Timeline.is(timeline)) return;
-        if (await this.fixAll() === FixResult.NoConflict) {
+        if (await this.fixAll() === ConflictFixResult.NoConflict) {
             this.counter = 0;
             return;
         }
@@ -50,7 +45,7 @@ export default class ConflictFixer implements Partial<Extension> {
 
     }
 
-    async fixAll():Promise<FixResult> {
+    async fixAll():Promise<ConflictFixResult> {
         return await walkLoop(async () => {
             const results = [];
             for (const fixer of this.fixers) {

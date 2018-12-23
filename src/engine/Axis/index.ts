@@ -1,4 +1,4 @@
-import { ComponentDrawInfo, Box, Coordinate } from '@engine/types';
+import { ComponentDrawInfo } from '@engine/types';
 import Component from '@engine/common/Component';
 import AxisMilestone from '@engine/Axis/AxisMilestone';
 import AxisScale from '@engine/Axis/AxisScale';

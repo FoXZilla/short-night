@@ -1,11 +1,12 @@
-import { DEBUG, SN } from '@engine/common/config';
+import { SN } from '@engine/common/config';
 import EventBody from '@engine/Event/EventBody';
 import { isOverlap } from '@engine/common/functions';
 import { ExtensionManager } from '@/extensions';
-import { Conflict as ComponentConflict, FixResult } from '@/extensions/ConflictFixer';
+import { Conflict as ComponentConflict } from '@/extensions/ConflictFixer';
 import Timeline from '@engine/Timeline';
 import AxisBody from '@engine/Axis/AxisBody';
 import { Breakpoint } from '@/extensions/BreakpointAnimation';
+import { ConflictFixResult } from '@engine/types';
 
 type Conflict = ComponentConflict<EventBody>;
 
@@ -40,7 +41,7 @@ export default class EventBody2EventBodyFloater {
         await conflicts.self.apply();
     }
 
-    async fix() :Promise<FixResult> {
+    async fix() :Promise<ConflictFixResult> {
 
         this.timeline = this.ext.components[SN.Timeline][0];
         this.axisBody = this.ext.components[SN.AxisBody][0];
@@ -52,7 +53,7 @@ export default class EventBody2EventBodyFloater {
 
         this.countConflict();
         if (this.conflicts.length === 0) {
-            return FixResult.NoConflict;
+            return ConflictFixResult.NoConflict;
         }
 
         const conflict = this.pickRingleader()!;
@@ -75,7 +76,7 @@ export default class EventBody2EventBodyFloater {
                 forward: true,
             },
         );
-        return FixResult.Alleviated;
+        return ConflictFixResult.Alleviated;
 
     }
 

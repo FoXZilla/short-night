@@ -1,5 +1,5 @@
 import { DateBy } from '@engine/types';
-import packageJson from '@root/package.json';
+import packageJson = require('@root/package.json');
 
 export const DEBUG = true;
 

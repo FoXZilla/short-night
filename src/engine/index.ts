@@ -13,3 +13,5 @@ export { default as Event } from './Event';
 export { default as EventMark } from './Event/EventMark';
 export { default as EventAxis } from './Event/EventAxis';
 export { default as EventBody } from './Event/EventBody';
+
+export { default as Component } from './common/Component';

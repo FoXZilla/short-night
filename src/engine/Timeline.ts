@@ -4,7 +4,8 @@ import Event from '@engine/Event';
 import Axis from '@engine/Axis';
 import { deepFreeze, timeNodeGetter } from '@engine/common/functions';
 import { DATE_COUNT_EXTRA, SN, SN_VERSION } from '@engine/common/config';
-import { AxisMilestone, AxisScale } from '@engine';
+import AxisScale from '@engine/Axis/AxisScale';
+import AxisMilestone from '@engine/Axis/AxisMilestone';
 import { Breakpoint } from '@/extensions/BreakpointAnimation';
 
 export interface DrawInfo extends ComponentDrawInfo{
@@ -57,7 +58,7 @@ export default abstract class Timeline extends Component{
         const maxEndData = Math.max(
             ...events
                 .filter(event => ('endDate' in event))
-                .map(event => Number(event.endDate)),
+                .map(event => Number(new Date(event.endDate!))),
         ) || -1;
 
         return new Date(Math.max(maxStartData , maxEndData));

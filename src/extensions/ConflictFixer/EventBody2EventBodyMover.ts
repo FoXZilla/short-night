@@ -2,8 +2,9 @@ import EventBody from '@engine/Event/EventBody';
 import { isOverlap, walkLoop } from '@engine/common/functions';
 import { SN } from '@engine/common/config';
 import { ExtensionManager } from '@/extensions';
-import { FixResult, Conflict as ComponentConflict } from '@/extensions/ConflictFixer/index';
+import { Conflict as ComponentConflict } from '@/extensions/ConflictFixer/index';
 import { Breakpoint } from '@/extensions/BreakpointAnimation';
+import { ConflictFixResult } from '@engine/types';
 
 type Conflict = ComponentConflict<EventBody>;
 
@@ -54,7 +55,7 @@ export default class EventBody2EventBodyMover {
         return isOverlap(eb1.drawInfo.box, eb2.drawInfo.box);
     }
 
-    public async fix() :Promise<FixResult> {
+    public async fix() :Promise<ConflictFixResult> {
         this.eventBodyList = Array.from(this.ext.components[SN.EventBody])
             .sort((eb1, eb2) => (
                 eb1.drawInfo.markDrawInfo.target.y
@@ -70,15 +71,15 @@ export default class EventBody2EventBodyMover {
     /**
      * @return {boolean} have fixed one of conflicts?
      * */
-    private async tryFixOne() :Promise<FixResult> {
+    private async tryFixOne() :Promise<ConflictFixResult> {
         await this.countConflict();
         this.countSpace();
 
-        if (this.conflicts.length === 0) return FixResult.NoConflict;
+        if (this.conflicts.length === 0) return ConflictFixResult.NoConflict;
         this.conflicts = this.conflicts.filter(
             conflict => this.isPossible(conflict),
         );
-        if (this.conflicts.length === 0) return FixResult.Failed;
+        if (this.conflicts.length === 0) return ConflictFixResult.Failed;
 
         const conflict = this.conflicts.find(
             conflict1 => this.conflicts.every(
@@ -105,7 +106,7 @@ export default class EventBody2EventBodyMover {
             },
         );
 
-        return FixResult.Alleviated;
+        return ConflictFixResult.Alleviated;
 
     }
     private isPossible(conflict:Conflict) {
