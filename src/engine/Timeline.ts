@@ -6,7 +6,7 @@ import { deepFreeze, timeNodeGetter } from '@engine/common/functions';
 import { DATE_COUNT_EXTRA, SN, SN_VERSION } from '@engine/common/config';
 import AxisScale from '@engine/Axis/AxisScale';
 import AxisMilestone from '@engine/Axis/AxisMilestone';
-import { Breakpoint } from '@/extensions/BreakpointAnimation';
+import { Breakpoint } from '@/engine/extensions/BreakpointAnimation';
 
 export interface DrawInfo extends ComponentDrawInfo{
     events: {
@@ -141,6 +141,9 @@ export default abstract class Timeline extends Component{
     }
     async apply(runtime?:Partial<RuntimeInfo>) {
         this.initRuntime(runtime);
+
+        this.canvas.width = this.grid.canvasWidth;
+        this.canvas.height = this.runtime.axisLength + this.grid.axisStart.y * 2;
 
         // @ts-ignore
         if (!this.axis) this.axis = new this.axisConstructor(this);
@@ -284,6 +287,9 @@ export default abstract class Timeline extends Component{
         // @ts-ignore
         const event:Event = new this.eventConstructor(this);
 
+        this.canvas.width = data.width;
+        this.canvas.height = data.height;
+
         const allComponents:Component[] = [];
 
         {
@@ -339,6 +345,8 @@ export default abstract class Timeline extends Component{
             theme: timeline.theme,
             version: SN_VERSION,
             data: {
+                width: timeline.canvas.width,
+                height: timeline.canvas.height,
                 timeline: timeline.drawInfo,
                 runtime: timeline.runtime,
                 events: timeline.events.map((event) => {

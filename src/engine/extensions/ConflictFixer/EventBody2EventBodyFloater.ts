@@ -1,12 +1,12 @@
-import { SN } from '@engine/common/config';
-import EventBody from '@engine/Event/EventBody';
-import { isOverlap } from '@engine/common/functions';
-import { ExtensionManager } from '@/extensions';
-import { Conflict as ComponentConflict } from '@/extensions/ConflictFixer';
-import Timeline from '@engine/Timeline';
-import AxisBody from '@engine/Axis/AxisBody';
-import { Breakpoint } from '@/extensions/BreakpointAnimation';
-import { ConflictFixResult } from '@engine/types';
+import { SN } from '../../common/config';
+import EventBody from '../../Event/EventBody';
+import { isOverlap } from '../../common/functions';
+import { ExtensionManager } from '../';
+import { Conflict as ComponentConflict } from './index';
+import Timeline from '../../Timeline';
+import AxisBody from '../../Axis/AxisBody';
+import { Breakpoint } from '../BreakpointAnimation';
+import { ConflictFixResult } from '../../types';
 
 type Conflict = ComponentConflict<EventBody>;
 

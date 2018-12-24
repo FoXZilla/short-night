@@ -1,4 +1,4 @@
-import { Extension, ExtensionManager } from '@/extensions/index';
+import { Extension, ExtensionManager } from '@/engine/extensions';
 import { Timeline, Event, EventBody, EventMark, EventAxis, Component } from '@engine';
 
 export default class ColorPicker implements Partial<Extension> {

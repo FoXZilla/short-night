@@ -1,5 +1,5 @@
-import { Extension, ExtensionManager } from '@/extensions/index';
-import Component from '@engine/common/Component';
+import { Extension, ExtensionManager } from './';
+import Component from '../common/Component';
 
 /**
  * Create element following comp.drawInfo.box

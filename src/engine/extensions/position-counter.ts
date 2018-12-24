@@ -1,12 +1,12 @@
-import { Extension, ExtensionManager } from '@/extensions/index';
-import Component from '@engine/common/Component';
-import Axis from '@engine/Axis';
-import AxisMilestone from '@engine/Axis/AxisMilestone';
-import { mergeBox } from '@engine/common/functions';
-import { Breakpoint } from '@/extensions/BreakpointAnimation';
-import { SN } from '@engine/common/config';
-import Timeline from '@engine/Timeline';
-import AxisScale from '@engine/Axis/AxisScale';
+import { Extension, ExtensionManager } from './index';
+import Component from '../common/Component';
+import Axis from '../Axis';
+import AxisMilestone from '../Axis/AxisMilestone';
+import { mergeBox } from '../common/functions';
+import { Breakpoint } from './BreakpointAnimation';
+import { SN } from '../common/config';
+import Timeline from '../Timeline';
+import AxisScale from '../Axis/AxisScale';
 
 interface PushConfig{
     critical: number;

@@ -1,10 +1,10 @@
-import EventBody from '@engine/Event/EventBody';
-import { isOverlap, walkLoop } from '@engine/common/functions';
-import { SN } from '@engine/common/config';
-import { ExtensionManager } from '@/extensions';
-import { Conflict as ComponentConflict } from '@/extensions/ConflictFixer/index';
-import { Breakpoint } from '@/extensions/BreakpointAnimation';
-import { ConflictFixResult } from '@engine/types';
+import EventBody from '../../Event/EventBody';
+import { isOverlap, walkLoop } from '../../common/functions';
+import { SN } from '../../common/config';
+import { ExtensionManager } from '../';
+import { Conflict as ComponentConflict } from './index';
+import { Breakpoint } from '../BreakpointAnimation';
+import { ConflictFixResult } from '../../types';
 
 type Conflict = ComponentConflict<EventBody>;
 

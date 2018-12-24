@@ -1,13 +1,13 @@
-import { Extension, ExtensionManager } from '@/extensions/index';
-import Component from '@engine/common/Component';
-import { DEBUG } from '@engine/common/config';
-import Timeline from '@engine/Timeline';
-import { walkLoop } from '@engine/common/functions';
+import { Extension, ExtensionManager } from '../index';
+import Component from '../../common/Component';
+import { DEBUG } from '../../common/config';
+import Timeline from '../../Timeline';
+import { walkLoop } from '../../common/functions';
 import EventBody2AxisMilestone from './EventBody2AxisMilestone';
 import EventAxis2EventAxis from './EventAxis2EventAxis';
 import EventBody2EventBodyMover from './EventBody2EventBodyMover';
 import EventBody2EventBodyFloater from './EventBody2EventBodyFloater';
-import { ConflictFixResult } from '@engine/types';
+import { ConflictFixResult } from '../../types';
 
 export interface Conflict<T = Component>{
     with: T[];

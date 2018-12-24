@@ -1,6 +1,6 @@
-import { ExtensionManager } from '@/extensions';
+import { ExtensionManager } from '@/engine/extensions';
 import Timeline from './Timeline';
-import BreakpointAnimation from '@/extensions/BreakpointAnimation';
+import BreakpointAnimation from '@/engine/extensions/BreakpointAnimation';
 
 document.addEventListener('DOMContentLoaded', async () => {
     const events = [

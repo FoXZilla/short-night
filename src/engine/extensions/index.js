@@ -1,9 +1,9 @@
 import { DEBUG, SN } from '@/engine/common/config';
-import BoxElementGenerator from '@/extensions/BoxElementGenerator';
-import GeneratorId from '@/extensions/GeneratorId';
-import PositionCounter from '@/extensions/position-counter';
-import BreakpointAnimation from '@/extensions/BreakpointAnimation';
-import ConflictFixer from '@/extensions/ConflictFixer';
+import BoxElementGenerator from '@/engine/extensions/BoxElementGenerator';
+import GeneratorId from '@/engine/extensions/GeneratorId';
+import PositionCounter from '@/engine/extensions/position-counter';
+import BreakpointAnimation from '@/engine/extensions/BreakpointAnimation';
+import ConflictFixer from '@/engine/extensions/ConflictFixer';
 import AxisBody from '@/engine/Axis/AxisBody';
 import AxisMilestone from '@/engine/Axis/AxisMilestone';
 import AxisScale from '@/engine/Axis/AxisScale';
@@ -94,3 +94,9 @@ METHODS.forEach((methodName) => {
         }
     };
 });
+
+export { default as BoxElementGenerator } from '@/engine/extensions/BoxElementGenerator';
+export { default as GeneratorId } from '@/engine/extensions/GeneratorId';
+export { default as PositionCounter } from '@/engine/extensions/position-counter';
+export { default as BreakpointAnimation } from '@/engine/extensions/BreakpointAnimation';
+export { default as ConflictFixer } from '@/engine/extensions/ConflictFixer';

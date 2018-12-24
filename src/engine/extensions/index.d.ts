@@ -1,15 +1,15 @@
-import Component from '@engine/common/Component';
-import BreakpointAnimation, { BreakpointAnimationConfig } from '@/extensions/BreakpointAnimation';
-import { SN } from '@engine/common/config';
-import Timeline from '@engine/Timeline';
-import Axis from '@engine/Axis';
-import AxisBody from '@engine/Axis/AxisBody';
-import AxisScale from '@engine/Axis/AxisScale';
-import AxisMilestone from '@engine/Axis/AxisMilestone';
-import Event from '@engine/Event';
-import EventBody from '@engine/Event/EventBody';
-import EventMark from '@engine/Event/EventMark';
-import EventAxis from '@engine/Event/EventAxis';
+import Component from '../common/Component';
+import BreakpointAnimation, { BreakpointAnimationConfig } from './BreakpointAnimation';
+import { SN } from '../common/config';
+import Timeline from '../Timeline';
+import Axis from '../Axis';
+import AxisBody from '../Axis/AxisBody';
+import AxisScale from '../Axis/AxisScale';
+import AxisMilestone from '../Axis/AxisMilestone';
+import Event from '../Event';
+import EventBody from '../Event/EventBody';
+import EventMark from '../Event/EventMark';
+import EventAxis from '../Event/EventAxis';
 
 export interface Extension {
     onConstruct(comp:Component) :void;
@@ -51,3 +51,9 @@ export declare class ExtensionManager implements Extension {
     onDraw(comp:Component) :Promise<void>|void;
     onDestroy(comp:Component) :Promise<void>|void;
 }
+
+export { default as  BoxElementGenerator } from '@/engine/extensions/BoxElementGenerator';
+export { default as  GeneratorId } from '@/engine/extensions/GeneratorId';
+export { default as  PositionCounter } from '@/engine/extensions/position-counter';
+export { default as  BreakpointAnimation } from '@/engine/extensions/BreakpointAnimation';
+export { default as  ConflictFixer } from '@/engine/extensions/ConflictFixer';

@@ -1,10 +1,10 @@
-import { Extension, ExtensionManager } from '@/extensions/index';
-import Component from '@engine/common/Component';
-import { DEBUG, SN } from '@engine/common/config';
+import { Extension, ExtensionManager } from './index';
+import Component from '../common/Component';
+import { DEBUG, SN } from '../common/config';
 import moveto = require('moveto');
-import Axis from '@engine/Axis';
-import AxisBody from '@engine/Axis/AxisBody';
-import Timeline from '@engine/Timeline';
+import Axis from '../Axis';
+import AxisBody from '../Axis/AxisBody';
+import Timeline from '../Timeline';
 
 export enum Breakpoint{
     PushScalesAndMilestones = 'PushScalesAndMilestones',

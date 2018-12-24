@@ -1,6 +1,6 @@
-import { Extension, ExtensionManager } from '@/extensions/index';
-import Component from '@engine/common/Component';
-import { DEBUG } from '@engine/common/config';
+import { Extension, ExtensionManager } from './';
+import Component from '../common/Component';
+import { DEBUG } from '../common/config';
 
 /**
  * Set a id for every Component in component.extraData.id.

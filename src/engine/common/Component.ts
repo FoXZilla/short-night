@@ -1,5 +1,5 @@
 import { ComponentDrawInfo, GridConfig } from '@engine/types';
-import { ExtensionManager } from '@/extensions';
+import { ExtensionManager } from '@/engine/extensions';
 import { DEBUG, SN } from '@engine/common/config';
 import { countBox, mergeBox } from '@engine/common/functions';
 

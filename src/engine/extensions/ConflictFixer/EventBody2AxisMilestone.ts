@@ -1,9 +1,9 @@
-import { ExtensionManager } from '@/extensions';
-import { ConflictFixResult } from '@engine/types';
-import { SN } from '@engine/common/config';
-import AxisMilestone from '@engine/Axis/AxisMilestone';
-import { isOverlap } from '@engine/common/functions';
-import { Breakpoint } from '@/extensions/BreakpointAnimation';
+import { ExtensionManager } from '../';
+import { ConflictFixResult } from '../../types';
+import { SN } from '../../common/config';
+import AxisMilestone from '../../Axis/AxisMilestone';
+import { isOverlap } from '../../common/functions';
+import { Breakpoint } from '../BreakpointAnimation';
 
 export default class EventBody2AxisMilestone {
     constructor(public ext:ExtensionManager) {}

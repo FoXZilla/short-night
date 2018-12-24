@@ -1,9 +1,9 @@
 const Path = require('path');
 
 module.exports = {
-    devtool: 'source-map',
+    devtool: 'inline-source-map',
     entry: {
-        'sn-colors': './src/themes/colors/index.ts',
+        'colors-example': './docs/colors.ts',
     },
     output: {
         filename: '[name].js',
