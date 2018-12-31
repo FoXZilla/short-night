@@ -1,13 +1,13 @@
 const Path = require('path');
 
 module.exports = {
-    devtool: 'inline-source-map',
+    devtool: process.env.NODE_ENV === 'production' ? 'none' : 'inline-source-map',
     entry: {
-        'colors-example': './docs/colors.ts',
+        colors: './docs/colors.ts',
     },
     output: {
         filename: '[name].js',
-        path: Path.resolve(__dirname, './dist'),
+        path: Path.resolve(__dirname, './docs'),
     },
     module: {
         rules: [

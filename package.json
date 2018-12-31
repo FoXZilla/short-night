@@ -7,7 +7,7 @@
     "fix-lint": "eslint src/**/*.js --fix && tslint --project tsconfig.json --fix",
     "eslint": "eslint src/**/*.js",
     "tslint": "tslint --project tsconfig.json",
-    "build": "webpack --mode production",
+    "build": "cross-env NODE_ENV=production webpack --mode production",
     "test": "npm run eslint && npm run tslint && tsc",
     "dev": "webpack --mode development --watch"
   },
@@ -26,6 +26,7 @@
   "homepage": "https://github.com/pea3nut/short-night#readme",
   "devDependencies": {
     "@types/moveto": "^1.7.0",
+    "cross-env": "^5.2.0",
     "css-loader": "^1.0.0",
     "eslint": "^5.10.0",
     "eslint-config-airbnb-base": "^13.1.0",

@@ -1,5 +1,4 @@
 import { draw, drawFrom, drawWithAnimation } from '@/themes/colors/entry';
-import exportDataJson = require('./export-data.json');
 
 const events = [{
     date :'2014-5',
