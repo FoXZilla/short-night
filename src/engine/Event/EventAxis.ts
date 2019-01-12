@@ -1,27 +1,38 @@
 import { ComponentConstructorInfo, ComponentDrawInfo } from '@engine/types';
-import { countBox , mergeBox } from '@engine/common/functions';
+import { parseBox } from '@engine/common/functions';
 import Component from '@engine/common/Component';
-import { SN } from '@engine/common/config';
+import { SN } from '@engine/common/definitions';
 import Axis from '@engine/Axis';
 import EventMark from '@engine/Event/EventMark';
 
-export interface DrawInfo extends ComponentDrawInfo{
+/**
+ * @property {Readonly<Axis['drawInfo']>} axisBodyDrawInfo - the DrawInfo of AxisBody.
+ * @property {Readonly<EventMark['drawInfo']>} markDrawInfo - the DrawInfo of EventMark.
+ * @property {number} length - the length of EventAxis.
+ * @property {number} offsetX - the offset X with Axis in EventAxis.
+ * @property {[string]} text - the description about event ended.
+ * */
+interface DrawInfo extends ComponentDrawInfo{
     axisBodyDrawInfo: Readonly<Axis['drawInfo']>;
     markDrawInfo: Readonly<EventMark['drawInfo']>;
 
-    text?: string;
     length: number;
     offsetX: number;
+    text?: string;
 }
 
+/**
+ * Recognize a event time of duration and end time point.
+ * Some Event have no duration, so it needn't EventAxis.
+ * Can conflict with AxisMilestone and EventAxis.
+ * */
 export default abstract class EventAxis extends Component{
-    name = SN.EventAxis;
-
     constructor(props:ComponentConstructorInfo) {
         super(props);
         this.ext.onConstruct(this);
     }
 
+    name = SN.EventAxis;
     drawInfo:DrawInfo = {
         axisBodyDrawInfo: {} as any,
         markDrawInfo: {} as any,
@@ -35,7 +46,23 @@ export default abstract class EventAxis extends Component{
             height: 0,
         },
     };
-    apply() {
+
+    createElement() {
+        const flag = super.createElement(); // Must return this flag
+
+        const target = this.drawInfo.markDrawInfo.target;
+
+        this.element!.classList.add('endText');
+        this.element!.innerHTML = this.drawInfo.text!;
+
+        const box = parseBox(this.element!);
+
+        this.element!.style.left = `${target.x + this.drawInfo.offsetX}px`;
+        this.element!.style.top = `${target.y - this.drawInfo.length - box.height / 2}px`;
+
+        return flag;
+    }
+    async apply() {
         if (this.drawInfo.text) {
             this.createElement();
             this.element!.style.visibility = 'hidden';
@@ -55,28 +82,13 @@ export default abstract class EventAxis extends Component{
 
         return super.apply();
     }
-
-    createElement() {
-        super.createElement();
-
-        const target = this.drawInfo.markDrawInfo.target;
-
-        this.element!.classList.add('event_axis-endText');
-        this.element!.innerHTML = this.drawInfo.text!;
-
-        const box = countBox(this.element!);
-
-        this.element!.style.left = `${target.x + this.drawInfo.offsetX}px`;
-        this.element!.style.top = `${target.y - this.drawInfo.length - box.height / 2}px`;
-
+    draw() {
+        if (this.drawInfo.text) this.createElement();
+        return super.draw();
     }
 
     static is(comp:Component) :comp is EventAxis {
         return comp.name === SN.EventAxis;
     }
 
-    draw() {
-        if (this.drawInfo.text) this.createElement();
-        return super.draw();
-    }
 }

@@ -7,16 +7,6 @@
     }
     &.event_body{
         color: #fff;
-        padding: 7px 10px 7px 5px;
-        text-align: right;
-        .folded{
-            cursor: pointer;
-            .title{
-                overflow: hidden;
-                text-overflow:ellipsis;
-                white-space:nowrap;
-            }
-        }
         .title{
             font-size: 1em;
             padding-left: 10px;
@@ -26,12 +16,8 @@
             font-weight: normal;
             font-style: italic;
         }
-        .foldedText{
+        .foldPlaceholder{
             @extend .title;
         }
-    }
-    &.event_axis-endText{
-        padding: 0 0 2px 3px;
-        font-size: 0.8em;
     }
 }

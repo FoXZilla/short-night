@@ -1,6 +1,6 @@
 import Component from '../common/Component';
 import BreakpointAnimation, { BreakpointAnimationConfig } from './BreakpointAnimation';
-import { SN } from '../common/config';
+import { SN } from '../common/definitions';
 import Timeline from '../Timeline';
 import Axis from '../Axis';
 import AxisBody from '../Axis/AxisBody';
@@ -11,14 +11,26 @@ import EventBody from '../Event/EventBody';
 import EventMark from '../Event/EventMark';
 import EventAxis from '../Event/EventAxis';
 
+export { default as BoxElementGenerator } from '@/engine/extensions/BoxElementGenerator';
+export { default as GeneratorId } from '@/engine/extensions/GeneratorId';
+export { default as PositionCounter } from '@/engine/extensions/PositionCounter';
+export { default as BreakpointAnimation } from '@/engine/extensions/BreakpointAnimation';
+export { default as ConflictFixer } from '@/engine/extensions/ConflictFixer';
+
 export interface Extension {
     onConstruct(comp:Component) :void;
     onApply(comp:Component) :Promise<void>;
-    onHide(comp:Component) :Promise<void>|void;
-    onDraw(comp:Component) :Promise<void>|void;
-    onDestroy(comp:Component) :Promise<void>|void;
+    onDraw(comp:Component) :void;
+    onHide(comp:Component) :void;
+    onDestroy(comp:Component) :void;
 }
 
+export interface ExtData {}
+
+/**
+ * Manage all of extensions.
+ * Not recommend the theme Extend this class to extend, rather using an extension than that.
+ * */
 export declare class ExtensionManager implements Extension {
     constructor(
         { breakpointAnimation }
@@ -27,6 +39,11 @@ export declare class ExtensionManager implements Extension {
         },
     );
 
+    /**
+     * A shared object for every Component.
+     * For extends, re-declare the ExtData.
+     * */
+    extraData: ExtData;
     breakpoint: BreakpointAnimation;
     components: {
         [SN.Timeline]: Timeline[];
@@ -47,13 +64,7 @@ export declare class ExtensionManager implements Extension {
 
     onConstruct(comp:Component) :void;
     onApply(comp:Component) :Promise<void>;
-    onHide(comp:Component) :Promise<void>|void;
-    onDraw(comp:Component) :Promise<void>|void;
-    onDestroy(comp:Component) :Promise<void>|void;
+    onHide(comp:Component) :void;
+    onDraw(comp:Component) :void;
+    onDestroy(comp:Component) :void;
 }
-
-export { default as  BoxElementGenerator } from '@/engine/extensions/BoxElementGenerator';
-export { default as  GeneratorId } from '@/engine/extensions/GeneratorId';
-export { default as  PositionCounter } from '@/engine/extensions/position-counter';
-export { default as  BreakpointAnimation } from '@/engine/extensions/BreakpointAnimation';
-export { default as  ConflictFixer } from '@/engine/extensions/ConflictFixer';

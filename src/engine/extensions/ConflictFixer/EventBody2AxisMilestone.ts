@@ -1,6 +1,6 @@
 import { ExtensionManager } from '../';
 import { ConflictFixResult } from '../../types';
-import { SN } from '../../common/config';
+import { SN } from '../../common/definitions';
 import AxisMilestone from '../../Axis/AxisMilestone';
 import { isOverlap } from '../../common/functions';
 import { Breakpoint } from '../BreakpointAnimation';

@@ -1,23 +1,30 @@
-import { Box, ComponentConstructorInfo, ComponentDrawInfo, Coordinate } from '@engine/types';
+import { ComponentConstructorInfo, ComponentDrawInfo, Coordinate } from '@engine/types';
 import Component from '@engine/common/Component';
-import { SN } from '@engine/common/config';
-import { DrawInfo as AxisBodyDrawInfo } from '@engine/Axis/AxisBody';
+import { SN } from '@engine/common/definitions';
+import AxisBody from '@engine/Axis/AxisBody';
 
-export interface DrawInfo extends ComponentDrawInfo{
-    box: Readonly<Box>;
-    bodyDrawInfo: Readonly<AxisBodyDrawInfo>;
+/**
+ * @property {Readonly<AxisBodyDrawInfo>} bodyDrawInfo - the DrawInfo of AxisBody.
+ * @property {number} alignY - the y point which is the AxisScale align target.
+ * @property {number} height - the height of AxisScale.
+ * */
+interface DrawInfo extends ComponentDrawInfo{
+    bodyDrawInfo: Readonly<AxisBody['drawInfo']>;
     alignY: number;
     height: number;
 }
 
+/**
+ * In axis, mark a mark for recognize time easy.
+ * Optional, a theme can omit this component by situation.
+ * */
 export default abstract class AxisScale extends Component{
-    name = SN.AxisScale;
-
     constructor(props:ComponentConstructorInfo) {
         super(props);
         this.ext.onConstruct(this);
     }
 
+    name = SN.AxisScale;
     drawInfo:DrawInfo = {
         bodyDrawInfo: {} as any,
         alignY: 0,
