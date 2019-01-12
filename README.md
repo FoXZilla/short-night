@@ -21,4 +21,4 @@ npm install
 npm run dev
 ```
 
-Drag `example/colors.html` into your browser.
+Drag `docs/colors.html` into your browser.

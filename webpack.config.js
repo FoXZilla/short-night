@@ -1,4 +1,5 @@
 const Path = require('path');
+const Webpack = require('webpack');
 
 module.exports = {
     devtool: process.env.NODE_ENV === 'production' ? 'none' : 'inline-source-map',
@@ -36,4 +37,9 @@ module.exports = {
             '@engine': Path.resolve(__dirname, './src/engine'),
         },
     },
+    plugins: [
+        new Webpack.DefinePlugin({
+            'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
+        }),
+    ],
 };

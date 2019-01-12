@@ -9,7 +9,7 @@
     "tslint": "tslint --project tsconfig.json",
     "build": "cross-env NODE_ENV=production webpack --mode production",
     "test": "npm run eslint && npm run tslint && tsc",
-    "dev": "webpack --mode development --watch"
+    "dev": "cross-env NODE_ENV=development webpack --mode development --watch"
   },
   "repository": {
     "type": "git",
