@@ -1,4 +1,4 @@
-import { ComponentDrawInfo, DateBy, GridConfig } from '@engine/types';
+import { ComponentConstructorInfo, ComponentDrawInfo, DateBy, GridConfig } from '@engine/types';
 import Component from '@engine/common/Component';
 import Event from '@engine/Event';
 import Axis from '@engine/Axis';
@@ -31,6 +31,12 @@ export interface RuntimeInfo{
 
 export default abstract class Timeline extends Component{
     name = SN.Timeline;
+
+    constructor(props:ComponentConstructorInfo) {
+        super(props);
+        this.ext.onConstruct(this);
+    }
+
     grid:GridConfig = Timeline.defaultGrid;
 
     runtime :RuntimeInfo = {} as any;

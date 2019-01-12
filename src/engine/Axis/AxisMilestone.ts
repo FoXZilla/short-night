@@ -1,4 +1,4 @@
-import { Box, ComponentDrawInfo } from '@engine/types';
+import { Box, ComponentConstructorInfo, ComponentDrawInfo } from '@engine/types';
 import { countBox } from '@engine/common/functions';
 import Component from '@engine/common/Component';
 import { SN } from '@engine/common/config';
@@ -13,6 +13,11 @@ export interface DrawInfo extends ComponentDrawInfo{
 
 export default abstract class AxisMilestone extends Component{
     name = SN.AxisMilestone;
+
+    constructor(props:ComponentConstructorInfo) {
+        super(props);
+        this.ext.onConstruct(this);
+    }
 
     drawInfo:DrawInfo = {
         bodyDrawInfo: {} as any,

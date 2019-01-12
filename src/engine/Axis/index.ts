@@ -1,4 +1,4 @@
-import { ComponentDrawInfo } from '@engine/types';
+import { ComponentConstructorInfo, ComponentDrawInfo } from '@engine/types';
 import Component from '@engine/common/Component';
 import AxisMilestone from '@engine/Axis/AxisMilestone';
 import AxisScale from '@engine/Axis/AxisScale';
@@ -17,6 +17,11 @@ export interface DrawInfo extends ComponentDrawInfo{
 
 export default abstract class Axis extends Component{
     name = SN.Axis;
+
+    constructor(props:ComponentConstructorInfo) {
+        super(props);
+        this.ext.onConstruct(this);
+    }
 
     public drawInfo:DrawInfo = {
         scales: [],

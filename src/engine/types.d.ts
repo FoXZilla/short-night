@@ -1,3 +1,5 @@
+import { ExtensionManager } from '@engine';
+
 export const enum ConstLevel{
     No = 0,
     Few = 1,
@@ -50,4 +52,11 @@ export const enum ConflictFixResult {
     Failed = 'failed', // the conflict cannot be fixed
     Alleviated = 'alleviated', // fixed, but still has conflict
     NoConflict = 'no-conflict', // no conflict or all conflict have been fixed
+}
+
+export interface ComponentConstructorInfo {
+    ext:ExtensionManager;
+    grid?: GridConfig;
+    canvas?:HTMLCanvasElement;
+    container?:HTMLElement;
 }

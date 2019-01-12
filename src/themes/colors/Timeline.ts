@@ -2,7 +2,7 @@ import roughjs from 'roughjs';
 import * as Engine from '@engine';
 import Axis from './Axis';
 import Event from './Event';
-import { ComponentConstructorInfo } from '@engine/common/Component';
+import { ComponentConstructorInfo } from '@engine/types';
 import { RoughCanvas } from 'roughjs/bin/canvas';
 import ColorPicker from './extensions/ColorPicker';
 

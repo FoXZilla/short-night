@@ -1,5 +1,5 @@
 import Component from '@engine/common/Component';
-import { ComponentDrawInfo, Coordinate } from '@engine/types';
+import { ComponentConstructorInfo, ComponentDrawInfo, Coordinate } from '@engine/types';
 import { SN } from '@engine/common/config';
 import Axis from '@engine/Axis';
 
@@ -12,6 +12,11 @@ export interface DrawInfo extends ComponentDrawInfo{
 
 export default abstract class EventMark extends Component{
     name = SN.EventMark;
+
+    constructor(props:ComponentConstructorInfo) {
+        super(props);
+        this.ext.onConstruct(this);
+    }
 
     drawInfo:DrawInfo = {
         axisBodyDrawInfo: {} as any,

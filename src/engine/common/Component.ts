@@ -1,18 +1,11 @@
-import { ComponentDrawInfo, GridConfig } from '@engine/types';
+import { ComponentDrawInfo, GridConfig, ComponentConstructorInfo } from '@engine/types';
 import { ExtensionManager } from '@/engine/extensions';
 import { DEBUG, SN } from '@engine/common/config';
 import { countBox, mergeBox } from '@engine/common/functions';
 
-export interface ComponentConstructorInfo {
-    ext:ExtensionManager;
-    grid?: GridConfig;
-    canvas?:HTMLCanvasElement;
-    container?:HTMLElement;
-}
-
 export default abstract class Component{
     abstract theme :string;
-    name :SN;
+    abstract name :SN;
 
     /**
      * The data which be used in Extensions.
@@ -40,22 +33,11 @@ export default abstract class Component{
 
     ext: ExtensionManager;
     public constructor({ ext, canvas, container, grid }:ComponentConstructorInfo) {
-        if (!(this.constructor.name in SN)) {
-            throw new TypeError(
-                `Class name "${this.constructor.name}" illegal, `
-                + `it must following ${Object.keys(SN)}`,
-            );
-        }
-
-        this.name = SN[this.constructor.name as any] as SN;
-
         this.ext = ext;
 
         this.grid = grid as any;
         this.canvas = canvas as any;
         this.container = container as any;
-
-        this.ext.onConstruct(this);
     }
 
     /**

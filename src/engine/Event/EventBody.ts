@@ -1,4 +1,10 @@
-import { ConstLevel, ComponentDrawInfo, Coordinate, Box } from '@engine/types';
+import {
+    ConstLevel,
+    ComponentDrawInfo,
+    Coordinate,
+    Box,
+    ComponentConstructorInfo,
+} from '@engine/types';
 import { countBox, deepAssign } from '@engine/common/functions';
 import Component from '@engine/common/Component';
 import { SN } from '@engine/common/config';
@@ -21,6 +27,11 @@ export interface DrawInfo extends ComponentDrawInfo{
 
 export default abstract class EventBody extends Component{
     name = SN.EventBody;
+
+    constructor(props:ComponentConstructorInfo) {
+        super(props);
+        this.ext.onConstruct(this);
+    }
 
     element :HTMLElement = null as any;
 

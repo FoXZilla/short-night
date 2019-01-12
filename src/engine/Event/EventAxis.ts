@@ -1,4 +1,4 @@
-import { ComponentDrawInfo } from '@engine/types';
+import { ComponentConstructorInfo, ComponentDrawInfo } from '@engine/types';
 import { countBox , mergeBox } from '@engine/common/functions';
 import Component from '@engine/common/Component';
 import { SN } from '@engine/common/config';
@@ -16,6 +16,12 @@ export interface DrawInfo extends ComponentDrawInfo{
 
 export default abstract class EventAxis extends Component{
     name = SN.EventAxis;
+
+    constructor(props:ComponentConstructorInfo) {
+        super(props);
+        this.ext.onConstruct(this);
+    }
+
     drawInfo:DrawInfo = {
         axisBodyDrawInfo: {} as any,
         markDrawInfo: {} as any,

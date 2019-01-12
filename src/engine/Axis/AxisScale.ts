@@ -1,4 +1,4 @@
-import { Box, ComponentDrawInfo, Coordinate } from '@engine/types';
+import { Box, ComponentConstructorInfo, ComponentDrawInfo, Coordinate } from '@engine/types';
 import Component from '@engine/common/Component';
 import { SN } from '@engine/common/config';
 import { DrawInfo as AxisBodyDrawInfo } from '@engine/Axis/AxisBody';
@@ -12,6 +12,11 @@ export interface DrawInfo extends ComponentDrawInfo{
 
 export default abstract class AxisScale extends Component{
     name = SN.AxisScale;
+
+    constructor(props:ComponentConstructorInfo) {
+        super(props);
+        this.ext.onConstruct(this);
+    }
 
     drawInfo:DrawInfo = {
         bodyDrawInfo: {} as any,
