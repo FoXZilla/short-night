@@ -60,13 +60,13 @@ document.addEventListener('DOMContentLoaded', async () => {
     // Normal draw
     const timeline1 = await draw('#app', events);
 
-    // Draw with animation
-    await new Promise(r => setTimeout(r, 500));
-    timeline1.hide();
-    const timeline2 = await drawWithAnimation('#app', events);
-
-    // Draw with a data of one timeline export
-    await new Promise(r => setTimeout(r, 500));
-    timeline2.hide();
-    await drawFrom('#app', timeline1.export());
+    // // Draw with animation
+    // await new Promise(r => setTimeout(r, 500));
+    // timeline1.hide();
+    // const timeline2 = await drawWithAnimation('#app', events);
+    //
+    // // Draw with a data of one timeline export
+    // await new Promise(r => setTimeout(r, 500));
+    // timeline2.hide();
+    // await drawFrom('#app', timeline1.export());
 });

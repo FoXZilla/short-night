@@ -1,22 +1,6 @@
 import { ExtensionManager } from '@engine';
 
-export const enum ConstLevel{
-    No = 0,
-    Few = 1,
-    Normal = 3,
-    Expensive = 10,
-}
-export const enum DateBy{
-    Year = 'year',
-    Month = 'month',
-    Quarter = 'quarter',
-    Week = 'week',
-    Day = 'day',
-}
-export type Count = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10;
-export interface ComponentDrawInfo{
-    box: Readonly<Box>;
-}
+// Base types
 
 export interface Coordinate{
     x: number;
@@ -31,6 +15,20 @@ export interface Line{
     startY: number;
     endX: number;
     endY:number;
+}
+
+export const enum DateBy{
+    Year = 'year',
+    Month = 'month',
+    Quarter = 'quarter',
+    Week = 'week',
+    Day = 'day',
+}
+
+// Types about Component
+
+export interface ComponentDrawInfo{
+    box: Readonly<Box>;
 }
 
 export interface GridConfig{
@@ -55,8 +53,8 @@ export const enum ConflictFixResult {
 }
 
 export interface ComponentConstructorInfo {
-    ext:ExtensionManager;
+    ext: ExtensionManager;
     grid?: GridConfig;
-    canvas?:HTMLCanvasElement;
-    container?:HTMLElement;
+    canvas?: HTMLCanvasElement;
+    container?: HTMLElement;
 }

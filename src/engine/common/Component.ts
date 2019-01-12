@@ -4,9 +4,23 @@ import { DEBUG, SN } from '@engine/common/config';
 import { countBox, mergeBox } from '@engine/common/functions';
 
 export default abstract class Component{
-    abstract theme :string;
-    abstract name :SN;
+    constructor({ ext, canvas, container, grid }:ComponentConstructorInfo) {
+        this.ext = ext;
 
+        this.grid = grid as any;
+        this.canvas = canvas as any;
+        this.container = container as any;
+    }
+    /**
+     * Theme name.
+     * Be filled when the theme's class constructed.
+     * */
+    abstract theme :string;
+    /**
+     * Component name.
+     * Be filled when the engine's class constructed.
+     * */
+    abstract name :SN;
     /**
      * The data which be used in Extensions.
      * @property id - using in GeneratorId
@@ -16,39 +30,44 @@ export default abstract class Component{
      * @property space - using in ConflictFixer, existing in EventBody only.
      * */
     extraData :{
-        boxElement ?:HTMLElement,
         id ?:string,
+        boxElement ?:HTMLElement,
         realLength ?:number,
         needed?: {top:number, bottom:number},
         space?: {top:number, bottom:number},
         [key: string]: any,
     } = {};
-
     /**
-     * There are must be init before self.apply called.
+     * All component's config of what style to draw.
+     * E.g. The border width of Axis.
+     * Must be filled before apply() called.
+     * FIXME: only Timeline, Axis and Event had this property.
      * */
     grid :GridConfig;
-    canvas :HTMLCanvasElement;
-    container :HTMLElement;
-
-    ext: ExtensionManager;
-    public constructor({ ext, canvas, container, grid }:ComponentConstructorInfo) {
-        this.ext = ext;
-
-        this.grid = grid as any;
-        this.canvas = canvas as any;
-        this.container = container as any;
-    }
-
     /**
-     * All info about draw.
+     * The canvas where component draw on.
+     * Must be filled before apply() called.
+     * */
+    canvas :HTMLCanvasElement;
+    /**
+     * The container which contain all of component's element.
+     * Must be filled before apply() called.
+     * */
+    container :HTMLElement;
+    /**
+     * Manage all extensions & Help component communicate for each other.
+     * Be filled when construct.
+     * */
+    ext: ExtensionManager;
+    /**
+     * All info about draw. Except drawInfo, no more states be depended about draw.
+     * The same drawInfo must has same drawn on canvas and container.
+     * The self.gird should be merging in there in self.apply be called.
      * Must can be JSON.stringify.
      * */
     abstract drawInfo: ComponentDrawInfo;
-
     /**
      * Draw self base on self.drawInfo.
-     * There should not count any runtime states.
      * It should can be call multiple times.
      * */
     draw() {

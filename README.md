@@ -8,7 +8,7 @@
 
 Draw a timeline image on canvas that directly proportional between time and space. It means how long time between event and another one will be drawn on timeline in how long distance.
 
-Given a JSON, drawing a timeline. And it will fix conflict automatic.
+Given a JSON, drawing a timeline. And it will fix conflict automatically.
 
 ![](/.github/short-night-result.png)
 

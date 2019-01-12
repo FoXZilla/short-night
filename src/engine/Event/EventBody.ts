@@ -1,5 +1,4 @@
 import {
-    ConstLevel,
     ComponentDrawInfo,
     Coordinate,
     Box,
