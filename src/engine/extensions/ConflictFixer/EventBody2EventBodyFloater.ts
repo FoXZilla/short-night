@@ -1,4 +1,4 @@
-import { SN } from '../../common/config';
+import { SN } from '../../common/definitions';
 import EventBody from '../../Event/EventBody';
 import { isOverlap } from '../../common/functions';
 import { ExtensionManager } from '../';

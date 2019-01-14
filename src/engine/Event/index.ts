@@ -1,12 +1,12 @@
 import Component from '@engine/common/Component';
-import { ComponentConstructorInfo, ComponentDrawInfo } from '@engine/types';
+import {ComponentConstructorInfo, ComponentDrawInfo, GridConfig} from '@engine/types';
 import EventMark from '@engine/Event/EventMark';
 import EventBody from '@engine/Event/EventBody';
 import EventAxis from '@engine/Event/EventAxis';
 import { deepFreeze, mergeBox } from '@engine/common/functions';
-import { SN } from '@engine/common/config';
+import { SN } from '@engine/common/definitions';
 
-export interface DrawInfo extends ComponentDrawInfo{
+interface DrawInfo extends ComponentDrawInfo{
     target: {
         x: number,
         y: number,
@@ -29,11 +29,26 @@ export interface DrawInfo extends ComponentDrawInfo{
     axisOffset?: number;
 }
 
+export interface ConstructInfo extends ComponentConstructorInfo{
+    grid :GridConfig;
+}
+
+/**
+ * The whole Event. Contain an EventBody and an EventMark, maybe has a EventAxis too.
+ * The Manage-Component. All of draw is resolved by child component.
+ * */
 export default abstract class Event extends Component{
+    /**
+     * All component's config of what style to draw.
+     * E.g. The border width of Axis.
+     * Must be filled before apply() called.
+     * */
+    grid :GridConfig;
     name = SN.Event;
 
-    constructor(props:ComponentConstructorInfo) {
+    constructor(props:ConstructInfo) {
         super(props);
+        this.grid = props.grid;
         this.ext.onConstruct(this);
     }
 

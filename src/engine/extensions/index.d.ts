@@ -1,6 +1,6 @@
 import Component from '../common/Component';
 import BreakpointAnimation, { BreakpointAnimationConfig } from './BreakpointAnimation';
-import { SN } from '../common/config';
+import { SN } from '../common/definitions';
 import Timeline from '../Timeline';
 import Axis from '../Axis';
 import AxisBody from '../Axis/AxisBody';

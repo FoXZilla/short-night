@@ -6,7 +6,7 @@ import { ComponentConstructorInfo } from '@engine/types';
 import { RoughCanvas } from 'roughjs/bin/canvas';
 import ColorPicker from './extensions/ColorPicker';
 
-export interface ConstructorInfo extends ComponentConstructorInfo{
+export interface ColorsConstructorInfo extends ComponentConstructorInfo{
     roughCanvas: RoughCanvas;
 }
 

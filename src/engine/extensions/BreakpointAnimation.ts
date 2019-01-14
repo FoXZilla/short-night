@@ -1,6 +1,6 @@
 import { Extension, ExtensionManager } from './index';
 import Component from '../common/Component';
-import { DEBUG, SN } from '../common/config';
+import { DEBUG, SN } from '../common/definitions';
 import moveto = require('moveto');
 import Axis from '../Axis';
 import AxisBody from '../Axis/AxisBody';

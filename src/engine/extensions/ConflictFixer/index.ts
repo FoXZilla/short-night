@@ -1,6 +1,6 @@
 import { Extension, ExtensionManager } from '../index';
 import Component from '../../common/Component';
-import { DEBUG } from '../../common/config';
+import { DEBUG } from '../../common/definitions';
 import Timeline from '../../Timeline';
 import { walkLoop } from '../../common/functions';
 import EventBody2AxisMilestone from './EventBody2AxisMilestone';

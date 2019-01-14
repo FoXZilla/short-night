@@ -1,12 +1,12 @@
 import * as Engine from '@engine';
 import { RoughCanvas } from 'roughjs/bin/canvas';
-import { ConstructorInfo } from '@/themes/colors/Timeline';
+import { ColorsConstructorInfo } from '@/themes/colors/Timeline';
 
 export default class EventMark extends Engine.EventMark {
     theme = 'colors';
 
     roughCanvas:RoughCanvas;
-    constructor(info:ConstructorInfo) {
+    constructor(info:ColorsConstructorInfo) {
         super(info);
         this.roughCanvas = info.roughCanvas;
     }

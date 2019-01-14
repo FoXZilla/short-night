@@ -1,6 +1,6 @@
 import EventBody from '../../Event/EventBody';
 import { isOverlap, walkLoop } from '../../common/functions';
-import { SN } from '../../common/config';
+import { SN } from '../../common/definitions';
 import { ExtensionManager } from '../';
 import { Conflict as ComponentConflict } from './index';
 import { Breakpoint } from '../BreakpointAnimation';

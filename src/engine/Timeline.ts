@@ -3,12 +3,12 @@ import Component from '@engine/common/Component';
 import Event from '@engine/Event';
 import Axis from '@engine/Axis';
 import { deepFreeze, timeNodeGetter } from '@engine/common/functions';
-import { DATE_COUNT_EXTRA, SN, SN_VERSION } from '@engine/common/config';
+import { DATE_COUNT_EXTRA, SN, SN_VERSION } from '@engine/common/definitions';
 import AxisScale from '@engine/Axis/AxisScale';
 import AxisMilestone from '@engine/Axis/AxisMilestone';
 import { Breakpoint } from '@/engine/extensions/BreakpointAnimation';
 
-export interface DrawInfo extends ComponentDrawInfo{
+interface DrawInfo extends ComponentDrawInfo{
     events: {
         date: string,
         title: string,
@@ -28,15 +28,25 @@ export interface RuntimeInfo{
     scaleBy: DateBy | null;
     axisLength: number;
 }
+export interface ConstructInfo extends ComponentConstructorInfo{
+    grid :GridConfig;
+}
+
 
 export default abstract class Timeline extends Component{
     name = SN.Timeline;
 
-    constructor(props:ComponentConstructorInfo) {
+    constructor(props:ConstructInfo) {
         super(props);
+        this.grid = props.grid;
         this.ext.onConstruct(this);
     }
 
+    /**
+     * All component's config of what style to draw.
+     * E.g. The border width of Axis.
+     * Must be filled before apply() called.
+     * */
     grid:GridConfig = Timeline.defaultGrid;
 
     runtime :RuntimeInfo = {} as any;
@@ -301,18 +311,18 @@ export default abstract class Timeline extends Component{
         {
             const { bodyDrawInfo, scalesDrawInfo, milestonesDrawInfo } = data.axis;
             // @ts-ignore
-            allComponents.push(new axis.bodyConstructor(this).from(bodyDrawInfo));
+            allComponents.push(new axis.bodyConstructor(this).importDrawInfo(bodyDrawInfo));
 
             const scalesAndMilestones:(AxisScale | AxisMilestone)[] = [];
             scalesDrawInfo.forEach((scaleDrawInfo:any) => {
                 // @ts-ignore
-                scalesAndMilestones.push(new axis.scaleConstructor(this).from(scaleDrawInfo));
+                scalesAndMilestones.push(new axis.scaleConstructor(this).importDrawInfo(scaleDrawInfo));
             });
 
             milestonesDrawInfo.forEach((milestoneDrawInfo:any) => {
                 scalesAndMilestones.push(
                     // @ts-ignore
-                    new axis.milestoneConstructor(this).from(milestoneDrawInfo),
+                    new axis.milestoneConstructor(this).importDrawInfo(milestoneDrawInfo),
                 );
             });
 
@@ -328,13 +338,13 @@ export default abstract class Timeline extends Component{
         ;
         for (const { bodyDrawInfo, markDrawInfo, axisDrawInfo } of events) {
             // @ts-ignore
-            allComponents.push(new event.markConstructor(this).from(markDrawInfo));
+            allComponents.push(new event.markConstructor(this).importDrawInfo(markDrawInfo));
             // @ts-ignore
-            allComponents.push(new event.bodyConstructor(this).from(bodyDrawInfo));
+            allComponents.push(new event.bodyConstructor(this).importDrawInfo(bodyDrawInfo));
 
             if (axisDrawInfo !== null) {
                 // @ts-ignore
-                allComponents.push(new event.axisConstructor(this).from(axisDrawInfo));
+                allComponents.push(new event.axisConstructor(this).importDrawInfo(axisDrawInfo));
             }
         }
 

@@ -1,4 +1,4 @@
-import { DEBUG, SN } from '@/engine/common/config';
+import { DEBUG, SN } from '@/engine/common/definitions';
 import BoxElementGenerator from '@/engine/extensions/BoxElementGenerator';
 import GeneratorId from '@/engine/extensions/GeneratorId';
 import PositionCounter from '@/engine/extensions/position-counter';

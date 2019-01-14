@@ -1,5 +1,5 @@
 import { ExtensionManager } from '../';
-import { SN } from '../../common/config';
+import { SN } from '../../common/definitions';
 import { isIntersecting } from '../../common/functions';
 import EventAxis from '../../Event/EventAxis';
 import { ConflictFixResult, Line } from '../../types';

@@ -1,16 +1,24 @@
-import { ComponentDrawInfo, GridConfig, ComponentConstructorInfo } from '@engine/types';
+import { ComponentDrawInfo, ComponentConstructorInfo } from '@engine/types';
 import { ExtensionManager } from '@/engine/extensions';
-import { DEBUG, SN } from '@engine/common/config';
-import { countBox, mergeBox } from '@engine/common/functions';
+import { SN } from '@engine/common/definitions';
+import { parseBox, mergeBox, createLogFunction } from '@engine/common/functions';
+
+enum MUST_CALL_AND_RETURN_SUPER_METHOD {
+    SUPER_APPLY,
+    SUPER_DRAW,
+    SUPER_DESTROY,
+    SUPER_CREATE_ELEMENT,
+    SUPER_HIDE,
+}
 
 export default abstract class Component{
-    constructor({ ext, canvas, container, grid }:ComponentConstructorInfo) {
+    constructor({ ext, canvas, container }:ComponentConstructorInfo) {
         this.ext = ext;
 
-        this.grid = grid as any;
         this.canvas = canvas as any;
         this.container = container as any;
     }
+
     /**
      * Theme name.
      * Be filled when the theme's class constructed.
@@ -38,13 +46,6 @@ export default abstract class Component{
         [key: string]: any,
     } = {};
     /**
-     * All component's config of what style to draw.
-     * E.g. The border width of Axis.
-     * Must be filled before apply() called.
-     * FIXME: only Timeline, Axis and Event had this property.
-     * */
-    grid :GridConfig;
-    /**
      * The canvas where component draw on.
      * Must be filled before apply() called.
      * */
@@ -62,39 +63,86 @@ export default abstract class Component{
     /**
      * All info about draw. Except drawInfo, no more states be depended about draw.
      * The same drawInfo must has same drawn on canvas and container.
-     * The self.gird should be merging in there in self.apply be called.
+     * The this.gird should be merging in there in this.apply be called.
      * Must can be JSON.stringify.
      * */
-    abstract drawInfo: ComponentDrawInfo;
+    abstract readonly drawInfo: ComponentDrawInfo;
+
     /**
-     * Draw self base on self.drawInfo.
-     * It should can be call multiple times.
+     * Optional. Be filled in this.createElement.
+     * The HTML element which be needed by component draw.
      * */
-    draw() {
-        this.checkDestroy();
-
-        this.ext.onDraw(this);
-    }
-
-    createElement() {
+    element ?:HTMLElement;
+    /**
+     * Optional. Depend on the draw this component is need HTML element or not.
+     * Create an HTML element base on this.drawInfo to fill this.element
+     * and append to this.container.
+     * Be called in this.apply and this.draw.
+     * */
+    createElement() :MUST_CALL_AND_RETURN_SUPER_METHOD {
         if (this.element) this.container.removeChild(this.element);
 
         this.element = document.createElement('div');
         this.element.classList.add('short-night', this.theme, this.name);
         this.container.appendChild(this.element);
+
+        return MUST_CALL_AND_RETURN_SUPER_METHOD.SUPER_CREATE_ELEMENT;
     }
 
     /**
-     * If the view of component depend on DOM element, that's element will set here.
+     * Means that the component has been destroyed.
+     * Call any method on component when it has destroyed will got an error.
      * */
-    element ?:HTMLElement;
+    destroyed: boolean = false;
+    /**
+     * Destroy self.
+     * It should remove all element from dom and clear all trace in canvas if that's made by self.
+     * */
+    destroy() :MUST_CALL_AND_RETURN_SUPER_METHOD {
+        this.checkDestroy();
+        this.hide();
+        this.destroyed = true;
+
+        this.ext.onDestroy(this);
+
+        return MUST_CALL_AND_RETURN_SUPER_METHOD.SUPER_DESTROY;
+    }
 
     /**
-     * Hide self. It should hide all element created by self.
-     * Don't clear Canvas in there!
-     * This method will try set "visibility: 'hidden'" for self.element
+     * Apply this.drawInfo in component.
+     * This method should't change any property in this.drawInfo except this.drawInfo.box.
+     * @async
      * */
-    hide() {
+    async apply(...args :any[]) :Promise<MUST_CALL_AND_RETURN_SUPER_METHOD> {
+        this.checkDestroy();
+        if (this.element) {
+            this.drawInfo.box = mergeBox(
+                this.drawInfo.box,
+                parseBox(this.element),
+            );
+        }
+        await this.ext.onApply(this);
+
+        return MUST_CALL_AND_RETURN_SUPER_METHOD.SUPER_APPLY;
+    }
+    /**
+     * Draw self base on this.drawInfo.
+     * It should can be call multiple times.
+     * Call this.apply before this.draw.
+     * */
+    draw() :MUST_CALL_AND_RETURN_SUPER_METHOD {
+        this.checkDestroy();
+
+        this.ext.onDraw(this);
+
+        return MUST_CALL_AND_RETURN_SUPER_METHOD.SUPER_DRAW;
+    }
+    /**
+     * Hide all of trace created by self.
+     * Hidden is not destroyed. Ensure the component is still available when this.hide have call.
+     * This method will try set "visibility: 'hidden'" for this.element rather than remove it.
+     * */
+    hide() :MUST_CALL_AND_RETURN_SUPER_METHOD {
         this.checkDestroy();
 
         if (this.element) this.element.style.visibility = 'hidden';
@@ -103,65 +151,36 @@ export default abstract class Component{
         );
 
         this.ext.onHide(this);
+
+        return MUST_CALL_AND_RETURN_SUPER_METHOD.SUPER_HIDE;
     }
 
     /**
-     * Update component use self.drawInfo
+     * Set a whole drawInfo into component.
+     * The component still need this.apply called before draw when this.importDrawInfo been called.
      * */
-    async apply(...args :any[]) :Promise<any> {
-        this.checkDestroy();
-        if (this.element) {
-            this.drawInfo.box = mergeBox(
-                this.drawInfo.box,
-                countBox(this.element),
-            );
-        }
-        await this.ext.onApply(this);
+    importDrawInfo(drawInfo:ComponentDrawInfo) {
+        (<any>this).drawInfo = drawInfo;
+        return this;
     }
 
     /**
-     * The component has bean destroyed.
-     * Call any method on component destroyed will got an error.
-     * */
-    destroyed: boolean = false;
-    /**
-     * Destroy this component.
-     * It should remove all element from dom if that's created by this component
-     * */
-    destroy() {
-        this.checkDestroy();
-        this.destroyed = true;
-
-        this.ext.onDestroy(this);
-    }
-
-    /**
-     * Print log if DEBUG is true.
+     * Print log if the DEBUG is true.
      * @example this.l`Hello world`
      * */
-    l(stringArr:TemplateStringsArray, ...values:any[]) {// tslint:disable-line: function-name
-        if (!DEBUG) return;
-
-        const message = [stringArr[0]];
-        for (let index = 0; index < values.length; index++) {
-            message.push(values[index], stringArr[index + 1]);
-        }
-        console.log(`${this.name} #`, ...message);
+    private get l() {
+        return createLogFunction(`${this.theme}/${this.name}`);
     }
-
     /**
-     * Verify a component is destroyed or not, if yes throw an error.
+     * Verify a component is destroyed or not.
+     * Throw an error if this.destroyed is true.
      * */
     private checkDestroy() {
         if (this.destroyed) {
             throw new Error(
-                `${this.name} has bean destroyed, however, you still call it's method.`,
+                `${this.theme}/${this.name} has bean destroyed,`
+                + 'however, you still called it\'s method.',
             );
         }
-    }
-
-    from(drawInfo:ComponentDrawInfo) {
-        this.drawInfo = drawInfo;
-        return this;
     }
 }

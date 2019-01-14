@@ -1,20 +1,30 @@
-import { Box, ComponentConstructorInfo, ComponentDrawInfo } from '@engine/types';
+import { ComponentConstructorInfo, ComponentDrawInfo, Coordinate } from '@engine/types';
 import Component from '@engine/common/Component';
-import { SN } from '@engine/common/config';
+import { SN } from '@engine/common/definitions';
 
-export interface DrawInfo extends ComponentDrawInfo{
-    box: Readonly<Box>;
+/**
+ * @property {number} length - the axis length.
+ * @property {number} width - the width of axis.
+ * @property {Coordinate} start - where coordinate to start axis.
+ * @property {number} start.x - the axis will align this point rather than start.
+ * */
+interface DrawInfo extends ComponentDrawInfo{
     length :number;
+    width :number;
+    start: Coordinate;
 }
 
+/**
+ * The body of Axis.
+ * Draw the axis using this component.
+ * */
 export default abstract class AxisBody extends Component{
-    name = SN.AxisBody;
-
     constructor(props:ComponentConstructorInfo) {
         super(props);
         this.ext.onConstruct(this);
     }
 
+    name = SN.AxisBody;
     drawInfo: DrawInfo = {
         box: {
             x: 0,
@@ -23,13 +33,18 @@ export default abstract class AxisBody extends Component{
             height: 0,
         },
         length: 0,
+        width: 0,
+        start: {
+            x: 0,
+            y: 0,
+        },
     };
 
     async apply() {
         this.drawInfo.box = {
-            x: this.grid.axisStart.x - this.grid.axisWidth / 2,
-            y: this.grid.axisStart.y,
-            width: this.grid.axisWidth,
+            x: this.drawInfo.start.x - this.drawInfo.width / 2,
+            y: this.drawInfo.start.y,
+            width: this.drawInfo.width,
             height: this.drawInfo.length,
         };
         return super.apply();

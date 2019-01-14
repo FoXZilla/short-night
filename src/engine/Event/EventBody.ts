@@ -4,12 +4,15 @@ import {
     Box,
     ComponentConstructorInfo,
 } from '@engine/types';
-import { countBox, deepAssign } from '@engine/common/functions';
+import { parseBox } from '@engine/common/functions';
 import Component from '@engine/common/Component';
-import { SN } from '@engine/common/config';
+import { SN } from '@engine/common/definitions';
 import EventMark from '@engine/Event/EventMark';
 
-export interface DrawInfo extends ComponentDrawInfo{
+/**
+ *
+ * */
+interface DrawInfo extends ComponentDrawInfo{
     markDrawInfo: EventMark['drawInfo'];
     offset: Coordinate;
     maxWidth: number;
@@ -24,16 +27,17 @@ export interface DrawInfo extends ComponentDrawInfo{
     foldedText?: string;
 }
 
+/**
+ * Can conflict with AxisMilestone and EventBody.
+ * */
 export default abstract class EventBody extends Component{
-    name = SN.EventBody;
-
     constructor(props:ComponentConstructorInfo) {
         super(props);
         this.ext.onConstruct(this);
     }
 
+    name = SN.EventBody;
     element :HTMLElement = null as any;
-
     drawInfo:DrawInfo = {
         markDrawInfo: null as any,
 
@@ -56,6 +60,29 @@ export default abstract class EventBody extends Component{
             height: 0,
         },
     };
+
+    createElement() {
+        const flag = super.createElement(); // Must return this flag
+
+        this.resetElement();
+
+        this.element.style.left = `${this.drawInfo.box.x}px`;
+        this.element.style.top = `${this.drawInfo.box.y}px`;
+
+        return flag;
+    }
+    async apply() {
+        this.createElement();
+        this.initBoxFromElement();
+        this.createElement();
+        this.element.style.visibility = 'hidden';
+
+        return super.apply();
+    }
+    draw() {
+        this.createElement();
+        return super.draw();
+    }
 
     resetElement() {
         if (this.drawInfo.folded) { // TODO: reconstruct here
@@ -89,7 +116,7 @@ export default abstract class EventBody extends Component{
         );
     }
     initBoxFromElement() {
-        const eltBox = countBox(this.element);
+        const eltBox = parseBox(this.element);
         const box:Box = {
             width: eltBox.width,
             height: eltBox.height,
@@ -103,29 +130,9 @@ export default abstract class EventBody extends Component{
 
         this.drawInfo.box = box;
     }
-    async apply() {
-        this.createElement();
-        this.initBoxFromElement();
-        this.createElement();
-        this.element.style.visibility = 'hidden';
-
-        return super.apply();
-    }
-
-    createElement() {
-        super.createElement();
-        this.resetElement();
-
-        this.element.style.left = `${this.drawInfo.box.x}px`;
-        this.element.style.top = `${this.drawInfo.box.y}px`;
-    }
 
     static is(comp:Component) :comp is EventBody {
         return comp.name === SN.EventBody;
     }
 
-    draw() {
-        this.createElement();
-        return super.draw();
-    }
 }

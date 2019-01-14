@@ -1,6 +1,6 @@
 import { Extension, ExtensionManager } from './';
 import Component from '../common/Component';
-import { DEBUG } from '../common/config';
+import { DEBUG } from '../common/definitions';
 
 /**
  * Set a id for every Component in component.extraData.id.

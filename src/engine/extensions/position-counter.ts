@@ -4,7 +4,7 @@ import Axis from '../Axis';
 import AxisMilestone from '../Axis/AxisMilestone';
 import { mergeBox } from '../common/functions';
 import { Breakpoint } from './BreakpointAnimation';
-import { SN } from '../common/config';
+import { SN } from '../common/definitions';
 import Timeline from '../Timeline';
 import AxisScale from '../Axis/AxisScale';
 

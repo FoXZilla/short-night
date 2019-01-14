@@ -27,10 +27,19 @@ export const enum DateBy{
 
 // Types about Component
 
+/**
+ * The box in the Container and the Canvas of component.
+ * The box should contain all trace of component.
+ * */
 export interface ComponentDrawInfo{
     box: Readonly<Box>;
 }
 
+/**
+ * All component's config of what style to draw.
+ * E.g. The border width of Axis.
+ * Must be filled before apply() called.
+ * */
 export interface GridConfig{
     eventOffset: Coordinate;
 
@@ -54,7 +63,6 @@ export const enum ConflictFixResult {
 
 export interface ComponentConstructorInfo {
     ext: ExtensionManager;
-    grid?: GridConfig;
     canvas?: HTMLCanvasElement;
     container?: HTMLElement;
 }
