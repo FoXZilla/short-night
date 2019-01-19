@@ -18,7 +18,7 @@ interface DrawInfo extends ComponentDrawInfo{
         endText?: string,
 
         folded?: boolean,
-        foldedText?: string,
+        foldPlaceholder?: string,
     }[];
 }
 export interface RuntimeInfo{
@@ -252,12 +252,11 @@ export default abstract class Timeline extends Component{
                     / dateLength
                 ,
             };
-            event.drawInfo.bodyWidth = this.grid.eventWidth;
             event.drawInfo.date = data.date;
             event.drawInfo.title = data.title;
-            event.drawInfo.contentText = data.text;
+            event.drawInfo.description = data.text;
             event.drawInfo.folded = Boolean(data.folded);
-            event.drawInfo.foldedText = data.foldedText;
+            event.drawInfo.foldPlaceholder = data.foldPlaceholder;
             event.drawInfo.axisText = data.endText;
             if (data.endDate) {
                 const endDate :Date = new Date(

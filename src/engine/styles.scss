@@ -17,23 +17,24 @@
         text-align: right;
         &.folded{
             cursor: pointer;
-            .title{
-                overflow: hidden;
-                text-overflow:ellipsis;
-                white-space:nowrap;
+            .foldPlaceholder{
+                display: block;
             }
         }
         .title{
             font-size: 1em;
             padding-left: 10px;
+            text-overflow:ellipsis;
+            white-space:nowrap;
         }
         .date{
             font-size: 0.6em;
             font-weight: normal;
             font-style: italic;
         }
-        .foldedText{
+        .foldPlaceholder{
             @extend .title;
+            display: none;
         }
     }
     &.event_axis-endText{

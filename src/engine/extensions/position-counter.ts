@@ -121,8 +121,11 @@ export default class PositionCounter implements Partial<Extension> {
     }
     private countCritical(num:number):number {
         if (this.pushConfigs.length === 0) return num;
-        return this.pushConfigs.reduce((result:number, config:PushConfig) => {
-            return num > config.critical ? result + config.additional :result;
-        } ,                            0);
+        return this.pushConfigs.reduce(
+            (result:number, config:PushConfig) => {
+                return num > config.critical ? result + config.additional :result;
+            },
+            0,
+        );
     }
 }

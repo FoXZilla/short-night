@@ -1,20 +1,21 @@
 import { DEBUG, SN } from '@/engine/common/definitions';
-import BoxElementGenerator from '@/engine/extensions/BoxElementGenerator';
-import GeneratorId from '@/engine/extensions/GeneratorId';
-import PositionCounter from '@/engine/extensions/position-counter';
-import BreakpointAnimation from '@/engine/extensions/BreakpointAnimation';
-import ConflictFixer from '@/engine/extensions/ConflictFixer';
-import AxisBody from '@/engine/Axis/AxisBody';
-import AxisMilestone from '@/engine/Axis/AxisMilestone';
-import AxisScale from '@/engine/Axis/AxisScale';
-import EventBody from '@/engine/Event/EventBody';
-import EventAxis from '@/engine/Event/EventAxis';
-import EventMark from '@/engine/Event/EventMark';
-import Axis from '@/engine/Axis';
-import Event from '@/engine/Event';
+import BoxElementGenerator from './BoxElementGenerator';
+import GeneratorId from './GeneratorId';
+import PositionCounter from './position-counter';
+import BreakpointAnimation from './BreakpointAnimation';
+import ConflictFixer from './ConflictFixer';
+import Axis from '../Axis';
+import AxisBody from '../Axis/AxisBody';
+import AxisScale from '../Axis/AxisScale';
+import AxisMilestone from '../Axis/AxisMilestone';
+import Event from '../Event';
+import EventBody from '../Event/EventBody';
+import EventMark from '../Event/EventMark';
+import EventAxis from '../Event/EventAxis';
 
 const METHODS = ['onConstruct', 'onApply', 'onDestroy', 'onHide', 'onDraw'];
 
+Use mixin!
 /**
  * Manage ExtensionManager#components.
  * */
@@ -85,18 +86,18 @@ METHODS.forEach((methodName) => {
     ExtensionManager.prototype[methodName] = async function extensionManagerMethod(...args) {
         for (const extension of this.extensions) { // eslint-disable-line no-restricted-syntax
             if (methodName in extension) {
-                if (methodName === 'onConstruct') {
-                    extension[methodName](...args);
-                } else {
+                if (methodName === 'onApply') {
                     await extension[methodName](...args); // eslint-disable-line no-await-in-loop
+                } else {
+                    extension[methodName](...args);
                 }
             }
         }
     };
 });
 
-export { default as BoxElementGenerator } from '@/engine/extensions/BoxElementGenerator';
-export { default as GeneratorId } from '@/engine/extensions/GeneratorId';
-export { default as PositionCounter } from '@/engine/extensions/position-counter';
-export { default as BreakpointAnimation } from '@/engine/extensions/BreakpointAnimation';
-export { default as ConflictFixer } from '@/engine/extensions/ConflictFixer';
+export { default as BoxElementGenerator } from './BoxElementGenerator';
+export { default as GeneratorId } from './GeneratorId';
+export { default as PositionCounter } from './position-counter';
+export { default as BreakpointAnimation } from './BreakpointAnimation';
+export { default as ConflictFixer } from './ConflictFixer';

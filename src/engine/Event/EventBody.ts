@@ -1,30 +1,33 @@
-import {
-    ComponentDrawInfo,
-    Coordinate,
-    Box,
-    ComponentConstructorInfo,
-} from '@engine/types';
+import { ComponentDrawInfo, Coordinate, Box, ComponentConstructorInfo } from '@engine/types';
 import { parseBox } from '@engine/common/functions';
 import Component from '@engine/common/Component';
 import { SN } from '@engine/common/definitions';
 import EventMark from '@engine/Event/EventMark';
 
 /**
- *
+ * @property {Readonly<EventMark['drawInfo']>} markDrawInfo - the DrawInfo of EventMark.
+ * @property {Coordinate} offset - configure a coordinate that offset with Axis.
+ * @property {number} maxWidth - the EventBody can be stretched max width.
+ * @property {Date} date - the data of event.
+ * @property {string} title - the title of event.
+ * @property {[string]} description - the description of event.
+ * @property {boolean} floated - indicate the EventBody was floated or not.
+ * @property {boolean} folded - indicate the EventBody was in fold-mode or not.
+ * @property {[string]} foldPlaceholder - a text to show when the EventBody was in fold-mode.
  * */
 interface DrawInfo extends ComponentDrawInfo{
     markDrawInfo: EventMark['drawInfo'];
     offset: Coordinate;
     maxWidth: number;
 
-    date: string;
+    date: Date;
     title: string;
-    contentText?: string;
+    description?: string;
 
     floated: boolean;
 
     folded: boolean;
-    foldedText?: string;
+    foldPlaceholder?: string;
 }
 
 /**
@@ -37,6 +40,10 @@ export default abstract class EventBody extends Component{
     }
 
     name = SN.EventBody;
+    /**
+     * An EventBody must has a HTML element for allow user select and copy text from EventBody.
+     * @type {HTMLElement}
+     * */
     element :HTMLElement = null as any;
     drawInfo:DrawInfo = {
         markDrawInfo: null as any,
@@ -56,7 +63,7 @@ export default abstract class EventBody extends Component{
         box: {
             x: 0,
             y: 0,
-            width: 300,
+            width: 0,
             height: 0,
         },
     };
@@ -64,17 +71,31 @@ export default abstract class EventBody extends Component{
     createElement() {
         const flag = super.createElement(); // Must return this flag
 
-        this.resetElement();
+        if (this.drawInfo.floated) this.element.classList.add('floated');
+        if (this.drawInfo.folded) this.element.classList.add('folded');
 
-        this.element.style.left = `${this.drawInfo.box.x}px`;
-        this.element.style.top = `${this.drawInfo.box.y}px`;
+        this.element.innerHTML = `
+            <div class="foldPlaceholder" title="${this.drawInfo.title}">
+                ${this.drawInfo.foldPlaceholder || this.drawInfo.title}
+            </div>
+            <div class="title">${this.drawInfo.title}</div>
+            <div class="date">${new Date(this.drawInfo.date).toLocaleDateString()}</div>
+            <div class="description">${this.drawInfo.description}</div>
+        `;
+
+        if (!this.drawInfo.description) {
+            this.element.removeChild(this.element.querySelector('.description')!);
+        }
+
+        this.element.style.maxWidth = `${this.drawInfo.maxWidth}px`;
 
         return flag;
     }
     async apply() {
         this.createElement();
         this.initBoxFromElement();
-        this.createElement();
+        this.applyBoxToElement();
+
         this.element.style.visibility = 'hidden';
 
         return super.apply();
@@ -84,37 +105,6 @@ export default abstract class EventBody extends Component{
         return super.draw();
     }
 
-    resetElement() {
-        if (this.drawInfo.folded) { // TODO: reconstruct here
-            this.element.innerHTML = `
-                <h4 class="foldedText">${this.drawInfo.foldedText || this.drawInfo.title}</h4>
-                <h5 class="date">${new Date(this.drawInfo.date).toDateString()}</h5>
-            `;
-        } else {
-            this.element.innerHTML = `
-                <h4 class="title">${this.drawInfo.title}</h4>
-                <h5 class="date">${new Date(this.drawInfo.date).toDateString()}</h5>
-                ${this.drawInfo.contentText ? `<p>${this.drawInfo.contentText}</p>` :''}
-            `;
-        }
-
-        if (this.drawInfo.folded) {
-            this.element.classList.add('folded');
-        } else {
-            this.element.classList.remove('folded');
-        }
-
-        Object.assign(
-            this.element.style,
-            {
-                left: 0,
-                top: 0,
-                width: null,
-                height: null,
-                maxWidth: `${this.drawInfo.maxWidth}px`,
-            },
-        );
-    }
     initBoxFromElement() {
         const eltBox = parseBox(this.element);
         const box:Box = {
@@ -122,6 +112,7 @@ export default abstract class EventBody extends Component{
             height: eltBox.height,
             ...this.drawInfo.markDrawInfo.target,
         };
+
         box.x -= box.width;
         box.y -= box.height / 2;
 
@@ -129,6 +120,10 @@ export default abstract class EventBody extends Component{
         box.y += this.drawInfo.offset.y;
 
         this.drawInfo.box = box;
+    }
+    applyBoxToElement() {
+        this.element.style.left = `${this.drawInfo.box.x}px`;
+        this.element.style.top = `${this.drawInfo.box.y}px`;
     }
 
     static is(comp:Component) :comp is EventBody {

@@ -3,8 +3,8 @@ import Component from '../common/Component';
 import { DEBUG } from '../common/definitions';
 
 /**
- * Set a id for every Component in component.extraData.id.
- * Create a global variable using component's id if DEBUG is true when comp.apply fired
+ * 1. Set a id for every Component in component.extraData.id.
+ * 2. Create a global variable using component's id if DEBUG is true when comp.apply been fired
  * */
 export default class GeneratorId implements Partial<Extension> {
     constructor(public etx:ExtensionManager) {}
@@ -17,16 +17,14 @@ export default class GeneratorId implements Partial<Extension> {
                 .toString(36)
                 .slice(0, 5)
         ;
-        // Now comp.name is undefined
+        // comp.name is undefined now
         Object.defineProperty(comp.extraData, 'id', {
-            get() {
-                return `${comp.name}_${randomString}`;
-            },
+            get() { return `${comp.name}_${randomString}`; },
         });
     }
     /**
-     * If in debug mode, set a global variable
-     * from component.extraData.id to point the component.
+     * If the DEBUG is true, set a global variable using component.extraData.id in windows
+     * to point the component.
      * */
     async onApply(comp:Component) {
         if (DEBUG) (<any>window)[comp.extraData.id!] = comp;

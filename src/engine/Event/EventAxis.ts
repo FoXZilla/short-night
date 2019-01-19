@@ -9,7 +9,7 @@ import EventMark from '@engine/Event/EventMark';
  * @property {Readonly<Axis['drawInfo']>} axisBodyDrawInfo - the DrawInfo of AxisBody.
  * @property {Readonly<EventMark['drawInfo']>} markDrawInfo - the DrawInfo of EventMark.
  * @property {number} length - the length of EventAxis.
- * @property {number} offsetX - the offsetX of EventAxis.
+ * @property {number} offsetX - the offset X with Axis in EventAxis.
  * @property {[string]} text - the description about event ended.
  * */
 interface DrawInfo extends ComponentDrawInfo{

@@ -65,43 +65,10 @@ export default abstract class Axis extends Component{
     abstract bodyConstructor :typeof AxisBody;
 
     async apply() {
-        // @ts-ignore
-        if (!this.body) this.body = new this.bodyConstructor(this);
-        this.body.drawInfo.length = this.drawInfo.length;
-        this.body.drawInfo.width = this.grid.axisWidth;
-        this.body.drawInfo.start = this.grid.axisStart;
-        await this.body.apply();
-
-        // Clear
-        this.milestones.forEach(m => m.destroy());
-        this.milestones.length = 0;
-        this.scales.forEach(s => s.destroy());
-        this.scales.length = 0;
-
-        // Init scales
-        for (const position of this.drawInfo.scales) {
-            if (this.drawInfo.milestones.some(m => m.position === position)) continue;
-            // @ts-ignore
-            const scale:AxisScale = new this.scaleConstructor(this);
-            scale.drawInfo.bodyDrawInfo = deepFreeze(this.body.drawInfo);
-            scale.drawInfo.alignY = position; // recomputed in PositionCounter
-            scale.drawInfo.height = this.grid.scaleHeight; // recomputed in PositionCounter
-            this.scales.push(scale);
-        }
-
-        // Init milestones
-        for (const { position, text } of this.drawInfo.milestones) {
-            // @ts-ignore
-            const milestone = new this.milestoneConstructor(this);
-            milestone.drawInfo.bodyDrawInfo = deepFreeze(this.body.drawInfo);
-            milestone.drawInfo.alignY = position; // recomputed in PositionCounter
-            milestone.drawInfo.text = text;
-            this.milestones.push(milestone);
-        }
-
         await Promise.all([
-            this.milestones.map(m => m.apply()),
-            this.scales.map(s => s.apply()),
+            this.initBody(),
+            ...this.initScales(),
+            ...this.initMilestones(),
         ]);
 
         this.drawInfo.box = mergeBox(
@@ -132,6 +99,49 @@ export default abstract class Axis extends Component{
         this.milestones.forEach(m => m.hide());
 
         return super.hide();
+    }
+
+    initBody() :Promise<any> {
+        if (this.body) {
+            this.body.destroy();
+        }
+        // @ts-ignore - realize a absolute class that will re-init in the theme.
+        this.body = new this.bodyConstructor(this);
+        this.body.drawInfo.length = this.drawInfo.length;
+        this.body.drawInfo.width = this.grid.axisWidth;
+        this.body.drawInfo.start = this.grid.axisStart;
+
+        return this.body.apply();
+    }
+    initScales() :Promise<any>[] {
+        this.scales.forEach(s => s.destroy());
+        this.scales.length = 0;
+
+        for (const position of this.drawInfo.scales) {
+            if (this.drawInfo.milestones.some(m => m.position === position)) continue;
+            // @ts-ignore - realize a absolute class that will re-init in the theme.
+            const scale:AxisScale = new this.scaleConstructor(this);
+            scale.drawInfo.bodyDrawInfo = deepFreeze(this.body.drawInfo);
+            scale.drawInfo.alignY = position; // recomputed in PositionCounter
+            scale.drawInfo.height = this.grid.scaleHeight; // recomputed in PositionCounter
+            this.scales.push(scale);
+        }
+
+        return this.scales.map(s => s.apply());
+    }
+    initMilestones() :Promise<any>[] {
+        this.milestones.forEach(m => m.destroy());
+        this.milestones.length = 0;
+        for (const { position, text } of this.drawInfo.milestones) {
+            // @ts-ignore - realize a absolute class that will re-init in the theme.
+            const milestone = new this.milestoneConstructor(this);
+            milestone.drawInfo.bodyDrawInfo = deepFreeze(this.body.drawInfo);
+            milestone.drawInfo.alignY = position; // recomputed in PositionCounter
+            milestone.drawInfo.text = text;
+            this.milestones.push(milestone);
+        }
+
+        return this.milestones.map(m => m.apply());
     }
 
     static is(comp:Component) :comp is Axis {
