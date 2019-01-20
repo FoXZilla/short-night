@@ -1,9 +1,4 @@
 import { DEBUG, SN } from '@/engine/common/definitions';
-import BoxElementGenerator from './BoxElementGenerator';
-import GeneratorId from './GeneratorId';
-import PositionCounter from './position-counter';
-import BreakpointAnimation from './BreakpointAnimation';
-import ConflictFixer from './ConflictFixer';
 import Axis from '../Axis';
 import AxisBody from '../Axis/AxisBody';
 import AxisScale from '../Axis/AxisScale';
@@ -13,9 +8,15 @@ import EventBody from '../Event/EventBody';
 import EventMark from '../Event/EventMark';
 import EventAxis from '../Event/EventAxis';
 
+export { default as BoxElementGenerator } from './BoxElementGenerator';
+export { default as GeneratorId } from './GeneratorId';
+export { default as PositionCounter } from './position-counter';
+export { default as BreakpointAnimation } from './BreakpointAnimation';
+export { default as ConflictFixer } from './ConflictFixer';
+
 const METHODS = ['onConstruct', 'onApply', 'onDestroy', 'onHide', 'onDraw'];
 
-Use mixin!
+
 /**
  * Manage ExtensionManager#components.
  * */

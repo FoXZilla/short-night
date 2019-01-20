@@ -14,6 +14,11 @@ export interface Conflict<T = Component>{
     self: T;
 }
 
+/**
+ * Fix the conflict between component and each other by:
+ * 1. adjust component using fixers.
+ * 2. stretch Axis.
+ * */
 export default class ConflictFixer implements Partial<Extension> {
     constructor(public ext:ExtensionManager) {}
 
@@ -27,24 +32,33 @@ export default class ConflictFixer implements Partial<Extension> {
     private counter = 0;
     async onApply(timeline:Component) {
         if (!Timeline.is(timeline)) return;
+
+        // Conflict is fixed
         if (await this.fixAll() === ConflictFixResult.NoConflict) {
             this.counter = 0;
             return;
         }
 
-        if (++this.counter > 10) { // TODO: make configurable
-            const msg = 'Too many times of try fix conflict.';
+        // Try stretch length of Axis
+
+        this.counter++;
+
+        if (this.counter > 10) { // TODO: make configurable
+            const msg = `Too many times(${this.counter}) of try fix conflict.`;
 
             if (DEBUG) throw new Error(msg);
             else console.warn(msg);
         }
 
-        return Promise.resolve().then(() => timeline.apply({
+        await Promise.resolve().then(() => timeline.apply({
             axisLength: timeline.runtime.axisLength * 1.1,
         }));
 
     }
 
+    /**
+     * Try fix all conflict by adjust components.
+     * */
     async fixAll():Promise<ConflictFixResult> {
         return await walkLoop(async () => {
             const results = [];

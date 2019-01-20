@@ -32,34 +32,60 @@ export interface ConstructInfo extends ComponentConstructorInfo{
     grid :GridConfig;
 }
 
-
 export default abstract class Timeline extends Component{
-    name = SN.Timeline;
-
     constructor(props:ConstructInfo) {
         super(props);
         this.grid = props.grid;
         this.ext.onConstruct(this);
     }
 
+    name = SN.Timeline;
     /**
      * All component's config of what style to draw.
      * E.g. The border width of Axis.
      * Must be filled before apply() called.
      * */
     grid:GridConfig = Timeline.defaultGrid;
-
     runtime :RuntimeInfo = {} as any;
-
     drawInfo: DrawInfo = {
         box: { x:0, y:0, width:0, height:0 },
         events: [],
     };
 
-    abstract axisConstructor :typeof Axis;
-    abstract eventConstructor :typeof Event;
+    // The instances
     events:Event[] = [];
     axis :Axis = null as any;
+
+    // The Constructors
+    abstract axisConstructor :typeof Axis;
+    abstract eventConstructor :typeof Event;
+
+    async apply(runtime?:Partial<RuntimeInfo>) {
+        this.initRuntime(runtime);
+
+        this.canvas.width = this.grid.canvasWidth;
+        this.canvas.height = this.runtime.axisLength + this.grid.axisStart.y * 2;
+
+        // @ts-ignore
+        if (!this.axis) this.axis = new this.axisConstructor(this);
+        await this.updateAxis();
+
+        this.events.forEach(e => e.destroy());
+        this.events.length = 0;
+        await this.createEvents();
+
+        return super.apply();
+    }
+    draw() {
+        this.axis.draw();
+        this.events.forEach(event => event.draw());
+        return super.draw();
+    }
+    hide() {
+        this.events.forEach(event => event.hide());
+        this.axis.hide();
+        return super.hide();
+    }
 
     countStartData() :Date {
         const events = Array.from(this.drawInfo.events).sort(
@@ -154,33 +180,6 @@ export default abstract class Timeline extends Component{
         ).toISOString();
 
         return runtime as RuntimeInfo;
-    }
-    async apply(runtime?:Partial<RuntimeInfo>) {
-        this.initRuntime(runtime);
-
-        this.canvas.width = this.grid.canvasWidth;
-        this.canvas.height = this.runtime.axisLength + this.grid.axisStart.y * 2;
-
-        // @ts-ignore
-        if (!this.axis) this.axis = new this.axisConstructor(this);
-        await this.updateAxis();
-
-        this.events.forEach(e => e.destroy());
-        this.events.length = 0;
-        await this.createEvents();
-
-        return super.apply();
-    }
-
-    draw() {
-        this.axis.draw();
-        this.events.forEach(event => event.draw());
-        return super.draw();
-    }
-    hide() {
-        this.events.forEach(event => event.hide());
-        this.axis.hide();
-        return super.hide();
     }
 
     async updateAxis() {

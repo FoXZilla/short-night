@@ -11,6 +11,12 @@ import EventBody from '../Event/EventBody';
 import EventMark from '../Event/EventMark';
 import EventAxis from '../Event/EventAxis';
 
+export { default as BoxElementGenerator } from '@/engine/extensions/BoxElementGenerator';
+export { default as GeneratorId } from '@/engine/extensions/GeneratorId';
+export { default as PositionCounter } from '@/engine/extensions/position-counter';
+export { default as BreakpointAnimation } from '@/engine/extensions/BreakpointAnimation';
+export { default as ConflictFixer } from '@/engine/extensions/ConflictFixer';
+
 export interface Extension {
     onConstruct(comp:Component) :void;
     onApply(comp:Component) :Promise<void>;
@@ -55,9 +61,3 @@ export declare class ExtensionManager implements Extension {
     onDraw(comp:Component) :void;
     onDestroy(comp:Component) :void;
 }
-
-export { default as BoxElementGenerator } from '@/engine/extensions/BoxElementGenerator';
-export { default as GeneratorId } from '@/engine/extensions/GeneratorId';
-export { default as PositionCounter } from '@/engine/extensions/position-counter';
-export { default as BreakpointAnimation } from '@/engine/extensions/BreakpointAnimation';
-export { default as ConflictFixer } from '@/engine/extensions/ConflictFixer';
