@@ -29,7 +29,7 @@ export default class ConflictFixer implements Partial<Extension> {
         new EventBody2EventBodyFloater(this.ext),
     ];
 
-    private counter = 0;
+    protected counter = 0;
     async onApply(timeline:Component) {
         if (!Timeline.is(timeline)) return;
 

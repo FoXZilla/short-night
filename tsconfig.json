@@ -16,5 +16,6 @@
     },
     "sourceMap": true,
     "allowJs": true
-  }
+  },
+  "exclude": ["dist/*","docs/*"]
 }

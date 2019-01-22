@@ -125,11 +125,11 @@ export default class PositionCounter implements Partial<Extension> {
 
     }
 
-    private pushConfigs:PushConfig[] = [];
-    private addPushConfig(config:PushConfig) {
+    protected pushConfigs:PushConfig[] = [];
+    protected addPushConfig(config:PushConfig) {
         this.pushConfigs.push(config);
     }
-    private countCritical(num:number):number {
+    protected countCritical(num:number):number {
         if (this.pushConfigs.length === 0) return num;
         return this.pushConfigs.reduce(
             (result:number, config:PushConfig) => {

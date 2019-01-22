@@ -88,13 +88,13 @@ export default class BreakpointAnimation implements Partial<Extension>{
     }
 
     /** @see BreakpointAnimationConfig.breakpoints */
-    private breakpoints:Breakpoint[];
+    protected breakpoints:Breakpoint[];
     /** @see BreakpointAnimationConfig.playAnimation */
-    private readonly playAnimation: boolean;
+    protected readonly playAnimation: boolean;
     /**
      * Fill when short-night is blocking. Step in a breakpoint.
      * */
-    private stepIn ?: () => Promise<void>;
+    protected stepIn ?: () => Promise<void>;
 
     /**
      * Step into next breakpoint.
@@ -153,7 +153,7 @@ export default class BreakpointAnimation implements Partial<Extension>{
     /**
      * Count a number that be used scroll to focus when play animation.
      * */
-    private countScrollTarget(config:Partial<BlockConfig>) :number|null {
+    protected countScrollTarget(config:Partial<BlockConfig>) :number|null {
         const { components, protagonist } = config;
 
         const topPadding = 100;
@@ -178,7 +178,7 @@ export default class BreakpointAnimation implements Partial<Extension>{
      * Count a number what ms is needed waiting for this point when playing animation.
      * @property {boolean} forward - @see BlockConfig.forward
      * */
-    private countInterval(point :Breakpoint, forward :boolean) :number {
+    protected countInterval(point :Breakpoint, forward :boolean) :number {
         if (point === Breakpoint.DrawFrom) return 300;
 
         return forward ? 200 : 300;

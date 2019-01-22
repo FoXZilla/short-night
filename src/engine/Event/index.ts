@@ -10,14 +10,14 @@ import { SN } from '@engine/common/definitions';
  * @property {Coordinate} target - a coordinate the Event need to approach.
  * @property {Coordinate} offset - a coordinate offset with the this.target.
  *
- * @property {Date} date - the data of event.
+ * @property {Date} date - a data of event.
  * @property {string} title - the title of event.
  * @property {[string]} description - the description of event.
  * @property {boolean} folded - indicate the EventBody was in fold-mode or not.
  * @property {[string]} foldPlaceholder - a text to show in EventBody when it was in fold-mode.
  *
- * @property {number} axisLength - the length of EventAxis.
- * @property {number} axisOffset - the offset X with Axis in EventAxis.
+ * @property {[number]} axisLength - the length of EventAxis.
+ * @property {[number]} axisOffset - the offset X with Axis in EventAxis.
  * @property {[string]} axisText - the description about event ended.
  * */
 interface DrawInfo extends ComponentDrawInfo{

@@ -168,14 +168,14 @@ export default abstract class Component{
      * Print log if the DEBUG is true.
      * @example this.l`Hello world`
      * */
-    private get l() {
+    protected get l() {
         return createLogFunction(`${this.theme}/${this.name}`);
     }
     /**
      * Verify a component is destroyed or not.
      * Throw an error if this.destroyed is true.
      * */
-    private checkDestroy() {
+    protected checkDestroy() {
         if (this.destroyed) {
             throw new Error(
                 `${this.theme}/${this.name} has bean destroyed,`

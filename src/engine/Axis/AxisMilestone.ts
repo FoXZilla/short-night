@@ -2,15 +2,15 @@ import { ComponentConstructorInfo, ComponentDrawInfo } from '@engine/types';
 import { parseBox } from '@engine/common/functions';
 import Component from '@engine/common/Component';
 import { SN } from '@engine/common/definitions';
-import { DrawInfo as AxisBodyDrawInfo } from '@engine/Axis/AxisBody';
+import AxisBody from '@engine/Axis/AxisBody';
 
 /**
  * @property {Readonly<AxisBodyDrawInfo>} bodyDrawInfo - the DrawInfo of AxisBody.
  * @property {number} alignY - the y point which is the AxisMilestone align target.
- * @property {number} text - the showed text of milestone.
+ * @property {number} description - the showed description of milestone.
  * */
 interface DrawInfo extends ComponentDrawInfo{
-    bodyDrawInfo: Readonly<AxisBodyDrawInfo>;
+    bodyDrawInfo: Readonly<AxisBody['drawInfo']>;
     alignY: number;
     text: string;
 }

@@ -1,7 +1,7 @@
 import { ComponentConstructorInfo, ComponentDrawInfo, Coordinate } from '@engine/types';
 import Component from '@engine/common/Component';
 import { SN } from '@engine/common/definitions';
-import { DrawInfo as AxisBodyDrawInfo } from '@engine/Axis/AxisBody';
+import AxisBody from '@engine/Axis/AxisBody';
 
 /**
  * @property {Readonly<AxisBodyDrawInfo>} bodyDrawInfo - the DrawInfo of AxisBody.
@@ -9,7 +9,7 @@ import { DrawInfo as AxisBodyDrawInfo } from '@engine/Axis/AxisBody';
  * @property {number} height - the height of AxisScale.
  * */
 interface DrawInfo extends ComponentDrawInfo{
-    bodyDrawInfo: Readonly<AxisBodyDrawInfo>;
+    bodyDrawInfo: Readonly<AxisBody['drawInfo']>;
     alignY: number;
     height: number;
 }

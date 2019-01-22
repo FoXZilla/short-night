@@ -66,3 +66,5 @@ export interface ComponentConstructorInfo {
     canvas?: HTMLCanvasElement;
     container?: HTMLElement;
 }
+
+export type TimelineData = any;
