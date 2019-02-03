@@ -118,7 +118,6 @@ export default class BreakpointAnimation implements Partial<Extension>{
         if (!this.breakpoints.includes(point)) return;
         console.log(`Blocking at ${point}.`);
 
-
         if (this.playAnimation) {
             const scrollTarget = this.countScrollTarget(config);
 

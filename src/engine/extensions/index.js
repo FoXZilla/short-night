@@ -7,12 +7,19 @@ import Event from '../Event';
 import EventBody from '../Event/EventBody';
 import EventMark from '../Event/EventMark';
 import EventAxis from '../Event/EventAxis';
+import BoxElementGenerator from './BoxElementGenerator';
+import GeneratorId from './GeneratorId';
+import PositionCounter from './PositionCounter';
+import BreakpointAnimation from './BreakpointAnimation';
+import ConflictFixer from './ConflictFixer';
 
-export { default as BoxElementGenerator } from './BoxElementGenerator';
-export { default as GeneratorId } from './GeneratorId';
-export { default as PositionCounter } from './position-counter';
-export { default as BreakpointAnimation } from './BreakpointAnimation';
-export { default as ConflictFixer } from './ConflictFixer';
+export {
+    BoxElementGenerator,
+    GeneratorId,
+    PositionCounter,
+    BreakpointAnimation,
+    ConflictFixer,
+};
 
 const METHODS = ['onConstruct', 'onApply', 'onDestroy', 'onHide', 'onDraw'];
 
@@ -42,6 +49,7 @@ export class Base {
  * @constructor
  * */
 export function ExtensionManager({ breakpointAnimation } = {}) {
+    this.extraData = {};
     this.components = {
         [SN.Timeline]: [],
         [SN.Axis]: [],
@@ -96,9 +104,3 @@ METHODS.forEach((methodName) => {
         }
     };
 });
-
-export { default as BoxElementGenerator } from './BoxElementGenerator';
-export { default as GeneratorId } from './GeneratorId';
-export { default as PositionCounter } from './position-counter';
-export { default as BreakpointAnimation } from './BreakpointAnimation';
-export { default as ConflictFixer } from './ConflictFixer';

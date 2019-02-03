@@ -3,7 +3,7 @@ import {
     ComponentDrawInfo,
     DateBy,
     GridConfig,
-    TimelineData
+    TimelineData,
 } from '@engine/types';
 import Component from '@engine/common/Component';
 import Event from '@engine/Event';
@@ -145,7 +145,7 @@ export default abstract class Timeline extends Component{
      * @param (TimelineData) input
      * @return {Promise<void>>}
      * */
-    async drawFrom(input:TimelineData) :Promise<void>{
+    async drawFrom(input:TimelineData) :Promise<void> {
         const data:any  = typeof input === 'string' ? JSON.parse(input).data : input.data;
         // @ts-ignore
         const axis:Axis = new this.axisConstructor(this);
@@ -166,7 +166,7 @@ export default abstract class Timeline extends Component{
             scalesDrawInfo.forEach((scaleDrawInfo:any) => {
                 scalesAndMilestones.push(
                     // @ts-ignore
-                    new axis.scaleConstructor(this).importDrawInfo(scaleDrawInfo)
+                    new axis.scaleConstructor(this).importDrawInfo(scaleDrawInfo),
                 );
             });
 

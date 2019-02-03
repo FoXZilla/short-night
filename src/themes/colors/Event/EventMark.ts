@@ -1,24 +1,15 @@
 import * as Engine from '@engine';
-import { RoughCanvas } from 'roughjs/bin/canvas';
-import { ColorsConstructorInfo } from '@/themes/colors/Timeline';
 
 export default class EventMark extends Engine.EventMark {
     theme = 'colors';
-
-    roughCanvas:RoughCanvas;
-    constructor(info:ColorsConstructorInfo) {
-        super(info);
-        this.roughCanvas = info.roughCanvas;
-    }
-
-    drawInfo: Engine.EventMark['drawInfo'] & {mainColor:string} = Object.assign(
+    drawInfo :Engine.EventMark['drawInfo'] & {mainColor:string} = Object.assign(
         {},
         this.drawInfo,
         { mainColor: '' },
     );
 
     draw() {
-        this.roughCanvas.circle(
+        this.ext.extraData.roughCanvas.circle(
             this.drawInfo.target.x,
             this.drawInfo.target.y,
             this.drawInfo.width,
@@ -33,5 +24,8 @@ export default class EventMark extends Engine.EventMark {
                 roughness: 0.5,
             },
         );
+
+        return super.draw();
     }
+
 }

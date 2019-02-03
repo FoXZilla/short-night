@@ -1,16 +1,7 @@
 import * as Engine from '@engine';
-import { RoughCanvas } from 'roughjs/bin/canvas';
-import { ColorsConstructorInfo } from '@/themes/colors/Timeline';
 
 export default class EventAxis extends Engine.EventAxis {
     theme = 'colors';
-
-    roughCanvas:RoughCanvas;
-    constructor(info:ColorsConstructorInfo) {
-        super(info);
-        this.roughCanvas = info.roughCanvas;
-    }
-
     drawInfo: Engine.EventAxis['drawInfo'] & {mainColor:string} = Object.assign(
         {},
         this.drawInfo,
@@ -21,7 +12,7 @@ export default class EventAxis extends Engine.EventAxis {
         const strokeWidth = 1.5;
         const radius = 10;
 
-        this.roughCanvas.linearPath(
+        this.ext.extraData.roughCanvas.linearPath(
             [
                 [this.drawInfo.markDrawInfo.target.x, this.drawInfo.markDrawInfo.target.y],
                 [
@@ -42,7 +33,7 @@ export default class EventAxis extends Engine.EventAxis {
             },
         );
 
-        this.roughCanvas.circle(
+        this.ext.extraData.roughCanvas.circle(
             this.drawInfo.markDrawInfo.target.x + this.drawInfo.offsetX,
             this.drawInfo.markDrawInfo.target.y - this.drawInfo.length,
             radius,

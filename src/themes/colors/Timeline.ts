@@ -2,33 +2,29 @@ import roughjs from 'roughjs';
 import * as Engine from '@engine';
 import Axis from './Axis';
 import Event from './Event';
-import {ComponentConstructorInfo, GridConfig} from '@engine/types';
 import { RoughCanvas } from 'roughjs/bin/canvas';
 import ColorPicker from './extensions/ColorPicker';
 
-export interface ColorsConstructorInfo extends ComponentConstructorInfo{
-    grid: GridConfig;
-    roughCanvas: RoughCanvas;
-}
-
 export default class Timeline extends Engine.Timeline {
-    theme = 'colors';
+    constructor(info :Partial<Engine.TimelineConstructInfo>) {
+        super({
+            grid: {
+                ...Engine.Timeline.defaultGrid,
+                scaleHeight: 3,
+                axisWidth: 5,
+                markWidth: 10,
+            },
+            ext: new Engine.ExtensionManager,
+            ...info,
+        });
 
-    grid = {
-        ...Engine.Timeline.defaultGrid,
-        scaleHeight: 3,
-        axisWidth: 5,
-        markWidth: 10,
-    };
-
-    roughCanvas: RoughCanvas;
-    constructor(info:ComponentConstructorInfo) {
-        super(info);
         this.ext.extensions.push(
-            new ColorPicker(info.ext),
+            new ColorPicker(this.ext),
         );
-        this.roughCanvas = roughjs.canvas(this.canvas) as RoughCanvas;
+        this.ext.extraData.roughCanvas = roughjs.canvas(this.canvas) as RoughCanvas;
     }
+
+    theme = 'colors';
 
     axisConstructor = Axis;
     eventConstructor = Event;

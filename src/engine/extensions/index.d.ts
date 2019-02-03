@@ -13,7 +13,7 @@ import EventAxis from '../Event/EventAxis';
 
 export { default as BoxElementGenerator } from '@/engine/extensions/BoxElementGenerator';
 export { default as GeneratorId } from '@/engine/extensions/GeneratorId';
-export { default as PositionCounter } from '@/engine/extensions/position-counter';
+export { default as PositionCounter } from '@/engine/extensions/PositionCounter';
 export { default as BreakpointAnimation } from '@/engine/extensions/BreakpointAnimation';
 export { default as ConflictFixer } from '@/engine/extensions/ConflictFixer';
 
@@ -24,6 +24,8 @@ export interface Extension {
     onHide(comp:Component) :void;
     onDestroy(comp:Component) :void;
 }
+
+export interface ExtData {}
 
 /**
  * Manage all of extensions.
@@ -37,6 +39,7 @@ export declare class ExtensionManager implements Extension {
         },
     );
 
+    extraData: ExtData;
     breakpoint: BreakpointAnimation;
     components: {
         [SN.Timeline]: Timeline[];

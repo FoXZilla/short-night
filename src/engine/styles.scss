@@ -23,7 +23,6 @@
         }
         .title{
             font-size: 1em;
-            padding-left: 10px;
             text-overflow:ellipsis;
             white-space:nowrap;
         }
@@ -37,7 +36,7 @@
             display: none;
         }
     }
-    &.event_axis-endText{
+    &.endText{
         position: absolute;
         padding: 0 0 2px 3px;
         font-size: 0.8em;
