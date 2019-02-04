@@ -49,6 +49,6 @@ Every element created by one component has a class named by name of component.
 
 Some component has one more additional element.
 
-- EventBody: `.title`, `date`, `.foldPlaceholder`, `.description`
+- EventBody: `.title`, `.date`, `.foldPlaceholder`, `.description`
 - EventAxis: `.endText`
  
