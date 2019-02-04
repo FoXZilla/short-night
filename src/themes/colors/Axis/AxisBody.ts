@@ -1,20 +1,12 @@
 import * as Engine from '@engine';
-import { RoughCanvas } from 'roughjs/bin/canvas';
-import { ConstructorInfo } from '@/themes/colors/Timeline';
 
 export default class AxisBody extends Engine.AxisBody {
     theme = 'colors';
 
-    roughCanvas:RoughCanvas;
-    constructor(info:ConstructorInfo) {
-        super(info);
-        this.roughCanvas = info.roughCanvas;
-    }
-
     draw() {
         const box = this.drawInfo.box;
 
-        this.roughCanvas.line(
+        this.ext.extraData.roughCanvas.line(
             box.x + box.width / 2,
             box.y,
             box.x + box.width / 2,
@@ -29,4 +21,5 @@ export default class AxisBody extends Engine.AxisBody {
 
         return super.draw();
     }
+
 }

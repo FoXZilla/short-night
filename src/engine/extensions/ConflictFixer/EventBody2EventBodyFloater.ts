@@ -1,4 +1,4 @@
-import { SN } from '../../common/config';
+import { SN } from '../../common/definitions';
 import EventBody from '../../Event/EventBody';
 import { isOverlap } from '../../common/functions';
 import { ExtensionManager } from '../';
@@ -80,12 +80,12 @@ export default class EventBody2EventBodyFloater {
 
     }
 
-    private pickRingleader() :Conflict|undefined {
+    protected pickRingleader() :Conflict|undefined {
         return this.conflicts.find(
             c1 => this.conflicts.every(c2 => c1.with.length >= c2.with.length),
         );
     }
-    private countConflict() {
+    protected countConflict() {
         this.conflicts.length = 0;
 
         for (const eb of this.eventBodyList) {

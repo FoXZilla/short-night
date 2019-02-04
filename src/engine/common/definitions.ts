@@ -1,7 +1,7 @@
 import { DateBy } from '@engine/types';
 import packageJson = require('@root/package.json');
 
-export const DEBUG = true;
+export const DEBUG:Boolean = process.env.NODE_ENV === 'development';
 
 export enum SN{
     Timeline = 'time_line',

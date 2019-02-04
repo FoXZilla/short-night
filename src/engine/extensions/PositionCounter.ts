@@ -4,10 +4,16 @@ import Axis from '../Axis';
 import AxisMilestone from '../Axis/AxisMilestone';
 import { mergeBox } from '../common/functions';
 import { Breakpoint } from './BreakpointAnimation';
-import { SN } from '../common/config';
+import { SN } from '../common/definitions';
 import Timeline from '../Timeline';
 import AxisScale from '../Axis/AxisScale';
 
+/**
+ * Set a point that some components need move if they upper has this point.
+ * @property {number} critical - a critical point to judge a component need move or not.
+ * @property {number} additional - what number a component need move for this config.
+ * @property {Component} component - which component made this config.
+ * */
 interface PushConfig{
     critical: number;
     additional: number;
@@ -15,11 +21,27 @@ interface PushConfig{
 }
 
 /**
- * Milestone cannot occupy the space of Axis.
- * So we move Event, Scale and Milestone if they upper has any Milestone.
+ * Milestone shouldn't occupy the space of Axis.
+ * So we move Event, Scale and Milestone if they upper has any Milestones.
  * */
 export default class PositionCounter implements Partial<Extension> {
     constructor(public etx:ExtensionManager) {}
+
+    async onApply(comp:Component) {
+        if (Axis.is(comp)) return await this.adjustAxis(comp);
+        if (Timeline.is(comp)) return await this.adjustEvent(comp);
+    }
+    /**
+     * When a component destroyed, remove a config made by it.
+     * */
+    onDestroy(comp:Component) {
+        while (true) {
+            const index = this.pushConfigs.findIndex(config => config.component === comp);
+
+            if (index === -1) break;
+            else this.pushConfigs.splice(index, 1);
+        }
+    }
 
     async adjustAxis(axis:Axis) {
         const childComponents = [
@@ -102,27 +124,18 @@ export default class PositionCounter implements Partial<Extension> {
         await Promise.all(events.map(event => event.apply()));
 
     }
-    async onApply(comp:Component) {
-        if (Axis.is(comp)) return await this.adjustAxis(comp);
-        if (Timeline.is(comp)) return await this.adjustEvent(comp);
-    }
-    onDestroy(comp:Component) {
-        while (true) {
-            const index = this.pushConfigs.findIndex(config => config.component === comp);
 
-            if (index === -1) break;
-            else this.pushConfigs.splice(index, 1);
-        }
-    }
-
-    private pushConfigs:PushConfig[] = [];
-    private addPushConfig(config:PushConfig) {
+    protected pushConfigs:PushConfig[] = [];
+    protected addPushConfig(config:PushConfig) {
         this.pushConfigs.push(config);
     }
-    private countCritical(num:number):number {
+    protected countCritical(num:number):number {
         if (this.pushConfigs.length === 0) return num;
-        return this.pushConfigs.reduce((result:number, config:PushConfig) => {
-            return num > config.critical ? result + config.additional :result;
-        } ,                            0);
+        return this.pushConfigs.reduce(
+            (result:number, config:PushConfig) => {
+                return num > config.critical ? result + config.additional :result;
+            },
+            0,
+        );
     }
 }

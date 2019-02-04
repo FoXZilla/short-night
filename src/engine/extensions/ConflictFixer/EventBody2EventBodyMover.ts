@@ -1,6 +1,6 @@
 import EventBody from '../../Event/EventBody';
 import { isOverlap, walkLoop } from '../../common/functions';
-import { SN } from '../../common/config';
+import { SN } from '../../common/definitions';
 import { ExtensionManager } from '../';
 import { Conflict as ComponentConflict } from './index';
 import { Breakpoint } from '../BreakpointAnimation';
@@ -71,7 +71,7 @@ export default class EventBody2EventBodyMover {
     /**
      * @return {boolean} have fixed one of conflicts?
      * */
-    private async tryFixOne() :Promise<ConflictFixResult> {
+    protected async tryFixOne() :Promise<ConflictFixResult> {
         await this.countConflict();
         this.countSpace();
 
@@ -109,7 +109,7 @@ export default class EventBody2EventBodyMover {
         return ConflictFixResult.Alleviated;
 
     }
-    private isPossible(conflict:Conflict) {
+    protected isPossible(conflict:Conflict) {
         if (
             conflict.self.drawInfo.floated
             && conflict.with.some(eb => !eb.drawInfo.floated)
@@ -122,7 +122,7 @@ export default class EventBody2EventBodyMover {
             && (space.bottom >= needed.bottom && space.top >= needed.top)
             ;
     }
-    private async fixConflict(conflict:Conflict) {
+    protected async fixConflict(conflict:Conflict) {
         const needed = this.countNeeded(conflict);
         const moveDistance = needed.top ? needed.top : -needed.bottom;
         const direction = moveDistance / Math.abs(moveDistance) as (1 | -1);
@@ -153,7 +153,7 @@ export default class EventBody2EventBodyMover {
 
     }
 
-    private async countConflict() {
+    protected async countConflict() {
         this.conflicts.length = 0;
 
         await Promise.all(this.eventBodyList.map(eb => eb.apply()));
@@ -168,14 +168,14 @@ export default class EventBody2EventBodyMover {
             if (conflict.with.length) this.conflicts.push(conflict);
         }
     }
-    private countCast(conflict:Conflict) {
+    protected countCast(conflict:Conflict) {
         const needed = this.countNeeded(conflict);
         return needed.bottom + needed.top;
     }
     /**
      * Count the number how many space needed for fix the conflict by verticalMove
      * */
-    private countNeeded(conflict:Conflict) :{top:number, bottom:number} {
+    protected countNeeded(conflict:Conflict) :{top:number, bottom:number} {
         const origin = conflict.self;
         const result = {
             top: 0,
@@ -242,7 +242,7 @@ export default class EventBody2EventBodyMover {
     /**
      * Count the number how many space the component can move
      * */
-    private countSpace() {
+    protected countSpace() {
         const spacePadding = 4; // FIXME: remove supported
 
         // Itself's can move space

@@ -1,27 +1,29 @@
 {
   "name": "short-night",
   "version": "0.0.1",
-  "description": "",
-  "main": "index.js",
+  "description": "An engine for drawing timeline graph.",
+  "types": "src/engine/index.ts",
   "scripts": {
     "fix-lint": "eslint src/**/*.js --fix && tslint --project tsconfig.json --fix",
     "eslint": "eslint src/**/*.js",
     "tslint": "tslint --project tsconfig.json",
     "build": "cross-env NODE_ENV=production webpack --mode production",
     "test": "npm run eslint && npm run tslint && tsc",
-    "dev": "webpack --mode development --watch"
+    "dev": "cross-env NODE_ENV=development webpack --mode development --watch"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/pea3nut/short-night.git"
+    "url": "git+https://github.com/FoXZilla/short-night.git"
   },
   "keywords": [
+    "shortnight",
+    "short-night",
     "timeline"
   ],
-  "author": "pea3nut",
+  "author": "FoXZilla, pea3nut",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/pea3nut/short-night/issues"
+    "url": "https://github.com/FoXZilla/short-night/issues"
   },
   "homepage": "https://github.com/pea3nut/short-night#readme",
   "devDependencies": {

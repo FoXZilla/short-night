@@ -1,22 +1,6 @@
 import { ExtensionManager } from '@engine';
 
-export const enum ConstLevel{
-    No = 0,
-    Few = 1,
-    Normal = 3,
-    Expensive = 10,
-}
-export const enum DateBy{
-    Year = 'year',
-    Month = 'month',
-    Quarter = 'quarter',
-    Week = 'week',
-    Day = 'day',
-}
-export type Count = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10;
-export interface ComponentDrawInfo{
-    box: Readonly<Box>;
-}
+// Base types
 
 export interface Coordinate{
     x: number;
@@ -33,6 +17,29 @@ export interface Line{
     endY:number;
 }
 
+export const enum DateBy{
+    Year = 'year',
+    Month = 'month',
+    Quarter = 'quarter',
+    Week = 'week',
+    Day = 'day',
+}
+
+// Types about Component
+
+/**
+ * The box in the Container and the Canvas of component.
+ * The box should contain all trace of component.
+ * */
+export interface ComponentDrawInfo{
+    box: Readonly<Box>;
+}
+
+/**
+ * All component's config of what style to draw.
+ * E.g. The border width of Axis.
+ * Must be filled before apply() called.
+ * */
 export interface GridConfig{
     eventOffset: Coordinate;
 
@@ -55,8 +62,9 @@ export const enum ConflictFixResult {
 }
 
 export interface ComponentConstructorInfo {
-    ext:ExtensionManager;
-    grid?: GridConfig;
-    canvas?:HTMLCanvasElement;
-    container?:HTMLElement;
+    ext: ExtensionManager;
+    canvas?: HTMLCanvasElement;
+    container?: HTMLElement;
 }
+
+export type TimelineData = any; // TODO

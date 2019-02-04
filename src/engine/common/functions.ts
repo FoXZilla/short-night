@@ -1,5 +1,5 @@
 import { Box, DateBy, Line, ConflictFixResult } from '@engine/types';
-import { DEBUG } from '@engine/common/config';
+import { DEBUG } from '@engine/common/definitions';
 
 export function isBox(obj:any): obj is Box {
     return typeof obj === 'object'
@@ -7,14 +7,6 @@ export function isBox(obj:any): obj is Box {
         && typeof obj.y === 'number'
         && typeof obj.width === 'number'
         && typeof obj.height === 'number'
-    ;
-}
-export function isLine(obj:any): obj is Box {
-    return typeof obj === 'object'
-        && typeof obj.startX === 'number'
-        && typeof obj.startY === 'number'
-        && typeof obj.endX === 'number'
-        && typeof obj.endY === 'number'
     ;
 }
 export function box2Lines(box:Box):Line[] {
@@ -42,8 +34,7 @@ export function box2Lines(box:Box):Line[] {
         },
     ];
 }
-
-export function countBox(elt:HTMLElement):Box {
+export function parseBox(elt:HTMLElement):Box {
     const styles = getComputedStyle(elt);
     return {
         x: parseFloat(styles.left!),
@@ -52,107 +43,6 @@ export function countBox(elt:HTMLElement):Box {
         height: parseFloat(styles.height!),
     };
 }
-
-export function deepAssign(...args:any[]) {
-    const result:any = args.shift();
-    for (const obj of args) {
-        for (const [key, value] of Object.entries(obj)) {
-            if (key in result) {
-                if (Array.isArray(value) && Array.isArray(result[key])) {
-                    result[key].push(...value);
-                } else if (typeof value === 'object' && typeof result[key] === 'object') {
-                    deepAssign(result[key], value);
-                } else {
-                    result[key] = value;
-                }
-            } else {
-                result[key] = value;
-            }
-        }
-    }
-    return result;
-}
-
-export const timeNodeGetter: {
-    [key in DateBy]: (start: Date , end: Date) => Date[]
-} = function () {
-    const getNodes = function (start: Date , end: Date , step: (date: Date) => void): Date[] {
-        const startNode: Date = function (template) {
-            const node = new Date(template);
-            node.setFullYear(template.getFullYear() - 1 , 0 , 1);
-            node.setHours(0 , 0 , 0 , 0);
-            return node;
-        }(start);
-        const endNode: Date = function (template) {
-            const node = new Date(template);
-            node.setFullYear(template.getFullYear() + 1 , 0 , 1);
-            node.setHours(0 , 0 , 0 , 0);
-            return node;
-        }(end);
-        const nodes: Date[] = [];
-        {
-            const tempNode = new Date(startNode);
-            while (tempNode.getFullYear() <= endNode.getFullYear()) {
-                nodes.push(new Date(tempNode));
-                step(tempNode);
-            }
-        }
-        return nodes.filter(
-            date => date.getTime() < end.getTime() && date.getTime() > start.getTime(),
-        );
-    };
-    return {
-        year(start: Date , end: Date): Date[] {
-            return getNodes(
-                start , end ,
-                date => date.setFullYear(date.getFullYear() + 1),
-            );
-        } ,
-        quarter(start: Date , end: Date): Date[] {
-            return getNodes(
-                start , end ,
-                (date) => {
-                    if (date.getMonth() + 3 >= 12) {
-                        date.setFullYear(date.getFullYear() + 1);
-                        date.setMonth(0 , 1);
-                    } else {
-                        date.setMonth(date.getMonth() + 3 , 1);
-                    }
-                },
-            );
-        } ,
-        month(start: Date , end: Date): Date[] {
-            return getNodes(
-                start , end ,
-                (date) => {
-                    if (date.getMonth() === 11) {
-                        date.setFullYear(date.getFullYear() + 1);
-                        date.setMonth(0 , 1);
-                    } else {
-                        date.setMonth(date.getMonth() + 1 , 1);
-                    }
-                },
-            );
-        } ,
-        week(start: Date , end: Date): Date[] {
-            return getNodes(
-                start , end ,
-                (date) => {
-                    do {
-                        date.setTime(date.getTime() + 1000 * 60 * 60 * 24);
-                    }while (date.getDay() !== 1);
-                },
-            );
-        } ,
-        day(start: Date , end: Date): Date[] {
-            return getNodes(
-                start , end ,
-                date => date.setTime(date.getTime() + 1000 * 60 * 60 * 24) ,
-            );
-        } ,
-    };
-}();
-
 export function mergeBox(...args:Box[]):Box {
     const leftTop = {
         x: Infinity,
@@ -173,6 +63,14 @@ export function mergeBox(...args:Box[]):Box {
         y: leftTop.y,
         width: rightBottom.x - leftTop.x,
         height: rightBottom.y - leftTop.y,
+    };
+}
+export function shrinkBox(box:Box, distance= 1) :Box {
+    return {
+        x: box.x + distance,
+        y: box.y + distance,
+        width: box.width - distance * 2,
+        height: box.height - distance * 2,
     };
 }
 
@@ -266,16 +164,9 @@ export function isOverlap(item1:Box|Line, item2:Box|Line) :boolean {
     return lines1.some(line1 => lines2.some(line2 => isIntersecting(line1, line2)));
 }
 
-export function drawLine(ctx:CanvasRenderingContext2D, line:Line): void {
-    ctx.beginPath();
-    ctx.setLineDash([]);
-    ctx.lineWidth = 3;
-    ctx.strokeStyle = '#f00';
-    ctx.moveTo(line.startX, line.startY);
-    ctx.lineTo(line.endX, line.endY);
-    ctx.stroke();
-}
-
+/**
+ * Instead of the while when fix conflict.
+ * */
 export async function walkLoop(
     fn: () => Promise<ConflictFixResult[]>,
     max = 10,
@@ -305,7 +196,13 @@ export async function walkLoop(
     throw new Error('too many loop');
 
 }
-
+/**
+ * Instead of the console.log.
+ * @example
+ * const l = createLogFunction('EventBody');
+ * l`Hello, world`;
+ * > Hello, world
+ * */
 export function createLogFunction(prefix:string) {
     return function (stringArr:TemplateStringsArray, ...values:any[]) {
         if (!DEBUG) return;
@@ -317,36 +214,20 @@ export function createLogFunction(prefix:string) {
         console.log(`${prefix} #`, ...message);
     };
 }
-
 /**
- * Return a freezed object base on specified object.
+ * Return a new freezed object base on specified object.
+ * Like Object.freeze, but it's deep and will not change origin object.
  * */
 export function deepFreeze<T>(originObject:T) :Readonly<T> {
+    const newObject:T = JSON.parse(JSON.stringify(originObject));
+    const propNames = Object.getOwnPropertyNames(newObject) as (keyof T)[];
 
-    const object:T = JSON.parse(JSON.stringify(originObject));
-
-    // Retrieve the property names defined on object
-    const propNames = Object.getOwnPropertyNames(object) as (keyof T)[];
-
-    // Freeze properties before freezing self
-
+    // Freeze it's all of properties before freezing itself.
     for (const name of propNames) {
-        const value = object[name];
-
-        object[name] = <any>(value && typeof value === 'object'
-            ? deepFreeze(value)
-            : value
-        );
+        if (typeof newObject[name] === 'object' && newObject[name] !== null) {
+            newObject[name] = deepFreeze(newObject[name]) as any;
+        }
     }
 
-    return Object.freeze(object);
-}
-
-export function shrinkBox(box:Box, distance= 1) :Box {
-    return {
-        x: box.x + distance,
-        y: box.y + distance,
-        width: box.width - distance * 2,
-        height: box.height - distance * 2,
-    };
+    return Object.freeze(newObject);
 }
