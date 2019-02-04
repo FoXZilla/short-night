@@ -1,0 +1,23 @@
+.short-night.colors{
+    $black: #333;
+    &.axis_milestone{
+        font-size: 18px;
+        color: $black;
+        padding: 2px 7px;
+    }
+    &.event_body{
+        color: #fff;
+        .title{
+            font-size: 1em;
+            padding-left: 10px;
+        }
+        .date{
+            font-size: 0.6em;
+            font-weight: normal;
+            font-style: italic;
+        }
+        .foldPlaceholder{
+            @extend .title;
+        }
+    }
+}
