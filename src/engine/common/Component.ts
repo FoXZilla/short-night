@@ -8,6 +8,7 @@ enum MUST_CALL_AND_RETURN_SUPER_METHOD {
     SUPER_DRAW,
     SUPER_DESTROY,
     SUPER_CREATE_ELEMENT,
+    SUPER_CREATE_BOX,
     SUPER_HIDE,
 }
 
@@ -87,6 +88,13 @@ export default abstract class Component{
         this.container.appendChild(this.element);
 
         return MUST_CALL_AND_RETURN_SUPER_METHOD.SUPER_CREATE_ELEMENT;
+    }
+    /**
+     * Create a box object to fill this.drawInfo.box.
+     * Write this method if you need to change the behavior about box.
+     * */
+    createBox() :MUST_CALL_AND_RETURN_SUPER_METHOD {
+        return MUST_CALL_AND_RETURN_SUPER_METHOD.SUPER_CREATE_BOX;
     }
 
     /**

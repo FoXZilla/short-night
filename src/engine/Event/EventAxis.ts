@@ -62,15 +62,7 @@ export default abstract class EventAxis extends Component{
 
         return flag;
     }
-    async apply() {
-        if (this.drawInfo.text) {
-            this.createElement();
-            this.element!.style.visibility = 'hidden';
-        } else if (this.element) {
-            this.element.parentNode!.removeChild(this.element);
-            delete this.element;
-        }
-
+    createBox() {
         const target = this.drawInfo.markDrawInfo.target;
 
         this.drawInfo.box = {
@@ -79,6 +71,18 @@ export default abstract class EventAxis extends Component{
             width: this.drawInfo.offsetX,
             height: this.drawInfo.length,
         };
+
+        return super.createBox();
+    }
+    async apply() {
+        if (this.drawInfo.text) {
+            this.createElement();
+            this.element!.style.visibility = 'hidden';
+        } else if (this.element) {
+            this.element.parentNode!.removeChild(this.element);
+            delete this.element;
+        }
+        this.createBox();
 
         return super.apply();
     }

@@ -64,18 +64,22 @@ export default abstract class Axis extends Component{
     abstract scaleConstructor :typeof AxisScale;
     abstract bodyConstructor :typeof AxisBody;
 
+    createBox() {
+        this.drawInfo.box = mergeBox(
+            this.body.drawInfo.box,
+            ...this.milestones.map(m => m.drawInfo.box),
+            ...this.scales.map(s => s.drawInfo.box),
+        );
+        return super.createBox();
+    }
+
     async apply() {
         await Promise.all([
             this.initBody(),
             ...this.initScales(),
             ...this.initMilestones(),
         ]);
-
-        this.drawInfo.box = mergeBox(
-            this.body.drawInfo.box,
-            ...this.milestones.map(m => m.drawInfo.box),
-            ...this.scales.map(s => s.drawInfo.box),
-        );
+        this.createBox();
 
         return super.apply();
     }

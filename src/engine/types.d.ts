@@ -32,7 +32,7 @@ export const enum DateBy{
  * The box should contain all trace of component.
  * */
 export interface ComponentDrawInfo{
-    box: Readonly<Box>;
+    box: Box;
 }
 
 /**

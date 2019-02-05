@@ -91,22 +91,7 @@ export default abstract class EventBody extends Component{
 
         return flag;
     }
-    async apply() {
-        this.createElement();
-        this.initBoxFromElement();
-        this.applyBoxToElement();
-
-        this.element.style.visibility = 'hidden';
-
-        return super.apply();
-    }
-    draw() {
-        this.createElement();
-        this.applyBoxToElement();
-        return super.draw();
-    }
-
-    initBoxFromElement() {
+    createBox() {
         const eltBox = parseBox(this.element);
         const box:Box = {
             width: eltBox.width,
@@ -121,7 +106,24 @@ export default abstract class EventBody extends Component{
         box.y += this.drawInfo.offset.y;
 
         this.drawInfo.box = box;
+
+        return super.createBox();
     }
+    async apply() {
+        this.createElement();
+        this.createBox();
+        this.applyBoxToElement();
+
+        this.element.style.visibility = 'hidden';
+
+        return super.apply();
+    }
+    draw() {
+        this.createElement();
+        this.applyBoxToElement();
+        return super.draw();
+    }
+
     applyBoxToElement() {
         this.element.style.left = `${this.drawInfo.box.x}px`;
         this.element.style.top = `${this.drawInfo.box.y}px`;

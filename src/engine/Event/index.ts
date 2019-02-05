@@ -85,13 +85,7 @@ export default abstract class Event extends Component{
     abstract axisConstructor :typeof EventAxis;
     abstract markConstructor :typeof EventMark;
 
-    async apply() {
-        await Promise.all([
-            this.initMark(),
-            this.initBody(),
-            this.initAxis(),
-        ]);
-
+    createBox() {
         this.drawInfo.box = mergeBox(
             this.body.drawInfo.box,
             this.mark.drawInfo.box,
@@ -102,6 +96,17 @@ export default abstract class Event extends Component{
                 this.axis.drawInfo.box,
             );
         }
+
+        return super.createBox();
+    }
+
+    async apply() {
+        await Promise.all([
+            this.initMark(),
+            this.initBody(),
+            this.initAxis(),
+        ]);
+        this.createBox();
 
         return super.apply();
     }

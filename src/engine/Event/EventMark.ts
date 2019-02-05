@@ -42,7 +42,7 @@ export default abstract class EventMark extends Component{
         width: 0,
     };
 
-    async apply() {
+    createBox() {
         const width = this.drawInfo.width;
         const height = this.drawInfo.height || width;
         this.drawInfo.box = {
@@ -52,6 +52,11 @@ export default abstract class EventMark extends Component{
             y: this.drawInfo.target.y - height / 2,
         };
 
+        return super.createBox();
+    }
+
+    async apply() {
+        this.createBox();
         return super.apply();
     }
 
