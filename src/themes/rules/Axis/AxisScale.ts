@@ -1,28 +1,32 @@
 import * as Engine from '@engine';
 export default class AxisScale extends Engine.AxisScale {
-    theme = 'colors';
+    theme = 'rules';
+
+    createBox() {
+        const flag = super.createBox();
+        const width = 10;
+
+        this.drawInfo.box = {
+            width,
+            x: this.drawInfo.bodyDrawInfo.box.x - width - 5,
+            y: this.drawInfo.alignY - this.drawInfo.height / 2,
+            height: this.drawInfo.height,
+        };
+
+        return flag;
+    }
 
     draw() {
         const box = this.drawInfo.box;
+        const ctx = this.canvas.getContext('2d')!;
 
-        this.ext.extraData.roughCanvas.rectangle(
-            box.x,
-            box.y,
-            box.width,
-            box.height,
-            {
-                strokeWidth: 0,
-                stroke: 'rgba(0,0,0,0)',
-
-                fill: '#fff',
-                fillWeight: 0.3,
-                fillStyle: 'solid',
-
-                hachureGap: 0,
-                roughness: 0,
-                bowing: 0,
-            },
-        );
+        ctx.beginPath();
+        ctx.lineWidth = this.drawInfo.box.height;
+        ctx.setLineDash([]);
+        ctx.moveTo(box.x, box.y);
+        ctx.lineTo(box.x + box.width, box.y);
+        ctx.strokeStyle = '#bcbcbc';
+        ctx.stroke();
 
         return super.draw();
     }

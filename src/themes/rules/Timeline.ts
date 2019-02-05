@@ -10,9 +10,10 @@ export default class Timeline extends Engine.Timeline {
         super({
             grid: {
                 ...Engine.Timeline.defaultGrid,
-                scaleHeight: 3,
-                axisWidth: 5,
-                markWidth: 10,
+                milestoneLineWidth: 1.5,
+                scaleHeight: 1.5,
+                canvasWidth: 800,
+                axisWidth: 1.5,
             },
             ext: new Engine.ExtensionManager,
             ...info,
@@ -24,7 +25,7 @@ export default class Timeline extends Engine.Timeline {
         this.ext.extraData.roughCanvas = roughjs.canvas(this.canvas) as RoughCanvas;
     }
 
-    theme = 'colors';
+    theme = 'rules';
 
     axisConstructor = Axis;
     eventConstructor = Event;

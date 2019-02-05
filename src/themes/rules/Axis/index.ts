@@ -4,10 +4,22 @@ import AxisMilestone from './AxisMilestone';
 import AxisScale from './AxisScale';
 
 export default class Axis extends Engine.Axis {
-    theme = 'colors';
+    theme = 'rules';
+
+    milestones :AxisMilestone[] = [];
 
     bodyConstructor = AxisBody;
     milestoneConstructor = AxisMilestone;
     scaleConstructor = AxisScale;
+
+    initMilestones(): Promise<any>[] {
+        const flag = super.initMilestones();
+
+        this.milestones.forEach((milestone :AxisMilestone) => {
+            milestone.drawInfo.lineWidth = this.grid.milestoneLineWidth;
+        });
+
+        return flag;
+    }
 
 }

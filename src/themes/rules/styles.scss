@@ -1,9 +1,9 @@
-.short-night.colors{
-    $black: #333;
+.short-night.rules{
     &.axis_milestone{
-        font-size: 18px;
-        color: $black;
-        padding: 2px 7px;
+        font-size: 12px;
+        color: #1e2122;
+        font-weight: bold;
+        padding: 0 0 0 32.5px;
     }
     &.event_body{
         color: #fff;
