@@ -14,6 +14,8 @@ import EventMark from '@engine/Event/EventMark';
  * @property {boolean} floated - indicate the EventBody was floated or not.
  * @property {boolean} folded - indicate the EventBody was in fold-mode or not.
  * @property {[string]} foldPlaceholder - a text to show when the EventBody was in fold-mode.
+ * @property {[Date]} endDate - the date of event end.
+ * @property {[string]} endText - the description about event ended.
  * */
 interface DrawInfo extends ComponentDrawInfo{
     markDrawInfo: EventMark['drawInfo'];
@@ -28,6 +30,9 @@ interface DrawInfo extends ComponentDrawInfo{
 
     folded: boolean;
     foldPlaceholder?: string;
+
+    endDate?: Date;
+    endText?: string;
 }
 
 /**
@@ -79,7 +84,7 @@ export default abstract class EventBody extends Component{
                 ${this.drawInfo.foldPlaceholder || this.drawInfo.title}
             </div>
             <div class="title">${this.drawInfo.title}</div>
-            <div class="date">${new Date(this.drawInfo.date).toLocaleDateString()}</div>
+            <div class="date">${this.drawInfo.date.toLocaleDateString()}</div>
             <div class="description">${this.drawInfo.description}</div>
         `;
 

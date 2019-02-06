@@ -18,7 +18,8 @@ import { SN } from '@engine/common/definitions';
  *
  * @property {[number]} axisLength - the length of EventAxis.
  * @property {[number]} axisOffset - the offset X with Axis in EventAxis.
- * @property {[string]} axisText - the description about event ended.
+ * @property {[Date]} endDate - the date of event end.
+ * @property {[string]} endText - the description about event ended.
  * */
 interface DrawInfo extends ComponentDrawInfo{
     target: Coordinate;
@@ -30,9 +31,11 @@ interface DrawInfo extends ComponentDrawInfo{
     folded: boolean;
     foldPlaceholder?: string;
 
+    endDate?: Date;
+    endText?: string;
+
     axisLength?: number;
     axisOffset?: number;
-    axisText?: string;
 }
 
 /**
@@ -156,6 +159,8 @@ export default abstract class Event extends Component{
         this.body.drawInfo.offset =  Object.assign({}, this.drawInfo.offset);
 
         return this.body.apply();
+        this.body.drawInfo.endText = this.drawInfo.endText;
+        this.body.drawInfo.endDate = this.drawInfo.endDate;
     }
     initAxis() :Promise<any> {
         if (this.axis) {
@@ -170,7 +175,7 @@ export default abstract class Event extends Component{
             axis.drawInfo.markDrawInfo = deepFreeze(this.mark.drawInfo);
             axis.drawInfo.offsetX = this.grid.minEventAxisOffset;
             axis.drawInfo.length = this.drawInfo.axisLength;
-            axis.drawInfo.text = this.drawInfo.axisText;
+            axis.drawInfo.text = this.drawInfo.endText;
             this.axis = axis;
             return axis.apply();
         }

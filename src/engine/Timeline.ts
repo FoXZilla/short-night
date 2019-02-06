@@ -378,7 +378,7 @@ export default abstract class Timeline extends Component{
         ;
         for (const data of events) {
             // @ts-ignore
-            const event = new this.eventConstructor(this);
+            const event :Event = new this.eventConstructor(this);
             event.drawInfo.target = {
                 x: this.axis.body.drawInfo.box.x + this.axis.body.drawInfo.box.width / 2,
                 // recomputed in PositionCounter
@@ -392,7 +392,7 @@ export default abstract class Timeline extends Component{
             event.drawInfo.description = data.description;
             event.drawInfo.folded = Boolean(data.folded);
             event.drawInfo.foldPlaceholder = data.foldPlaceholder;
-            event.drawInfo.axisText = data.endText;
+            event.drawInfo.endText = data.endText;
             if (data.endDate) {
                 const endDate :Date = new Date(
                     data.endDate === 'now'
@@ -400,6 +400,7 @@ export default abstract class Timeline extends Component{
                         : data.endDate
                     ,
                 );
+                event.drawInfo.endDate = endDate;
                 // recomputed in PositionCounter
                 event.drawInfo.axisLength =
                     (endDate.getTime() - new Date(data.date).getTime())
