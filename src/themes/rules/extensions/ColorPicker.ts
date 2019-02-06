@@ -15,16 +15,22 @@ export default class ColorPicker implements Partial<Extension> {
     startIndex = Math.floor(Math.random() * 3);
     constructor(public etx:ExtensionManager) {}
     async onApply(comp:Component) {
-        if (Timeline.is(comp)) this.createColor(comp);
+        if (Timeline.is(comp)) this.createColorIntoEvent(comp);
+        if (Event.is(comp)) comp.extraData.mainColor = this.getColor();
         if (
             EventBody.is(comp)
             || EventMark.is(comp)
             || EventAxis.is(comp)
         ) this.setColorIntoDrawInfo(comp);
     }
-
     onConstruct(comp:Component) {
         if (Event.is(comp)) comp.extraData.mainColor = '#000';
+    }
+
+    getColor() :string {
+        this.startIndex++;
+        this.startIndex %= this.colors.length;
+        return this.colors[this.startIndex];
     }
 
     setColorIntoDrawInfo(comp:EventBody|EventMark|EventAxis) {
@@ -32,15 +38,14 @@ export default class ColorPicker implements Partial<Extension> {
 
         Object.defineProperty(comp.drawInfo, 'mainColor', {
             get() {
-                return etx.getParent(comp).extraData.mainColor;
+                return etx.getParent(comp).extraData.mainColor; // TODO: set types by declare
             },
         });
     }
 
-    createColor(timeline:Timeline) {
+    createColorIntoEvent(timeline:Timeline) {
         for (let i = 0; i < timeline.events.length; i++) {
-            const colorIndex = (i + this.startIndex) % this.colors.length;
-            timeline.events[i].extraData.mainColor = this.colors[colorIndex];
+            timeline.events[i].extraData.mainColor = this.getColor();
         }
     }
 }

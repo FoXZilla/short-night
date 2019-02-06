@@ -25,13 +25,13 @@ interface DrawInfo extends ComponentDrawInfo{
     target: Coordinate;
     offset: Coordinate;
 
-    date: Date;
+    date: string;
     title: string;
     description?: string;
     folded: boolean;
     foldPlaceholder?: string;
 
-    endDate?: Date;
+    endDate?: string;
     endText?: string;
 
     axisLength?: number;

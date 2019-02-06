@@ -22,9 +22,9 @@ export default class EventBody extends Engine.EventBody {
         const template = tinytime('{YYYY}.{Mo}', { padMonth: true });
         const elt = this.element.querySelector('.date')!;
 
-        elt.innerHTML = template.render(this.drawInfo.date);
+        elt.innerHTML = template.render(new Date(this.drawInfo.date));
         if (this.drawInfo.endDate) {
-            elt.innerHTML += `-${template.render(this.drawInfo.endDate)}`;
+            elt.innerHTML += `-${template.render(new Date(this.drawInfo.endDate))}`;
         }
 
         return flag;
@@ -42,6 +42,7 @@ export default class EventBody extends Engine.EventBody {
         const triangle :Coordinate = { x: 6, y:7.5 };
         const rightX = box.x + box.width - 5 - 5 - triangle.x;
         ctx.beginPath();
+        ctx.setLineDash([]);
         ctx.fillStyle = '#ffffff';
         ctx.moveTo(box.x, box.y);
         ctx.lineTo(rightX, box.y);
@@ -101,8 +102,6 @@ export default class EventBody extends Engine.EventBody {
         ctx.moveTo(box.x + width / 2, box.y);
         ctx.lineTo(box.x + width / 2, box.y + box.height);
         ctx.stroke();
-
-
 
         return super.draw();
     }

@@ -5,6 +5,6 @@ import { GridConfig } from '@engine/types';
 
 declare module '@engine/types' {
     export interface GridConfig{
-        milestoneLineWidth :number;
+        milestoneLineWidth ?:number;
     }
 }

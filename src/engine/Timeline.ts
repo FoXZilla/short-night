@@ -34,11 +34,11 @@ import TimeSpliter from '@engine/common/TimeSpliter';
  * */
 interface DrawInfo extends ComponentDrawInfo{
     events: {
-        date: Date,
+        date: string,
         title: string,
 
         description?: string,
-        endDate?: Date | 'now',
+        endDate?: string | 'now',
         endText?: string,
 
         folded?: boolean,
@@ -121,11 +121,13 @@ export default abstract class Timeline extends Component{
         this.canvas.height = this.runtime.axisLength + this.grid.axisStart.y * 2;
 
         // @ts-ignore
-        await this.createAxis();
+        await this.initAxis();
+        await this.axis.apply();
 
         this.events.forEach(e => e.destroy());
         this.events.length = 0;
-        await this.createEvents();
+        this.initEvents();
+        await Promise.all(this.events.map(e => e.apply()));
 
         return super.apply();
     }
@@ -155,6 +157,13 @@ export default abstract class Timeline extends Component{
 
         this.canvas.width = data.width;
         this.canvas.height = data.height;
+
+        // string to date
+        data.axis.milestonesDrawInfo.forEach((milestoneDrawInfo:any) => {
+            if ('date' in milestoneDrawInfo.content) {
+                milestoneDrawInfo.content.date = new Date(milestoneDrawInfo.content.date);
+            }
+        });
 
         const allComponents:Component[] = [];
 
@@ -214,7 +223,7 @@ export default abstract class Timeline extends Component{
      * */
     export() :TimelineData {
         const timeline = this.ext.components[SN.Timeline][0];
-        return deepFreeze(JSON.parse(JSON.stringify({
+        return JSON.parse(JSON.stringify({
             theme: timeline.theme,
             version: SN_VERSION,
             data: {
@@ -237,7 +246,7 @@ export default abstract class Timeline extends Component{
                     ),
                 },
             },
-        })));
+        }));
     }
 
     // Count runtime info
@@ -334,7 +343,7 @@ export default abstract class Timeline extends Component{
         return 500 + this.drawInfo.events.length * 100;
     }
     // Create instance
-    protected async createAxis() {
+    protected initAxis() :void {
         // @ts-ignore
         if (!this.axis) this.axis = new this.axisConstructor(this);
 
@@ -351,7 +360,7 @@ export default abstract class Timeline extends Component{
                     position: (endDate - date.getTime())
                         / dateLength,
                     content: {
-                        date,
+                        date: date.toISOString(),
                         by: this.runtime.milestoneBy!,
                     },
                 }))
@@ -366,9 +375,8 @@ export default abstract class Timeline extends Component{
                 )
             ;
         }
-        await this.axis.apply();
     }
-    protected async createEvents() {
+    protected initEvents() :void {
         const events = Array.from(this.drawInfo.events)
             .sort((e1, e2) => new Date(e1.date).getTime() - new Date(e2.date).getTime())
         ;
@@ -400,14 +408,13 @@ export default abstract class Timeline extends Component{
                         : data.endDate
                     ,
                 );
-                event.drawInfo.endDate = endDate;
+                event.drawInfo.endDate = endDate.toISOString();
                 // recomputed in PositionCounter
                 event.drawInfo.axisLength =
                     (endDate.getTime() - new Date(data.date).getTime())
                     / dateLength
                 ;
             }
-            await event.apply();
             this.events.push(event);
         }
 

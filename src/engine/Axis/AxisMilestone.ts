@@ -1,4 +1,4 @@
-import {ComponentConstructorInfo, ComponentDrawInfo, DateBy} from '@engine/types';
+import { ComponentConstructorInfo, ComponentDrawInfo, DateBy } from '@engine/types';
 import { parseBox } from '@engine/common/functions';
 import Component from '@engine/common/Component';
 import { SN } from '@engine/common/definitions';
@@ -12,7 +12,7 @@ import AxisBody from '@engine/Axis/AxisBody';
 interface DrawInfo extends ComponentDrawInfo{
     bodyDrawInfo: Readonly<AxisBody['drawInfo']>;
     alignY: number;
-    content: string | {date :Date, by :DateBy};
+    content: string | {date :string, by :DateBy};
 }
 
 /**
@@ -55,7 +55,7 @@ export default abstract class AxisMilestone extends Component{
 
         this.element!.innerHTML = typeof this.drawInfo.content === 'string'
             ? this.drawInfo.content
-            : this.formatDate(this.drawInfo.content.date, this.drawInfo.content.by)
+            : this.formatDate(new Date(this.drawInfo.content.date), this.drawInfo.content.by)
         ;
 
         const { width, height } = parseBox(this.element!);

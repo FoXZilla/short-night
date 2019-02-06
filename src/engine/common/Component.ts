@@ -65,7 +65,7 @@ export default abstract class Component{
      * All info about draw. Except drawInfo, no more states be depended about draw.
      * The same drawInfo must has same drawn on canvas and container.
      * The this.gird should be merging in there in this.apply be called.
-     * Must can be JSON.stringify.
+     * Must can unscathed passed this.drawInfo = JSON.parse(JSON.stringify(this.drawInfo)).
      * */
     abstract readonly drawInfo: ComponentDrawInfo;
 

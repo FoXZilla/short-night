@@ -22,6 +22,7 @@ export default class EventAxis extends Engine.EventAxis {
         const ctx = this.canvas.getContext('2d')!;
 
         ctx.beginPath();
+        ctx.setLineDash([]);
         ctx.lineWidth = strokeWidth;
         ctx.setLineDash([]);
         ctx.moveTo(

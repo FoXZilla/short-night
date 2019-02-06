@@ -16,7 +16,7 @@ export default class Axis extends Engine.Axis {
         super.initMilestones();
 
         this.milestones.forEach((milestone :AxisMilestone) => {
-            milestone.drawInfo.lineWidth = this.grid.milestoneLineWidth;
+            milestone.drawInfo.lineWidth = this.grid.milestoneLineWidth!;
         });
     }
 

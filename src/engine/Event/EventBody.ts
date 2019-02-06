@@ -22,7 +22,7 @@ interface DrawInfo extends ComponentDrawInfo{
     offset: Coordinate;
     maxWidth: number;
 
-    date: Date;
+    date: string;
     title: string;
     description?: string;
 
@@ -31,7 +31,7 @@ interface DrawInfo extends ComponentDrawInfo{
     folded: boolean;
     foldPlaceholder?: string;
 
-    endDate?: Date;
+    endDate?: string;
     endText?: string;
 }
 
@@ -84,7 +84,7 @@ export default abstract class EventBody extends Component{
                 ${this.drawInfo.foldPlaceholder || this.drawInfo.title}
             </div>
             <div class="title">${this.drawInfo.title}</div>
-            <div class="date">${this.drawInfo.date.toLocaleDateString()}</div>
+            <div class="date">${new Date(this.drawInfo.date).toLocaleDateString()}</div>
             <div class="description">${this.drawInfo.description}</div>
         `;
 
