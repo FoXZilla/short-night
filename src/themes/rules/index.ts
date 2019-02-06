@@ -14,7 +14,6 @@ export { default as AxisMilestone } from './Axis/AxisMilestone';
 export { default as AxisBody } from './Axis/AxisBody';
 
 export { default as Event } from './Event';
-export { default as EventMark } from './Event/EventMark';
 export { default as EventAxis } from './Event/EventAxis';
 export { default as EventBody } from './Event/EventBody';
 

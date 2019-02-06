@@ -2,7 +2,16 @@ import { Extension, ExtensionManager } from '@/engine/extensions';
 import { Timeline, Event, EventBody, EventMark, EventAxis, Component } from '@engine';
 
 export default class ColorPicker implements Partial<Extension> {
-    colors = ['rgb(213, 57, 38)', 'rgb(252, 200, 29)', 'rgb(0, 163, 201)'];
+    colors = [
+        '#c283ca',
+        '#6280c3',
+        '#f6d53b',
+        '#959595',
+        '#e96060',
+        '#adcb6d',
+        '#7abbe0',
+        '#e89235',
+    ];
     startIndex = Math.floor(Math.random() * 3);
     constructor(public etx:ExtensionManager) {}
     async onApply(comp:Component) {
