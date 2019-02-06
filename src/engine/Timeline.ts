@@ -347,32 +347,14 @@ export default abstract class Timeline extends Component{
         if (this.runtime.milestoneBy !== null) {
             this.axis.drawInfo.milestones = timeSpliter
                 .split(this.runtime.milestoneBy)
-                .map((date) => {
-                    const result = {
-                        position: (endDate - date.getTime())
-                            / dateLength,
-                        text: '',
-                    };
-                    const monthAbbr = date.toDateString().split(' ')[1];
-                    switch (this.runtime.milestoneBy){
-                        case 'year':
-                            result.text = `${date.getFullYear()}`;
-                            break;
-                        case 'quarter':
-                            result.text = `${monthAbbr}. ${date.getFullYear()}`;
-                            break;
-                        case 'month':
-                            result.text = `${monthAbbr}.`;
-                            break;
-                        case 'week':
-                            result.text = `${date.getMonth() + 1}.${date.getDate()}`;
-                            break;
-                        case 'day':
-                            result.text = `${date.getMonth() + 1}.${date.getDate()}`;
-                            break;
-                    }
-                    return result;
-                })
+                .map(date => ({
+                    position: (endDate - date.getTime())
+                        / dateLength,
+                    content: {
+                        date,
+                        by: this.runtime.milestoneBy!,
+                    },
+                }))
             ;
         }
         if (this.runtime.scaleBy !== null) {

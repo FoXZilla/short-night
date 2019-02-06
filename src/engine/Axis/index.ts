@@ -17,7 +17,7 @@ interface DrawInfo extends ComponentDrawInfo{
     scales: number[];
     milestones: {
         position: number;
-        text: string;
+        content: AxisMilestone['drawInfo']['content'];
     }[];
     length: number;
 }
@@ -136,12 +136,12 @@ export default abstract class Axis extends Component{
     initMilestones() :Promise<any>[] {
         this.milestones.forEach(m => m.destroy());
         this.milestones.length = 0;
-        for (const { position, text } of this.drawInfo.milestones) {
+        for (const { position, content } of this.drawInfo.milestones) {
             // @ts-ignore - realize a absolute class that will re-init in the theme.
             const milestone = new this.milestoneConstructor(this);
             milestone.drawInfo.bodyDrawInfo = deepFreeze(this.body.drawInfo);
             milestone.drawInfo.alignY = position; // recomputed in PositionCounter
-            milestone.drawInfo.text = text;
+            milestone.drawInfo.content = content;
             this.milestones.push(milestone);
         }
 

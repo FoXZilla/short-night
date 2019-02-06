@@ -1,4 +1,4 @@
-import { ComponentConstructorInfo, ComponentDrawInfo } from '@engine/types';
+import {ComponentConstructorInfo, ComponentDrawInfo, DateBy} from '@engine/types';
 import { parseBox } from '@engine/common/functions';
 import Component from '@engine/common/Component';
 import { SN } from '@engine/common/definitions';
@@ -12,7 +12,7 @@ import AxisBody from '@engine/Axis/AxisBody';
 interface DrawInfo extends ComponentDrawInfo{
     bodyDrawInfo: Readonly<AxisBody['drawInfo']>;
     alignY: number;
-    text: string;
+    content: string | {date :Date, by :DateBy};
 }
 
 /**
@@ -29,7 +29,7 @@ export default abstract class AxisMilestone extends Component{
     drawInfo:DrawInfo = {
         bodyDrawInfo: {} as any,
         alignY: 0,
-        text: '0_o',
+        content: '0_o',
 
         box: {
             x: 0,
@@ -39,10 +39,24 @@ export default abstract class AxisMilestone extends Component{
         },
     };
 
+    formatDate(date :Date, by :DateBy) :string {
+        const monthAbbr = date.toDateString().split(' ')[1];
+        switch (by){
+            case 'year': return `${date.getFullYear()}`;
+            case 'quarter': return `${monthAbbr}. ${date.getFullYear()}`;
+            case 'month': return `${monthAbbr}.`;
+            case 'week': return `${date.getMonth() + 1}.${date.getDate()}`;
+            case 'day': return `${date.getMonth() + 1}.${date.getDate()}`;
+            default: return date.toLocaleString();
+        }
+    }
     createElement() {
         const flag = super.createElement(); // Must return this flag
 
-        this.element!.innerHTML = this.drawInfo.text;
+        this.element!.innerHTML = typeof this.drawInfo.content === 'string'
+            ? this.drawInfo.content
+            : this.formatDate(this.drawInfo.content.date, this.drawInfo.content.by)
+        ;
 
         const { width, height } = parseBox(this.element!);
         const x = this.drawInfo.bodyDrawInfo.box.x
