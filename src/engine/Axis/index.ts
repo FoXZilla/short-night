@@ -74,10 +74,15 @@ export default abstract class Axis extends Component{
     }
 
     async apply() {
+        this.initBody();
+        await this.body.apply();
+
+        this.initScales();
+        this.initMilestones();
+
         await Promise.all([
-            this.initBody(),
-            ...this.initScales(),
-            ...this.initMilestones(),
+            ...this.scales.map(s => s.apply()),
+            ...this.milestones.map(m => m.apply()),
         ]);
         this.createBox();
 
@@ -105,7 +110,7 @@ export default abstract class Axis extends Component{
         return super.hide();
     }
 
-    initBody() :Promise<any> {
+    initBody() {
         if (this.body) {
             this.body.destroy();
         }
@@ -114,10 +119,8 @@ export default abstract class Axis extends Component{
         this.body.drawInfo.length = this.drawInfo.length;
         this.body.drawInfo.width = this.grid.axisWidth;
         this.body.drawInfo.start = this.grid.axisStart;
-
-        return this.body.apply();
     }
-    initScales() :Promise<any>[] {
+    initScales() {
         this.scales.forEach(s => s.destroy());
         this.scales.length = 0;
 
@@ -130,10 +133,8 @@ export default abstract class Axis extends Component{
             scale.drawInfo.height = this.grid.scaleHeight; // recomputed in PositionCounter
             this.scales.push(scale);
         }
-
-        return this.scales.map(s => s.apply());
     }
-    initMilestones() :Promise<any>[] {
+    initMilestones() {
         this.milestones.forEach(m => m.destroy());
         this.milestones.length = 0;
         for (const { position, content } of this.drawInfo.milestones) {
@@ -144,8 +145,6 @@ export default abstract class Axis extends Component{
             milestone.drawInfo.content = content;
             this.milestones.push(milestone);
         }
-
-        return this.milestones.map(m => m.apply());
     }
 
     static is(comp:Component) :comp is Axis {
