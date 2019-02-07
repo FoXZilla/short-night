@@ -1,21 +1,14 @@
 {
   "compilerOptions": {
     "downlevelIteration": true,
-    "outDir": "./dist/",
+    "outDir": "./js/",
     "strict": true,
     "module": "commonjs",
     "target": "es6",
     "moduleResolution": "node",
     "lib": ["es2015", "es2017","esnext", "dom"],
     "baseUrl":"./",
-    "paths": {
-      "@root/*" :["./*"],
-      "@/*" :["./src/*"],
-      "@engine" :["./src/engine/index.ts"],
-      "@engine/*" :["./src/engine/*"]
-    },
     "sourceMap": true,
     "allowJs": true
-  },
-  "exclude": ["dist/*","docs/*"]
+  }
 }
