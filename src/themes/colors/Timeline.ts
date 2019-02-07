@@ -6,7 +6,7 @@ import { RoughCanvas } from 'roughjs/bin/canvas';
 import ColorPicker from './extensions/ColorPicker';
 
 export default class Timeline extends Engine.Timeline {
-    constructor(info :Partial<Engine.TimelineConstructInfo>) {
+    constructor(info :Engine.TimelineConstructInfo) {
         super({
             grid: {
                 ...Engine.Timeline.defaultGrid,

@@ -42,11 +42,11 @@ export default abstract class AxisMilestone extends Component{
     formatDate(date :Date, by :DateBy) :string {
         const monthAbbr = date.toDateString().split(' ')[1];
         switch (by){
-            case 'year': return `${date.getFullYear()}`;
-            case 'quarter': return `${monthAbbr}. ${date.getFullYear()}`;
-            case 'month': return `${monthAbbr}.`;
-            case 'week': return `${date.getMonth() + 1}.${date.getDate()}`;
-            case 'day': return `${date.getMonth() + 1}.${date.getDate()}`;
+            case DateBy.Year: return `${date.getFullYear()}`;
+            case DateBy.Quarter: return `${monthAbbr}. ${date.getFullYear()}`;
+            case DateBy.Month: return `${monthAbbr}.`;
+            case DateBy.Week: return `${date.getMonth() + 1}.${date.getDate()}`;
+            case DateBy.Day: return `${date.getMonth() + 1}.${date.getDate()}`;
             default: return date.toLocaleString();
         }
     }

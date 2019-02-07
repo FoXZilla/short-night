@@ -12,12 +12,4 @@ export default class Axis extends Engine.Axis {
     milestoneConstructor = AxisMilestone;
     scaleConstructor = AxisScale;
 
-    initMilestones() {
-        super.initMilestones();
-
-        this.milestones.forEach((milestone :AxisMilestone) => {
-            milestone.drawInfo.lineWidth = this.grid.milestoneLineWidth!;
-        });
-    }
-
 }

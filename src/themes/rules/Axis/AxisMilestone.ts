@@ -1,15 +1,8 @@
 import * as Engine from '@engine';
 import { parseBox } from '@engine/common/functions';
 
-type EngineAxisMilestoneDrawInfo = Engine.AxisMilestone['drawInfo'];
-
-interface DrawInfo extends EngineAxisMilestoneDrawInfo {
-    lineWidth :number;
-}
-
 export default class AxisMilestone extends Engine.AxisMilestone {
     theme = 'rules';
-    drawInfo :DrawInfo = {} as any;
 
     createElement() {
         const flag = super.createElement();
@@ -28,7 +21,7 @@ export default class AxisMilestone extends Engine.AxisMilestone {
         const ctx = this.canvas.getContext('2d')!;
 
         ctx.beginPath();
-        ctx.lineWidth = this.drawInfo.lineWidth;
+        ctx.lineWidth = 1.5;
         ctx.setLineDash([]);
         ctx.moveTo(box.x, box.y + box.height / 2);
         ctx.lineTo(box.x + 22.5, box.y + box.height / 2);

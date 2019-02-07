@@ -48,17 +48,14 @@ export default abstract class Component{
     } = {};
     /**
      * The canvas where component draw on.
-     * Must be filled before apply() called.
      * */
     canvas :HTMLCanvasElement;
     /**
      * The container which contain all of component's element.
-     * Must be filled before apply() called.
      * */
     container :HTMLElement;
     /**
      * Manage all extensions & Help component communicate for each other.
-     * Be filled when construct.
      * */
     ext: ExtensionManager;
     /**

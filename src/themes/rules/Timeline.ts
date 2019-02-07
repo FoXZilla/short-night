@@ -5,16 +5,13 @@ import ColorPicker from './extensions/ColorPicker';
 import AvoidMilestone from './extensions/AvoidMilestone';
 
 export default class Timeline extends Engine.Timeline {
-    constructor(info :Partial<Engine.TimelineConstructInfo>) {
+    constructor(info :Engine.TimelineConstructInfo) {
         super({
             grid: {
                 ...Engine.Timeline.defaultGrid,
-                milestoneLineWidth: 1.5,
                 scaleHeight: 1.5,
-                canvasWidth: 800,
                 axisWidth: 1.5,
             },
-            ext: new Engine.ExtensionManager,
             ...info,
         });
 

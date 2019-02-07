@@ -1,5 +1,4 @@
 import {
-    ComponentConstructorInfo,
     ComponentDrawInfo,
     DateBy,
     GridConfig,
@@ -8,12 +7,12 @@ import {
 import Component from '@engine/common/Component';
 import Event from '@engine/Event';
 import Axis from '@engine/Axis';
-import { deepFreeze } from '@engine/common/functions';
 import { DATE_COUNT_EXTRA, SN, SN_VERSION } from '@engine/common/definitions';
 import AxisScale from '@engine/Axis/AxisScale';
 import AxisMilestone from '@engine/Axis/AxisMilestone';
 import { Breakpoint } from '@/engine/extensions/BreakpointAnimation';
 import TimeSpliter from '@engine/common/TimeSpliter';
+import { ExtensionManager } from '@engine';
 
 /**
  * @typedef {Object} EventInfo
@@ -60,8 +59,11 @@ export interface RuntimeInfo{
     scaleBy: DateBy | null;
     axisLength: number;
 }
-export interface ConstructInfo extends ComponentConstructorInfo{
-    grid :GridConfig;
+export interface ConstructInfo {
+    canvas :HTMLCanvasElement;
+    container :HTMLElement;
+    ext ?:ExtensionManager;
+    grid ?:GridConfig;
 }
 
 /**
@@ -85,8 +87,12 @@ export interface ConstructInfo extends ComponentConstructorInfo{
  * */
 export default abstract class Timeline extends Component{
     constructor(props:ConstructInfo) {
-        super(props);
-        this.grid = props.grid;
+        super({
+            ext: props.ext || new ExtensionManager,
+            canvas: props.canvas,
+            container: props.container,
+        });
+        this.grid = props.grid || Timeline.defaultGrid;
         this.ext.onConstruct(this);
     }
 
@@ -436,6 +442,32 @@ export default abstract class Timeline extends Component{
 
     static is(comp:Component) :comp is Timeline {
         return comp.name === SN.Timeline;
+    }
+    /**
+     * Mount a HTML element adding canvas and container.
+     * The HTML element passed will be cleared.
+     * */
+    static mount(
+        el:string | Element,
+        themeName :string,
+    ) :{
+        container:HTMLElement,
+        canvas:HTMLCanvasElement,
+    } {
+        const container:HTMLElement = typeof el === 'string'
+            ? document.querySelector(el)! as HTMLElement
+            : el as HTMLElement
+        ;
+        container.innerHTML = '';
+        container.classList.add('short-night', themeName, 'container');
+
+        const canvas = document.createElement('canvas') as HTMLCanvasElement;
+        container.classList.add('short-night', themeName, 'canvas');
+
+        container.appendChild(canvas);
+
+        return { container, canvas };
+
     }
 
 }

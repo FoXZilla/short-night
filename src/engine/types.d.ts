@@ -63,8 +63,8 @@ export const enum ConflictFixResult {
 
 export interface ComponentConstructorInfo {
     ext: ExtensionManager;
-    canvas?: HTMLCanvasElement;
-    container?: HTMLElement;
+    canvas: HTMLCanvasElement;
+    container: HTMLElement;
 }
 
 export type TimelineData = any; // TODO

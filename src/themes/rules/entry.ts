@@ -4,11 +4,10 @@ export async function draw(
     el: string | HTMLElement,
     events:Timeline['drawInfo']['events'],
 ):Promise<Timeline> {
-    const { container, canvas } = mount(el);
+    const { container, canvas } = Timeline.mount(el, 'rules');
     const timeline = new Timeline({
         canvas,
         container,
-        ext: new ExtensionManager,
     });
 
     timeline.drawInfo.events = events;
@@ -21,7 +20,7 @@ export async function drawWithAnimation(
     el: string | HTMLElement,
     events:Timeline['drawInfo']['events'],
 ):Promise<Timeline> {
-    const { container, canvas } = mount(el);
+    const { container, canvas } = Timeline.mount(el, 'rules');
     const timeline = new Timeline({
         canvas,
         container,
@@ -42,7 +41,7 @@ export async function drawFrom(
     el: string | HTMLElement,
     data: any,
 ):Promise<Timeline> {
-    const { container, canvas } = mount(el);
+    const { container, canvas } = Timeline.mount(el, 'rules');
     const timeline = new Timeline({
         canvas,
         container,
@@ -55,21 +54,4 @@ export async function drawFrom(
 
     await timeline.drawFrom(data);
     return timeline;
-}
-
-function mount(el:string | Element) :{container:HTMLElement, canvas:HTMLCanvasElement} {
-    const container:HTMLElement = typeof el === 'string'
-        ? document.querySelector(el)! as HTMLElement
-        : el as HTMLElement
-    ;
-    container.innerHTML = '';
-    container.classList.add('short-night', 'colors', 'container');
-
-    const canvas = document.createElement('canvas') as HTMLCanvasElement;
-    container.classList.add('short-night', 'colors', 'canvas');
-
-    container.appendChild(canvas);
-
-    return { container, canvas };
-
 }

@@ -16,7 +16,6 @@ export default class ColorPicker implements Partial<Extension> {
     constructor(public etx:ExtensionManager) {}
     async onApply(comp:Component) {
         if (Timeline.is(comp)) this.createColorIntoEvent(comp);
-        if (Event.is(comp)) comp.extraData.mainColor = this.getColor();
         if (
             EventBody.is(comp)
             || EventMark.is(comp)
@@ -24,7 +23,7 @@ export default class ColorPicker implements Partial<Extension> {
         ) this.setColorIntoDrawInfo(comp);
     }
     onConstruct(comp:Component) {
-        if (Event.is(comp)) comp.extraData.mainColor = '#000';
+        if (Event.is(comp)) comp.extraData.mainColor = this.getColor();
     }
 
     getColor() :string {
