@@ -1,5 +1,4 @@
 import {
-    ComponentConstructorInfo,
     ComponentDrawInfo,
     DateBy,
     GridConfig,
@@ -8,12 +7,12 @@ import {
 import Component from '@engine/common/Component';
 import Event from '@engine/Event';
 import Axis from '@engine/Axis';
-import { deepFreeze } from '@engine/common/functions';
 import { DATE_COUNT_EXTRA, SN, SN_VERSION } from '@engine/common/definitions';
 import AxisScale from '@engine/Axis/AxisScale';
 import AxisMilestone from '@engine/Axis/AxisMilestone';
 import { Breakpoint } from '@/engine/extensions/BreakpointAnimation';
 import TimeSpliter from '@engine/common/TimeSpliter';
+import { ExtensionManager } from '@engine';
 
 /**
  * @typedef {Object} EventInfo
@@ -34,11 +33,11 @@ import TimeSpliter from '@engine/common/TimeSpliter';
  * */
 interface DrawInfo extends ComponentDrawInfo{
     events: {
-        date: Date,
+        date: string,
         title: string,
 
         description?: string,
-        endDate?: Date | 'now',
+        endDate?: string | 'now',
         endText?: string,
 
         folded?: boolean,
@@ -60,8 +59,11 @@ export interface RuntimeInfo{
     scaleBy: DateBy | null;
     axisLength: number;
 }
-export interface ConstructInfo extends ComponentConstructorInfo{
-    grid :GridConfig;
+export interface ConstructInfo {
+    canvas :HTMLCanvasElement;
+    container :HTMLElement;
+    ext ?:ExtensionManager;
+    grid ?:GridConfig;
 }
 
 /**
@@ -85,8 +87,12 @@ export interface ConstructInfo extends ComponentConstructorInfo{
  * */
 export default abstract class Timeline extends Component{
     constructor(props:ConstructInfo) {
-        super(props);
-        this.grid = props.grid;
+        super({
+            ext: props.ext || new ExtensionManager,
+            canvas: props.canvas,
+            container: props.container,
+        });
+        this.grid = props.grid || Timeline.defaultGrid;
         this.ext.onConstruct(this);
     }
 
@@ -121,11 +127,13 @@ export default abstract class Timeline extends Component{
         this.canvas.height = this.runtime.axisLength + this.grid.axisStart.y * 2;
 
         // @ts-ignore
-        await this.createAxis();
+        await this.initAxis();
+        await this.axis.apply();
 
         this.events.forEach(e => e.destroy());
         this.events.length = 0;
-        await this.createEvents();
+        this.initEvents();
+        await Promise.all(this.events.map(e => e.apply()));
 
         return super.apply();
     }
@@ -155,6 +163,13 @@ export default abstract class Timeline extends Component{
 
         this.canvas.width = data.width;
         this.canvas.height = data.height;
+
+        // string to date
+        data.axis.milestonesDrawInfo.forEach((milestoneDrawInfo:any) => {
+            if ('date' in milestoneDrawInfo.content) {
+                milestoneDrawInfo.content.date = new Date(milestoneDrawInfo.content.date);
+            }
+        });
 
         const allComponents:Component[] = [];
 
@@ -214,7 +229,7 @@ export default abstract class Timeline extends Component{
      * */
     export() :TimelineData {
         const timeline = this.ext.components[SN.Timeline][0];
-        return deepFreeze(JSON.parse(JSON.stringify({
+        return JSON.parse(JSON.stringify({
             theme: timeline.theme,
             version: SN_VERSION,
             data: {
@@ -237,7 +252,7 @@ export default abstract class Timeline extends Component{
                     ),
                 },
             },
-        })));
+        }));
     }
 
     // Count runtime info
@@ -334,7 +349,7 @@ export default abstract class Timeline extends Component{
         return 500 + this.drawInfo.events.length * 100;
     }
     // Create instance
-    protected async createAxis() {
+    protected initAxis() :void {
         // @ts-ignore
         if (!this.axis) this.axis = new this.axisConstructor(this);
 
@@ -347,32 +362,14 @@ export default abstract class Timeline extends Component{
         if (this.runtime.milestoneBy !== null) {
             this.axis.drawInfo.milestones = timeSpliter
                 .split(this.runtime.milestoneBy)
-                .map((date) => {
-                    const result = {
-                        position: (endDate - date.getTime())
-                            / dateLength,
-                        text: '',
-                    };
-                    const monthAbbr = date.toDateString().split(' ')[1];
-                    switch (this.runtime.milestoneBy){
-                        case 'year':
-                            result.text = `${date.getFullYear()}`;
-                            break;
-                        case 'quarter':
-                            result.text = `${monthAbbr}. ${date.getFullYear()}`;
-                            break;
-                        case 'month':
-                            result.text = `${monthAbbr}.`;
-                            break;
-                        case 'week':
-                            result.text = `${date.getMonth() + 1}.${date.getDate()}`;
-                            break;
-                        case 'day':
-                            result.text = `${date.getMonth() + 1}.${date.getDate()}`;
-                            break;
-                    }
-                    return result;
-                })
+                .map(date => ({
+                    position: (endDate - date.getTime())
+                        / dateLength,
+                    content: {
+                        date: date.toISOString(),
+                        by: this.runtime.milestoneBy!,
+                    },
+                }))
             ;
         }
         if (this.runtime.scaleBy !== null) {
@@ -384,9 +381,8 @@ export default abstract class Timeline extends Component{
                 )
             ;
         }
-        await this.axis.apply();
     }
-    protected async createEvents() {
+    protected initEvents() :void {
         const events = Array.from(this.drawInfo.events)
             .sort((e1, e2) => new Date(e1.date).getTime() - new Date(e2.date).getTime())
         ;
@@ -396,7 +392,7 @@ export default abstract class Timeline extends Component{
         ;
         for (const data of events) {
             // @ts-ignore
-            const event = new this.eventConstructor(this);
+            const event :Event = new this.eventConstructor(this);
             event.drawInfo.target = {
                 x: this.axis.body.drawInfo.box.x + this.axis.body.drawInfo.box.width / 2,
                 // recomputed in PositionCounter
@@ -410,7 +406,7 @@ export default abstract class Timeline extends Component{
             event.drawInfo.description = data.description;
             event.drawInfo.folded = Boolean(data.folded);
             event.drawInfo.foldPlaceholder = data.foldPlaceholder;
-            event.drawInfo.axisText = data.endText;
+            event.drawInfo.endText = data.endText;
             if (data.endDate) {
                 const endDate :Date = new Date(
                     data.endDate === 'now'
@@ -418,13 +414,13 @@ export default abstract class Timeline extends Component{
                         : data.endDate
                     ,
                 );
+                event.drawInfo.endDate = endDate.toISOString();
                 // recomputed in PositionCounter
                 event.drawInfo.axisLength =
                     (endDate.getTime() - new Date(data.date).getTime())
                     / dateLength
                 ;
             }
-            await event.apply();
             this.events.push(event);
         }
 
@@ -446,6 +442,32 @@ export default abstract class Timeline extends Component{
 
     static is(comp:Component) :comp is Timeline {
         return comp.name === SN.Timeline;
+    }
+    /**
+     * Mount a HTML element adding canvas and container.
+     * The HTML element passed will be cleared.
+     * */
+    static mount(
+        el:string | Element,
+        themeName :string,
+    ) :{
+        container:HTMLElement,
+        canvas:HTMLCanvasElement,
+    } {
+        const container:HTMLElement = typeof el === 'string'
+            ? document.querySelector(el)! as HTMLElement
+            : el as HTMLElement
+        ;
+        container.innerHTML = '';
+        container.classList.add('short-night', themeName, 'container');
+
+        const canvas = document.createElement('canvas') as HTMLCanvasElement;
+        container.classList.add('short-night', themeName, 'canvas');
+
+        container.appendChild(canvas);
+
+        return { container, canvas };
+
     }
 
 }

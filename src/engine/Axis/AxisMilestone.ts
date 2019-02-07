@@ -1,4 +1,4 @@
-import { ComponentConstructorInfo, ComponentDrawInfo } from '@engine/types';
+import { ComponentConstructorInfo, ComponentDrawInfo, DateBy } from '@engine/types';
 import { parseBox } from '@engine/common/functions';
 import Component from '@engine/common/Component';
 import { SN } from '@engine/common/definitions';
@@ -12,7 +12,7 @@ import AxisBody from '@engine/Axis/AxisBody';
 interface DrawInfo extends ComponentDrawInfo{
     bodyDrawInfo: Readonly<AxisBody['drawInfo']>;
     alignY: number;
-    text: string;
+    content: string | {date :string, by :DateBy};
 }
 
 /**
@@ -29,7 +29,7 @@ export default abstract class AxisMilestone extends Component{
     drawInfo:DrawInfo = {
         bodyDrawInfo: {} as any,
         alignY: 0,
-        text: '0_o',
+        content: '0_o',
 
         box: {
             x: 0,
@@ -39,10 +39,24 @@ export default abstract class AxisMilestone extends Component{
         },
     };
 
+    formatDate(date :Date, by :DateBy) :string {
+        const monthAbbr = date.toDateString().split(' ')[1];
+        switch (by){
+            case DateBy.Year: return `${date.getFullYear()}`;
+            case DateBy.Quarter: return `${monthAbbr}. ${date.getFullYear()}`;
+            case DateBy.Month: return `${monthAbbr}.`;
+            case DateBy.Week: return `${date.getMonth() + 1}.${date.getDate()}`;
+            case DateBy.Day: return `${date.getMonth() + 1}.${date.getDate()}`;
+            default: return date.toLocaleString();
+        }
+    }
     createElement() {
         const flag = super.createElement(); // Must return this flag
 
-        this.element!.innerHTML = this.drawInfo.text;
+        this.element!.innerHTML = typeof this.drawInfo.content === 'string'
+            ? this.drawInfo.content
+            : this.formatDate(new Date(this.drawInfo.content.date), this.drawInfo.content.by)
+        ;
 
         const { width, height } = parseBox(this.element!);
         const x = this.drawInfo.bodyDrawInfo.box.x
@@ -56,10 +70,14 @@ export default abstract class AxisMilestone extends Component{
 
         return flag;
     }
+    createBox() {
+        this.drawInfo.box = parseBox(this.element!);
+        return super.createBox();
+    }
     async apply() {
         this.createElement();
         this.element!.style.visibility = 'hidden';
-        this.drawInfo.box = parseBox(this.element!);
+        this.createBox();
 
         return super.apply();
     }

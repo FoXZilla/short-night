@@ -1,4 +1,5 @@
-console.log('The night is short, walk on girl.');
+import { DEBUG } from './common/definitions';
+if (DEBUG) console.log('The night is short, walk on girl.');
 
 import './styles.scss';
 

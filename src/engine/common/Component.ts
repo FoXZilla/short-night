@@ -8,6 +8,7 @@ enum MUST_CALL_AND_RETURN_SUPER_METHOD {
     SUPER_DRAW,
     SUPER_DESTROY,
     SUPER_CREATE_ELEMENT,
+    SUPER_CREATE_BOX,
     SUPER_HIDE,
 }
 
@@ -47,24 +48,21 @@ export default abstract class Component{
     } = {};
     /**
      * The canvas where component draw on.
-     * Must be filled before apply() called.
      * */
     canvas :HTMLCanvasElement;
     /**
      * The container which contain all of component's element.
-     * Must be filled before apply() called.
      * */
     container :HTMLElement;
     /**
      * Manage all extensions & Help component communicate for each other.
-     * Be filled when construct.
      * */
     ext: ExtensionManager;
     /**
      * All info about draw. Except drawInfo, no more states be depended about draw.
      * The same drawInfo must has same drawn on canvas and container.
      * The this.gird should be merging in there in this.apply be called.
-     * Must can be JSON.stringify.
+     * Must can unscathed passed this.drawInfo = JSON.parse(JSON.stringify(this.drawInfo)).
      * */
     abstract readonly drawInfo: ComponentDrawInfo;
 
@@ -87,6 +85,13 @@ export default abstract class Component{
         this.container.appendChild(this.element);
 
         return MUST_CALL_AND_RETURN_SUPER_METHOD.SUPER_CREATE_ELEMENT;
+    }
+    /**
+     * Create a box object to fill this.drawInfo.box.
+     * Write this method if you need to change the behavior about box.
+     * */
+    createBox() :MUST_CALL_AND_RETURN_SUPER_METHOD {
+        return MUST_CALL_AND_RETURN_SUPER_METHOD.SUPER_CREATE_BOX;
     }
 
     /**

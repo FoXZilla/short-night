@@ -14,13 +14,15 @@ import EventMark from '@engine/Event/EventMark';
  * @property {boolean} floated - indicate the EventBody was floated or not.
  * @property {boolean} folded - indicate the EventBody was in fold-mode or not.
  * @property {[string]} foldPlaceholder - a text to show when the EventBody was in fold-mode.
+ * @property {[Date]} endDate - the date of event end.
+ * @property {[string]} endText - the description about event ended.
  * */
 interface DrawInfo extends ComponentDrawInfo{
     markDrawInfo: EventMark['drawInfo'];
     offset: Coordinate;
     maxWidth: number;
 
-    date: Date;
+    date: string;
     title: string;
     description?: string;
 
@@ -28,6 +30,9 @@ interface DrawInfo extends ComponentDrawInfo{
 
     folded: boolean;
     foldPlaceholder?: string;
+
+    endDate?: string;
+    endText?: string;
 }
 
 /**
@@ -91,22 +96,7 @@ export default abstract class EventBody extends Component{
 
         return flag;
     }
-    async apply() {
-        this.createElement();
-        this.initBoxFromElement();
-        this.applyBoxToElement();
-
-        this.element.style.visibility = 'hidden';
-
-        return super.apply();
-    }
-    draw() {
-        this.createElement();
-        this.applyBoxToElement();
-        return super.draw();
-    }
-
-    initBoxFromElement() {
+    createBox() {
         const eltBox = parseBox(this.element);
         const box:Box = {
             width: eltBox.width,
@@ -121,7 +111,24 @@ export default abstract class EventBody extends Component{
         box.y += this.drawInfo.offset.y;
 
         this.drawInfo.box = box;
+
+        return super.createBox();
     }
+    async apply() {
+        this.createElement();
+        this.createBox();
+        this.applyBoxToElement();
+
+        this.element.style.visibility = 'hidden';
+
+        return super.apply();
+    }
+    draw() {
+        this.createElement();
+        this.applyBoxToElement();
+        return super.draw();
+    }
+
     applyBoxToElement() {
         this.element.style.left = `${this.drawInfo.box.x}px`;
         this.element.style.top = `${this.drawInfo.box.y}px`;

@@ -1,4 +1,4 @@
-import { draw, drawFrom, drawWithAnimation } from '@/themes/colors/entry';
+import { draw, drawFrom, drawWithAnimation } from '@/themes/rules/entry';
 
 const events = [{
     date :'2014-5',

@@ -18,21 +18,24 @@ import { SN } from '@engine/common/definitions';
  *
  * @property {[number]} axisLength - the length of EventAxis.
  * @property {[number]} axisOffset - the offset X with Axis in EventAxis.
- * @property {[string]} axisText - the description about event ended.
+ * @property {[Date]} endDate - the date of event end.
+ * @property {[string]} endText - the description about event ended.
  * */
 interface DrawInfo extends ComponentDrawInfo{
     target: Coordinate;
     offset: Coordinate;
 
-    date: Date;
+    date: string;
     title: string;
     description?: string;
     folded: boolean;
     foldPlaceholder?: string;
 
+    endDate?: string;
+    endText?: string;
+
     axisLength?: number;
     axisOffset?: number;
-    axisText?: string;
 }
 
 /**
@@ -85,13 +88,7 @@ export default abstract class Event extends Component{
     abstract axisConstructor :typeof EventAxis;
     abstract markConstructor :typeof EventMark;
 
-    async apply() {
-        await Promise.all([
-            this.initMark(),
-            this.initBody(),
-            this.initAxis(),
-        ]);
-
+    createBox() {
         this.drawInfo.box = mergeBox(
             this.body.drawInfo.box,
             this.mark.drawInfo.box,
@@ -102,6 +99,21 @@ export default abstract class Event extends Component{
                 this.axis.drawInfo.box,
             );
         }
+
+        return super.createBox();
+    }
+
+    async apply() {
+        this.initMark();
+        await this.mark.apply();
+
+        this.initBody();
+        await this.body.apply();
+
+        this.initAxis();
+        if (this.axis) await this.axis.apply();
+
+        this.createBox();
 
         return super.apply();
     }
@@ -127,17 +139,15 @@ export default abstract class Event extends Component{
         return super.destroy();
     }
 
-    initMark() :Promise<any> {
+    initMark() {
         if (this.mark) this.mark.destroy();
         // @ts-ignore - realize a absolute class that will re-init in the theme.
         this.mark = new this.markConstructor(this);
         this.mark.drawInfo.target = this.drawInfo.target;
         this.mark.drawInfo.width = this.grid.markWidth;
         this.mark.drawInfo.height = this.grid.markHeight;
-
-        return this.mark.apply();
     }
-    initBody() :Promise<any> {
+    initBody() {
         if (this.body) this.body.destroy();
         // @ts-ignore - realize a absolute class that will re-init in the theme.
         this.body = new this.bodyConstructor(this);
@@ -149,10 +159,10 @@ export default abstract class Event extends Component{
         this.body.drawInfo.folded = this.drawInfo.folded;
         this.body.drawInfo.foldPlaceholder = this.drawInfo.foldPlaceholder;
         this.body.drawInfo.offset =  Object.assign({}, this.drawInfo.offset);
-
-        return this.body.apply();
+        this.body.drawInfo.endText = this.drawInfo.endText;
+        this.body.drawInfo.endDate = this.drawInfo.endDate;
     }
-    initAxis() :Promise<any> {
+    initAxis() {
         if (this.axis) {
             this.axis.destroy();
             this.axis = null;
@@ -165,12 +175,9 @@ export default abstract class Event extends Component{
             axis.drawInfo.markDrawInfo = deepFreeze(this.mark.drawInfo);
             axis.drawInfo.offsetX = this.grid.minEventAxisOffset;
             axis.drawInfo.length = this.drawInfo.axisLength;
-            axis.drawInfo.text = this.drawInfo.axisText;
+            axis.drawInfo.text = this.drawInfo.endText;
             this.axis = axis;
-            return axis.apply();
         }
-
-        return Promise.resolve(null);
     }
 
     static is(comp:Component) :comp is Event {

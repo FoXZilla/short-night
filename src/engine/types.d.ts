@@ -32,7 +32,7 @@ export const enum DateBy{
  * The box should contain all trace of component.
  * */
 export interface ComponentDrawInfo{
-    box: Readonly<Box>;
+    box: Box;
 }
 
 /**
@@ -63,8 +63,8 @@ export const enum ConflictFixResult {
 
 export interface ComponentConstructorInfo {
     ext: ExtensionManager;
-    canvas?: HTMLCanvasElement;
-    container?: HTMLElement;
+    canvas: HTMLCanvasElement;
+    container: HTMLElement;
 }
 
 export type TimelineData = any; // TODO

@@ -38,13 +38,18 @@ export default abstract class AxisScale extends Component{
         },
     };
 
-    async apply() {
+    createBox() {
         this.drawInfo.box = {
             x: this.drawInfo.bodyDrawInfo.box.x,
             y: this.drawInfo.alignY - this.drawInfo.height / 2,
             height: this.drawInfo.height,
             width: this.drawInfo.bodyDrawInfo.box.width,
         };
+        return super.createBox();
+    }
+
+    async apply() {
+        this.createBox();
         return super.apply();
     }
 
