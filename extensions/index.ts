@@ -63,6 +63,13 @@ export class ExtensionManager implements Extension {
         } = {},
     ) {
         this.breakpoint = new BreakpointAnimation(this, breakpointAnimation);
+        this.extensions  = [
+            new Base(this),
+            new GeneratorId(this),
+            new PositionCounter(this),
+            new ConflictFixer(this),
+            this.breakpoint,
+        ];
         if (DEBUG) {
             this.extensions.push(
                 new BoxElementGenerator(this),
@@ -97,13 +104,7 @@ export class ExtensionManager implements Extension {
         [SN.EventMark]: [],
         [SN.EventAxis]: [],
     };
-    extensions :Partial<Extension>[] = [
-        new Base(this),
-        new GeneratorId(this),
-        new PositionCounter(this),
-        new ConflictFixer(this),
-        this.breakpoint,
-    ];
+    extensions :Partial<Extension>[];
 
     getParent(comp:EventAxis|EventBody|EventMark) :Event;
     getParent(comp:AxisBody|AxisMilestone|AxisScale) :Axis;

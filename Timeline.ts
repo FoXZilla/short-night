@@ -118,9 +118,11 @@ export default abstract class Timeline extends Component{
     abstract eventConstructor :typeof Event;
 
     /**
-     * @param {Partial<RuntimeInfo>} - manually specify some runtime info.
+     * @param {Partial<RuntimeInfo>} runtime - manually specify some runtime info.
      * */
-    async apply(runtime?:Partial<RuntimeInfo>) {
+    async apply(runtime ?:Partial<RuntimeInfo>) {
+        if (!this.events.length) throw new Error('No event passed the timeline!');
+
         this.initRuntime(runtime);
 
         this.canvas.width = this.grid.canvasWidth;

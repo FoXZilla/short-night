@@ -1,13 +1,14 @@
 {
   "name": "@foxzilla/short-night",
-  "version": "0.0.3",
+  "version": "0.0.7",
   "description": "An engine for drawing timeline graph.",
-  "main": "js/index.js",
+  "main": "index.js",
   "types": "index.ts",
   "scripts": {
     "lint": "tslint --project tsconfig.json",
-    "build": "node-sass ./styles.scss -o ./",
-    "test": "npm run lint && tsc && npm run build"
+    "build": "node-sass ./styles.scss -o ./ && tsc",
+    "pub": "npm run build && npm publish",
+    "test": "npm run lint && npm run build"
   },
   "repository": {
     "type": "git",
