@@ -1,8 +1,6 @@
 import { DEBUG } from './common/definitions';
 if (DEBUG) console.log('The night is short, walk on girl.');
 
-import './styles.scss';
-
 export { default as Timeline, ConstructInfo as TimelineConstructInfo } from './Timeline';
 
 export { default as Axis, ConstructInfo as AxisConstructInfo  } from './Axis';
