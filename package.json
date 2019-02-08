@@ -1,6 +1,6 @@
 {
   "name": "@foxzilla/short-night",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "An engine for drawing timeline graph.",
   "main": "index.js",
   "types": "index.ts",

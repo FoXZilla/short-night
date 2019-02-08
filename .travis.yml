@@ -4,9 +4,7 @@ node_js:
 install:
 - npm ci
 script:
-- npm run eslint
-- npm run tslint
-- tsc
+- npm run test
 cache:
   directories:
   - "node_modules"

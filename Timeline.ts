@@ -121,7 +121,7 @@ export default abstract class Timeline extends Component{
      * @param {Partial<RuntimeInfo>} runtime - manually specify some runtime info.
      * */
     async apply(runtime ?:Partial<RuntimeInfo>) {
-        if (!this.events.length) throw new Error('No event passed the timeline!');
+        if (!this.drawInfo.events.length) throw new Error('No event passed the timeline!');
 
         this.initRuntime(runtime);
 
