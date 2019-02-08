@@ -4,7 +4,7 @@ import packageJson = require('../package.json');
 export const DEBUG:Boolean = process.env.NODE_ENV === 'development';
 
 export enum SN{
-    Timeline = 'time_line',
+    Timeline = 'timeline',
     Axis = 'axis',
     AxisBody = 'axis_body',
     AxisScale = 'axis_scale',

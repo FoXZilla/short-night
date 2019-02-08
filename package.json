@@ -1,5 +1,5 @@
 {
-  "name": "@foxzilla/short-night",
+  "name": "short-night",
   "version": "0.0.8",
   "description": "An engine for drawing timeline graph.",
   "main": "index.js",
