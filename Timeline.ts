@@ -126,8 +126,7 @@ export default abstract class Timeline extends Component{
 
         this.initRuntime(runtime);
 
-        this.canvas.width = this.grid.canvasWidth;
-        this.canvas.height = this.runtime.axisLength + this.grid.axisStart.y * 2;
+        this.stretchCanvas();
 
         // @ts-ignore
         await this.initAxis();
@@ -138,25 +137,10 @@ export default abstract class Timeline extends Component{
         this.initEvents();
         await Promise.all(this.events.map(e => e.apply()));
 
-        // Stretch the canvas ensure the canvas can contain all of component
-        const componentMap :any = this.ext.components;
-        for (const snName in componentMap) {
-            for (const component of componentMap[snName]) {
-                const box :Box = component.drawInfo.box;
-                this.canvas.height = Math.max(
-                    this.canvas.height,
-                    box.y + box.height + this.grid.axisStart.y,
-                );
-                this.canvas.width = Math.max(
-                    this.canvas.width,
-                    box.x + box.width,
-                );
-            }
-        }
-
         return super.apply();
     }
     draw() {
+        this.stretchCanvas();
         this.axis.draw();
         this.events.forEach(event => event.draw());
         return super.draw();
@@ -272,6 +256,27 @@ export default abstract class Timeline extends Component{
                 },
             },
         }));
+    }
+
+    // Stretch the canvas ensure the canvas can contain all of component
+    protected stretchCanvas() {
+        this.canvas.width = this.grid.canvasWidth;
+        this.canvas.height = this.runtime.axisLength + this.grid.axisStart.y * 2;
+
+        const componentMap :any = this.ext.components;
+        for (const snName in componentMap) {
+            for (const component of componentMap[snName]) {
+                const box :Box = component.drawInfo.box;
+                this.canvas.height = Math.max(
+                    this.canvas.height,
+                    box.y + box.height + this.grid.axisStart.y,
+                );
+                this.canvas.width = Math.max(
+                    this.canvas.width,
+                    box.x + box.width,
+                );
+            }
+        }
     }
 
     // Count runtime info

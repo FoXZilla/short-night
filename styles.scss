@@ -14,7 +14,6 @@
         position: absolute;
         color: #000;
         padding: 7px 10px 7px 5px;
-        text-align: right;
         &.folded{
             cursor: pointer;
             .title{
@@ -27,12 +26,17 @@
         .title{
             font-size: 1em;
             text-overflow:ellipsis;
-            white-space:nowrap;
+            text-align: right;
         }
         .date{
             font-size: 0.6em;
             font-weight: normal;
             font-style: italic;
+            text-align: right;
+        }
+        .description{
+            word-break: break-all;
+            font-size: 0.8em;
         }
         .foldPlaceholder{
             @extend .title;
@@ -41,8 +45,7 @@
     }
     &.event_axis.endText{
         position: absolute;
-        padding: 0 0 2px 3px;
+        padding: 0 0 2px 5px;
         font-size: 0.8em;
-        text-indent: 0.5em;
     }
 }
