@@ -1,7 +1,7 @@
 import Component from '../common/Component';
 import { ComponentConstructorInfo, ComponentDrawInfo, Coordinate } from '../types';
 import { SN } from '../common/definitions';
-import Axis from '../Axis';
+import AxisBody from '../Axis/AxisBody';
 
 /**
  * @property {Readonly<AxisBodyDrawInfo>} bodyDrawInfo - the DrawInfo of AxisBody.
@@ -10,7 +10,7 @@ import Axis from '../Axis';
  * @property {[number]} height - the height of mark.
  * */
 interface DrawInfo extends ComponentDrawInfo{
-    axisBodyDrawInfo: Readonly<Axis['drawInfo']>;
+    axisBodyDrawInfo: Readonly<AxisBody['drawInfo']>;
     target: Coordinate;
     width: number;
     height?: number;

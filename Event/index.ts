@@ -119,7 +119,7 @@ export default abstract class Event extends Component{
     }
     draw() {
         this.body.draw();
-        this.axis && this.axis.draw();
+        if (this.axis) this.axis.draw();
         this.mark.draw();
 
         return super.draw();

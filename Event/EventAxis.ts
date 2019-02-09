@@ -2,7 +2,7 @@ import { ComponentConstructorInfo, ComponentDrawInfo } from '../types';
 import { parseBox } from '../common/functions';
 import Component from '../common/Component';
 import { SN } from '../common/definitions';
-import Axis from '../Axis';
+import AxisBody from '../Axis/AxisBody';
 import EventMark from './EventMark';
 
 /**
@@ -13,7 +13,7 @@ import EventMark from './EventMark';
  * @property {[string]} text - the description about event ended.
  * */
 interface DrawInfo extends ComponentDrawInfo{
-    axisBodyDrawInfo: Readonly<Axis['drawInfo']>;
+    axisBodyDrawInfo: Readonly<AxisBody['drawInfo']>;
     markDrawInfo: Readonly<EventMark['drawInfo']>;
 
     length: number;
