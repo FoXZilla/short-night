@@ -1,4 +1,5 @@
 import {
+    Box,
     ComponentDrawInfo,
     DateBy,
     GridConfig,
@@ -136,6 +137,22 @@ export default abstract class Timeline extends Component{
         this.events.length = 0;
         this.initEvents();
         await Promise.all(this.events.map(e => e.apply()));
+
+        // Stretch the canvas ensure the canvas can contain all of component
+        const componentMap :any = this.ext.components;
+        for (const snName in componentMap) {
+            for (const component of componentMap[snName]) {
+                const box :Box = component.drawInfo.box;
+                this.canvas.height = Math.max(
+                    this.canvas.height,
+                    box.y + box.height + this.grid.axisStart.y,
+                );
+                this.canvas.width = Math.max(
+                    this.canvas.width,
+                    box.x + box.width,
+                );
+            }
+        }
 
         return super.apply();
     }
@@ -464,7 +481,9 @@ export default abstract class Timeline extends Component{
         container.classList.add('short-night', themeName, 'container');
 
         const canvas = document.createElement('canvas') as HTMLCanvasElement;
-        container.classList.add('short-night', themeName, 'canvas');
+        canvas.height = 6000;
+        canvas.width = 600;
+        canvas.classList.add('short-night', themeName, 'canvas');
 
         container.appendChild(canvas);
 
