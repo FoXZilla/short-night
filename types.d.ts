@@ -39,6 +39,7 @@ export interface ComponentDrawInfo{
  * All component's config of what style to draw.
  * E.g. The border width of Axis.
  * Must be filled before apply() called.
+ * todo: add description about props
  * */
 export interface GridConfig{
     eventOffset: Coordinate;
