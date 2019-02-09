@@ -92,7 +92,11 @@ export default abstract class EventBody extends Component{
             this.element.removeChild(this.element.querySelector('.description')!);
         }
 
-        this.element.style.maxWidth = `${this.drawInfo.maxWidth}px`;
+        if (this.drawInfo.floated) {
+            this.element.style.maxWidth = `${this.drawInfo.maxWidth}px`;
+        } else {
+            this.element.style.maxWidth = `${this.drawInfo.maxWidth - this.drawInfo.offset.x}px`;
+        }
 
         return flag;
     }

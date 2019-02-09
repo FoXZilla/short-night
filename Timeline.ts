@@ -452,10 +452,10 @@ export default abstract class Timeline extends Component{
         scaleHeight: 5,
         axisWidth: 12,
         axisStart: {
-            x: 400,
+            x: 450,
             y: 10,
         },
-        eventWidth: 350,
+        eventWidth: 300,
         canvasWidth: 700,
     };
 
