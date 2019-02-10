@@ -1,6 +1,6 @@
 {
   "name": "short-night",
-  "version": "0.0.8",
+  "version": "0.0.11",
   "description": "An engine for drawing timeline graph.",
   "main": "index.js",
   "types": "index.ts",
@@ -27,13 +27,13 @@
   },
   "homepage": "https://github.com/pea3nut/short-night#readme",
   "devDependencies": {
-    "@types/moveto": "^1.7.0",
     "tslint": "^5.11.0",
     "tslint-config-airbnb": "^5.11.1",
-    "typescript": "^2.9.2"
+    "typescript": "^2.9.2",
+    "node-sass": "^4.11.0"
   },
   "dependencies": {
     "moveto": "^1.7.4",
-    "node-sass": "^4.11.0"
+    "@types/moveto": "^1.7.0"
   }
 }

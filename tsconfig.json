@@ -3,7 +3,7 @@
     "downlevelIteration": true,
     "strict": true,
     "module": "commonjs",
-    "target": "es6",
+    "target": "es5",
     "moduleResolution": "node",
     "lib": ["esnext", "dom"]
   }
