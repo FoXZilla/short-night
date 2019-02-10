@@ -1,0 +1,51 @@
+.short-night{
+    position: relative;
+    box-sizing: border-box;
+    &{
+        margin: 0;
+        padding: 0;
+    }
+    &.axis_milestone{
+        font-family: sans-serif;
+        position: absolute;
+        padding: 5px 10px;
+    }
+    &.event_body{
+        position: absolute;
+        color: #000;
+        padding: 7px 10px 7px 5px;
+        &.folded{
+            cursor: pointer;
+            .title{
+                display: none;
+            }
+            .foldPlaceholder{
+                display: block;
+            }
+        }
+        .title{
+            font-size: 1em;
+            text-overflow:ellipsis;
+            text-align: right;
+        }
+        .date{
+            font-size: 0.6em;
+            font-weight: normal;
+            font-style: italic;
+            text-align: right;
+        }
+        .description{
+            word-break: break-all;
+            font-size: 0.8em;
+        }
+        .foldPlaceholder{
+            @extend .title;
+            display: none;
+        }
+    }
+    &.event_axis.endText{
+        position: absolute;
+        padding: 0 0 2px 5px;
+        font-size: 0.8em;
+    }
+}

@@ -14,14 +14,7 @@ Given a JSON, drawing a timeline. And it will fix conflict automatically.
 
 # How start to development?
 
-Install & Build:
-
-```sh
-npm install
-npm run dev
-```
-
-Drag `docs/colors.html` into your browser.
+see the [wiki](https://github.com/FoXZilla/short-night/wiki).
 
 # Docs
 

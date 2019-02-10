@@ -1,0 +1,38 @@
+.short-night {
+  position: relative;
+  box-sizing: border-box; }
+  .short-night {
+    margin: 0;
+    padding: 0; }
+  .short-night.axis_milestone {
+    font-family: sans-serif;
+    position: absolute;
+    padding: 5px 10px; }
+  .short-night.event_body {
+    position: absolute;
+    color: #000;
+    padding: 7px 10px 7px 5px; }
+    .short-night.event_body.folded {
+      cursor: pointer; }
+      .short-night.event_body.folded .title, .short-night.event_body.folded .foldPlaceholder {
+        display: none; }
+      .short-night.event_body.folded .foldPlaceholder {
+        display: block; }
+    .short-night.event_body .title, .short-night.event_body .foldPlaceholder {
+      font-size: 1em;
+      text-overflow: ellipsis;
+      text-align: right; }
+    .short-night.event_body .date {
+      font-size: 0.6em;
+      font-weight: normal;
+      font-style: italic;
+      text-align: right; }
+    .short-night.event_body .description {
+      word-break: break-all;
+      font-size: 0.8em; }
+    .short-night.event_body .foldPlaceholder {
+      display: none; }
+  .short-night.event_axis.endText {
+    position: absolute;
+    padding: 0 0 2px 5px;
+    font-size: 0.8em; }
