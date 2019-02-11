@@ -1,12 +1,26 @@
 import { Extension, ExtensionManager } from '.';
 import Component from '../common/Component';
+import { DEBUG } from '../common/definitions';
+import {Box} from "../types";
 
 /**
  * Create element following comp.drawInfo.box for debug.
  * Using this extension, the development can inspect an Short-Night Component by Web Console.
  * */
 export default class BoxElementGenerator implements Partial<Extension>{
-    constructor(public etx:ExtensionManager) {}
+    constructor(public ext:ExtensionManager) {
+        if (DEBUG) (<any>window).clearBox = () => {
+            const componentMap :any = this.ext.components;
+            for (const snName in componentMap) {
+                for (const component of componentMap[snName]) {
+                    const elt = component.extraData.boxElement;
+                    if (elt && elt.parentElement) {
+                        elt.parentElement.removeChild(elt);
+                    }
+                }
+            }
+        };
+    }
     /**
      * Create a element append to container.
      * The element size equal component.drawInfo.box.

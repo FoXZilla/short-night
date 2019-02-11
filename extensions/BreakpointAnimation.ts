@@ -61,7 +61,7 @@ export interface BlockConfig {
  * */
 export default class BreakpointAnimation implements Partial<Extension>{
     constructor(
-        public etx:ExtensionManager,
+        public ext:ExtensionManager,
         { breakpoints= [], playAnimation= false }:BreakpointAnimationConfig = {},
     ) {
         this.breakpoints = breakpoints;
@@ -83,7 +83,7 @@ export default class BreakpointAnimation implements Partial<Extension>{
      * */
     onDraw(comp:Component) {
         if (Timeline.is(comp) && this.playAnimation) {
-            new moveto().move(this.etx.components[SN.Timeline][0].canvas);
+            new moveto().move(this.ext.components[SN.Timeline][0].canvas);
         }
     }
 

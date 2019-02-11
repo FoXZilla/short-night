@@ -41,15 +41,15 @@ const METHODS = ['onConstruct', 'onApply', 'onDestroy', 'onHide', 'onDraw'];
  * Manage ExtensionManager#components.
  * */
 export class Base implements Partial<Extension>{
-    constructor(public etx :ExtensionManager) {}
+    constructor(public ext :ExtensionManager) {}
 
     onConstruct(comp :Component) {
-        (<any>this.etx.components)[comp.name].push(comp);
+        (<any>this.ext.components)[comp.name].push(comp);
     }
 
     onDestroy(comp :Component) {
-        (<any>this.etx.components)[comp.name].splice(
-            (<any>this.etx.components)[comp.name].indexOf(comp),
+        (<any>this.ext.components)[comp.name].splice(
+            (<any>this.ext.components)[comp.name].indexOf(comp),
             1,
         );
     }
@@ -129,9 +129,9 @@ export class ExtensionManager implements Extension {
     onDestroy = createHandler('onDestroy', this);
 }
 
-function createHandler(methodName :ExtensionHandler, etx :ExtensionManager) {
+function createHandler(methodName :ExtensionHandler, ext :ExtensionManager) {
     return async function extensionManagerMethod(comp :Component) {
-        for (const extension of etx.extensions) { // eslint-disable-line no-restricted-syntax
+        for (const extension of ext.extensions) { // eslint-disable-line no-restricted-syntax
             if (methodName in extension) {
                 if (methodName === 'onApply') {
                     await extension[methodName]!(comp); // eslint-disable-line no-await-in-loop

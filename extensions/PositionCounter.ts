@@ -25,7 +25,7 @@ interface PushConfig{
  * So we move Event, Scale and Milestone if they upper has any Milestones.
  * */
 export default class PositionCounter implements Partial<Extension> {
-    constructor(public etx:ExtensionManager) {}
+    constructor(public ext:ExtensionManager) {}
 
     async onApply(comp:Component) {
         if (Axis.is(comp)) return await this.adjustAxis(comp);
@@ -63,7 +63,7 @@ export default class PositionCounter implements Partial<Extension> {
         axis.milestones.forEach(m => m.drawInfo.alignY *= axis.extraData.realLength!);
         axis.scales.forEach(s => s.drawInfo.alignY *= axis.extraData.realLength!);
         await Promise.all([...axis.milestones, ...axis.scales].map(c => c.apply()));
-        await this.etx.breakpoint.block(Breakpoint.PushScalesAndMilestones, {
+        await this.ext.breakpoint.block(Breakpoint.PushScalesAndMilestones, {
             components: childComponents,
         });
 
@@ -82,7 +82,7 @@ export default class PositionCounter implements Partial<Extension> {
 
         // Push milestones and scales
 
-        await this.etx.breakpoint.block(Breakpoint.PushScalesAndMilestones, {
+        await this.ext.breakpoint.block(Breakpoint.PushScalesAndMilestones, {
             components: childComponents,
         });
 
@@ -99,7 +99,7 @@ export default class PositionCounter implements Partial<Extension> {
 
             if (comp.name === SN.AxisMilestone) {
                 await Promise.all(pushTarget.map(comp => comp.apply()));
-                await this.etx.breakpoint.block(Breakpoint.PushScalesAndMilestones, {
+                await this.ext.breakpoint.block(Breakpoint.PushScalesAndMilestones, {
                     components: childComponents,
                 });
             }
@@ -108,7 +108,7 @@ export default class PositionCounter implements Partial<Extension> {
         }
 
         await Promise.all(pushTarget.map(comp => comp.apply()));
-        await this.etx.breakpoint.block(Breakpoint.PushScalesAndMilestones, {
+        await this.ext.breakpoint.block(Breakpoint.PushScalesAndMilestones, {
             components: childComponents,
         });
 
@@ -118,7 +118,7 @@ export default class PositionCounter implements Partial<Extension> {
     }
     async adjustEvent(timeline:Timeline) {
         const events = timeline.events;
-        const axis = this.etx.components[SN.Axis][0];
+        const axis = this.ext.components[SN.Axis][0];
 
         for (const event of events) {
             event.drawInfo.target.y *= axis.extraData.realLength!;
