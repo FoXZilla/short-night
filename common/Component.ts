@@ -13,7 +13,7 @@ enum MUST_CALL_AND_RETURN_SUPER_METHOD {
 }
 
 export default abstract class Component{
-    constructor({ ext, canvas, container }:ComponentConstructorInfo) {
+    constructor({ ext, canvas, container } :ComponentConstructorInfo) {
         this.ext = ext;
 
         this.canvas = canvas as any;
@@ -39,12 +39,12 @@ export default abstract class Component{
      * @property space - using in ConflictFixer, existing in EventBody only.
      * */
     extraData :{
-        id ?:string,
-        boxElement ?:HTMLElement,
-        realLength ?:number,
-        needed?: {top:number, bottom:number},
-        space?: {top:number, bottom:number},
-        [key: string]: any,
+        id ? :string,
+        boxElement ? :HTMLElement,
+        realLength ? :number,
+        needed? :{top :number, bottom :number},
+        space? :{top :number, bottom :number},
+        [key :string] :any,
     } = {};
     /**
      * The canvas where component draw on.
@@ -57,20 +57,20 @@ export default abstract class Component{
     /**
      * Manage all extensions & Help component communicate for each other.
      * */
-    ext: ExtensionManager;
+    ext :ExtensionManager;
     /**
      * All info about draw. Except drawInfo, no more states be depended about draw.
      * The same drawInfo must has same drawn on canvas and container.
      * The this.gird should be merging in there in this.apply be called.
      * Must can unscathed passed this.drawInfo = JSON.parse(JSON.stringify(this.drawInfo)).
      * */
-    abstract readonly drawInfo: ComponentDrawInfo;
+    abstract readonly drawInfo :ComponentDrawInfo;
 
     /**
      * Optional. Be filled in this.createElement.
      * The HTML element which be needed by component draw.
      * */
-    element ?:HTMLElement;
+    element ? :HTMLElement;
     /**
      * Optional. Depend on the draw this component is need HTML element or not.
      * Create an HTML element base on this.drawInfo to fill this.element
@@ -98,7 +98,7 @@ export default abstract class Component{
      * Means that the component has been destroyed.
      * Call any method on component when it has destroyed will got an error.
      * */
-    destroyed: boolean = false;
+    destroyed :boolean = false;
     /**
      * Destroy self.
      * It should remove all element from dom and clear all trace in canvas if that's made by self.
@@ -163,7 +163,7 @@ export default abstract class Component{
      * Set a whole drawInfo into component.
      * The component still need this.apply called before draw when this.importDrawInfo been called.
      * */
-    importDrawInfo(drawInfo:ComponentDrawInfo) {
+    importDrawInfo(drawInfo :ComponentDrawInfo) {
         (<any>this).drawInfo = drawInfo;
         return this;
     }

@@ -10,9 +10,9 @@ import AxisBody from '../Axis/AxisBody';
  * @property {number} description - the showed description of milestone.
  * */
 interface DrawInfo extends ComponentDrawInfo{
-    bodyDrawInfo: Readonly<AxisBody['drawInfo']>;
-    alignY: number;
-    content: string | {date :string, by :DateBy};
+    bodyDrawInfo :Readonly<AxisBody['drawInfo']>;
+    alignY :number;
+    content :string | {date :string, by :DateBy};
 }
 
 /**
@@ -20,13 +20,13 @@ interface DrawInfo extends ComponentDrawInfo{
  * Can conflict with EventBody.
  * */
 export default abstract class AxisMilestone extends Component{
-    constructor(props:ComponentConstructorInfo) {
+    constructor(props :ComponentConstructorInfo) {
         super(props);
         this.ext.onConstruct(this);
     }
 
     name = SN.AxisMilestone;
-    drawInfo:DrawInfo = {
+    drawInfo :DrawInfo = {
         bodyDrawInfo: {} as any,
         alignY: 0,
         content: '0_o',
@@ -86,7 +86,7 @@ export default abstract class AxisMilestone extends Component{
         return super.draw();
     }
 
-    static is(comp:Component) :comp is AxisMilestone {
+    static is(comp :Component) :comp is AxisMilestone {
         return comp.name === SN.AxisMilestone;
     }
 }

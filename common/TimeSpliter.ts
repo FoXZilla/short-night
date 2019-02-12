@@ -18,7 +18,7 @@ export default class TimeSpliter {
     /**
      * Return a array of split Date object.
      * */
-    split(by :DateBy, step?:number) :Date[] {
+    split(by :DateBy, step? :number) :Date[] {
         const result = [];
         const date = new Date(this.smaller);
         while (+TimeSpliter.increment[by](date, step) < +this.bigger) {
@@ -29,7 +29,7 @@ export default class TimeSpliter {
     }
 
     static increment :{
-        [methName in DateBy]: (date:Date, step?:number) => Date
+        [methName in DateBy]: (date :Date, step? :number) => Date
     } = {
         year(date :Date, step = 1) {
             date.setMonth(0 , 1);

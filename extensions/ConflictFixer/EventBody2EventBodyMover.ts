@@ -9,18 +9,18 @@ import { ConflictFixResult } from '../../types';
 type Conflict = ComponentConflict<EventBody>;
 
 export default class EventBody2EventBodyMover {
-    constructor(public ext:ExtensionManager) {}
+    constructor(public ext :ExtensionManager) {}
 
-    conflicts:Conflict[] = [];
+    conflicts :Conflict[] = [];
     /**
      * above EventBody is above, below EventBody is below
      * */
-    eventBodyList:EventBody[] = [];
-    spaceMap = new Map as Map<EventBody, {top:number, bottom:number}>;
+    eventBodyList :EventBody[] = [];
+    spaceMap = new Map as Map<EventBody, {top :number, bottom :number}>;
 
     static async avoid(
         { mover, fixed, direction }
-        :{mover:EventBody, fixed:EventBody, direction:1|-1},
+        :{mover :EventBody, fixed :EventBody, direction :1|-1},
     ) {
         if (direction > 0) {
             mover.drawInfo.offset.y +=
@@ -35,7 +35,7 @@ export default class EventBody2EventBodyMover {
         }
         await mover.apply();
     }
-    static isConflict(eb1:EventBody, eb2:EventBody) {
+    static isConflict(eb1 :EventBody, eb2 :EventBody) {
         if (eb1 === eb2) return false;
 
         if (eb1.drawInfo.floated !== eb2.drawInfo.floated) {
@@ -109,7 +109,7 @@ export default class EventBody2EventBodyMover {
         return ConflictFixResult.Alleviated;
 
     }
-    protected isPossible(conflict:Conflict) {
+    protected isPossible(conflict :Conflict) {
         if (
             conflict.self.drawInfo.floated
             && conflict.with.some(eb => !eb.drawInfo.floated)
@@ -122,7 +122,7 @@ export default class EventBody2EventBodyMover {
             && (space.bottom >= needed.bottom && space.top >= needed.top)
             ;
     }
-    protected async fixConflict(conflict:Conflict) {
+    protected async fixConflict(conflict :Conflict) {
         const needed = this.countNeeded(conflict);
         const moveDistance = needed.top ? needed.top : -needed.bottom;
         const direction = moveDistance / Math.abs(moveDistance) as (1 | -1);
@@ -168,23 +168,23 @@ export default class EventBody2EventBodyMover {
             if (conflict.with.length) this.conflicts.push(conflict);
         }
     }
-    protected countCast(conflict:Conflict) {
+    protected countCast(conflict :Conflict) {
         const needed = this.countNeeded(conflict);
         return needed.bottom + needed.top;
     }
     /**
      * Count the number how many space needed for fix the conflict by verticalMove
      * */
-    protected countNeeded(conflict:Conflict) :{top:number, bottom:number} {
+    protected countNeeded(conflict :Conflict) :{top :number, bottom :number} {
         const origin = conflict.self;
         const result = {
             top: 0,
             bottom: 0,
         };
-        const above:EventBody[] = conflict.with.filter(
+        const above :EventBody[] = conflict.with.filter(
             cb => cb.drawInfo.markDrawInfo.target.y < origin.drawInfo.markDrawInfo.target.y,
         );
-        const below:EventBody[] = conflict.with.filter(cb =>
+        const below :EventBody[] = conflict.with.filter(cb =>
             cb.drawInfo.markDrawInfo.target.y > origin.drawInfo.markDrawInfo.target.y,
         );
 
@@ -257,7 +257,7 @@ export default class EventBody2EventBodyMover {
             }),
         );
 
-        const applyLimiting = (allEventBody:EventBody[]) => {
+        const applyLimiting = (allEventBody :EventBody[]) => {
             if (allEventBody.length === 0) return;
 
             // An item is limited from

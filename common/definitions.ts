@@ -2,7 +2,7 @@ import { DateBy } from '../types';
 // @ts-ignore
 import packageJson = require('../package.json');
 
-export let DEBUG:boolean;
+export let DEBUG :boolean;
 try {
     // @ts-ignore
     DEBUG = process.env.NODE_ENV === 'development';
@@ -36,4 +36,4 @@ export const WALK_ON = {
     },
 };
 
-export const SN_VERSION:string =  packageJson.version;
+export const SN_VERSION :string =  packageJson.version;

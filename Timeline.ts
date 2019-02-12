@@ -33,16 +33,16 @@ import { ExtensionManager } from './extensions';
  * @property {EventInfo[]} - a event list that be drawn on timeline.
  * */
 interface DrawInfo extends ComponentDrawInfo{
-    events: {
-        date: string,
-        title: string,
+    events :{
+        date :string,
+        title :string,
 
-        description?: string,
-        endDate?: string | 'now',
-        endText?: string,
+        description? :string,
+        endDate? :string | 'now',
+        endText? :string,
 
-        folded?: boolean,
-        foldPlaceholder?: string,
+        folded? :boolean,
+        foldPlaceholder? :string,
     }[];
 }
 /**
@@ -54,17 +54,17 @@ interface DrawInfo extends ComponentDrawInfo{
  * @property {number} axisLength - the px of timeline length. It's not a whole timeline length.
  * */
 export interface RuntimeInfo{
-    startDate: Date;
-    endDate: Date;
-    milestoneBy: DateBy | null;
-    scaleBy: DateBy | null;
-    axisLength: number;
+    startDate :Date;
+    endDate :Date;
+    milestoneBy :DateBy | null;
+    scaleBy :DateBy | null;
+    axisLength :number;
 }
 export interface ConstructInfo {
     canvas :HTMLCanvasElement;
     container :HTMLElement;
-    ext ?:ExtensionManager;
-    grid ?:GridConfig;
+    ext ? :ExtensionManager;
+    grid ? :GridConfig;
 }
 
 /**
@@ -87,7 +87,7 @@ export interface ConstructInfo {
  * ```
  * */
 export default abstract class Timeline extends Component{
-    constructor(props:ConstructInfo) {
+    constructor(props :ConstructInfo) {
         super({
             ext: props.ext || new ExtensionManager,
             canvas: props.canvas,
@@ -105,13 +105,13 @@ export default abstract class Timeline extends Component{
      * @see RuntimeInfo
      * */
     runtime :RuntimeInfo = {} as any;
-    drawInfo: DrawInfo = {
+    drawInfo :DrawInfo = {
         box: { x:0, y:0, width:0, height:0 },
         events: [],
     };
 
     // The instances
-    events:Event[] = [];
+    events :Event[] = [];
     axis :Axis = null as any;
 
     // The Constructors
@@ -121,7 +121,7 @@ export default abstract class Timeline extends Component{
     /**
      * @param {Partial<RuntimeInfo>} runtime - manually specify some runtime info.
      * */
-    async apply(runtime ?:Partial<RuntimeInfo>) {
+    async apply(runtime ? :Partial<RuntimeInfo>) {
         if (!this.drawInfo.events.length) throw new Error('No event passed the timeline!');
 
         this.initRuntime(runtime);
@@ -157,39 +157,39 @@ export default abstract class Timeline extends Component{
      * @param (TimelineData) input
      * @return {Promise<void>>}
      * */
-    async drawFrom(input:TimelineData) :Promise<void> {
-        const data:any  = typeof input === 'string' ? JSON.parse(input).data : input.data;
+    async drawFrom(input :TimelineData) :Promise<void> {
+        const data :any  = typeof input === 'string' ? JSON.parse(input).data : input.data;
         // @ts-ignore
-        const axis:Axis = new this.axisConstructor(this);
+        const axis :Axis = new this.axisConstructor(this);
         // @ts-ignore
-        const event:Event = new this.eventConstructor(this);
+        const event :Event = new this.eventConstructor(this);
 
         this.canvas.width = data.width;
         this.canvas.height = data.height;
 
         // string to date
-        data.axis.milestonesDrawInfo.forEach((milestoneDrawInfo:any) => {
+        data.axis.milestonesDrawInfo.forEach((milestoneDrawInfo :any) => {
             if ('date' in milestoneDrawInfo.content) {
                 milestoneDrawInfo.content.date = new Date(milestoneDrawInfo.content.date);
             }
         });
 
-        const allComponents:Component[] = [];
+        const allComponents :Component[] = [];
 
         {
             const { bodyDrawInfo, scalesDrawInfo, milestonesDrawInfo } = data.axis;
             // @ts-ignore
             allComponents.push(new axis.bodyConstructor(this).importDrawInfo(bodyDrawInfo));
 
-            const scalesAndMilestones:(AxisScale | AxisMilestone)[] = [];
-            scalesDrawInfo.forEach((scaleDrawInfo:any) => {
+            const scalesAndMilestones :(AxisScale | AxisMilestone)[] = [];
+            scalesDrawInfo.forEach((scaleDrawInfo :any) => {
                 scalesAndMilestones.push(
                     // @ts-ignore
                     new axis.scaleConstructor(this).importDrawInfo(scaleDrawInfo),
                 );
             });
 
-            milestonesDrawInfo.forEach((milestoneDrawInfo:any) => {
+            milestonesDrawInfo.forEach((milestoneDrawInfo :any) => {
                 scalesAndMilestones.push(
                     // @ts-ignore
                     new axis.milestoneConstructor(this).importDrawInfo(milestoneDrawInfo),
@@ -203,8 +203,8 @@ export default abstract class Timeline extends Component{
             allComponents.push(...scalesAndMilestones);
         }
 
-        const events:any[] = Array.from(data.events)
-            .sort((e1:any, e2:any) => e1.drawInfo.target.y - e2.drawInfo.target.y)
+        const events :any[] = Array.from(data.events)
+            .sort((e1 :any, e2 :any) => e1.drawInfo.target.y - e2.drawInfo.target.y)
         ;
         for (const { bodyDrawInfo, markDrawInfo, axisDrawInfo } of events) {
             // @ts-ignore
@@ -280,7 +280,7 @@ export default abstract class Timeline extends Component{
     }
 
     // Count runtime info
-    protected initRuntime(runtime?:Partial<RuntimeInfo>) {
+    protected initRuntime(runtime? :Partial<RuntimeInfo>) {
         this.runtime = Object.create(runtime || Object.prototype);
 
         this.runtime.startDate   = ('startDate'   in this.runtime)
@@ -450,7 +450,7 @@ export default abstract class Timeline extends Component{
 
     }
 
-    static defaultGrid:GridConfig = {
+    static defaultGrid :GridConfig = {
         eventOffset: { x:20, y:0 },
         minEventAxisOffset: 25,
         markWidth: 15,
@@ -464,7 +464,7 @@ export default abstract class Timeline extends Component{
         canvasWidth: 700,
     };
 
-    static is(comp:Component) :comp is Timeline {
+    static is(comp :Component) :comp is Timeline {
         return comp.name === SN.Timeline;
     }
     /**
@@ -472,13 +472,13 @@ export default abstract class Timeline extends Component{
      * The HTML element passed will be cleared.
      * */
     static mount(
-        el:string | Element,
+        el :string | Element,
         themeName :string,
     ) :{
-        container:HTMLElement,
-        canvas:HTMLCanvasElement,
+        container :HTMLElement,
+        canvas :HTMLCanvasElement,
     } {
-        const container:HTMLElement = typeof el === 'string'
+        const container :HTMLElement = typeof el === 'string'
             ? document.querySelector(el)! as HTMLElement
             : el as HTMLElement
         ;

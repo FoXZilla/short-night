@@ -6,10 +6,10 @@ import { ConflictFixResult, Line } from '../../types';
 import { Breakpoint } from '../BreakpointAnimation';
 
 export default class EventAxis2EventAxis {
-    constructor(public ext:ExtensionManager) {}
+    constructor(public ext :ExtensionManager) {}
 
-    async fix():Promise<ConflictFixResult> {
-        const eventAxisList:EventAxis[] = Array.from(this.ext.components[SN.EventAxis])
+    async fix() :Promise<ConflictFixResult> {
+        const eventAxisList :EventAxis[] = Array.from(this.ext.components[SN.EventAxis])
             .sort((ea1, ea2) => ea2.drawInfo.length - ea1.drawInfo.length)
         ;
 
@@ -48,15 +48,15 @@ export default class EventAxis2EventAxis {
         return ConflictFixResult.NoConflict;
     }
 
-    static isConflict (ea1:EventAxis, ea2:EventAxis) :boolean {
+    static isConflict (ea1 :EventAxis, ea2 :EventAxis) :boolean {
         if (ea1 === ea2) return false;
-        const line1:Line = {
+        const line1 :Line = {
             startX: ea1.drawInfo.markDrawInfo.target.x + ea1.drawInfo.offsetX,
             startY: ea1.drawInfo.markDrawInfo.target.y,
             endX: ea1.drawInfo.markDrawInfo.target.x + ea1.drawInfo.offsetX,
             endY: ea1.drawInfo.markDrawInfo.target.y - ea1.drawInfo.length,
         };
-        const line2:Line = {
+        const line2 :Line = {
             startX: ea2.drawInfo.markDrawInfo.target.x + ea2.drawInfo.offsetX,
             startY: ea2.drawInfo.markDrawInfo.target.y,
             endX: ea2.drawInfo.markDrawInfo.target.x + ea2.drawInfo.offsetX,

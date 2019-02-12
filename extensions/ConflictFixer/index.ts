@@ -10,8 +10,8 @@ import EventBody2EventBodyFloater from './EventBody2EventBodyFloater';
 import { ConflictFixResult } from '../../types';
 
 export interface Conflict<T = Component>{
-    with: T[];
-    self: T;
+    with :T[];
+    self :T;
 }
 
 /**
@@ -20,9 +20,9 @@ export interface Conflict<T = Component>{
  * 2. stretch Axis.
  * */
 export default class ConflictFixer implements Partial<Extension> {
-    constructor(public ext:ExtensionManager) {}
+    constructor(public ext :ExtensionManager) {}
 
-    fixers :{ fix():Promise<ConflictFixResult> }[] = [
+    fixers :{ fix() :Promise<ConflictFixResult> }[] = [
         new EventBody2AxisMilestone(this.ext),
         new EventAxis2EventAxis(this.ext),
         new EventBody2EventBodyMover(this.ext),
@@ -30,7 +30,7 @@ export default class ConflictFixer implements Partial<Extension> {
     ];
 
     protected counter = 0;
-    async onApply(timeline:Component) {
+    async onApply(timeline :Component) {
         if (!Timeline.is(timeline)) return;
 
         // Conflict is fixed
@@ -59,7 +59,7 @@ export default class ConflictFixer implements Partial<Extension> {
     /**
      * Try fix all conflict by adjust components.
      * */
-    async fixAll():Promise<ConflictFixResult> {
+    async fixAll() :Promise<ConflictFixResult> {
         return await walkLoop(async () => {
             const results = [];
             for (const fixer of this.fixers) {

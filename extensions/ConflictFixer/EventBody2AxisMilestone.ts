@@ -6,11 +6,11 @@ import { isOverlap } from '../../common/functions';
 import { Breakpoint } from '../BreakpointAnimation';
 
 export default class EventBody2AxisMilestone {
-    constructor(public ext:ExtensionManager) {}
+    constructor(public ext :ExtensionManager) {}
 
-    async fix():Promise<ConflictFixResult> {
+    async fix() :Promise<ConflictFixResult> {
         const eventBodyList = this.ext.components[SN.EventBody];
-        const axisMilestoneList:AxisMilestone[] = this.ext.components[SN.AxisMilestone];
+        const axisMilestoneList :AxisMilestone[] = this.ext.components[SN.AxisMilestone];
 
         for (const eventBody of eventBodyList) {
             for (const axisMilestone of axisMilestoneList) {

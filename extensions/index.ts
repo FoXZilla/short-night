@@ -25,11 +25,11 @@ export {
 };
 
 export interface Extension {
-    onConstruct(comp:Component) :void;
-    onApply(comp:Component) :Promise<void>;
-    onDraw(comp:Component) :void;
-    onHide(comp:Component) :void;
-    onDestroy(comp:Component) :void;
+    onConstruct(comp :Component) :void;
+    onApply(comp :Component) :Promise<void>;
+    onDraw(comp :Component) :void;
+    onHide(comp :Component) :void;
+    onDestroy(comp :Component) :void;
 }
 type ExtensionHandler = keyof Extension;
 
@@ -59,7 +59,7 @@ export class ExtensionManager implements Extension {
     constructor(
         { breakpointAnimation }
         :{
-            breakpointAnimation ?:BreakpointAnimationConfig,
+            breakpointAnimation ? :BreakpointAnimationConfig,
         } = {},
     ) {
         this.breakpoint = new BreakpointAnimation(this, breakpointAnimation);
@@ -81,18 +81,18 @@ export class ExtensionManager implements Extension {
      * A shared object for every Component.
      * For extends, re-declare the ExtData.
      * */
-    extraData: ExtData = {};
-    breakpoint: BreakpointAnimation;
-    components: {
-        [SN.Timeline]: Timeline[];
-        [SN.Axis]: Axis[];
-        [SN.AxisBody]: AxisBody[];
-        [SN.AxisScale]: AxisScale[];
-        [SN.AxisMilestone]: AxisMilestone[];
-        [SN.Event]: Event[];
-        [SN.EventBody]: EventBody[];
-        [SN.EventMark]: EventMark[];
-        [SN.EventAxis]: EventAxis[];
+    extraData :ExtData = {};
+    breakpoint :BreakpointAnimation;
+    components :{
+        [SN.Timeline] :Timeline[];
+        [SN.Axis] :Axis[];
+        [SN.AxisBody] :AxisBody[];
+        [SN.AxisScale] :AxisScale[];
+        [SN.AxisMilestone] :AxisMilestone[];
+        [SN.Event] :Event[];
+        [SN.EventBody] :EventBody[];
+        [SN.EventMark] :EventMark[];
+        [SN.EventAxis] :EventAxis[];
     } = {
         [SN.Timeline]: [],
         [SN.Axis]: [],
@@ -106,10 +106,10 @@ export class ExtensionManager implements Extension {
     };
     extensions :Partial<Extension>[];
 
-    getParent(comp:EventAxis|EventBody|EventMark) :Event;
-    getParent(comp:AxisBody|AxisMilestone|AxisScale) :Axis;
-    getParent(comp:Event|Axis) :Timeline;
-    getParent(comp:any) :any {
+    getParent(comp :EventAxis|EventBody|EventMark) :Event;
+    getParent(comp :AxisBody|AxisMilestone|AxisScale) :Axis;
+    getParent(comp :Event|Axis) :Timeline;
+    getParent(comp :any) :any {
         if (Axis.is(comp)) return this.components[SN.Timeline][0];
         if (Event.is(comp)) return this.components[SN.Timeline][0];
         if (AxisBody.is(comp)) return this.components[SN.Axis][0];

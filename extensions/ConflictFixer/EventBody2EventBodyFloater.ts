@@ -11,24 +11,24 @@ import { ConflictFixResult } from '../../types';
 type Conflict = ComponentConflict<EventBody>;
 
 export default class EventBody2EventBodyFloater {
-    timeline ?:Timeline;
-    axisBody ?:AxisBody;
+    timeline ? :Timeline;
+    axisBody ? :AxisBody;
 
-    constructor(public ext: ExtensionManager) {}
+    constructor(public ext :ExtensionManager) {}
 
-    conflicts:Conflict[] = [];
+    conflicts :Conflict[] = [];
     /**
      * above EventBody is above, below EventBody is below
      * */
     eventBodyList :EventBody[] = [];
 
-    static isConflict(eb1:EventBody, eb2:EventBody) :boolean {
+    static isConflict(eb1 :EventBody, eb2 :EventBody) :boolean {
         if (eb1 === eb2) return false;
         if (eb1.drawInfo.floated || eb2.drawInfo.floated) return false;
 
         return isOverlap(eb1.drawInfo.box, eb2.drawInfo.box);
     }
-    async float(conflicts:Conflict) {
+    async float(conflicts :Conflict) {
         const maxWidthInConflict = Math.max(
             ...conflicts.with.map(c => c.drawInfo.box.width + c.drawInfo.offset.x),
         );

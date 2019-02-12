@@ -13,12 +13,12 @@ import EventMark from './EventMark';
  * @property {[string]} text - the description about event ended.
  * */
 interface DrawInfo extends ComponentDrawInfo{
-    axisBodyDrawInfo: Readonly<AxisBody['drawInfo']>;
-    markDrawInfo: Readonly<EventMark['drawInfo']>;
+    axisBodyDrawInfo :Readonly<AxisBody['drawInfo']>;
+    markDrawInfo :Readonly<EventMark['drawInfo']>;
 
-    length: number;
-    offsetX: number;
-    text?: string;
+    length :number;
+    offsetX :number;
+    text? :string;
 }
 
 /**
@@ -27,13 +27,13 @@ interface DrawInfo extends ComponentDrawInfo{
  * Can conflict with AxisMilestone and EventAxis.
  * */
 export default abstract class EventAxis extends Component{
-    constructor(props:ComponentConstructorInfo) {
+    constructor(props :ComponentConstructorInfo) {
         super(props);
         this.ext.onConstruct(this);
     }
 
     name = SN.EventAxis;
-    drawInfo:DrawInfo = {
+    drawInfo :DrawInfo = {
         axisBodyDrawInfo: {} as any,
         markDrawInfo: {} as any,
         length: 0,
@@ -91,7 +91,7 @@ export default abstract class EventAxis extends Component{
         return super.draw();
     }
 
-    static is(comp:Component) :comp is EventAxis {
+    static is(comp :Component) :comp is EventAxis {
         return comp.name === SN.EventAxis;
     }
 

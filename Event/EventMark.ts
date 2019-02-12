@@ -10,10 +10,10 @@ import AxisBody from '../Axis/AxisBody';
  * @property {[number]} height - the height of mark.
  * */
 interface DrawInfo extends ComponentDrawInfo{
-    axisBodyDrawInfo: Readonly<AxisBody['drawInfo']>;
-    target: Coordinate;
-    width: number;
-    height?: number;
+    axisBodyDrawInfo :Readonly<AxisBody['drawInfo']>;
+    target :Coordinate;
+    width :number;
+    height? :number;
 }
 
 /**
@@ -21,13 +21,13 @@ interface DrawInfo extends ComponentDrawInfo{
  * Optional, a theme can omit this component by situation.
  * */
 export default abstract class EventMark extends Component{
-    constructor(props:ComponentConstructorInfo) {
+    constructor(props :ComponentConstructorInfo) {
         super(props);
         this.ext.onConstruct(this);
     }
 
     name = SN.EventMark;
-    drawInfo:DrawInfo = {
+    drawInfo :DrawInfo = {
         axisBodyDrawInfo: {} as any,
         box: {
             x: 0,
@@ -60,7 +60,7 @@ export default abstract class EventMark extends Component{
         return super.apply();
     }
 
-    static is(comp:Component) :comp is EventMark {
+    static is(comp :Component) :comp is EventMark {
         return comp.name === SN.EventMark;
     }
 }

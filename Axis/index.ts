@@ -14,12 +14,12 @@ import { deepFreeze, mergeBox } from '../common/functions';
  * @property {number} length - the axis length.
  * */
 interface DrawInfo extends ComponentDrawInfo{
-    scales: number[];
-    milestones: {
-        position: number;
-        content: AxisMilestone['drawInfo']['content'];
+    scales :number[];
+    milestones :{
+        position :number;
+        content :AxisMilestone['drawInfo']['content'];
     }[];
-    length: number;
+    length :number;
 }
 
 /**
@@ -34,7 +34,7 @@ export interface ConstructInfo extends ComponentConstructorInfo{
  * The Manage-Component. All of draw is resolved by child component.
  * */
 export default abstract class Axis extends Component{
-    constructor(props:ConstructInfo) {
+    constructor(props :ConstructInfo) {
         super(props);
         this.grid = props.grid;
         this.ext.onConstruct(this);
@@ -42,7 +42,7 @@ export default abstract class Axis extends Component{
 
     grid :GridConfig;
     name = SN.Axis;
-    drawInfo:DrawInfo = {
+    drawInfo :DrawInfo = {
         scales: [],
         milestones: [],
         length: 0,
@@ -55,9 +55,9 @@ export default abstract class Axis extends Component{
     };
 
     // The instances
-    milestones:AxisMilestone[] = [];
-    scales:AxisScale[] = [];
-    body:AxisBody = null as any;
+    milestones :AxisMilestone[] = [];
+    scales :AxisScale[] = [];
+    body :AxisBody = null as any;
 
     // The Constructors
     abstract milestoneConstructor :typeof AxisMilestone;
@@ -127,7 +127,7 @@ export default abstract class Axis extends Component{
         for (const position of this.drawInfo.scales) {
             if (this.drawInfo.milestones.some(m => m.position === position)) continue;
             // @ts-ignore - realize a absolute class that will re-init in the theme.
-            const scale:AxisScale = new this.scaleConstructor(this);
+            const scale :AxisScale = new this.scaleConstructor(this);
             scale.drawInfo.bodyDrawInfo = deepFreeze(this.body.drawInfo);
             scale.drawInfo.alignY = position; // recomputed in PositionCounter
             scale.drawInfo.height = this.grid.scaleHeight; // recomputed in PositionCounter
@@ -147,7 +147,7 @@ export default abstract class Axis extends Component{
         }
     }
 
-    static is(comp:Component) :comp is Axis {
+    static is(comp :Component) :comp is Axis {
         return comp.name === SN.Axis;
     }
 }

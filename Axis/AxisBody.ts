@@ -11,7 +11,7 @@ import { SN } from '../common/definitions';
 interface DrawInfo extends ComponentDrawInfo{
     length :number;
     width :number;
-    start: Coordinate;
+    start :Coordinate;
 }
 
 /**
@@ -19,13 +19,13 @@ interface DrawInfo extends ComponentDrawInfo{
  * Draw the axis using this component.
  * */
 export default abstract class AxisBody extends Component{
-    constructor(props:ComponentConstructorInfo) {
+    constructor(props :ComponentConstructorInfo) {
         super(props);
         this.ext.onConstruct(this);
     }
 
     name = SN.AxisBody;
-    drawInfo: DrawInfo = {
+    drawInfo :DrawInfo = {
         box: {
             x: 0,
             y: 0,
@@ -55,7 +55,7 @@ export default abstract class AxisBody extends Component{
         return super.apply();
     }
 
-    static is(comp:Component) :comp is AxisBody {
+    static is(comp :Component) :comp is AxisBody {
         return comp.name === SN.AxisBody;
     }
 }

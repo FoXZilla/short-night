@@ -1,7 +1,7 @@
 import { Box, DateBy, Line, ConflictFixResult } from '../types';
 import { DEBUG } from './definitions';
 
-export function isBox(obj:any): obj is Box {
+export function isBox(obj :any) :obj is Box {
     return typeof obj === 'object'
         && typeof obj.x === 'number'
         && typeof obj.y === 'number'
@@ -9,7 +9,7 @@ export function isBox(obj:any): obj is Box {
         && typeof obj.height === 'number'
     ;
 }
-export function box2Lines(box:Box):Line[] {
+export function box2Lines(box :Box) :Line[] {
     return [
         {
             startX: box.x,
@@ -34,7 +34,7 @@ export function box2Lines(box:Box):Line[] {
         },
     ];
 }
-export function parseBox(elt:HTMLElement):Box {
+export function parseBox(elt :HTMLElement) :Box {
     const styles = getComputedStyle(elt);
     return {
         x: parseFloat(styles.left!),
@@ -43,7 +43,7 @@ export function parseBox(elt:HTMLElement):Box {
         height: parseFloat(styles.height!),
     };
 }
-export function mergeBox(...args:Box[]):Box {
+export function mergeBox(...args :Box[]) :Box {
     const leftTop = {
         x: Infinity,
         y: Infinity,
@@ -65,7 +65,7 @@ export function mergeBox(...args:Box[]):Box {
         height: rightBottom.y - leftTop.y,
     };
 }
-export function shrinkBox(box:Box, distance= 1) :Box {
+export function shrinkBox(box :Box, distance= 1) :Box {
     return {
         x: box.x + distance,
         y: box.y + distance,
@@ -74,7 +74,7 @@ export function shrinkBox(box:Box, distance= 1) :Box {
     };
 }
 
-export function isIntersecting(line1: Line, line2: Line): boolean {
+export function isIntersecting(line1 :Line, line2 :Line) :boolean {
     let { startX: x1, startY: y1, endX: x2, endY: y2 } = line1;
     let { startX: x3, startY: y3, endX: x4, endY: y4 } = line2;
 
@@ -158,7 +158,7 @@ export function isIntersecting(line1: Line, line2: Line): boolean {
     }
     return true;
 }
-export function isOverlap(item1:Box|Line, item2:Box|Line) :boolean {
+export function isOverlap(item1 :Box|Line, item2 :Box|Line) :boolean {
     const lines1 = isBox(item1) ? box2Lines(item1) :[item1];
     const lines2 = isBox(item2) ? box2Lines(item2) :[item2];
     return lines1.some(line1 => lines2.some(line2 => isIntersecting(line1, line2)));
@@ -168,7 +168,7 @@ export function isOverlap(item1:Box|Line, item2:Box|Line) :boolean {
  * Instead of the while when fix conflict.
  * */
 export async function walkLoop(
-    fn: () => Promise<ConflictFixResult[]>,
+    fn :() => Promise<ConflictFixResult[]>,
     max = 10,
 ) :Promise<ConflictFixResult> {
     let alleviated = false;
@@ -203,8 +203,8 @@ export async function walkLoop(
  * l`Hello, world`;
  * > Hello, world
  * */
-export function createLogFunction(prefix:string) {
-    return function (stringArr:TemplateStringsArray, ...values:any[]) {
+export function createLogFunction(prefix :string) {
+    return function (stringArr :TemplateStringsArray, ...values :any[]) {
         if (!DEBUG) return;
 
         const message = [stringArr[0]];
@@ -218,8 +218,8 @@ export function createLogFunction(prefix:string) {
  * Return a new freezed object base on specified object.
  * Like Object.freeze, but it's deep and will not change origin object.
  * */
-export function deepFreeze<T>(originObject:T) :Readonly<T> {
-    const newObject:T = JSON.parse(JSON.stringify(originObject));
+export function deepFreeze<T>(originObject :T) :Readonly<T> {
+    const newObject :T = JSON.parse(JSON.stringify(originObject));
     const propNames = Object.getOwnPropertyNames(newObject) as (keyof T)[];
 
     // Freeze it's all of properties before freezing itself.

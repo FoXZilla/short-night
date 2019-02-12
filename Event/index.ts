@@ -22,20 +22,20 @@ import { SN } from '../common/definitions';
  * @property {[string]} endText - the description about event ended.
  * */
 interface DrawInfo extends ComponentDrawInfo{
-    target: Coordinate;
-    offset: Coordinate;
+    target :Coordinate;
+    offset :Coordinate;
 
-    date: string;
-    title: string;
-    description?: string;
-    folded: boolean;
-    foldPlaceholder?: string;
+    date :string;
+    title :string;
+    description? :string;
+    folded :boolean;
+    foldPlaceholder? :string;
 
-    endDate?: string;
-    endText?: string;
+    endDate? :string;
+    endText? :string;
 
-    axisLength?: number;
-    axisOffset?: number;
+    axisLength? :number;
+    axisOffset? :number;
 }
 
 /**
@@ -50,7 +50,7 @@ export interface ConstructInfo extends ComponentConstructorInfo{
  * The Manage-Component. All of draw is resolved by child component.
  * */
 export default abstract class Event extends Component{
-    constructor(props:ConstructInfo) {
+    constructor(props :ConstructInfo) {
         super(props);
         this.grid = props.grid;
         this.drawInfo = {
@@ -76,12 +76,12 @@ export default abstract class Event extends Component{
 
     grid :GridConfig;
     name = SN.Event;
-    drawInfo:DrawInfo;
+    drawInfo :DrawInfo;
 
     // The instances
-    mark:EventMark = null as any;
-    body:EventBody = null as any;
-    axis:EventAxis|null = null;
+    mark :EventMark = null as any;
+    body :EventBody = null as any;
+    axis :EventAxis|null = null;
 
     // The Constructors
     abstract bodyConstructor :typeof EventBody;
@@ -180,7 +180,7 @@ export default abstract class Event extends Component{
         }
     }
 
-    static is(comp:Component) :comp is Event {
+    static is(comp :Component) :comp is Event {
         return comp.name === SN.Event;
     }
 }

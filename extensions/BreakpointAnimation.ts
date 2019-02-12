@@ -40,8 +40,8 @@ export enum Breakpoint{
  * set as BreakpointAnimation.defaultAnimationBreakpoints to play animation.
  * */
 export interface BreakpointAnimationConfig {
-    breakpoints?: Breakpoint[];
-    playAnimation?: boolean;
+    breakpoints? :Breakpoint[];
+    playAnimation? :boolean;
 }
 
 /**
@@ -61,8 +61,8 @@ export interface BlockConfig {
  * */
 export default class BreakpointAnimation implements Partial<Extension>{
     constructor(
-        public ext:ExtensionManager,
-        { breakpoints= [], playAnimation= false }:BreakpointAnimationConfig = {},
+        public ext :ExtensionManager,
+        { breakpoints= [], playAnimation= false } :BreakpointAnimationConfig = {},
     ) {
         this.breakpoints = breakpoints;
         this.playAnimation = playAnimation;
@@ -81,20 +81,20 @@ export default class BreakpointAnimation implements Partial<Extension>{
     /**
      * Scroll to top when end of play animation.
      * */
-    onDraw(comp:Component) {
+    onDraw(comp :Component) {
         if (Timeline.is(comp) && this.playAnimation) {
             new moveto().move(this.ext.components[SN.Timeline][0].canvas);
         }
     }
 
     /** @see BreakpointAnimationConfig.breakpoints */
-    protected breakpoints:Breakpoint[];
+    protected breakpoints :Breakpoint[];
     /** @see BreakpointAnimationConfig.playAnimation */
-    protected readonly playAnimation: boolean;
+    protected readonly playAnimation :boolean;
     /**
      * Fill when short-night is blocking. Step in a breakpoint.
      * */
-    protected stepIn ?: () => Promise<void>;
+    protected stepIn ? :() => Promise<void>;
 
     /**
      * Step into next breakpoint.
@@ -148,13 +148,13 @@ export default class BreakpointAnimation implements Partial<Extension>{
     /**
      * Count a number that be used scroll to focus when play animation.
      * */
-    protected countScrollTarget(config:Partial<BlockConfig>) :number|null {
+    protected countScrollTarget(config :Partial<BlockConfig>) :number|null {
         const { components, protagonist } = config;
 
         const topPadding = 100;
         if (protagonist) return protagonist.drawInfo.box.y - topPadding;
         if (components && components.length) {
-            const getTopped = (compList:Component[]) => compList.find(
+            const getTopped = (compList :Component[]) => compList.find(
                 comp1 => compList.every(
                     comp2 => comp1.drawInfo.box.y >= comp2.drawInfo.box.y,
                 ),
@@ -182,7 +182,7 @@ export default class BreakpointAnimation implements Partial<Extension>{
     /**
      * @see BreakpointAnimationConfig.playAnimation
      * */
-    static defaultAnimationBreakpoints:Breakpoint[] = [
+    static defaultAnimationBreakpoints :Breakpoint[] = [
         Breakpoint.FixEventBody2AxisMilestone,
         Breakpoint.FixEventAxis2EventAxis,
         Breakpoint.FixEventBody2EventBodyMover,

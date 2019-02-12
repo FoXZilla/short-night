@@ -18,28 +18,28 @@ import EventMark from './EventMark';
  * @property {[string]} endText - the description about event ended.
  * */
 interface DrawInfo extends ComponentDrawInfo{
-    markDrawInfo: EventMark['drawInfo'];
-    offset: Coordinate;
-    maxWidth: number;
+    markDrawInfo :EventMark['drawInfo'];
+    offset :Coordinate;
+    maxWidth :number;
 
-    date: string;
-    title: string;
-    description?: string;
+    date :string;
+    title :string;
+    description? :string;
 
-    floated: boolean;
+    floated :boolean;
 
-    folded: boolean;
-    foldPlaceholder?: string;
+    folded :boolean;
+    foldPlaceholder? :string;
 
-    endDate?: string;
-    endText?: string;
+    endDate? :string;
+    endText? :string;
 }
 
 /**
  * Can conflict with AxisMilestone and EventBody.
  * */
 export default abstract class EventBody extends Component{
-    constructor(props:ComponentConstructorInfo) {
+    constructor(props :ComponentConstructorInfo) {
         super(props);
         this.ext.onConstruct(this);
     }
@@ -50,7 +50,7 @@ export default abstract class EventBody extends Component{
      * @type {HTMLElement}
      * */
     element :HTMLElement = null as any;
-    drawInfo:DrawInfo = {
+    drawInfo :DrawInfo = {
         markDrawInfo: null as any,
 
         offset: {
@@ -102,7 +102,7 @@ export default abstract class EventBody extends Component{
     }
     createBox() {
         const eltBox = parseBox(this.element);
-        const box:Box = {
+        const box :Box = {
             width: eltBox.width,
             height: eltBox.height,
             ...this.drawInfo.markDrawInfo.target,
@@ -138,7 +138,7 @@ export default abstract class EventBody extends Component{
         this.element.style.top = `${this.drawInfo.box.y}px`;
     }
 
-    static is(comp:Component) :comp is EventBody {
+    static is(comp :Component) :comp is EventBody {
         return comp.name === SN.EventBody;
     }
 

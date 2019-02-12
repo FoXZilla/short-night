@@ -9,9 +9,9 @@ import AxisBody from '../Axis/AxisBody';
  * @property {number} height - the height of AxisScale.
  * */
 interface DrawInfo extends ComponentDrawInfo{
-    bodyDrawInfo: Readonly<AxisBody['drawInfo']>;
-    alignY: number;
-    height: number;
+    bodyDrawInfo :Readonly<AxisBody['drawInfo']>;
+    alignY :number;
+    height :number;
 }
 
 /**
@@ -19,13 +19,13 @@ interface DrawInfo extends ComponentDrawInfo{
  * Optional, a theme can omit this component by situation.
  * */
 export default abstract class AxisScale extends Component{
-    constructor(props:ComponentConstructorInfo) {
+    constructor(props :ComponentConstructorInfo) {
         super(props);
         this.ext.onConstruct(this);
     }
 
     name = SN.AxisScale;
-    drawInfo:DrawInfo = {
+    drawInfo :DrawInfo = {
         bodyDrawInfo: {} as any,
         alignY: 0,
         height: 0,
@@ -53,7 +53,7 @@ export default abstract class AxisScale extends Component{
         return super.apply();
     }
 
-    static is(comp:Component) :comp is AxisScale {
+    static is(comp :Component) :comp is AxisScale {
         return comp.name === SN.AxisScale;
     }
 }

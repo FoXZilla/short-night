@@ -15,9 +15,9 @@ import AxisScale from '../Axis/AxisScale';
  * @property {Component} component - which component made this config.
  * */
 interface PushConfig{
-    critical: number;
-    additional: number;
-    component: Component;
+    critical :number;
+    additional :number;
+    component :Component;
 }
 
 /**
@@ -25,16 +25,16 @@ interface PushConfig{
  * So we move Event, Scale and Milestone if they upper has any Milestones.
  * */
 export default class PositionCounter implements Partial<Extension> {
-    constructor(public ext:ExtensionManager) {}
+    constructor(public ext :ExtensionManager) {}
 
-    async onApply(comp:Component) {
+    async onApply(comp :Component) {
         if (Axis.is(comp)) return await this.adjustAxis(comp);
         if (Timeline.is(comp)) return await this.adjustEvent(comp);
     }
     /**
      * When a component destroyed, remove a config made by it.
      * */
-    onDestroy(comp:Component) {
+    onDestroy(comp :Component) {
         while (true) {
             const index = this.pushConfigs.findIndex(config => config.component === comp);
 
@@ -43,7 +43,7 @@ export default class PositionCounter implements Partial<Extension> {
         }
     }
 
-    async adjustAxis(axis:Axis) {
+    async adjustAxis(axis :Axis) {
         const childComponents = [
             axis.body,
             ...axis.scales,
@@ -54,7 +54,7 @@ export default class PositionCounter implements Partial<Extension> {
         axis.extraData.realLength =
             axis.drawInfo.length
             - axis.milestones.reduce( // Reserved space for Milestone
-                (h:number, m: AxisMilestone) => h + m.drawInfo.box.height,
+                (h :number, m :AxisMilestone) => h + m.drawInfo.box.height,
                 0,
             )
         ;
@@ -116,7 +116,7 @@ export default class PositionCounter implements Partial<Extension> {
 
         axis.drawInfo.box = mergeBox(...childComponents.map(c => c.drawInfo.box));
     }
-    async adjustEvent(timeline:Timeline) {
+    async adjustEvent(timeline :Timeline) {
         const events = timeline.events;
         const axis = this.ext.components[SN.Axis][0];
 
@@ -139,14 +139,14 @@ export default class PositionCounter implements Partial<Extension> {
 
     }
 
-    protected pushConfigs:PushConfig[] = [];
-    protected addPushConfig(config:PushConfig) {
+    protected pushConfigs :PushConfig[] = [];
+    protected addPushConfig(config :PushConfig) {
         this.pushConfigs.push(config);
     }
-    protected countCritical(num:number, comp ?:Component):number {
+    protected countCritical(num :number, comp ? :Component) :number {
         if (this.pushConfigs.length === 0) return num;
         return this.pushConfigs.reduce(
-            (result:number, config:PushConfig) => {
+            (result :number, config :PushConfig) => {
                 if (comp && comp === config.component) return result;
                 return num > config.critical ? result + config.additional :result;
             },
