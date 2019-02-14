@@ -6,6 +6,7 @@
   "types": "index.ts",
   "scripts": {
     "lint": "tslint --project tsconfig.json",
+    "run-it-globally-to-generate-doc": "typedoc ./ --out docs/ --tsconfig ./tsconfig.json --exclude node_modules/**/* --mode modules --name \"Short Night TypeScript Modules\"",
     "build": "node-sass ./styles.scss -o ./ && tsc",
     "pub": "npm run build && npm publish",
     "test": "npm run lint && npm run build"
