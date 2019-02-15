@@ -59,3 +59,11 @@ typings/
 
 # IDE
 .idea
+
+# Build from tsc
+Axis/**/*.js
+Event/**/*.js
+common/**/*.js
+extensions/**/*.js
+index.js
+Timeline.js

@@ -11,6 +11,19 @@
     "pub": "npm run build && npm publish",
     "test": "npm run lint && npm run build"
   },
+  "files": [
+    "Event/*",
+    "Axis/*",
+    "common/*",
+    "extensions/*",
+    "styles.css",
+    "styles.scss",
+    "types.d.ts",
+    "Timeline.js",
+    "Timeline.ts",
+    "index.ts",
+    "index.js"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/FoXZilla/short-night.git"
@@ -33,7 +46,7 @@
     "tslint": "^5.11.0",
     "tslint-config-airbnb": "^5.11.1",
     "typedoc": "^0.14.2",
-    "typescript": "^2.9.2"
+    "typescript": "^3.0.0"
   },
   "dependencies": {
     "@types/moveto": "^1.7.0",
