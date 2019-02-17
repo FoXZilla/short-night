@@ -111,7 +111,12 @@ export default abstract class Component{
      * */
     destroy() :MUST_CALL_AND_RETURN_SUPER_METHOD {
         this.checkDestroy();
+
         this.destroyed = true;
+        if (this.element) {
+            this.container.removeChild(this.element);
+            delete this.element;
+        }
 
         this.ext.onDestroy(this);
 
