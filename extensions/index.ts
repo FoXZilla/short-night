@@ -12,13 +12,13 @@ import EventAxis from '../Event/EventAxis';
 
 import BreakpointAnimation, { BreakpointAnimationConfig } from './BreakpointAnimation';
 import BoxElementGenerator from './BoxElementGenerator';
-import GeneratorId from './GeneratorId';
+import IdGenerator from './IdGenerator';
 import PositionCounter from './PositionCounter';
 import ConflictFixer from './ConflictFixer';
 
 export {
     BoxElementGenerator,
-    GeneratorId,
+    IdGenerator,
     PositionCounter,
     BreakpointAnimation,
     ConflictFixer,
@@ -65,7 +65,7 @@ export class ExtensionManager implements Extension {
         this.breakpoint = new BreakpointAnimation(this, breakpointAnimation);
         this.extensions  = [
             new Base(this),
-            new GeneratorId(this),
+            new IdGenerator(this),
             new PositionCounter(this),
             new ConflictFixer(this),
             this.breakpoint,

@@ -6,7 +6,7 @@ import { DEBUG } from '../common/definitions';
  * 1. Set a id for every Component in component.extraData.id.
  * 2. Create a global variable using component's id if DEBUG is true when comp.apply been fired
  * */
-export default class GeneratorId implements Partial<Extension> {
+export default class IdGenerator implements Partial<Extension> {
     constructor(public ext :ExtensionManager) {}
     /**
      * Set component.extraData.id

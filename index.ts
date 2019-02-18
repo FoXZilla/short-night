@@ -17,7 +17,7 @@ export { default as Component } from './common/Component';
 export {
     ExtensionManager,
     BoxElementGenerator,
-    GeneratorId,
+    IdGenerator,
     PositionCounter,
     BreakpointAnimation,
     ConflictFixer,

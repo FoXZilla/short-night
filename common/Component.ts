@@ -32,7 +32,7 @@ export default abstract class Component{
     abstract name :SN;
     /**
      * The data which be used in Extensions.
-     * @property id - using in GeneratorId
+     * @property id - using in IdGenerator
      * @property boxElement - using in BoxElementGenerator
      * @property realLength - using in PositionCounter, existing in Axis only.
      * @property needed - using in ConflictFixer, existing in EventBody only.
