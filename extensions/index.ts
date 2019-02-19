@@ -33,7 +33,7 @@ export interface Extension {
 }
 type ExtensionHandler = keyof Extension;
 
-export interface ExtData {}
+export interface ExtraData {}
 
 const METHODS = ['onConstruct', 'onApply', 'onDestroy', 'onHide', 'onDraw'];
 
@@ -81,7 +81,7 @@ export class ExtensionManager implements Extension {
      * A shared object for every Component.
      * For extends, re-declare the ExtData.
      * */
-    extraData :ExtData = {};
+    extraData :ExtraData = {};
     breakpoint :BreakpointAnimation;
     components :{
         [SN.Timeline] :Timeline[];

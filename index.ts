@@ -21,5 +21,4 @@ export {
     PositionCounter,
     BreakpointAnimation,
     ConflictFixer,
-    ExtData,
 } from './extensions';

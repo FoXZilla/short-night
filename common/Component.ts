@@ -12,6 +12,22 @@ enum MUST_CALL_AND_RETURN_SUPER_METHOD {
     SUPER_HIDE,
 }
 
+/**
+ * The data which be used in Extensions.
+ * @property id - using in IdGenerator
+ * @property boxElement - using in BoxElementGenerator
+ * @property realLength - using in PositionCounter, existing in Axis only.
+ * @property needed - using in ConflictFixer, existing in EventBody only.
+ * @property space - using in ConflictFixer, existing in EventBody only.
+ * */
+export interface ExtraData {
+    id ? :string;
+    boxElement ? :HTMLElement;
+    realLength ? :number;
+    needed? :{top :number, bottom :number};
+    space? :{top :number, bottom :number};
+}
+
 export default abstract class Component{
     constructor({ ext, canvas, container } :ComponentConstructorInfo) {
         this.ext = ext;
@@ -31,21 +47,10 @@ export default abstract class Component{
      * */
     abstract name :SN;
     /**
-     * The data which be used in Extensions.
-     * @property id - using in IdGenerator
-     * @property boxElement - using in BoxElementGenerator
-     * @property realLength - using in PositionCounter, existing in Axis only.
-     * @property needed - using in ConflictFixer, existing in EventBody only.
-     * @property space - using in ConflictFixer, existing in EventBody only.
+     * An ext extra
+     * @see ExtraData
      * */
-    extraData :{
-        id ? :string,
-        boxElement ? :HTMLElement,
-        realLength ? :number,
-        needed? :{top :number, bottom :number},
-        space? :{top :number, bottom :number},
-        [key :string] :any,
-    } = {};
+    extraData :ExtraData = {};
     /**
      * The canvas where component draw on.
      * */
