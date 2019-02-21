@@ -96,12 +96,6 @@ export default abstract class Component{
      * Write this method if you need to change the behavior about box.
      * */
     createBox() :MUST_CALL_AND_RETURN_SUPER_METHOD {
-        if (this.element) {
-            this.drawInfo.box = mergeBox(
-                this.drawInfo.box,
-                parseBox(this.element),
-            );
-        }
         return MUST_CALL_AND_RETURN_SUPER_METHOD.SUPER_CREATE_BOX;
     }
 
