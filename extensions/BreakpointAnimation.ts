@@ -38,10 +38,17 @@ export enum Breakpoint{
  * The short-night will unblock one breakpoint after some times when this been set true.
  * When this be set true and not specify breakpoints, the breakpoints will be
  * set as BreakpointAnimation.defaultAnimationBreakpoints to play animation.
+ * @property {boolean} autoScroll - auto scroll to focus when playing animation.
+ * @property {boolean} scrollDuration - the duration of scroll.
+ * @property {boolean} scrollContainer - scroll what. The default value is window.
  * */
 export interface BreakpointAnimationConfig {
     breakpoints? :Breakpoint[];
     playAnimation? :boolean;
+
+    autoScroll? :boolean;
+    scrollDuration? :number;
+    scrollContainer? :Window | HTMLElement;
 }
 
 /**
@@ -62,10 +69,19 @@ export interface BlockConfig {
 export default class BreakpointAnimation implements Partial<Extension>{
     constructor(
         public ext :ExtensionManager,
-        { breakpoints= [], playAnimation= false } :BreakpointAnimationConfig = {},
+        {
+            breakpoints = [],
+            playAnimation = false,
+            autoScroll = true,
+            scrollDuration = 50,
+            scrollContainer = window,
+        } :BreakpointAnimationConfig = {},
     ) {
         this.breakpoints = breakpoints;
         this.playAnimation = playAnimation;
+        this.autoScroll = autoScroll;
+        this.scrollDuration = scrollDuration;
+        this.scrollContainer = scrollContainer;
 
         if (this.playAnimation && this.breakpoints.length === 0) {
             this.breakpoints = BreakpointAnimation.defaultAnimationBreakpoints;
@@ -83,7 +99,7 @@ export default class BreakpointAnimation implements Partial<Extension>{
      * */
     onDraw(comp :Component) {
         if (Timeline.is(comp) && this.playAnimation) {
-            new moveto().move(this.ext.components[SN.Timeline][0].canvas);
+            this.moveTo.move(this.ext.components[SN.Timeline][0].canvas);
         }
     }
 
@@ -91,10 +107,23 @@ export default class BreakpointAnimation implements Partial<Extension>{
     protected breakpoints :Breakpoint[];
     /** @see BreakpointAnimationConfig.playAnimation */
     protected readonly playAnimation :boolean;
+    /** @see BreakpointAnimationConfig.autoScroll */
+    protected autoScroll? :boolean;
+    /** @see BreakpointAnimationConfig.scrollDuration */
+    protected scrollDuration? :number;
+    /** @see BreakpointAnimationConfig.scrollContainer */
+    protected scrollContainer? :Window | HTMLElement;
     /**
      * Fill when short-night is blocking. Step in a breakpoint.
      * */
     protected stepIn ? :() => Promise<void>;
+    /** Get a instance of moveto */
+    protected get moveTo () :moveto {
+        return new moveto({
+            duration: this.scrollDuration,
+            container: this.scrollContainer,
+        });
+    }
 
     /**
      * Step into next breakpoint.
@@ -119,12 +148,12 @@ export default class BreakpointAnimation implements Partial<Extension>{
         console.log(`Blocking at ${point}.`);
 
         if (this.playAnimation) {
-            const scrollTarget = this.countScrollTarget(config);
+            if (this.autoScroll) {
+                const scrollTarget = this.countScrollTarget(config);
 
-            if (scrollTarget) {
-                new moveto({ duration: 50 }).move(
-                    scrollTarget - document.documentElement.scrollTop,
-                );
+                if (scrollTarget) {
+                    this.moveTo.move(scrollTarget - document.documentElement.scrollTop);
+                }
             }
 
             setTimeout(() => this.next(), this.countInterval(point, forward));
