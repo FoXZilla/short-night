@@ -14,6 +14,7 @@ import AxisMilestone from './Axis/AxisMilestone';
 import { Breakpoint } from './extensions/BreakpointAnimation';
 import TimeSpliter from './common/TimeSpliter';
 import { ExtensionManager } from './extensions';
+import { deepFreeze } from './common/functions';
 
 /**
  * @typedef {Object} EventInfo
@@ -417,12 +418,13 @@ export default abstract class Timeline extends Component{
         for (const data of events) {
             // @ts-ignore
             const event :Event = new this.eventConstructor(this);
+            event.drawInfo.axisBodyDrawInfo = deepFreeze(this.axis.body.drawInfo);
             event.drawInfo.target = {
                 x: this.axis.body.drawInfo.box.x + this.axis.body.drawInfo.box.width / 2,
-                // recomputed in PositionCounter
                 y:
                     (new Date(this.runtime.endDate).getTime() - new Date(data.date).getTime())
                     / dateLength
+                    * this.axis.drawInfo.length
                 ,
             };
             event.drawInfo.date = data.date;
@@ -439,10 +441,10 @@ export default abstract class Timeline extends Component{
                     ,
                 );
                 event.drawInfo.endDate = endDate.toISOString();
-                // recomputed in PositionCounter
                 event.drawInfo.axisLength =
                     (endDate.getTime() - new Date(data.date).getTime())
                     / dateLength
+                    * this.axis.drawInfo.length
                 ;
             }
             this.events.push(event);

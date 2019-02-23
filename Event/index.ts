@@ -5,6 +5,7 @@ import EventBody from './EventBody';
 import EventAxis from './EventAxis';
 import { deepFreeze, mergeBox } from '../common/functions';
 import { SN } from '../common/definitions';
+import AxisBody from '../Axis/AxisBody';
 
 /**
  * @property {Coordinate} target - a coordinate the Event need to approach.
@@ -36,6 +37,9 @@ interface DrawInfo extends ComponentDrawInfo{
 
     axisLength? :number;
     axisOffset? :number;
+
+    axisBodyDrawInfo :Readonly<AxisBody['drawInfo']>;
+
 }
 
 /**
@@ -70,6 +74,8 @@ export default abstract class Event extends Component{
                 width: 500,
                 height: 500,
             },
+
+            axisBodyDrawInfo: {} as any,
         };
         this.ext.onConstruct(this);
     }
@@ -171,7 +177,7 @@ export default abstract class Event extends Component{
         if (this.drawInfo.axisLength) {
             // @ts-ignore - realize a absolute class that will re-init in the theme.
             const axis = this.axis || new this.axisConstructor(this);
-            axis.drawInfo.axisBodyDrawInfo = deepFreeze(this.ext.components[SN.Axis][0].drawInfo);
+            axis.drawInfo.axisBodyDrawInfo = this.drawInfo.axisBodyDrawInfo;
             axis.drawInfo.markDrawInfo = deepFreeze(this.mark.drawInfo);
             axis.drawInfo.offsetX = this.grid.minEventAxisOffset;
             axis.drawInfo.length = this.drawInfo.axisLength;
