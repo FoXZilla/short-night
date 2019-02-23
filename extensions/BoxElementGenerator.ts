@@ -1,7 +1,6 @@
-import { Extension, ExtensionManager } from '.';
+import { Extension, ExtensionManager, ExtensionType } from '.';
 import Component from '../common/Component';
 import { DEBUG } from '../common/definitions';
-import { Box } from '../types';
 
 /**
  * Create element following comp.drawInfo.box for debug.
@@ -23,6 +22,7 @@ export default class BoxElementGenerator implements Partial<Extension>{
             };
         }
     }
+    type = ExtensionType.DebugOnly;
     /**
      * Create a element append to container.
      * The element size equal component.drawInfo.box.

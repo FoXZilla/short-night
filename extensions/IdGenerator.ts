@@ -1,4 +1,4 @@
-import { Extension, ExtensionManager } from '.';
+import { Extension, ExtensionManager, ExtensionType } from '.';
 import Component from '../common/Component';
 import { DEBUG } from '../common/definitions';
 
@@ -8,6 +8,7 @@ import { DEBUG } from '../common/definitions';
  * */
 export default class IdGenerator implements Partial<Extension> {
     constructor(public ext :ExtensionManager) {}
+    type = ExtensionType.Debug;
     /**
      * Set component.extraData.id
      * */
