@@ -154,7 +154,8 @@ export class ExtensionManager implements Extension {
 function createHandler(methodName :ExtensionHandler, ext :ExtensionManager) {
     return async function extensionManagerMethod(comp :Component) {
         if (ext.disableAll) return;
-        skip_extension: for (const extension of ext.extensions) { // eslint-disable-line no-restricted-syntax
+        // eslint-disable-next-line no-restricted-syntax
+        skip_extension: for (const extension of ext.extensions) {
             if (extension.type === ExtensionType.DebugOnly && !DEBUG) continue skip_extension;
             if (ext.disableAllButDebug) {
                 if (!DEBUG) continue skip_extension;

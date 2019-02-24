@@ -1,6 +1,6 @@
 import { ComponentDrawInfo, ComponentConstructorInfo } from '../types';
 import { ExtensionManager } from '../extensions';
-import { SN } from './definitions';
+import { DEBUG, SN } from './definitions';
 import { parseBox, mergeBox, createLogFunction } from './functions';
 
 enum MUST_CALL_AND_RETURN_SUPER_METHOD {
@@ -185,10 +185,14 @@ export default abstract class Component{
      * */
     protected checkDestroy() {
         if (this.destroyed) {
-            throw new Error(
-                `${this.theme}/${this.name} has bean destroyed,`
-                + 'however, you still called it\'s method.',
-            );
+            const msg = `${this.theme}/${this.name} has bean destroyed,`
+                + 'however, you still called it\'s method.'
+            ;
+            if (DEBUG) {
+                throw new Error(msg);
+            } else {
+                console.warn(msg);
+            }
         }
     }
 }
