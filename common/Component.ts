@@ -1,14 +1,13 @@
 import { ComponentDrawInfo, ComponentConstructorInfo } from '../types';
 import { ExtensionManager } from '../extensions';
 import { DEBUG, SN } from './definitions';
-import { parseBox, mergeBox, createLogFunction } from './functions';
+import { createLogFunction } from './functions';
 
 enum MUST_CALL_AND_RETURN_SUPER_METHOD {
     SUPER_APPLY,
     SUPER_DRAW,
     SUPER_DESTROY,
     SUPER_CREATE_ELEMENT,
-    SUPER_CREATE_BOX,
     SUPER_HIDE,
 }
 
@@ -93,11 +92,10 @@ export default abstract class Component{
     }
     /**
      * Create a box object to fill this.drawInfo.box.
+     * It should be called in apply() at least once.
      * Write this method if you need to change the behavior about box.
      * */
-    createBox() :MUST_CALL_AND_RETURN_SUPER_METHOD {
-        return MUST_CALL_AND_RETURN_SUPER_METHOD.SUPER_CREATE_BOX;
-    }
+    abstract createBox() :void;
 
     /**
      * Means that the component has been destroyed.

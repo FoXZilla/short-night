@@ -51,8 +51,6 @@ export default abstract class EventMark extends Component{
             x: this.drawInfo.target.x - width / 2,
             y: this.drawInfo.target.y - height / 2,
         };
-
-        return super.createBox();
     }
 
     async apply() {

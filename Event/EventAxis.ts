@@ -71,8 +71,6 @@ export default abstract class EventAxis extends Component{
             width: this.drawInfo.offsetX,
             height: this.drawInfo.length,
         };
-
-        return super.createBox();
     }
     async apply() {
         if (this.drawInfo.text) {

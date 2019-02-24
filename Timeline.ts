@@ -14,7 +14,7 @@ import AxisMilestone from './Axis/AxisMilestone';
 import { Breakpoint } from './extensions/BreakpointAnimation';
 import TimeSpliter from './common/TimeSpliter';
 import { ExtensionManager } from './extensions';
-import { deepFreeze } from './common/functions';
+import { deepFreeze, mergeBox } from './common/functions';
 
 /**
  * @typedef {Object} EventInfo
@@ -119,6 +119,12 @@ export default abstract class Timeline extends Component{
     abstract axisConstructor :typeof Axis;
     abstract eventConstructor :typeof Event;
 
+    createBox() {
+        this.drawInfo.box = mergeBox(
+            this.axis.drawInfo.box,
+            ...this.events.map(event => event.drawInfo.box),
+        );
+    }
     /**
      * @param {Partial<RuntimeInfo>} runtime - manually specify some runtime info.
      * */
@@ -137,6 +143,8 @@ export default abstract class Timeline extends Component{
         this.events.length = 0;
         this.initEvents();
         await Promise.all(this.events.map(e => e.apply()));
+
+        this.createBox();
 
         return super.apply();
     }

@@ -70,7 +70,6 @@ export default abstract class Axis extends Component{
             ...this.milestones.map(m => m.drawInfo.box),
             ...this.scales.map(s => s.drawInfo.box),
         );
-        return super.createBox();
     }
 
     async apply() {

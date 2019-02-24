@@ -105,8 +105,6 @@ export default abstract class Event extends Component{
                 this.axis.drawInfo.box,
             );
         }
-
-        return super.createBox();
     }
 
     async apply() {

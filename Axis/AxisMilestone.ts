@@ -72,7 +72,6 @@ export default abstract class AxisMilestone extends Component{
     }
     createBox() {
         this.drawInfo.box = parseBox(this.element!);
-        return super.createBox();
     }
     async apply() {
         this.createElement();

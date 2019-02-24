@@ -45,7 +45,6 @@ export default abstract class AxisScale extends Component{
             height: this.drawInfo.height,
             width: this.drawInfo.bodyDrawInfo.box.width,
         };
-        return super.createBox();
     }
 
     async apply() {
