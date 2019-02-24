@@ -75,7 +75,7 @@ export class ExtensionManager implements Extension {
         :{
             disableAll? :boolean,
             disableAllButDebug? :boolean,
-            breakpointAnimation? :BreakpointAnimationConfig,
+            breakpointAnimation? :Partial<BreakpointAnimationConfig>,
         } = {},
     ) {
         this.disableAll = disableAll;

@@ -229,7 +229,10 @@ export default abstract class Timeline extends Component{
 
         // TODO: Maybe there is slow when want not play animation?
         for (const comp of allComponents) {
-            await this.ext.breakpoint.block(Breakpoint.DrawFrom);
+            await this.ext.breakpoint.block(Breakpoint.DrawFrom, {
+                protagonist: comp,
+                components: allComponents,
+            });
             comp.draw();
         }
 
