@@ -134,7 +134,10 @@ export default class BreakpointAnimation implements Partial<Extension>, Breakpoi
                 const scrollTarget = this.countScrollTarget(config);
 
                 if (scrollTarget) {
-                    this.moveTo.move(scrollTarget - document.documentElement.scrollTop);
+                    const scrollDistance = scrollTarget - document.documentElement.scrollTop;
+                    if (Math.abs(scrollDistance) > 10) {
+                        this.moveTo.move(scrollTarget - document.documentElement.scrollTop);
+                    }
                 }
             }
 
