@@ -58,10 +58,11 @@ export default class PositionCounter implements Partial<Extension> {
                 0,
             )
         ;
+        const toRealLength = axis.extraData.realLength! / axis.drawInfo.length;
 
         // Set real Y in milestones and scales
-        axis.milestones.forEach(m => m.drawInfo.alignY *= axis.extraData.realLength!);
-        axis.scales.forEach(s => s.drawInfo.alignY *= axis.extraData.realLength!);
+        axis.milestones.forEach(m => m.drawInfo.alignY *= toRealLength);
+        axis.scales.forEach(s => s.drawInfo.alignY *= toRealLength);
         await Promise.all([...axis.milestones, ...axis.scales].map(c => c.apply()));
         await this.ext.breakpoint.block(Breakpoint.PushScalesAndMilestones, {
             components: childComponents,
@@ -119,13 +120,14 @@ export default class PositionCounter implements Partial<Extension> {
     async adjustEvent(timeline :Timeline) {
         const events = timeline.events;
         const axis = this.ext.components[SN.Axis][0];
+        const toRealLength = axis.extraData.realLength! / axis.drawInfo.length;
 
         for (const event of events) {
-            event.drawInfo.target.y *= axis.extraData.realLength!;
+            event.drawInfo.target.y *= toRealLength;
             event.drawInfo.target.y += this.countCritical(event.drawInfo.target.y);
 
             if (event.drawInfo.axisLength) {
-                event.drawInfo.axisLength *= axis.extraData.realLength!;
+                event.drawInfo.axisLength *= toRealLength;
                 event.drawInfo.axisLength +=
                     this.countCritical(event.drawInfo.target.y)
                     - this.countCritical(event.drawInfo.target.y - event.drawInfo.axisLength)

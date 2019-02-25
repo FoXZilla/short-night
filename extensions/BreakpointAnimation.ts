@@ -38,10 +38,20 @@ export enum Breakpoint{
  * The short-night will unblock one breakpoint after some times when this been set true.
  * When this be set true and not specify breakpoints, the breakpoints will be
  * set as BreakpointAnimation.defaultAnimationBreakpoints to play animation.
+ * @property {boolean} autoScroll - auto scroll to focus when playing animation.
+ * @property {function} timeoutCounter - count a timeout to wait that point.
+ * @property {boolean} scrollDuration - the duration of scroll.
+ * @property {boolean} scrollContainer - scroll what. The default value is window.
  * */
 export interface BreakpointAnimationConfig {
-    breakpoints? :Breakpoint[];
-    playAnimation? :boolean;
+    breakpoints :Breakpoint[];
+    playAnimation :boolean;
+
+    // About animation
+    autoScroll :boolean;
+    timeoutCounter :(point :Breakpoint, config :Partial<BlockConfig>) => number;
+    scrollDuration :number;
+    scrollContainer :Window | HTMLElement;
 }
 
 /**
@@ -59,13 +69,28 @@ export interface BlockConfig {
  * 1. Support that set a Breakpoint .
  * 2. Support that play animation base on Breakpoints.
  * */
-export default class BreakpointAnimation implements Partial<Extension>{
+export default class BreakpointAnimation implements Partial<Extension>, BreakpointAnimationConfig{
     constructor(
         public ext :ExtensionManager,
-        { breakpoints= [], playAnimation= false } :BreakpointAnimationConfig = {},
+        {
+            breakpoints = [],
+            playAnimation = false,
+            autoScroll = false,
+            timeoutCounter = (point, config) => {
+                if (point === Breakpoint.DrawFrom) return 100;
+
+                return config.forward ? 200 : 300;
+            },
+            scrollDuration = 50,
+            scrollContainer = window,
+        } :Partial<BreakpointAnimationConfig> = {},
     ) {
         this.breakpoints = breakpoints;
         this.playAnimation = playAnimation;
+        this.autoScroll = autoScroll;
+        this.timeoutCounter = timeoutCounter;
+        this.scrollDuration = scrollDuration;
+        this.scrollContainer = scrollContainer;
 
         if (this.playAnimation && this.breakpoints.length === 0) {
             this.breakpoints = BreakpointAnimation.defaultAnimationBreakpoints;
@@ -78,56 +103,45 @@ export default class BreakpointAnimation implements Partial<Extension>{
         }
     }
 
+    // Extend BreakpointAnimationConfig
+    breakpoints :BreakpointAnimationConfig['breakpoints'];
+    readonly playAnimation :BreakpointAnimationConfig['playAnimation'];
+    timeoutCounter :BreakpointAnimationConfig['timeoutCounter'];
+    autoScroll :BreakpointAnimationConfig['autoScroll'];
+    scrollDuration :BreakpointAnimationConfig['scrollDuration'];
+    scrollContainer :BreakpointAnimationConfig['scrollContainer'];
+
     /**
      * Scroll to top when end of play animation.
      * */
     onDraw(comp :Component) {
         if (Timeline.is(comp) && this.playAnimation) {
-            new moveto().move(this.ext.components[SN.Timeline][0].canvas);
+            this.moveTo.move(this.ext.components[SN.Timeline][0].canvas);
         }
-    }
-
-    /** @see BreakpointAnimationConfig.breakpoints */
-    protected breakpoints :Breakpoint[];
-    /** @see BreakpointAnimationConfig.playAnimation */
-    protected readonly playAnimation :boolean;
-    /**
-     * Fill when short-night is blocking. Step in a breakpoint.
-     * */
-    protected stepIn ? :() => Promise<void>;
-
-    /**
-     * Step into next breakpoint.
-     * You can call window.next() to do same thing when DEBUG is true.
-     * */
-    next() {
-        if (!this.stepIn) {
-            throw new Error('Call next when not blocking.');
-        }
-
-        this.stepIn();
-        delete this.stepIn;
     }
 
     /**
      * Blocking at a breakpoint util next called
      * */
-    async block(point :Breakpoint, config :Partial<BlockConfig> = {}) {
-        const { onBlock, onNext, components = [], forward = false } = config;
+    public async block(point :Breakpoint, config :Partial<BlockConfig> = {}) {
+        const { onBlock, onNext, components = [] } = config;
 
         if (!this.breakpoints.includes(point)) return;
         console.log(`Blocking at ${point}.`);
 
         if (this.playAnimation) {
-            const scrollTarget = this.countScrollTarget(config);
+            if (this.autoScroll) {
+                const scrollTarget = this.countScrollTarget(config);
 
-            if (scrollTarget) {
-                new moveto({ duration: 50 }).move(
-                    scrollTarget - document.documentElement.scrollTop,
-                );
+                if (scrollTarget) {
+                    const scrollDistance = scrollTarget - document.documentElement.scrollTop;
+                    if (Math.abs(scrollDistance) > 10) {
+                        this.moveTo.move(scrollTarget - document.documentElement.scrollTop);
+                    }
+                }
             }
 
-            setTimeout(() => this.next(), this.countInterval(point, forward));
+            setTimeout(() => this.next(), this.timeoutCounter(point, config));
         }
 
         return (async () => {
@@ -144,7 +158,30 @@ export default class BreakpointAnimation implements Partial<Extension>{
 
         })();
     }
+    /**
+     * Step into next breakpoint.
+     * You can call window.next() to do same thing when DEBUG is true.
+     * */
+    public next() {
+        if (!this.stepIn) {
+            throw new Error('Call next when not blocking.');
+        }
 
+        this.stepIn();
+        delete this.stepIn;
+    }
+
+    /**
+     * Fill when short-night is blocking. Step in a breakpoint.
+     * */
+    protected stepIn ? :() => Promise<void>;
+    /** Get a instance of moveto */
+    protected get moveTo () :moveto {
+        return new moveto({
+            duration: this.scrollDuration,
+            container: this.scrollContainer,
+        });
+    }
     /**
      * Count a number that be used scroll to focus when play animation.
      * */
@@ -168,15 +205,6 @@ export default class BreakpointAnimation implements Partial<Extension>{
         }
 
         return null;
-    }
-    /**
-     * Count a number what ms is needed waiting for this point when playing animation.
-     * @property {boolean} forward - @see BlockConfig.forward
-     * */
-    protected countInterval(point :Breakpoint, forward :boolean) :number {
-        if (point === Breakpoint.DrawFrom) return 300;
-
-        return forward ? 200 : 300;
     }
 
     /**

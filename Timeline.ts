@@ -14,6 +14,7 @@ import AxisMilestone from './Axis/AxisMilestone';
 import { Breakpoint } from './extensions/BreakpointAnimation';
 import TimeSpliter from './common/TimeSpliter';
 import { ExtensionManager } from './extensions';
+import { deepFreeze, mergeBox } from './common/functions';
 
 /**
  * @typedef {Object} EventInfo
@@ -118,6 +119,12 @@ export default abstract class Timeline extends Component{
     abstract axisConstructor :typeof Axis;
     abstract eventConstructor :typeof Event;
 
+    createBox() {
+        this.drawInfo.box = mergeBox(
+            this.axis.drawInfo.box,
+            ...this.events.map(event => event.drawInfo.box),
+        );
+    }
     /**
      * @param {Partial<RuntimeInfo>} runtime - manually specify some runtime info.
      * */
@@ -136,6 +143,8 @@ export default abstract class Timeline extends Component{
         this.events.length = 0;
         this.initEvents();
         await Promise.all(this.events.map(e => e.apply()));
+
+        this.createBox();
 
         return super.apply();
     }
@@ -220,7 +229,7 @@ export default abstract class Timeline extends Component{
 
         // TODO: Maybe there is slow when want not play animation?
         for (const comp of allComponents) {
-            await this.ext.breakpoint.block(Breakpoint.DrawFrom);
+            await this.ext.breakpoint.block(Breakpoint.DrawFrom, { protagonist: comp });
             comp.draw();
         }
 
@@ -417,12 +426,13 @@ export default abstract class Timeline extends Component{
         for (const data of events) {
             // @ts-ignore
             const event :Event = new this.eventConstructor(this);
+            event.drawInfo.axisBodyDrawInfo = deepFreeze(this.axis.body.drawInfo);
             event.drawInfo.target = {
                 x: this.axis.body.drawInfo.box.x + this.axis.body.drawInfo.box.width / 2,
-                // recomputed in PositionCounter
                 y:
                     (new Date(this.runtime.endDate).getTime() - new Date(data.date).getTime())
                     / dateLength
+                    * this.axis.drawInfo.length
                 ,
             };
             event.drawInfo.date = data.date;
@@ -439,10 +449,10 @@ export default abstract class Timeline extends Component{
                     ,
                 );
                 event.drawInfo.endDate = endDate.toISOString();
-                // recomputed in PositionCounter
                 event.drawInfo.axisLength =
                     (endDate.getTime() - new Date(data.date).getTime())
                     / dateLength
+                    * this.axis.drawInfo.length
                 ;
             }
             this.events.push(event);

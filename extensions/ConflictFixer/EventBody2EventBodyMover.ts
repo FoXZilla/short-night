@@ -87,11 +87,17 @@ export default class EventBody2EventBodyMover {
             ),
         )!;
 
+        const eventBodies = [
+            conflict.self,
+            ...conflict.with,
+        ].sort(
+            (eb1, eb2) => eb2.drawInfo.markDrawInfo.target.y - eb1.drawInfo.markDrawInfo.target.y,
+        );
         const options = {
             components: [
                 ...this.ext.components[SN.AxisBody],
-                conflict.self,
-                ...conflict.with,
+                ...eventBodies.filter(eb => !eb.drawInfo.floated),
+                ...eventBodies.filter(eb => eb.drawInfo.floated),
             ],
             protagonist: conflict.self,
         };

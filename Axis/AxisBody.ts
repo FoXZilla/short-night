@@ -47,7 +47,6 @@ export default abstract class AxisBody extends Component{
             width: this.drawInfo.width,
             height: this.drawInfo.length,
         };
-        return super.createBox();
     }
 
     async apply() {

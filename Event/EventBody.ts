@@ -115,8 +115,6 @@ export default abstract class EventBody extends Component{
         box.y += this.drawInfo.offset.y;
 
         this.drawInfo.box = box;
-
-        return super.createBox();
     }
     async apply() {
         this.createElement();

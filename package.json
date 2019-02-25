@@ -1,11 +1,12 @@
 {
   "name": "short-night",
-  "version": "0.0.11",
+  "version": "0.0.22",
   "description": "An engine for drawing timeline graph.",
   "main": "index.js",
   "types": "index.ts",
   "scripts": {
     "lint": "tslint --project tsconfig.json",
+    "fix-lint": "tslint --project tsconfig.json --fix",
     "build-doc": "typedoc ./ --exclude **/node_modules/** --out docs/ --readme ./index.docs.md --tsconfig ./tsconfig.json --mode modules --name \"Short Night TypeScript Modules\" && nodetouch docs/.nojekyll",
     "build": "node-sass ./styles.scss -o ./ && tsc",
     "pub": "npm run build && npm publish",
@@ -49,7 +50,7 @@
     "typescript": "^3.0.0"
   },
   "dependencies": {
-    "@types/moveto": "^1.7.0",
-    "moveto": "^1.7.4"
+    "@types/moveto": "^1.8.0",
+    "moveto": "^1.8.0"
   }
 }

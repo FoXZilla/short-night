@@ -1,15 +1,30 @@
 import { ComponentDrawInfo, ComponentConstructorInfo } from '../types';
 import { ExtensionManager } from '../extensions';
-import { SN } from './definitions';
-import { parseBox, mergeBox, createLogFunction } from './functions';
+import { DEBUG, SN } from './definitions';
+import { createLogFunction } from './functions';
 
 enum MUST_CALL_AND_RETURN_SUPER_METHOD {
     SUPER_APPLY,
     SUPER_DRAW,
     SUPER_DESTROY,
     SUPER_CREATE_ELEMENT,
-    SUPER_CREATE_BOX,
     SUPER_HIDE,
+}
+
+/**
+ * The data which be used in Extensions.
+ * @property id - using in IdGenerator
+ * @property boxElement - using in BoxElementGenerator
+ * @property realLength - using in PositionCounter, existing in Axis only.
+ * @property needed - using in ConflictFixer, existing in EventBody only.
+ * @property space - using in ConflictFixer, existing in EventBody only.
+ * */
+export interface ExtraData {
+    id ? :string;
+    boxElement ? :HTMLElement;
+    realLength ? :number;
+    needed? :{top :number, bottom :number};
+    space? :{top :number, bottom :number};
 }
 
 export default abstract class Component{
@@ -31,21 +46,10 @@ export default abstract class Component{
      * */
     abstract name :SN;
     /**
-     * The data which be used in Extensions.
-     * @property id - using in GeneratorId
-     * @property boxElement - using in BoxElementGenerator
-     * @property realLength - using in PositionCounter, existing in Axis only.
-     * @property needed - using in ConflictFixer, existing in EventBody only.
-     * @property space - using in ConflictFixer, existing in EventBody only.
+     * An ext extra
+     * @see ExtraData
      * */
-    extraData :{
-        id ? :string,
-        boxElement ? :HTMLElement,
-        realLength ? :number,
-        needed? :{top :number, bottom :number},
-        space? :{top :number, bottom :number},
-        [key :string] :any,
-    } = {};
+    extraData :ExtraData = {};
     /**
      * The canvas where component draw on.
      * */
@@ -88,11 +92,10 @@ export default abstract class Component{
     }
     /**
      * Create a box object to fill this.drawInfo.box.
+     * It should be called in apply() at least once.
      * Write this method if you need to change the behavior about box.
      * */
-    createBox() :MUST_CALL_AND_RETURN_SUPER_METHOD {
-        return MUST_CALL_AND_RETURN_SUPER_METHOD.SUPER_CREATE_BOX;
-    }
+    abstract createBox() :void;
 
     /**
      * Means that the component has been destroyed.
@@ -105,7 +108,12 @@ export default abstract class Component{
      * */
     destroy() :MUST_CALL_AND_RETURN_SUPER_METHOD {
         this.checkDestroy();
+
         this.destroyed = true;
+        if (this.element) {
+            this.container.removeChild(this.element);
+            delete this.element;
+        }
 
         this.ext.onDestroy(this);
 
@@ -119,12 +127,6 @@ export default abstract class Component{
      * */
     async apply(...args :any[]) :Promise<MUST_CALL_AND_RETURN_SUPER_METHOD> {
         this.checkDestroy();
-        if (this.element) {
-            this.drawInfo.box = mergeBox(
-                this.drawInfo.box,
-                parseBox(this.element),
-            );
-        }
         await this.ext.onApply(this);
 
         return MUST_CALL_AND_RETURN_SUPER_METHOD.SUPER_APPLY;
@@ -181,10 +183,14 @@ export default abstract class Component{
      * */
     protected checkDestroy() {
         if (this.destroyed) {
-            throw new Error(
-                `${this.theme}/${this.name} has bean destroyed,`
-                + 'however, you still called it\'s method.',
-            );
+            const msg = `${this.theme}/${this.name} has bean destroyed,`
+                + 'however, you still called it\'s method.'
+            ;
+            if (DEBUG) {
+                throw new Error(msg);
+            } else {
+                console.warn(msg);
+            }
         }
     }
 }

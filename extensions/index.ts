@@ -12,30 +12,44 @@ import EventAxis from '../Event/EventAxis';
 
 import BreakpointAnimation, { BreakpointAnimationConfig } from './BreakpointAnimation';
 import BoxElementGenerator from './BoxElementGenerator';
-import GeneratorId from './GeneratorId';
+import IdGenerator from './IdGenerator';
 import PositionCounter from './PositionCounter';
 import ConflictFixer from './ConflictFixer';
 
 export {
     BoxElementGenerator,
-    GeneratorId,
+    IdGenerator,
     PositionCounter,
     BreakpointAnimation,
     ConflictFixer,
 };
 
+/**
+ * @property {string} Debug - enable the extension both normal and disableAllButDebug
+ * @property {string} DebugOnly - enable the extension only the debug is true
+ * */
+export enum ExtensionType {
+    Debug = 'debug',
+    DebugOnly = 'debug-only',
+}
+
 export interface Extension {
+    /**
+     * Specify the purpose of extension.
+     * */
+    type? :ExtensionType;
+
     onConstruct(comp :Component) :void;
     onApply(comp :Component) :Promise<void>;
     onDraw(comp :Component) :void;
     onHide(comp :Component) :void;
     onDestroy(comp :Component) :void;
 }
-type ExtensionHandler = keyof Extension;
+type ExtensionHandler = 'onConstruct' | 'onApply' | 'onDraw' | 'onHide' | 'onDestroy';
 
-export interface ExtData {}
+export interface ExtraData {}
 
-const METHODS = ['onConstruct', 'onApply', 'onDestroy', 'onHide', 'onDraw'];
+const METHODS :ExtensionHandler[] = ['onConstruct', 'onApply', 'onDestroy', 'onHide', 'onDraw'];
 
 /**
  * Manage ExtensionManager#components.
@@ -57,31 +71,39 @@ export class Base implements Partial<Extension>{
 
 export class ExtensionManager implements Extension {
     constructor(
-        { breakpointAnimation }
+        { breakpointAnimation, disableAll = false, disableAllButDebug = false }
         :{
-            breakpointAnimation ? :BreakpointAnimationConfig,
+            disableAll? :boolean,
+            disableAllButDebug? :boolean,
+            breakpointAnimation? :Partial<BreakpointAnimationConfig>,
         } = {},
     ) {
+        this.disableAll = disableAll;
+        this.disableAllButDebug = disableAllButDebug;
         this.breakpoint = new BreakpointAnimation(this, breakpointAnimation);
         this.extensions  = [
             new Base(this),
-            new GeneratorId(this),
+            new IdGenerator(this),
+            new BoxElementGenerator(this),
             new PositionCounter(this),
             new ConflictFixer(this),
             this.breakpoint,
         ];
-        if (DEBUG) {
-            this.extensions.push(
-                new BoxElementGenerator(this),
-            );
-        }
     }
 
+    /**
+     * Disable all of extensions but enable the extensions supported debug.
+     * */
+    disableAllButDebug :boolean;
+    /**
+     * Disable all of extensions.
+     * */
+    disableAll :boolean;
     /**
      * A shared object for every Component.
      * For extends, re-declare the ExtData.
      * */
-    extraData :ExtData = {};
+    extraData :ExtraData = {};
     breakpoint :BreakpointAnimation;
     components :{
         [SN.Timeline] :Timeline[];
@@ -131,7 +153,18 @@ export class ExtensionManager implements Extension {
 
 function createHandler(methodName :ExtensionHandler, ext :ExtensionManager) {
     return async function extensionManagerMethod(comp :Component) {
-        for (const extension of ext.extensions) { // eslint-disable-line no-restricted-syntax
+        if (ext.disableAll) return;
+        // eslint-disable-next-line no-restricted-syntax
+        skip_extension: for (const extension of ext.extensions) {
+            if (extension.type === ExtensionType.DebugOnly && !DEBUG) continue skip_extension;
+            if (ext.disableAllButDebug) {
+                if (!DEBUG) continue skip_extension;
+                if (!extension.type) continue skip_extension;
+                if (
+                    ![ExtensionType.DebugOnly, ExtensionType.Debug].includes(extension.type)
+                ) continue skip_extension;
+            }
+
             if (methodName in extension) {
                 if (methodName === 'onApply') {
                     await extension[methodName]!(comp); // eslint-disable-line no-await-in-loop

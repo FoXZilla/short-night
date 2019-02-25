@@ -70,7 +70,6 @@ export default abstract class Axis extends Component{
             ...this.milestones.map(m => m.drawInfo.box),
             ...this.scales.map(s => s.drawInfo.box),
         );
-        return super.createBox();
     }
 
     async apply() {
@@ -129,8 +128,8 @@ export default abstract class Axis extends Component{
             // @ts-ignore - realize a absolute class that will re-init in the theme.
             const scale :AxisScale = new this.scaleConstructor(this);
             scale.drawInfo.bodyDrawInfo = deepFreeze(this.body.drawInfo);
-            scale.drawInfo.alignY = position; // recomputed in PositionCounter
-            scale.drawInfo.height = this.grid.scaleHeight; // recomputed in PositionCounter
+            scale.drawInfo.alignY = position * this.body.drawInfo.length;
+            scale.drawInfo.height = this.grid.scaleHeight;
             this.scales.push(scale);
         }
     }
@@ -141,7 +140,7 @@ export default abstract class Axis extends Component{
             // @ts-ignore - realize a absolute class that will re-init in the theme.
             const milestone = new this.milestoneConstructor(this);
             milestone.drawInfo.bodyDrawInfo = deepFreeze(this.body.drawInfo);
-            milestone.drawInfo.alignY = position; // recomputed in PositionCounter
+            milestone.drawInfo.alignY = position * this.body.drawInfo.length;
             milestone.drawInfo.content = content;
             this.milestones.push(milestone);
         }
