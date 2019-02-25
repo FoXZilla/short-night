@@ -42,7 +42,6 @@ export default class EventBody2EventBodyFloater {
     }
 
     async fix() :Promise<ConflictFixResult> {
-
         this.timeline = this.ext.components[SN.Timeline][0];
         this.axisBody = this.ext.components[SN.AxisBody][0];
         this.eventBodyList = Array.from(this.ext.components[SN.EventBody])
