@@ -70,6 +70,19 @@ export default abstract class Component{
      * */
     abstract readonly drawInfo :ComponentDrawInfo;
 
+    /** A ratio for draw, it's using when draw on High DPI display */
+    ratio :number = window.devicePixelRatio || 1;
+    /** Setup for High DPI */
+    setupRadio() {
+        const ctx = this.canvas.getContext('2d')!;
+
+        this.canvas.style.width = `${this.canvas.width}px`;
+        this.canvas.width *= this.ratio;
+        this.canvas.height *= this.ratio;
+        ctx.setTransform(1, 0, 0, 1, 0, 0); // reset the scale set
+        ctx.scale(this.ratio, this.ratio);
+    }
+
     /**
      * Optional. Be filled in this.createElement.
      * The HTML element which be needed by component draw.
@@ -127,6 +140,8 @@ export default abstract class Component{
      * */
     async apply(...args :any[]) :Promise<MUST_CALL_AND_RETURN_SUPER_METHOD> {
         this.checkDestroy();
+
+        this.setupRadio();
         await this.ext.onApply(this);
 
         return MUST_CALL_AND_RETURN_SUPER_METHOD.SUPER_APPLY;

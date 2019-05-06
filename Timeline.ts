@@ -286,6 +286,9 @@ export default abstract class Timeline extends Component{
                 );
             }
         }
+
+        this.setupRadio();
+
     }
 
     // Count runtime info
