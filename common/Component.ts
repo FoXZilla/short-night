@@ -141,7 +141,6 @@ export default abstract class Component{
     async apply(...args :any[]) :Promise<MUST_CALL_AND_RETURN_SUPER_METHOD> {
         this.checkDestroy();
 
-        this.setupRadio();
         await this.ext.onApply(this);
 
         return MUST_CALL_AND_RETURN_SUPER_METHOD.SUPER_APPLY;

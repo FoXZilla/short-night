@@ -150,6 +150,7 @@ export default abstract class Timeline extends Component{
     }
     draw() {
         this.stretchCanvas();
+        this.setupRadio();
         this.axis.draw();
         this.events.forEach(event => event.draw());
         return super.draw();
@@ -286,8 +287,6 @@ export default abstract class Timeline extends Component{
                 );
             }
         }
-
-        this.setupRadio();
 
     }
 
