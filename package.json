@@ -42,6 +42,7 @@
   },
   "homepage": "https://github.com/pea3nut/short-night#readme",
   "devDependencies": {
+    "@types/moveto": "^1.8.0",
     "node-sass": "^4.11.0",
     "touch": "^3.1.0",
     "tslint": "^5.11.0",
@@ -50,7 +51,7 @@
     "typescript": "^3.0.0"
   },
   "dependencies": {
-    "@types/moveto": "^1.8.0",
+    "html2canvas": "^1.0.0-rc.5",
     "moveto": "^1.8.0"
   }
 }

@@ -4,6 +4,8 @@
     "strict": true,
     "module": "commonjs",
     "target": "es5",
+    "sourceMap": true,
+    "esModuleInterop": true,
     "moduleResolution": "node",
     "lib": ["esnext", "dom"]
   }
