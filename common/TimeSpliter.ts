@@ -31,6 +31,30 @@ export default class TimeSpliter {
     static increment :{
         [methName in DateBy]: (date :Date, step? :number) => Date
     } = {
+        fiveCentury(date :Date, step = 1) {
+            date.setMonth(0 , 1);
+            date.setHours(0 , 0 , 0 , 1);
+
+            date.setFullYear(Math.floor(date.getFullYear() / 500) * 500 + (step * 100 * 5));
+
+            return date;
+        },
+        century(date :Date, step = 1) {
+            date.setMonth(0 , 1);
+            date.setHours(0 , 0 , 0 , 1);
+
+            date.setFullYear(Math.floor(date.getFullYear() / 100) * 100 + (step * 100));
+
+            return date;
+        },
+        tenYear(date :Date, step = 1) {
+            date.setMonth(0 , 1);
+            date.setHours(0 , 0 , 0 , 1);
+
+            date.setFullYear(Math.floor(date.getFullYear() / 10) * 10 + (step * 10));
+
+            return date;
+        },
         year(date :Date, step = 1) {
             date.setMonth(0 , 1);
             date.setHours(0 , 0 , 0 , 1);

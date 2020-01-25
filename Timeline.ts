@@ -14,9 +14,8 @@ import AxisMilestone from './Axis/AxisMilestone';
 import { Breakpoint } from './extensions/BreakpointAnimation';
 import TimeSpliter from './common/TimeSpliter';
 import { ExtensionManager } from './extensions';
-import { deepFreeze, mergeBox } from './common/functions';
+import { deepFreeze, mergeBox, parseDate } from './common/functions';
 import html2canvas from 'html2canvas';
-
 
 /**
  * @typedef {Object} EventInfo
@@ -326,10 +325,10 @@ export default abstract class Timeline extends Component{
         this.runtime = Object.create(runtime || Object.prototype);
 
         this.runtime.startDate   = ('startDate'   in this.runtime)
-            ? new Date(this.runtime.startDate)
+            ? parseDate(this.runtime.startDate)
             : this.countStartData();
         this.runtime.endDate     = ('endDate'     in this.runtime)
-            ? new Date(this.runtime.endDate)
+            ? parseDate(this.runtime.endDate)
             : this.countEndData();
         this.runtime.milestoneBy = ('milestoneBy' in this.runtime)
             ? this.runtime.milestoneBy
@@ -343,45 +342,54 @@ export default abstract class Timeline extends Component{
 
         // FIXME: What is it???
         // aligning scaleBy
-        this.runtime.startDate = new Date(
-            new Date(this.runtime.startDate!).getTime()
+        this.runtime.startDate = parseDate(
+            parseDate(this.runtime.startDate!).getTime()
             - DATE_COUNT_EXTRA[this.runtime.scaleBy || DateBy.Day],
         );
-        this.runtime.endDate = new Date(
-            new Date(this.runtime.endDate!).getTime()
+        this.runtime.endDate = parseDate(
+            parseDate(this.runtime.endDate!).getTime()
             + DATE_COUNT_EXTRA[this.runtime.scaleBy || DateBy.Day],
         );
     }
     protected countStartData() :Date {
         const events = Array.from(this.drawInfo.events).sort(
-            (e1, e2) => Number(new Date(e1.date)) - Number(new Date(e2.date)),
+            (e1, e2) => Number(parseDate(e1.date)) - Number(parseDate(e2.date)),
         );
-        return new Date(events[0].date);
+        return parseDate(events[0].date);
     }
     protected countEndData() :Date {
         const events = this.drawInfo.events;
 
-        const maxStartData = Math.max(...events.map(event => Number(new Date(event.date))));
+        const maxStartData = Math.max(...events.map(event => Number(parseDate(event.date))));
         const maxEndData = Math.max(
             ...events
                 .filter(event => ('endDate' in event))
-                .map(event => Number(new Date(event.endDate!))),
+                .map(event => Number(parseDate(event.endDate!))),
         ) || -1;
 
-        return new Date(Math.max(maxStartData , maxEndData));
+        return parseDate(Math.max(maxStartData , maxEndData));
     }
     protected countMilestoneBy() :DateBy | null {
         const TWO_WEEK      = 1000 * 60 * 60 * 24 * 7 * 2;
         const TWO_MONTH     = 1000 * 60 * 60 * 24 * 30 * 2;
         const TWO_QUARTER   = 1000 * 60 * 60 * 24 * 30 * 3 * 2;
         const TWO_YEAR      = 1000 * 60 * 60 * 24 * 30 * 12 * 2;
+        const TWENTY_YEAR   = 1000 * 60 * 60 * 24 * 30 * 12 * 20;
+        const TWO_CENTURY   = 1000 * 60 * 60 * 24 * 30 * 12 * 100 * 2;
+        const TWENTY_CENTURY = 1000 * 60 * 60 * 24 * 30 * 12 * 100 * 20;
 
         const dataScope =
-            new Date(this.runtime.endDate).getTime()
-            - new Date(this.runtime.startDate).getTime()
+            parseDate(this.runtime.endDate).getTime()
+            - parseDate(this.runtime.startDate).getTime()
         ;
 
         switch (true) {
+            case dataScope > TWENTY_CENTURY:
+                return DateBy.FiveCentury;
+            case dataScope > TWO_CENTURY:
+                return DateBy.Century;
+            case dataScope > TWENTY_YEAR:
+                return DateBy.TenYear;
             case dataScope > TWO_YEAR:
                 return DateBy.Year;
             case dataScope > TWO_QUARTER:
@@ -398,6 +406,12 @@ export default abstract class Timeline extends Component{
     protected countScaleBy() :DateBy | null {
 
         switch (this.runtime.milestoneBy) {
+            case DateBy.FiveCentury:
+                return DateBy.Century;
+            case DateBy.Century:
+                return DateBy.TenYear;
+            case DateBy.TenYear:
+                return DateBy.Year;
             case DateBy.Year:
                 return DateBy.Quarter;
             case DateBy.Quarter:
@@ -412,7 +426,13 @@ export default abstract class Timeline extends Component{
 
     }
     protected countAxisLength() :number {
-        return 500 + this.drawInfo.events.length * 100;
+        const events = this.drawInfo.events;
+
+        return 500
+            + events.length * 50
+            + events.filter(e => e.description).length * 70
+            + events.filter(e => e.endText).length * 30
+        ;
     }
     // Create instance
     protected initAxis() :void {
@@ -442,7 +462,7 @@ export default abstract class Timeline extends Component{
             this.axis.drawInfo.scales = timeSpliter
                 .split(this.runtime.scaleBy)
                 .map(date =>
-                    (new Date(this.runtime.endDate).getTime() - date.getTime())
+                    (parseDate(this.runtime.endDate).getTime() - date.getTime())
                     / dateLength,
                 )
             ;
@@ -450,11 +470,11 @@ export default abstract class Timeline extends Component{
     }
     protected initEvents() :void {
         const events = Array.from(this.drawInfo.events)
-            .sort((e1, e2) => new Date(e1.date).getTime() - new Date(e2.date).getTime())
+            .sort((e1, e2) => parseDate(e1.date).getTime() - parseDate(e2.date).getTime())
         ;
         const dateLength =
-            new Date(this.runtime.endDate).getTime()
-            - new Date(this.runtime.startDate).getTime()
+            parseDate(this.runtime.endDate).getTime()
+            - parseDate(this.runtime.startDate).getTime()
         ;
         for (const data of events) {
             // @ts-ignore
@@ -463,7 +483,7 @@ export default abstract class Timeline extends Component{
             event.drawInfo.target = {
                 x: this.axis.body.drawInfo.box.x + this.axis.body.drawInfo.box.width / 2,
                 y:
-                    (new Date(this.runtime.endDate).getTime() - new Date(data.date).getTime())
+                    (parseDate(this.runtime.endDate).getTime() - parseDate(data.date).getTime())
                     / dateLength
                     * this.axis.drawInfo.length
                 ,
@@ -475,7 +495,7 @@ export default abstract class Timeline extends Component{
             event.drawInfo.foldPlaceholder = data.foldPlaceholder;
             event.drawInfo.endText = data.endText;
             if (data.endDate) {
-                const endDate :Date = new Date(
+                const endDate :Date = parseDate(
                     data.endDate === 'now'
                         ? this.runtime.endDate
                         : data.endDate
@@ -483,7 +503,7 @@ export default abstract class Timeline extends Component{
                 );
                 event.drawInfo.endDate = endDate.toISOString();
                 event.drawInfo.axisLength =
-                    (endDate.getTime() - new Date(data.date).getTime())
+                    (endDate.getTime() - parseDate(data.date).getTime())
                     / dateLength
                     * this.axis.drawInfo.length
                 ;

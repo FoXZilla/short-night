@@ -18,6 +18,9 @@ export interface Line{
 }
 
 export const enum DateBy{
+    FiveCentury = 'fiveCentury',
+    Century = 'century',
+    TenYear = 'tenYear',
     Year = 'year',
     Month = 'month',
     Quarter = 'quarter',

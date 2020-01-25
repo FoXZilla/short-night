@@ -42,7 +42,13 @@ export default abstract class AxisMilestone extends Component{
     formatDate(date :Date, by :DateBy) :string {
         const monthAbbr = date.toDateString().split(' ')[1];
         switch (by){
-            case DateBy.Year: return `${date.getFullYear()}`;
+            case DateBy.FiveCentury:
+            case DateBy.Century:
+            case DateBy.TenYear:
+            case DateBy.Year: return date.getFullYear() > 0
+                ? String(date.getFullYear())
+                : `B.C. ${date.getFullYear()}`
+            ;
             case DateBy.Quarter: return `${monthAbbr}. ${date.getFullYear()}`;
             case DateBy.Month: return `${monthAbbr}.`;
             case DateBy.Week: return `${date.getMonth() + 1}.${date.getDate()}`;

@@ -49,6 +49,12 @@ export default class PositionCounter implements Partial<Extension> {
             ...axis.scales,
             ...axis.milestones,
         ];
+        const milestones = Array.from(axis.milestones)
+            .sort((comp1, comp2) => comp1.drawInfo.alignY - comp2.drawInfo.alignY)
+        ;
+        const scales = Array.from(axis.scales)
+            .sort((comp1, comp2) => comp1.drawInfo.alignY - comp2.drawInfo.alignY)
+        ;
 
         // Milestone cannot occupy the space of Axis
         axis.extraData.realLength =
@@ -68,47 +74,52 @@ export default class PositionCounter implements Partial<Extension> {
             components: childComponents,
         });
 
-        // Set Push-config
-        axis.milestones.forEach(milestone => this.addPushConfig({
-            critical: milestone.drawInfo.alignY,
-            additional: milestone.drawInfo.box.height,
-            component: milestone,
-        }));
-
         // Move milestone, avoid a space occupied by itself
         for (const milestone of axis.milestones) {
             milestone.drawInfo.alignY += milestone.drawInfo.box.height / 2;
             await milestone.apply();
         }
 
+        // Set Push-config
+        await this.updatePushConfigs(axis);
+
         // Push milestones and scales
+        const axisSpace = axis.body.drawInfo.box.y;
 
         await this.ext.breakpoint.block(Breakpoint.PushScalesAndMilestones, {
             components: childComponents,
         });
 
-        const pushTarget :(AxisMilestone|AxisScale)[] =
-            [...axis.milestones, ...axis.scales].sort(
-                (comp1, comp2) => comp1.drawInfo.alignY - comp2.drawInfo.alignY,
-            )
-        ;
-        for (const comp of pushTarget) {
+        for (const comp of milestones) {
             const distance =
                 this.countCritical(comp.drawInfo.alignY, comp)
-                + axis.body.drawInfo.box.y
+                + axisSpace
             ;
 
-            if (comp.name === SN.AxisMilestone) {
-                await Promise.all(pushTarget.map(comp => comp.apply()));
-                await this.ext.breakpoint.block(Breakpoint.PushScalesAndMilestones, {
-                    components: childComponents,
-                });
-            }
+            await Promise.all(milestones.map(comp => comp.apply()));
+            await this.ext.breakpoint.block(Breakpoint.PushScalesAndMilestones, {
+                components: childComponents,
+            });
+
+            comp.drawInfo.alignY += distance;
+
+            await this.updatePushConfigs(axis);
+        }
+
+        await this.ext.breakpoint.block(Breakpoint.PushScalesAndMilestones, {
+            components: childComponents,
+        });
+
+        for (const comp of scales) {
+            const distance =
+                this.countCritical(comp.drawInfo.alignY, comp)
+                + axisSpace
+            ;
 
             comp.drawInfo.alignY += distance;
         }
 
-        await Promise.all(pushTarget.map(comp => comp.apply()));
+        await Promise.all(scales.map(comp => comp.apply()));
         await this.ext.breakpoint.block(Breakpoint.PushScalesAndMilestones, {
             components: childComponents,
         });
@@ -122,9 +133,11 @@ export default class PositionCounter implements Partial<Extension> {
         const axis = this.ext.components[SN.Axis][0];
         const toRealLength = axis.extraData.realLength! / axis.drawInfo.length;
 
+        await this.updatePushConfigs(axis);
+
         for (const event of events) {
             event.drawInfo.target.y *= toRealLength;
-            event.drawInfo.target.y += this.countCritical(event.drawInfo.target.y);
+            event.drawInfo.target.y += this.countCritical(event.drawInfo.target.y, event);
 
             if (event.drawInfo.axisLength) {
                 event.drawInfo.axisLength *= toRealLength;
@@ -146,13 +159,34 @@ export default class PositionCounter implements Partial<Extension> {
         this.pushConfigs.push(config);
     }
     protected countCritical(num :number, comp ? :Component) :number {
-        if (this.pushConfigs.length === 0) return num;
+        if (this.pushConfigs.length === 0) return 0;
         return this.pushConfigs.reduce(
             (result :number, config :PushConfig) => {
                 if (comp && comp === config.component) return result;
-                return num > config.critical ? result + config.additional :result;
+                return num + result > config.critical ? result + config.additional : result;
             },
             0,
         );
+    }
+    protected async updatePushConfigs(axis :Axis) {
+        await Promise.all(axis.milestones.map(c => c.apply()));
+        axis.milestones.forEach((milestone) => {
+            const config :PushConfig | undefined = this.pushConfigs.find(
+                config => config.component === milestone,
+            );
+
+            if (config) {
+                config.critical = milestone.drawInfo.box.y;
+                config.additional = milestone.drawInfo.box.height;
+            } else {
+                this.addPushConfig({
+                    critical: milestone.drawInfo.box.y,
+                    additional: milestone.drawInfo.box.height,
+                    component: milestone,
+                });
+            }
+
+            this.pushConfigs.sort((c1, c2) => c1.critical - c2.critical);
+        });
     }
 }

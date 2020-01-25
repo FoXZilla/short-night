@@ -231,3 +231,16 @@ export function deepFreeze<T>(originObject :T) :Readonly<T> {
 
     return Object.freeze(newObject);
 }
+
+export function parseDate(material :any) :Date {
+    const pureNumberString = typeof material === 'string'
+        && String(Number(material)) === material
+    ;
+    if (pureNumberString) {
+        const date = new Date();
+        date.setFullYear(material);
+        return date;
+    }
+
+    return new Date(material);
+}

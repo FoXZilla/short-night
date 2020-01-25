@@ -28,6 +28,9 @@ export const DATE_COUNT_EXTRA = {
     [DateBy.Month]:     1000 * 60 * 60 * 24 * 30 / 2,
     [DateBy.Quarter]:   1000 * 60 * 60 * 24 * 30 * 3 / 2,
     [DateBy.Year]:      1000 * 60 * 60 * 24 * 30 * 12 / 2,
+    [DateBy.TenYear]:   1000 * 60 * 60 * 24 * 30 * 12 * 10 / 2,
+    [DateBy.Century]:   1000 * 60 * 60 * 24 * 30 * 12 * 100 / 2,
+    [DateBy.FiveCentury]: 1000 * 60 * 60 * 24 * 30 * 12 * 100 * 5 / 2,
 };
 
 export const WALK_ON = {

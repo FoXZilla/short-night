@@ -52,15 +52,15 @@ export default class EventAxis2EventAxis {
         if (ea1 === ea2) return false;
         const line1 :Line = {
             startX: ea1.drawInfo.markDrawInfo.target.x + ea1.drawInfo.offsetX,
-            startY: ea1.drawInfo.markDrawInfo.target.y,
+            startY: ea1.drawInfo.markDrawInfo.target.y + 1,
             endX: ea1.drawInfo.markDrawInfo.target.x + ea1.drawInfo.offsetX,
-            endY: ea1.drawInfo.markDrawInfo.target.y - ea1.drawInfo.length,
+            endY: ea1.drawInfo.markDrawInfo.target.y - ea1.drawInfo.length - 1,
         };
         const line2 :Line = {
             startX: ea2.drawInfo.markDrawInfo.target.x + ea2.drawInfo.offsetX,
-            startY: ea2.drawInfo.markDrawInfo.target.y,
+            startY: ea2.drawInfo.markDrawInfo.target.y + 1,
             endX: ea2.drawInfo.markDrawInfo.target.x + ea2.drawInfo.offsetX,
-            endY: ea2.drawInfo.markDrawInfo.target.y - ea2.drawInfo.length,
+            endY: ea2.drawInfo.markDrawInfo.target.y - ea2.drawInfo.length - 1,
         };
         return isIntersecting(line1, line2);
     }

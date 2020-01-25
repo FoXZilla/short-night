@@ -1,5 +1,5 @@
 import { ComponentDrawInfo, Coordinate, Box, ComponentConstructorInfo } from '../types';
-import { parseBox } from '../common/functions';
+import { parseDate, parseBox } from '../common/functions';
 import Component from '../common/Component';
 import { SN } from '../common/definitions';
 import EventMark from './EventMark';
@@ -84,7 +84,7 @@ export default abstract class EventBody extends Component{
                 ${this.drawInfo.foldPlaceholder || this.drawInfo.title}
             </div>
             <div class="title">${this.drawInfo.title}</div>
-            <div class="date">${new Date(this.drawInfo.date).toLocaleDateString()}</div>
+            <div class="date">${parseDate(this.drawInfo.date).toLocaleDateString()}</div>
             <div class="description">${this.drawInfo.description}</div>
         `;
 

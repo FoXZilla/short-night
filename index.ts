@@ -1,5 +1,5 @@
 import { DEBUG } from './common/definitions';
-if (DEBUG) console.log('The night is short, walk on girl.');
+if (DEBUG) console.log('[DEBUG ON] The night is short, walk on girl.');
 
 export { default as Timeline, ConstructInfo as TimelineConstructInfo } from './Timeline';
 
