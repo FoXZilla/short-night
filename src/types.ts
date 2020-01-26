@@ -3,18 +3,18 @@ import { ExtensionManager } from './extensions';
 // Base types
 
 export interface Coordinate{
-    x: number;
-    y: number;
+    x :number;
+    y :number;
 }
 export interface Box extends Coordinate{
-    width: number;
-    height: number;
+    width :number;
+    height :number;
 }
 export interface Line{
-    startX: number;
-    startY: number;
-    endX: number;
-    endY:number;
+    startX :number;
+    startY :number;
+    endX :number;
+    endY :number;
 }
 
 export const enum DateBy{
@@ -35,7 +35,7 @@ export const enum DateBy{
  * The box should contain all trace of component.
  * */
 export interface ComponentDrawInfo{
-    box: Box;
+    box :Box;
 }
 
 /**
@@ -45,18 +45,18 @@ export interface ComponentDrawInfo{
  * todo: add description about props
  * */
 export interface GridConfig{
-    eventOffset: Coordinate;
+    eventOffset :Coordinate;
 
-    minEventAxisOffset: number;
+    minEventAxisOffset :number;
 
-    markWidth: number;
-    markHeight?: number;
+    markWidth :number;
+    markHeight? :number;
 
-    scaleHeight: number;
-    axisWidth: number;
-    axisStart: Coordinate;
-    eventWidth: number;
-    canvasWidth: number;
+    scaleHeight :number;
+    axisWidth :number;
+    axisStart :Coordinate;
+    eventWidth :number;
+    canvasWidth :number;
 }
 
 export const enum ConflictFixResult {
@@ -66,9 +66,9 @@ export const enum ConflictFixResult {
 }
 
 export interface ComponentConstructorInfo {
-    ext: ExtensionManager;
-    canvas: HTMLCanvasElement;
-    container: HTMLElement;
+    ext :ExtensionManager;
+    canvas :HTMLCanvasElement;
+    container :HTMLElement;
 }
 
 export type TimelineData = any; // TODO
