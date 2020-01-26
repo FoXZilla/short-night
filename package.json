@@ -2,29 +2,14 @@
   "name": "short-night",
   "version": "0.0.22",
   "description": "An engine for drawing timeline graph.",
-  "main": "index.js",
-  "types": "index.ts",
   "scripts": {
     "lint": "tslint --project tsconfig.json",
     "fix-lint": "tslint --project tsconfig.json --fix",
     "build-doc": "typedoc ./ --exclude **/node_modules/** --out docs/ --readme ./index.docs.md --tsconfig ./tsconfig.json --mode modules --name \"Short Night TypeScript Modules\" && nodetouch docs/.nojekyll",
-    "build": "node-sass ./styles.scss -o ./ && tsc",
-    "pub": "npm run build && npm publish",
+    "build": "node-sass src/styles.scss -o ./dist && tsc && cp package.json ./dist/package.json",
+    "pub": "npm run build && cd dist/ && npm publish",
     "test": "npm run lint && npm run build"
   },
-  "files": [
-    "Event/*",
-    "Axis/*",
-    "common/*",
-    "extensions/*",
-    "styles.css",
-    "styles.scss",
-    "types.d.ts",
-    "Timeline.js",
-    "Timeline.ts",
-    "index.ts",
-    "index.js"
-  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/FoXZilla/short-night.git"

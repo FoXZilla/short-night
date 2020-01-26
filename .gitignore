@@ -61,15 +61,4 @@ typings/
 .idea
 
 # Build from tsc
-Axis/**/*.js
-Event/**/*.js
-common/**/*.js
-extensions/**/*.js
-index.js
-Timeline.js
-Axis/**/*.map
-Event/**/*.map
-common/**/*.map
-extensions/**/*.map
-index.map
-Timeline.map
+dist/

@@ -3,7 +3,7 @@ import { ExtensionManager } from '../extensions';
 import { DEBUG, SN } from './definitions';
 import { createLogFunction } from './functions';
 
-enum MUST_CALL_AND_RETURN_SUPER_METHOD {
+export enum MUST_CALL_AND_RETURN_SUPER_METHOD {
     SUPER_APPLY,
     SUPER_DRAW,
     SUPER_DESTROY,

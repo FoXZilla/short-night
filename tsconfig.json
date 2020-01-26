@@ -1,5 +1,7 @@
 {
   "compilerOptions": {
+    "outDir": "dist/",
+    "declaration": true,
     "downlevelIteration": true,
     "strict": true,
     "module": "commonjs",
@@ -8,5 +10,7 @@
     "esModuleInterop": true,
     "moduleResolution": "node",
     "lib": ["esnext", "dom"]
-  }
+  },
+  "include": ["src/"],
+  "exclude": ["dist/"]
 }
