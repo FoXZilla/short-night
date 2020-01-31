@@ -86,9 +86,24 @@ export default class EventBody2EventBodyFloater {
     }
 
     protected pickRingleader() :Conflict|undefined {
-        return this.conflicts.find(
-            c1 => this.conflicts.every(c2 => c1.with.length >= c2.with.length),
-        );
+        const maxTimes = Math.max(...this.conflicts.map(c => c.with.length));
+        const candidates = this.conflicts.filter(c => c.with.length === maxTimes);
+
+        if (candidates.length === 0) return;
+        if (candidates.length === 1) return candidates[0];
+
+        candidates.sort((c1, c2) => {
+            const drawInfo1 = c1.self.drawInfo;
+            const drawInfo2 = c2.self.drawInfo;
+            const descriptionLength1 = drawInfo1.description ? drawInfo1.description.length : 0;
+            const descriptionLength2 = drawInfo2.description ? drawInfo2.description.length : 0;
+            const titleLength1 = drawInfo1.title ? drawInfo1.title.length : 0;
+            const titleLength2 = drawInfo2.title ? drawInfo2.title.length : 0;
+
+            return (descriptionLength1 + titleLength1) - (descriptionLength2 + titleLength2);
+        });
+
+        return candidates[0];
     }
     protected countConflict() {
         this.conflicts.length = 0;

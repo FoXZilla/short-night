@@ -35,6 +35,9 @@ export default class ConflictFixer implements Partial<Extension> {
 
         // Conflict is fixed
         if (await this.fixAll() === ConflictFixResult.NoConflict) {
+            if (this.counter > 3) {
+                console.warn(`[ShortNight]: the conflict fixed by ${this.counter} times.`);
+            }
             this.counter = 0;
             return;
         }
@@ -51,7 +54,7 @@ export default class ConflictFixer implements Partial<Extension> {
         }
 
         await Promise.resolve().then(() => timeline.apply({
-            axisLength: timeline.runtime.axisLength * 1.1,
+            axisLength: timeline.runtime.axisLength * 1.3,
         }));
 
     }

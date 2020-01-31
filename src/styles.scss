@@ -37,6 +37,7 @@
         .description{
             word-break: break-all;
             font-size: 0.8em;
+            text-align: justify;
         }
         .foldPlaceholder{
             @extend .title;

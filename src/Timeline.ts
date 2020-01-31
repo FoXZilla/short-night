@@ -168,7 +168,7 @@ export default abstract class Timeline extends Component{
      * @param (TimelineData) input
      * @return {Promise<void>>}
      * */
-    async drawFrom(input :TimelineData) :Promise<void> {
+    async import(input :TimelineData) :Promise<void> {
         const data :any  = typeof input === 'string' ? JSON.parse(input).data : input.data;
         // @ts-ignore
         const axis :Axis = new this.axisConstructor(this);
@@ -219,14 +219,15 @@ export default abstract class Timeline extends Component{
         ;
         for (const { bodyDrawInfo, markDrawInfo, axisDrawInfo } of events) {
             // @ts-ignore
-            allComponents.push(new event.markConstructor(this).importDrawInfo(markDrawInfo));
-            // @ts-ignore
             allComponents.push(new event.bodyConstructor(this).importDrawInfo(bodyDrawInfo));
 
             if (axisDrawInfo !== null) {
                 // @ts-ignore
                 allComponents.push(new event.axisConstructor(this).importDrawInfo(axisDrawInfo));
             }
+
+            // @ts-ignore
+            allComponents.push(new event.markConstructor(this).importDrawInfo(markDrawInfo));
         }
 
         // TODO: Maybe there is slow when want not play animation?

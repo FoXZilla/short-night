@@ -1,5 +1,6 @@
-import { Box, DateBy, Line, ConflictFixResult } from '../types';
+import { Box, DateBy, Line, ConflictFixResult, TimelineData } from '../types';
 import { DEBUG } from './definitions';
+import Timeline from '../Timeline';
 
 export function isBox(obj :any) :obj is Box {
     return typeof obj === 'object'
@@ -243,4 +244,30 @@ export function parseDate(material :any) :Date {
     }
 
     return new Date(material);
+}
+
+export function createDraw<
+    T extends Timeline,
+    U extends typeof Timeline,
+>(name :string, timelineConstructor :U) {
+    return async function (
+        el :string | HTMLElement,
+        data :Timeline['drawInfo']['events'] | TimelineData,
+    ) {
+        const { container, canvas } = Timeline.mount(el, name);
+        const timeline :T = new (timelineConstructor as any)({
+            canvas,
+            container,
+        });
+
+        if (Array.isArray(data)) {
+            timeline.drawInfo.events = data;
+            await timeline.apply();
+            timeline.draw();
+        } else {
+            await timeline.import(data);
+        }
+
+        return timeline;
+    };
 }
