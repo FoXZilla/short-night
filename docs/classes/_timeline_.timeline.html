@@ -69,27 +69,6 @@
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
-			<section class="tsd-panel tsd-comment">
-				<div class="tsd-comment tsd-typography">
-					<div class="lead">
-						<p>Timeline self. There are 2 way to draw a timeline.</p>
-						<ol>
-							<li>draw a timeline base on event list.</li>
-							<li>draw a timeline base an TimelineData.
-								For No.1, there are like:
-								<code>js
-const timeline = new Timeline(...);
-timeline.event = [...];
-await timeline.apply();
-timeline.draw();</code>js</li>
-						</ol>
-					</div>
-					<p>For No.2, Ensure you had a TimelineData, and run like this for draw a timeline:
-					(The TimelineData is generate by timeline.export())</p>
-					<pre><code class="language-js"><span class="hljs-keyword">const</span> timeline = <span class="hljs-keyword">new</span> Timeline(...);
-<span class="hljs-keyword">await</span> timeline.drawFrom(timelineData);</code></pre>
-				</div>
-			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
@@ -128,6 +107,7 @@ timeline.draw();</code>js</li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="_timeline_.timeline.html#extradata" class="tsd-kind-icon">extra<wbr>Data</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_timeline_.timeline.html#grid" class="tsd-kind-icon">grid</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-overwrite"><a href="_timeline_.timeline.html#name" class="tsd-kind-icon">name</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="_timeline_.timeline.html#ratio" class="tsd-kind-icon">ratio</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_timeline_.timeline.html#runtime" class="tsd-kind-icon">runtime</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="_timeline_.timeline.html#theme" class="tsd-kind-icon">theme</a></li>
 							</ul>
@@ -151,14 +131,17 @@ timeline.draw();</code>js</li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite"><a href="_timeline_.timeline.html#createbox" class="tsd-kind-icon">create<wbr>Box</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_timeline_.timeline.html#createelement" class="tsd-kind-icon">create<wbr>Element</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_timeline_.timeline.html#destroy" class="tsd-kind-icon">destroy</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_timeline_.timeline.html#downloadimage" class="tsd-kind-icon">download<wbr>Image</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite"><a href="_timeline_.timeline.html#draw" class="tsd-kind-icon">draw</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_timeline_.timeline.html#drawfrom" class="tsd-kind-icon">draw<wbr>From</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_timeline_.timeline.html#export" class="tsd-kind-icon">export</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite"><a href="_timeline_.timeline.html#hide" class="tsd-kind-icon">hide</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_timeline_.timeline.html#import" class="tsd-kind-icon">import</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_timeline_.timeline.html#importdrawinfo" class="tsd-kind-icon">import<wbr>Draw<wbr>Info</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><a href="_timeline_.timeline.html#initaxis" class="tsd-kind-icon">init<wbr>Axis</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><a href="_timeline_.timeline.html#initevents" class="tsd-kind-icon">init<wbr>Events</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><a href="_timeline_.timeline.html#initruntime" class="tsd-kind-icon">init<wbr>Runtime</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_timeline_.timeline.html#screenshot" class="tsd-kind-icon">screenshot</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_timeline_.timeline.html#setupradio" class="tsd-kind-icon">setup<wbr>Radio</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><a href="_timeline_.timeline.html#stretchcanvas" class="tsd-kind-icon">stretch<wbr>Canvas</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="_timeline_.timeline.html#is" class="tsd-kind-icon">is</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="_timeline_.timeline.html#mount" class="tsd-kind-icon">mount</a></li>
@@ -187,7 +170,7 @@ timeline.draw();</code>js</li>
 							<aside class="tsd-sources">
 								<p>Overrides <a href="_common_component_.component.html">Component</a>.<a href="_common_component_.component.html#constructor">constructor</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/4266372/Timeline.ts#L90">Timeline.ts:90</a></li>
+									<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/535534c/src/Timeline.ts#L91">Timeline.ts:91</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -209,7 +192,7 @@ timeline.draw();</code>js</li>
 					<div class="tsd-signature tsd-kind-icon">axis<span class="tsd-signature-symbol">:</span> <a href="_axis_index_.axis.html" class="tsd-signature-type">Axis</a><span class="tsd-signature-symbol"> =&nbsp;null as any</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/4266372/Timeline.ts#L116">Timeline.ts:116</a></li>
+							<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/535534c/src/Timeline.ts#L117">Timeline.ts:117</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -219,7 +202,7 @@ timeline.draw();</code>js</li>
 					<div class="tsd-signature tsd-kind-icon">axis<wbr>Constructor<span class="tsd-signature-symbol">:</span> <a href="_axis_index_.axis.html" class="tsd-signature-type">Axis</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/4266372/Timeline.ts#L119">Timeline.ts:119</a></li>
+							<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/535534c/src/Timeline.ts#L120">Timeline.ts:120</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -230,14 +213,9 @@ timeline.draw();</code>js</li>
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_common_component_.component.html">Component</a>.<a href="_common_component_.component.html#canvas">canvas</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/4266372/common/Component.ts#L56">common/Component.ts:56</a></li>
+							<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/535534c/src/common/Component.ts#L56">common/Component.ts:56</a></li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>The canvas where component draw on.</p>
-						</div>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 					<a name="container" class="tsd-anchor"></a>
@@ -246,14 +224,9 @@ timeline.draw();</code>js</li>
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_common_component_.component.html">Component</a>.<a href="_common_component_.component.html#container">container</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/4266372/common/Component.ts#L60">common/Component.ts:60</a></li>
+							<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/535534c/src/common/Component.ts#L60">common/Component.ts:60</a></li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>The container which contain all of component&#39;s element.</p>
-						</div>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 					<a name="destroyed" class="tsd-anchor"></a>
@@ -262,15 +235,9 @@ timeline.draw();</code>js</li>
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_common_component_.component.html">Component</a>.<a href="_common_component_.component.html#destroyed">destroyed</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/4266372/common/Component.ts#L104">common/Component.ts:104</a></li>
+							<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/535534c/src/common/Component.ts#L117">common/Component.ts:117</a></li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Means that the component has been destroyed.
-							Call any method on component when it has destroyed will got an error.</p>
-						</div>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 					<a name="element" class="tsd-anchor"></a>
@@ -279,15 +246,9 @@ timeline.draw();</code>js</li>
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_common_component_.component.html">Component</a>.<a href="_common_component_.component.html#element">element</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/4266372/common/Component.ts#L77">common/Component.ts:77</a></li>
+							<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/535534c/src/common/Component.ts#L90">common/Component.ts:90</a></li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Optional. Be filled in this.createElement.
-							The HTML element which be needed by component draw.</p>
-						</div>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 					<a name="eventconstructor" class="tsd-anchor"></a>
@@ -295,7 +256,7 @@ timeline.draw();</code>js</li>
 					<div class="tsd-signature tsd-kind-icon">event<wbr>Constructor<span class="tsd-signature-symbol">:</span> <a href="_event_index_.event.html" class="tsd-signature-type">Event</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/4266372/Timeline.ts#L120">Timeline.ts:120</a></li>
+							<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/535534c/src/Timeline.ts#L121">Timeline.ts:121</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -305,7 +266,7 @@ timeline.draw();</code>js</li>
 					<div class="tsd-signature tsd-kind-icon">events<span class="tsd-signature-symbol">:</span> <a href="_event_index_.event.html" class="tsd-signature-type">Event</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> =&nbsp;[]</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/4266372/Timeline.ts#L115">Timeline.ts:115</a></li>
+							<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/535534c/src/Timeline.ts#L116">Timeline.ts:116</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -316,14 +277,9 @@ timeline.draw();</code>js</li>
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_common_component_.component.html">Component</a>.<a href="_common_component_.component.html#ext">ext</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/4266372/common/Component.ts#L64">common/Component.ts:64</a></li>
+							<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/535534c/src/common/Component.ts#L64">common/Component.ts:64</a></li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Manage all extensions &amp; Help component communicate for each other.</p>
-						</div>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 					<a name="extradata" class="tsd-anchor"></a>
@@ -332,27 +288,17 @@ timeline.draw();</code>js</li>
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_common_component_.component.html">Component</a>.<a href="_common_component_.component.html#extradata">extraData</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/4266372/common/Component.ts#L52">common/Component.ts:52</a></li>
+							<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/535534c/src/common/Component.ts#L52">common/Component.ts:52</a></li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>An ext extra</p>
-						</div>
-						<dl class="tsd-comment-tags">
-							<dt>see</dt>
-							<dd><p>ExtraData</p>
-							</dd>
-						</dl>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 					<a name="grid" class="tsd-anchor"></a>
 					<h3>grid</h3>
-					<div class="tsd-signature tsd-kind-icon">grid<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">GridConfig</span></div>
+					<div class="tsd-signature tsd-kind-icon">grid<span class="tsd-signature-symbol">:</span> <a href="../interfaces/_types_.gridconfig.html" class="tsd-signature-type">GridConfig</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/4266372/Timeline.ts#L102">Timeline.ts:102</a></li>
+							<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/535534c/src/Timeline.ts#L103">Timeline.ts:103</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -363,7 +309,18 @@ timeline.draw();</code>js</li>
 					<aside class="tsd-sources">
 						<p>Overrides <a href="_common_component_.component.html">Component</a>.<a href="_common_component_.component.html#name">name</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/4266372/Timeline.ts#L101">Timeline.ts:101</a></li>
+							<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/535534c/src/Timeline.ts#L102">Timeline.ts:102</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
+					<a name="ratio" class="tsd-anchor"></a>
+					<h3>ratio</h3>
+					<div class="tsd-signature tsd-kind-icon">ratio<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> =&nbsp;window.devicePixelRatio || 1</span></div>
+					<aside class="tsd-sources">
+						<p>Inherited from <a href="_common_component_.component.html">Component</a>.<a href="_common_component_.component.html#ratio">ratio</a></p>
+						<ul>
+							<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/535534c/src/common/Component.ts#L74">common/Component.ts:74</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -373,20 +330,9 @@ timeline.draw();</code>js</li>
 					<div class="tsd-signature tsd-kind-icon">runtime<span class="tsd-signature-symbol">:</span> <a href="../interfaces/_timeline_.runtimeinfo.html" class="tsd-signature-type">RuntimeInfo</a><span class="tsd-signature-symbol"> =&nbsp;{} as any</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/4266372/Timeline.ts#L108">Timeline.ts:108</a></li>
+							<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/535534c/src/Timeline.ts#L109">Timeline.ts:109</a></li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Generated after timeline.apply() called.
-							If you wanna to specify some keys, passed a object when timeline.apply() called.</p>
-						</div>
-						<dl class="tsd-comment-tags">
-							<dt>see</dt>
-							<dd><p>RuntimeInfo</p>
-							</dd>
-						</dl>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 					<a name="theme" class="tsd-anchor"></a>
@@ -395,15 +341,9 @@ timeline.draw();</code>js</li>
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_common_component_.component.html">Component</a>.<a href="_common_component_.component.html#theme">theme</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/4266372/common/Component.ts#L42">common/Component.ts:42</a></li>
+							<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/535534c/src/common/Component.ts#L42">common/Component.ts:42</a></li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Theme name.
-							Be filled when the theme&#39;s class constructed.</p>
-						</div>
-					</div>
 				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group tsd-is-inherited tsd-is-private-protected">
@@ -411,30 +351,13 @@ timeline.draw();</code>js</li>
 				<section class="tsd-panel tsd-member tsd-kind-get-signature tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
 					<a name="l" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagProtected">Protected</span> l</h3>
-					<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
-						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> l<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">(Anonymous function)</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<p>Inherited from <a href="_common_component_.component.html">Component</a>.<a href="_common_component_.component.html#l">l</a></p>
-								<ul>
-									<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/4266372/common/Component.ts#L177">common/Component.ts:177</a></li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Print log if the DEBUG is true.</p>
-								</div>
-								<dl class="tsd-comment-tags">
-									<dt>example</dt>
-									<dd><p>this.l<code>Hello world</code></p>
-									</dd>
-								</dl>
-							</div>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">(Anonymous function)</span></h4>
-						</li>
-					</ul>
+					<div class="tsd-signature tsd-kind-icon">l<span class="tsd-signature-symbol">:</span> </div>
+					<aside class="tsd-sources">
+						<p>Inherited from <a href="_common_component_.component.html">Component</a>.<a href="_common_component_.component.html#l">l</a></p>
+						<ul>
+							<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/535534c/src/common/Component.ts#L191">common/Component.ts:191</a></li>
+						</ul>
+					</aside>
 				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
@@ -443,25 +366,20 @@ timeline.draw();</code>js</li>
 					<a name="apply" class="tsd-anchor"></a>
 					<h3>apply</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
-						<li class="tsd-signature tsd-kind-icon">apply<span class="tsd-signature-symbol">(</span>runtime<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">Partial</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_timeline_.runtimeinfo.html" class="tsd-signature-type">RuntimeInfo</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../enums/_common_component_.must_call_and_return_super_method.html" class="tsd-signature-type">MUST_CALL_AND_RETURN_SUPER_METHOD</a><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">apply<span class="tsd-signature-symbol">(</span>runtime<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Partial</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_timeline_.runtimeinfo.html" class="tsd-signature-type">RuntimeInfo</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../enums/_common_component_.must_call_and_return_super_method.html" class="tsd-signature-type">MUST_CALL_AND_RETURN_SUPER_METHOD</a><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<p>Overrides <a href="_common_component_.component.html">Component</a>.<a href="_common_component_.component.html#apply">apply</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/4266372/Timeline.ts#L131">Timeline.ts:131</a></li>
+									<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/535534c/src/Timeline.ts#L132">Timeline.ts:132</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5><span class="tsd-flag ts-flagOptional">Optional</span> runtime: <span class="tsd-signature-type">Partial</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_timeline_.runtimeinfo.html" class="tsd-signature-type">RuntimeInfo</a><span class="tsd-signature-symbol">&gt;</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>manually specify some runtime info.</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../enums/_common_component_.must_call_and_return_super_method.html" class="tsd-signature-type">MUST_CALL_AND_RETURN_SUPER_METHOD</a><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -479,15 +397,9 @@ timeline.draw();</code>js</li>
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_common_component_.component.html">Component</a>.<a href="_common_component_.component.html#checkdestroy">checkDestroy</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/4266372/common/Component.ts#L184">common/Component.ts:184</a></li>
+									<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/535534c/src/common/Component.ts#L198">common/Component.ts:198</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Verify a component is destroyed or not.
-									Throw an error if this.destroyed is true.</p>
-								</div>
-							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 						</li>
 					</ul>
@@ -502,7 +414,7 @@ timeline.draw();</code>js</li>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/4266372/Timeline.ts#L381">Timeline.ts:381</a></li>
+									<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/535534c/src/Timeline.ts#L429">Timeline.ts:429</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
@@ -519,7 +431,7 @@ timeline.draw();</code>js</li>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/4266372/Timeline.ts#L328">Timeline.ts:328</a></li>
+									<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/535534c/src/Timeline.ts#L361">Timeline.ts:361</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Date</span></h4>
@@ -530,16 +442,16 @@ timeline.draw();</code>js</li>
 					<a name="countmilestoneby" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagProtected">Protected</span> count<wbr>Milestone<wbr>By</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-protected">
-						<li class="tsd-signature tsd-kind-icon">count<wbr>Milestone<wbr>By<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">DateBy</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></li>
+						<li class="tsd-signature tsd-kind-icon">count<wbr>Milestone<wbr>By<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../enums/_types_.dateby.html" class="tsd-signature-type">DateBy</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/4266372/Timeline.ts#L340">Timeline.ts:340</a></li>
+									<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/535534c/src/Timeline.ts#L373">Timeline.ts:373</a></li>
 								</ul>
 							</aside>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">DateBy</span>
+							<h4 class="tsd-returns-title">Returns <a href="../enums/_types_.dateby.html" class="tsd-signature-type">DateBy</a>
 								<span class="tsd-signature-symbol"> | </span>
 								<span class="tsd-signature-type">null</span>
 							</h4>
@@ -550,16 +462,16 @@ timeline.draw();</code>js</li>
 					<a name="countscaleby" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagProtected">Protected</span> count<wbr>Scale<wbr>By</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-protected">
-						<li class="tsd-signature tsd-kind-icon">count<wbr>Scale<wbr>By<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">DateBy</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></li>
+						<li class="tsd-signature tsd-kind-icon">count<wbr>Scale<wbr>By<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../enums/_types_.dateby.html" class="tsd-signature-type">DateBy</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/4266372/Timeline.ts#L365">Timeline.ts:365</a></li>
+									<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/535534c/src/Timeline.ts#L407">Timeline.ts:407</a></li>
 								</ul>
 							</aside>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">DateBy</span>
+							<h4 class="tsd-returns-title">Returns <a href="../enums/_types_.dateby.html" class="tsd-signature-type">DateBy</a>
 								<span class="tsd-signature-symbol"> | </span>
 								<span class="tsd-signature-type">null</span>
 							</h4>
@@ -576,7 +488,7 @@ timeline.draw();</code>js</li>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/4266372/Timeline.ts#L322">Timeline.ts:322</a></li>
+									<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/535534c/src/Timeline.ts#L355">Timeline.ts:355</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Date</span></h4>
@@ -594,7 +506,7 @@ timeline.draw();</code>js</li>
 							<aside class="tsd-sources">
 								<p>Overrides <a href="_common_component_.component.html">Component</a>.<a href="_common_component_.component.html#createbox">createBox</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/4266372/Timeline.ts#L122">Timeline.ts:122</a></li>
+									<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/535534c/src/Timeline.ts#L123">Timeline.ts:123</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -612,17 +524,9 @@ timeline.draw();</code>js</li>
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_common_component_.component.html">Component</a>.<a href="_common_component_.component.html#createelement">createElement</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/4266372/common/Component.ts#L84">common/Component.ts:84</a></li>
+									<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/535534c/src/common/Component.ts#L97">common/Component.ts:97</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Optional. Depend on the draw this component is need HTML element or not.
-										Create an HTML element base on this.drawInfo to fill this.element
-										and append to this.container.
-									Be called in this.apply and this.draw.</p>
-								</div>
-							</div>
 							<h4 class="tsd-returns-title">Returns <a href="../enums/_common_component_.must_call_and_return_super_method.html" class="tsd-signature-type">MUST_CALL_AND_RETURN_SUPER_METHOD</a></h4>
 						</li>
 					</ul>
@@ -638,16 +542,33 @@ timeline.draw();</code>js</li>
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_common_component_.component.html">Component</a>.<a href="_common_component_.component.html#destroy">destroy</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/4266372/common/Component.ts#L109">common/Component.ts:109</a></li>
+									<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/535534c/src/common/Component.ts#L122">common/Component.ts:122</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Destroy self.
-									It should remove all element from dom and clear all trace in canvas if that&#39;s made by self.</p>
-								</div>
-							</div>
 							<h4 class="tsd-returns-title">Returns <a href="../enums/_common_component_.must_call_and_return_super_method.html" class="tsd-signature-type">MUST_CALL_AND_RETURN_SUPER_METHOD</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="downloadimage" class="tsd-anchor"></a>
+					<h3>download<wbr>Image</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">download<wbr>Image<span class="tsd-signature-symbol">(</span>filename<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/535534c/src/Timeline.ts#L286">Timeline.ts:286</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> filename: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> =&nbsp;&#x60;${this.theme}-timeline.png&#x60;</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -662,7 +583,7 @@ timeline.draw();</code>js</li>
 							<aside class="tsd-sources">
 								<p>Overrides <a href="_common_component_.component.html">Component</a>.<a href="_common_component_.component.html#draw">draw</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/4266372/Timeline.ts#L151">Timeline.ts:151</a></li>
+									<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/535534c/src/Timeline.ts#L152">Timeline.ts:152</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <a href="../enums/_common_component_.must_call_and_return_super_method.html" class="tsd-signature-type">MUST_CALL_AND_RETURN_SUPER_METHOD</a></h4>
@@ -670,54 +591,19 @@ timeline.draw();</code>js</li>
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="drawfrom" class="tsd-anchor"></a>
-					<h3>draw<wbr>From</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">draw<wbr>From<span class="tsd-signature-symbol">(</span>input<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">TimelineData</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/4266372/Timeline.ts#L169">Timeline.ts:169</a></li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Draw a timeline base on a TimelineData.
-									(The TimelineData is generate by timeline.export())</p>
-								</div>
-							</div>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>input: <span class="tsd-signature-type">TimelineData</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
 					<a name="export" class="tsd-anchor"></a>
 					<h3>export</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">export<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">TimelineData</span></li>
+						<li class="tsd-signature tsd-kind-icon">export<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../modules/_types_.html#timelinedata" class="tsd-signature-type">TimelineData</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/4266372/Timeline.ts#L242">Timeline.ts:242</a></li>
+									<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/535534c/src/Timeline.ts#L245">Timeline.ts:245</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Export a TimelineData for current timeline.
-									Make sure call timeline.apply() before call this method.</p>
-								</div>
-							</div>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">TimelineData</span></h4>
+							<h4 class="tsd-returns-title">Returns <a href="../modules/_types_.html#timelinedata" class="tsd-signature-type">TimelineData</a></h4>
 						</li>
 					</ul>
 				</section>
@@ -732,10 +618,33 @@ timeline.draw();</code>js</li>
 							<aside class="tsd-sources">
 								<p>Overrides <a href="_common_component_.component.html">Component</a>.<a href="_common_component_.component.html#hide">hide</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/4266372/Timeline.ts#L157">Timeline.ts:157</a></li>
+									<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/535534c/src/Timeline.ts#L159">Timeline.ts:159</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <a href="../enums/_common_component_.must_call_and_return_super_method.html" class="tsd-signature-type">MUST_CALL_AND_RETURN_SUPER_METHOD</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="import" class="tsd-anchor"></a>
+					<h3>import</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">import<span class="tsd-signature-symbol">(</span>input<span class="tsd-signature-symbol">: </span><a href="../modules/_types_.html#timelinedata" class="tsd-signature-type">TimelineData</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/535534c/src/Timeline.ts#L171">Timeline.ts:171</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>input: <a href="../modules/_types_.html#timelinedata" class="tsd-signature-type">TimelineData</a></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -743,26 +652,20 @@ timeline.draw();</code>js</li>
 					<a name="importdrawinfo" class="tsd-anchor"></a>
 					<h3>import<wbr>Draw<wbr>Info</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-						<li class="tsd-signature tsd-kind-icon">import<wbr>Draw<wbr>Info<span class="tsd-signature-symbol">(</span>drawInfo<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ComponentDrawInfo</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">this</span></li>
+						<li class="tsd-signature tsd-kind-icon">import<wbr>Draw<wbr>Info<span class="tsd-signature-symbol">(</span>drawInfo<span class="tsd-signature-symbol">: </span><a href="../interfaces/_types_.componentdrawinfo.html" class="tsd-signature-type">ComponentDrawInfo</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">this</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_common_component_.component.html">Component</a>.<a href="_common_component_.component.html#importdrawinfo">importDrawInfo</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/4266372/common/Component.ts#L168">common/Component.ts:168</a></li>
+									<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/535534c/src/common/Component.ts#L182">common/Component.ts:182</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Set a whole drawInfo into component.
-									The component still need this.apply called before draw when this.importDrawInfo been called.</p>
-								</div>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>drawInfo: <span class="tsd-signature-type">ComponentDrawInfo</span></h5>
+									<h5>drawInfo: <a href="../interfaces/_types_.componentdrawinfo.html" class="tsd-signature-type">ComponentDrawInfo</a></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">this</span></h4>
@@ -779,7 +682,7 @@ timeline.draw();</code>js</li>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/4266372/Timeline.ts#L385">Timeline.ts:385</a></li>
+									<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/535534c/src/Timeline.ts#L439">Timeline.ts:439</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -796,7 +699,7 @@ timeline.draw();</code>js</li>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/4266372/Timeline.ts#L418">Timeline.ts:418</a></li>
+									<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/535534c/src/Timeline.ts#L472">Timeline.ts:472</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -807,13 +710,13 @@ timeline.draw();</code>js</li>
 					<a name="initruntime" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagProtected">Protected</span> init<wbr>Runtime</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-protected">
-						<li class="tsd-signature tsd-kind-icon">init<wbr>Runtime<span class="tsd-signature-symbol">(</span>runtime<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">Partial</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_timeline_.runtimeinfo.html" class="tsd-signature-type">RuntimeInfo</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">init<wbr>Runtime<span class="tsd-signature-symbol">(</span>runtime<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Partial</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_timeline_.runtimeinfo.html" class="tsd-signature-type">RuntimeInfo</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/4266372/Timeline.ts#L292">Timeline.ts:292</a></li>
+									<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/535534c/src/Timeline.ts#L325">Timeline.ts:325</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -822,6 +725,41 @@ timeline.draw();</code>js</li>
 									<h5><span class="tsd-flag ts-flagOptional">Optional</span> runtime: <span class="tsd-signature-type">Partial</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_timeline_.runtimeinfo.html" class="tsd-signature-type">RuntimeInfo</a><span class="tsd-signature-symbol">&gt;</span></h5>
 								</li>
 							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="screenshot" class="tsd-anchor"></a>
+					<h3>screenshot</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">screenshot<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">HTMLCanvasElement</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/535534c/src/Timeline.ts#L276">Timeline.ts:276</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">HTMLCanvasElement</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+					<a name="setupradio" class="tsd-anchor"></a>
+					<h3>setup<wbr>Radio</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+						<li class="tsd-signature tsd-kind-icon">setup<wbr>Radio<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from <a href="_common_component_.component.html">Component</a>.<a href="_common_component_.component.html#setupradio">setupRadio</a></p>
+								<ul>
+									<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/535534c/src/common/Component.ts#L76">common/Component.ts:76</a></li>
+								</ul>
+							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 						</li>
 					</ul>
@@ -836,7 +774,7 @@ timeline.draw();</code>js</li>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/4266372/Timeline.ts#L271">Timeline.ts:271</a></li>
+									<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/535534c/src/Timeline.ts#L301">Timeline.ts:301</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -853,7 +791,7 @@ timeline.draw();</code>js</li>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/4266372/Timeline.ts#L477">Timeline.ts:477</a></li>
+									<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/535534c/src/Timeline.ts#L531">Timeline.ts:531</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -876,15 +814,9 @@ timeline.draw();</code>js</li>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/4266372/Timeline.ts#L484">Timeline.ts:484</a></li>
+									<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/535534c/src/Timeline.ts#L538">Timeline.ts:538</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Mount a HTML element adding canvas and container.
-									The HTML element passed will be cleared.</p>
-								</div>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -916,7 +848,7 @@ timeline.draw();</code>js</li>
 					<aside class="tsd-sources">
 						<p>Overrides <a href="_common_component_.component.html">Component</a>.<a href="_common_component_.component.html#drawinfo">drawInfo</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/4266372/Timeline.ts#L109">Timeline.ts:109</a></li>
+							<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/535534c/src/Timeline.ts#L110">Timeline.ts:110</a></li>
 						</ul>
 					</aside>
 					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
@@ -925,7 +857,7 @@ timeline.draw();</code>js</li>
 						<div class="tsd-signature tsd-kind-icon">events<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">never</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> =&nbsp;[]</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/4266372/Timeline.ts#L111">Timeline.ts:111</a></li>
+								<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/535534c/src/Timeline.ts#L112">Timeline.ts:112</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -935,7 +867,7 @@ timeline.draw();</code>js</li>
 						<div class="tsd-signature tsd-kind-icon">box<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/4266372/Timeline.ts#L110">Timeline.ts:110</a></li>
+								<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/535534c/src/Timeline.ts#L111">Timeline.ts:111</a></li>
 							</ul>
 						</aside>
 						<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
@@ -944,7 +876,7 @@ timeline.draw();</code>js</li>
 							<div class="tsd-signature tsd-kind-icon">height<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> =&nbsp;0</span></div>
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/4266372/Timeline.ts#L110">Timeline.ts:110</a></li>
+									<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/535534c/src/Timeline.ts#L111">Timeline.ts:111</a></li>
 								</ul>
 							</aside>
 						</section>
@@ -954,7 +886,7 @@ timeline.draw();</code>js</li>
 							<div class="tsd-signature tsd-kind-icon">width<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> =&nbsp;0</span></div>
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/4266372/Timeline.ts#L110">Timeline.ts:110</a></li>
+									<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/535534c/src/Timeline.ts#L111">Timeline.ts:111</a></li>
 								</ul>
 							</aside>
 						</section>
@@ -964,7 +896,7 @@ timeline.draw();</code>js</li>
 							<div class="tsd-signature tsd-kind-icon">x<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> =&nbsp;0</span></div>
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/4266372/Timeline.ts#L110">Timeline.ts:110</a></li>
+									<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/535534c/src/Timeline.ts#L111">Timeline.ts:111</a></li>
 								</ul>
 							</aside>
 						</section>
@@ -974,7 +906,7 @@ timeline.draw();</code>js</li>
 							<div class="tsd-signature tsd-kind-icon">y<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> =&nbsp;0</span></div>
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/4266372/Timeline.ts#L110">Timeline.ts:110</a></li>
+									<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/535534c/src/Timeline.ts#L111">Timeline.ts:111</a></li>
 								</ul>
 							</aside>
 						</section>
@@ -986,7 +918,7 @@ timeline.draw();</code>js</li>
 					<div class="tsd-signature tsd-kind-icon">default<wbr>Grid<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/4266372/Timeline.ts#L463">Timeline.ts:463</a></li>
+							<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/535534c/src/Timeline.ts#L517">Timeline.ts:517</a></li>
 						</ul>
 					</aside>
 					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
@@ -995,7 +927,7 @@ timeline.draw();</code>js</li>
 						<div class="tsd-signature tsd-kind-icon">axis<wbr>Width<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> =&nbsp;12</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/4266372/Timeline.ts#L468">Timeline.ts:468</a></li>
+								<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/535534c/src/Timeline.ts#L522">Timeline.ts:522</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -1005,7 +937,7 @@ timeline.draw();</code>js</li>
 						<div class="tsd-signature tsd-kind-icon">canvas<wbr>Width<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> =&nbsp;700</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/4266372/Timeline.ts#L474">Timeline.ts:474</a></li>
+								<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/535534c/src/Timeline.ts#L528">Timeline.ts:528</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -1015,7 +947,7 @@ timeline.draw();</code>js</li>
 						<div class="tsd-signature tsd-kind-icon">event<wbr>Width<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> =&nbsp;300</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/4266372/Timeline.ts#L473">Timeline.ts:473</a></li>
+								<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/535534c/src/Timeline.ts#L527">Timeline.ts:527</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -1025,7 +957,7 @@ timeline.draw();</code>js</li>
 						<div class="tsd-signature tsd-kind-icon">mark<wbr>Width<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> =&nbsp;15</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/4266372/Timeline.ts#L466">Timeline.ts:466</a></li>
+								<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/535534c/src/Timeline.ts#L520">Timeline.ts:520</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -1035,7 +967,7 @@ timeline.draw();</code>js</li>
 						<div class="tsd-signature tsd-kind-icon">min<wbr>Event<wbr>Axis<wbr>Offset<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> =&nbsp;25</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/4266372/Timeline.ts#L465">Timeline.ts:465</a></li>
+								<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/535534c/src/Timeline.ts#L519">Timeline.ts:519</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -1045,7 +977,7 @@ timeline.draw();</code>js</li>
 						<div class="tsd-signature tsd-kind-icon">scale<wbr>Height<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> =&nbsp;5</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/4266372/Timeline.ts#L467">Timeline.ts:467</a></li>
+								<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/535534c/src/Timeline.ts#L521">Timeline.ts:521</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -1055,7 +987,7 @@ timeline.draw();</code>js</li>
 						<div class="tsd-signature tsd-kind-icon">axis<wbr>Start<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/4266372/Timeline.ts#L469">Timeline.ts:469</a></li>
+								<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/535534c/src/Timeline.ts#L523">Timeline.ts:523</a></li>
 							</ul>
 						</aside>
 						<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
@@ -1064,7 +996,7 @@ timeline.draw();</code>js</li>
 							<div class="tsd-signature tsd-kind-icon">x<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> =&nbsp;450</span></div>
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/4266372/Timeline.ts#L470">Timeline.ts:470</a></li>
+									<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/535534c/src/Timeline.ts#L524">Timeline.ts:524</a></li>
 								</ul>
 							</aside>
 						</section>
@@ -1074,7 +1006,7 @@ timeline.draw();</code>js</li>
 							<div class="tsd-signature tsd-kind-icon">y<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> =&nbsp;10</span></div>
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/4266372/Timeline.ts#L471">Timeline.ts:471</a></li>
+									<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/535534c/src/Timeline.ts#L525">Timeline.ts:525</a></li>
 								</ul>
 							</aside>
 						</section>
@@ -1085,7 +1017,7 @@ timeline.draw();</code>js</li>
 						<div class="tsd-signature tsd-kind-icon">event<wbr>Offset<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/4266372/Timeline.ts#L464">Timeline.ts:464</a></li>
+								<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/535534c/src/Timeline.ts#L518">Timeline.ts:518</a></li>
 							</ul>
 						</aside>
 						<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
@@ -1094,7 +1026,7 @@ timeline.draw();</code>js</li>
 							<div class="tsd-signature tsd-kind-icon">x<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> =&nbsp;20</span></div>
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/4266372/Timeline.ts#L464">Timeline.ts:464</a></li>
+									<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/535534c/src/Timeline.ts#L518">Timeline.ts:518</a></li>
 								</ul>
 							</aside>
 						</section>
@@ -1104,7 +1036,7 @@ timeline.draw();</code>js</li>
 							<div class="tsd-signature tsd-kind-icon">y<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> =&nbsp;0</span></div>
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/4266372/Timeline.ts#L464">Timeline.ts:464</a></li>
+									<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/535534c/src/Timeline.ts#L518">Timeline.ts:518</a></li>
 								</ul>
 							</aside>
 						</section>
@@ -1190,6 +1122,9 @@ timeline.draw();</code>js</li>
 					<li class=" tsd-kind-external-module">
 						<a href="../modules/_index_.html">"index"</a>
 					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="../modules/_types_.html">"types"</a>
+					</li>
 				</ul>
 			</nav>
 			<nav class="tsd-navigation secondary menu-sticky">
@@ -1238,6 +1173,9 @@ timeline.draw();</code>js</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-overwrite">
 								<a href="_timeline_.timeline.html#name" class="tsd-kind-icon">name</a>
 							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
+								<a href="_timeline_.timeline.html#ratio" class="tsd-kind-icon">ratio</a>
+							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class">
 								<a href="_timeline_.timeline.html#runtime" class="tsd-kind-icon">runtime</a>
 							</li>
@@ -1277,17 +1215,20 @@ timeline.draw();</code>js</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
 								<a href="_timeline_.timeline.html#destroy" class="tsd-kind-icon">destroy</a>
 							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="_timeline_.timeline.html#downloadimage" class="tsd-kind-icon">download<wbr>Image</a>
+							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
 								<a href="_timeline_.timeline.html#draw" class="tsd-kind-icon">draw</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="_timeline_.timeline.html#drawfrom" class="tsd-kind-icon">draw<wbr>From</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="_timeline_.timeline.html#export" class="tsd-kind-icon">export</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
 								<a href="_timeline_.timeline.html#hide" class="tsd-kind-icon">hide</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="_timeline_.timeline.html#import" class="tsd-kind-icon">import</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
 								<a href="_timeline_.timeline.html#importdrawinfo" class="tsd-kind-icon">import<wbr>Draw<wbr>Info</a>
@@ -1300,6 +1241,12 @@ timeline.draw();</code>js</li>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-protected">
 								<a href="_timeline_.timeline.html#initruntime" class="tsd-kind-icon">init<wbr>Runtime</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="_timeline_.timeline.html#screenshot" class="tsd-kind-icon">screenshot</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+								<a href="_timeline_.timeline.html#setupradio" class="tsd-kind-icon">setup<wbr>Radio</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-protected">
 								<a href="_timeline_.timeline.html#stretchcanvas" class="tsd-kind-icon">stretch<wbr>Canvas</a>

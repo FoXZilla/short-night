@@ -74,6 +74,7 @@
 							<h3>Functions</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-function tsd-parent-kind-external-module"><a href="_common_functions_.html#box2lines" class="tsd-kind-icon">box2<wbr>Lines</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-external-module tsd-has-type-parameter"><a href="_common_functions_.html#createdraw" class="tsd-kind-icon">create<wbr>Draw</a></li>
 								<li class="tsd-kind-function tsd-parent-kind-external-module"><a href="_common_functions_.html#createlogfunction" class="tsd-kind-icon">create<wbr>Log<wbr>Function</a></li>
 								<li class="tsd-kind-function tsd-parent-kind-external-module tsd-has-type-parameter"><a href="_common_functions_.html#deepfreeze" class="tsd-kind-icon">deep<wbr>Freeze</a></li>
 								<li class="tsd-kind-function tsd-parent-kind-external-module"><a href="_common_functions_.html#isbox" class="tsd-kind-icon">is<wbr>Box</a></li>
@@ -81,6 +82,7 @@
 								<li class="tsd-kind-function tsd-parent-kind-external-module"><a href="_common_functions_.html#isoverlap" class="tsd-kind-icon">is<wbr>Overlap</a></li>
 								<li class="tsd-kind-function tsd-parent-kind-external-module"><a href="_common_functions_.html#mergebox" class="tsd-kind-icon">merge<wbr>Box</a></li>
 								<li class="tsd-kind-function tsd-parent-kind-external-module"><a href="_common_functions_.html#parsebox" class="tsd-kind-icon">parse<wbr>Box</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-external-module"><a href="_common_functions_.html#parsedate" class="tsd-kind-icon">parse<wbr>Date</a></li>
 								<li class="tsd-kind-function tsd-parent-kind-external-module"><a href="_common_functions_.html#shrinkbox" class="tsd-kind-icon">shrink<wbr>Box</a></li>
 								<li class="tsd-kind-function tsd-parent-kind-external-module"><a href="_common_functions_.html#walkloop" class="tsd-kind-icon">walk<wbr>Loop</a></li>
 							</ul>
@@ -94,22 +96,57 @@
 					<a name="box2lines" class="tsd-anchor"></a>
 					<h3>box2<wbr>Lines</h3>
 					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-external-module">
-						<li class="tsd-signature tsd-kind-icon">box2<wbr>Lines<span class="tsd-signature-symbol">(</span>box<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Box</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Line</span><span class="tsd-signature-symbol">[]</span></li>
+						<li class="tsd-signature tsd-kind-icon">box2<wbr>Lines<span class="tsd-signature-symbol">(</span>box<span class="tsd-signature-symbol">: </span><a href="../interfaces/_types_.box.html" class="tsd-signature-type">Box</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/_types_.line.html" class="tsd-signature-type">Line</a><span class="tsd-signature-symbol">[]</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/4266372/common/functions.ts#L12">common/functions.ts:12</a></li>
+									<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/535534c/src/common/functions.ts#L13">common/functions.ts:13</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>box: <span class="tsd-signature-type">Box</span></h5>
+									<h5>box: <a href="../interfaces/_types_.box.html" class="tsd-signature-type">Box</a></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Line</span><span class="tsd-signature-symbol">[]</span></h4>
+							<h4 class="tsd-returns-title">Returns <a href="../interfaces/_types_.line.html" class="tsd-signature-type">Line</a><span class="tsd-signature-symbol">[]</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-external-module tsd-has-type-parameter">
+					<a name="createdraw" class="tsd-anchor"></a>
+					<h3>create<wbr>Draw</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-external-module tsd-has-type-parameter">
+						<li class="tsd-signature tsd-kind-icon">create<wbr>Draw&lt;T, U&gt;<span class="tsd-signature-symbol">(</span>name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, timelineConstructor<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">U</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">(Anonymous function)</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/535534c/src/common/functions.ts#L249">common/functions.ts:249</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-type-parameters-title">Type parameters</h4>
+							<ul class="tsd-type-parameters">
+								<li>
+									<h4>T<span class="tsd-signature-symbol">: </span><a href="../classes/_timeline_.timeline.html" class="tsd-signature-type">Timeline</a></h4>
+								</li>
+								<li>
+									<h4>U<span class="tsd-signature-symbol">: </span><a href="../classes/_timeline_.timeline.html" class="tsd-signature-type">Timeline</a></h4>
+								</li>
+							</ul>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>name: <span class="tsd-signature-type">string</span></h5>
+								</li>
+								<li>
+									<h5>timelineConstructor: <span class="tsd-signature-type">U</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">(Anonymous function)</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -123,23 +160,9 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/4266372/common/functions.ts#L206">common/functions.ts:206</a></li>
+									<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/535534c/src/common/functions.ts#L207">common/functions.ts:207</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Instead of the console.log.</p>
-								</div>
-								<dl class="tsd-comment-tags">
-									<dt>example</dt>
-									<dd><p>const l = createLogFunction(&#39;EventBody&#39;);
-										l<code>Hello, world</code>;</p>
-										<blockquote>
-											<p>Hello, world</p>
-										</blockquote>
-									</dd>
-								</dl>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -160,15 +183,9 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/4266372/common/functions.ts#L221">common/functions.ts:221</a></li>
+									<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/535534c/src/common/functions.ts#L222">common/functions.ts:222</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Return a new freezed object base on specified object.
-									Like Object.freeze, but it&#39;s deep and will not change origin object.</p>
-								</div>
-							</div>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
 							<ul class="tsd-type-parameters">
 								<li>
@@ -195,7 +212,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/4266372/common/functions.ts#L4">common/functions.ts:4</a></li>
+									<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/535534c/src/common/functions.ts#L5">common/functions.ts:5</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -212,22 +229,22 @@
 					<a name="isintersecting" class="tsd-anchor"></a>
 					<h3>is<wbr>Intersecting</h3>
 					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-external-module">
-						<li class="tsd-signature tsd-kind-icon">is<wbr>Intersecting<span class="tsd-signature-symbol">(</span>line1<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Line</span>, line2<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Line</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
+						<li class="tsd-signature tsd-kind-icon">is<wbr>Intersecting<span class="tsd-signature-symbol">(</span>line1<span class="tsd-signature-symbol">: </span><a href="../interfaces/_types_.line.html" class="tsd-signature-type">Line</a>, line2<span class="tsd-signature-symbol">: </span><a href="../interfaces/_types_.line.html" class="tsd-signature-type">Line</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/4266372/common/functions.ts#L77">common/functions.ts:77</a></li>
+									<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/535534c/src/common/functions.ts#L78">common/functions.ts:78</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>line1: <span class="tsd-signature-type">Line</span></h5>
+									<h5>line1: <a href="../interfaces/_types_.line.html" class="tsd-signature-type">Line</a></h5>
 								</li>
 								<li>
-									<h5>line2: <span class="tsd-signature-type">Line</span></h5>
+									<h5>line2: <a href="../interfaces/_types_.line.html" class="tsd-signature-type">Line</a></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
@@ -238,22 +255,22 @@
 					<a name="isoverlap" class="tsd-anchor"></a>
 					<h3>is<wbr>Overlap</h3>
 					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-external-module">
-						<li class="tsd-signature tsd-kind-icon">is<wbr>Overlap<span class="tsd-signature-symbol">(</span>item1<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Box</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Line</span>, item2<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Box</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Line</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
+						<li class="tsd-signature tsd-kind-icon">is<wbr>Overlap<span class="tsd-signature-symbol">(</span>item1<span class="tsd-signature-symbol">: </span><a href="../interfaces/_types_.box.html" class="tsd-signature-type">Box</a><span class="tsd-signature-symbol"> | </span><a href="../interfaces/_types_.line.html" class="tsd-signature-type">Line</a>, item2<span class="tsd-signature-symbol">: </span><a href="../interfaces/_types_.box.html" class="tsd-signature-type">Box</a><span class="tsd-signature-symbol"> | </span><a href="../interfaces/_types_.line.html" class="tsd-signature-type">Line</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/4266372/common/functions.ts#L161">common/functions.ts:161</a></li>
+									<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/535534c/src/common/functions.ts#L162">common/functions.ts:162</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>item1: <span class="tsd-signature-type">Box</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Line</span></h5>
+									<h5>item1: <a href="../interfaces/_types_.box.html" class="tsd-signature-type">Box</a><span class="tsd-signature-symbol"> | </span><a href="../interfaces/_types_.line.html" class="tsd-signature-type">Line</a></h5>
 								</li>
 								<li>
-									<h5>item2: <span class="tsd-signature-type">Box</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Line</span></h5>
+									<h5>item2: <a href="../interfaces/_types_.box.html" class="tsd-signature-type">Box</a><span class="tsd-signature-symbol"> | </span><a href="../interfaces/_types_.line.html" class="tsd-signature-type">Line</a></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
@@ -264,22 +281,22 @@
 					<a name="mergebox" class="tsd-anchor"></a>
 					<h3>merge<wbr>Box</h3>
 					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-external-module">
-						<li class="tsd-signature tsd-kind-icon">merge<wbr>Box<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">...</span>args<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Box</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Box</span></li>
+						<li class="tsd-signature tsd-kind-icon">merge<wbr>Box<span class="tsd-signature-symbol">(</span>args<span class="tsd-signature-symbol">: </span><a href="../interfaces/_types_.box.html" class="tsd-signature-type">Box</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/_types_.box.html" class="tsd-signature-type">Box</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/4266372/common/functions.ts#L46">common/functions.ts:46</a></li>
+									<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/535534c/src/common/functions.ts#L47">common/functions.ts:47</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5><span class="tsd-flag ts-flagRest">Rest</span> <span class="tsd-signature-symbol">...</span>args: <span class="tsd-signature-type">Box</span><span class="tsd-signature-symbol">[]</span></h5>
+									<h5><span class="tsd-flag ts-flagRest">Rest</span> args: <a href="../interfaces/_types_.box.html" class="tsd-signature-type">Box</a><span class="tsd-signature-symbol">[]</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Box</span></h4>
+							<h4 class="tsd-returns-title">Returns <a href="../interfaces/_types_.box.html" class="tsd-signature-type">Box</a></h4>
 						</li>
 					</ul>
 				</section>
@@ -287,13 +304,13 @@
 					<a name="parsebox" class="tsd-anchor"></a>
 					<h3>parse<wbr>Box</h3>
 					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-external-module">
-						<li class="tsd-signature tsd-kind-icon">parse<wbr>Box<span class="tsd-signature-symbol">(</span>elt<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">HTMLElement</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Box</span></li>
+						<li class="tsd-signature tsd-kind-icon">parse<wbr>Box<span class="tsd-signature-symbol">(</span>elt<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">HTMLElement</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/_types_.box.html" class="tsd-signature-type">Box</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/4266372/common/functions.ts#L37">common/functions.ts:37</a></li>
+									<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/535534c/src/common/functions.ts#L38">common/functions.ts:38</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -302,7 +319,30 @@
 									<h5>elt: <span class="tsd-signature-type">HTMLElement</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Box</span></h4>
+							<h4 class="tsd-returns-title">Returns <a href="../interfaces/_types_.box.html" class="tsd-signature-type">Box</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-external-module">
+					<a name="parsedate" class="tsd-anchor"></a>
+					<h3>parse<wbr>Date</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-external-module">
+						<li class="tsd-signature tsd-kind-icon">parse<wbr>Date<span class="tsd-signature-symbol">(</span>material<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Date</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/535534c/src/common/functions.ts#L236">common/functions.ts:236</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>material: <span class="tsd-signature-type">any</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Date</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -310,25 +350,25 @@
 					<a name="shrinkbox" class="tsd-anchor"></a>
 					<h3>shrink<wbr>Box</h3>
 					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-external-module">
-						<li class="tsd-signature tsd-kind-icon">shrink<wbr>Box<span class="tsd-signature-symbol">(</span>box<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Box</span>, distance<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Box</span></li>
+						<li class="tsd-signature tsd-kind-icon">shrink<wbr>Box<span class="tsd-signature-symbol">(</span>box<span class="tsd-signature-symbol">: </span><a href="../interfaces/_types_.box.html" class="tsd-signature-type">Box</a>, distance<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/_types_.box.html" class="tsd-signature-type">Box</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/4266372/common/functions.ts#L68">common/functions.ts:68</a></li>
+									<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/535534c/src/common/functions.ts#L69">common/functions.ts:69</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>box: <span class="tsd-signature-type">Box</span></h5>
+									<h5>box: <a href="../interfaces/_types_.box.html" class="tsd-signature-type">Box</a></h5>
 								</li>
 								<li>
 									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> distance: <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> =&nbsp;1</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Box</span></h4>
+							<h4 class="tsd-returns-title">Returns <a href="../interfaces/_types_.box.html" class="tsd-signature-type">Box</a></h4>
 						</li>
 					</ul>
 				</section>
@@ -336,20 +376,15 @@
 					<a name="walkloop" class="tsd-anchor"></a>
 					<h3>walk<wbr>Loop</h3>
 					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-external-module">
-						<li class="tsd-signature tsd-kind-icon">walk<wbr>Loop<span class="tsd-signature-symbol">(</span>fn<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span>, max<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">ConflictFixResult</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">walk<wbr>Loop<span class="tsd-signature-symbol">(</span>fn<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span>, max<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../enums/_types_.conflictfixresult.html" class="tsd-signature-type">ConflictFixResult</a><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/4266372/common/functions.ts#L170">common/functions.ts:170</a></li>
+									<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/535534c/src/common/functions.ts#L171">common/functions.ts:171</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Instead of the while when fix conflict.</p>
-								</div>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -357,11 +392,11 @@
 									<ul class="tsd-parameters">
 										<li class="tsd-parameter-siganture">
 											<ul class="tsd-signatures tsd-kind-type-literal tsd-is-not-exported">
-												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">ConflictFixResult</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span></li>
+												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../enums/_types_.conflictfixresult.html" class="tsd-signature-type">ConflictFixResult</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span></li>
 											</ul>
 											<ul class="tsd-descriptions">
 												<li class="tsd-description">
-													<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">ConflictFixResult</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span></h4>
+													<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../enums/_types_.conflictfixresult.html" class="tsd-signature-type">ConflictFixResult</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span></h4>
 												</li>
 											</ul>
 										</li>
@@ -371,7 +406,7 @@
 									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> max: <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> =&nbsp;10</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">ConflictFixResult</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../enums/_types_.conflictfixresult.html" class="tsd-signature-type">ConflictFixResult</a><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -455,12 +490,18 @@
 					<li class=" tsd-kind-external-module">
 						<a href="_index_.html">"index"</a>
 					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="_types_.html">"types"</a>
+					</li>
 				</ul>
 			</nav>
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
 					<li class=" tsd-kind-function tsd-parent-kind-external-module">
 						<a href="_common_functions_.html#box2lines" class="tsd-kind-icon">box2<wbr>Lines</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-external-module tsd-has-type-parameter">
+						<a href="_common_functions_.html#createdraw" class="tsd-kind-icon">create<wbr>Draw</a>
 					</li>
 					<li class=" tsd-kind-function tsd-parent-kind-external-module">
 						<a href="_common_functions_.html#createlogfunction" class="tsd-kind-icon">create<wbr>Log<wbr>Function</a>
@@ -482,6 +523,9 @@
 					</li>
 					<li class=" tsd-kind-function tsd-parent-kind-external-module">
 						<a href="_common_functions_.html#parsebox" class="tsd-kind-icon">parse<wbr>Box</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-external-module">
+						<a href="_common_functions_.html#parsedate" class="tsd-kind-icon">parse<wbr>Date</a>
 					</li>
 					<li class=" tsd-kind-function tsd-parent-kind-external-module">
 						<a href="_common_functions_.html#shrinkbox" class="tsd-kind-icon">shrink<wbr>Box</a>

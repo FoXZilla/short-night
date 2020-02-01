@@ -127,6 +127,7 @@
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_common_component_.component.html#ext" class="tsd-kind-icon">ext</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_common_component_.component.html#extradata" class="tsd-kind-icon">extra<wbr>Data</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_common_component_.component.html#name" class="tsd-kind-icon">name</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_common_component_.component.html#ratio" class="tsd-kind-icon">ratio</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_common_component_.component.html#theme" class="tsd-kind-icon">theme</a></li>
 							</ul>
 						</section>
@@ -147,6 +148,7 @@
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_common_component_.component.html#draw" class="tsd-kind-icon">draw</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_common_component_.component.html#hide" class="tsd-kind-icon">hide</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_common_component_.component.html#importdrawinfo" class="tsd-kind-icon">import<wbr>Draw<wbr>Info</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_common_component_.component.html#setupradio" class="tsd-kind-icon">setup<wbr>Radio</a></li>
 							</ul>
 						</section>
 					</div>
@@ -164,7 +166,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/4266372/common/Component.ts#L30">common/Component.ts:30</a></li>
+									<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/535534c/src/common/Component.ts#L30">common/Component.ts:30</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -197,14 +199,9 @@
 					<div class="tsd-signature tsd-kind-icon">canvas<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">HTMLCanvasElement</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/4266372/common/Component.ts#L56">common/Component.ts:56</a></li>
+							<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/535534c/src/common/Component.ts#L56">common/Component.ts:56</a></li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>The canvas where component draw on.</p>
-						</div>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 					<a name="container" class="tsd-anchor"></a>
@@ -212,14 +209,9 @@
 					<div class="tsd-signature tsd-kind-icon">container<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">HTMLElement</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/4266372/common/Component.ts#L60">common/Component.ts:60</a></li>
+							<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/535534c/src/common/Component.ts#L60">common/Component.ts:60</a></li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>The container which contain all of component&#39;s element.</p>
-						</div>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 					<a name="destroyed" class="tsd-anchor"></a>
@@ -227,33 +219,19 @@
 					<div class="tsd-signature tsd-kind-icon">destroyed<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> =&nbsp;false</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/4266372/common/Component.ts#L104">common/Component.ts:104</a></li>
+							<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/535534c/src/common/Component.ts#L117">common/Component.ts:117</a></li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Means that the component has been destroyed.
-							Call any method on component when it has destroyed will got an error.</p>
-						</div>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 					<a name="drawinfo" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagAbstract">Abstract</span> draw<wbr>Info</h3>
-					<div class="tsd-signature tsd-kind-icon">draw<wbr>Info<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">ComponentDrawInfo</span></div>
+					<div class="tsd-signature tsd-kind-icon">draw<wbr>Info<span class="tsd-signature-symbol">:</span> <a href="../interfaces/_types_.componentdrawinfo.html" class="tsd-signature-type">ComponentDrawInfo</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/4266372/common/Component.ts#L71">common/Component.ts:71</a></li>
+							<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/535534c/src/common/Component.ts#L71">common/Component.ts:71</a></li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>All info about draw. Except drawInfo, no more states be depended about draw.
-								The same drawInfo must has same drawn on canvas and container.
-								The this.gird should be merging in there in this.apply be called.
-							Must can unscathed passed this.drawInfo = JSON.parse(JSON.stringify(this.drawInfo)).</p>
-						</div>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 					<a name="element" class="tsd-anchor"></a>
@@ -261,15 +239,9 @@
 					<div class="tsd-signature tsd-kind-icon">element<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">HTMLElement</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/4266372/common/Component.ts#L77">common/Component.ts:77</a></li>
+							<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/535534c/src/common/Component.ts#L90">common/Component.ts:90</a></li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Optional. Be filled in this.createElement.
-							The HTML element which be needed by component draw.</p>
-						</div>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 					<a name="ext" class="tsd-anchor"></a>
@@ -277,14 +249,9 @@
 					<div class="tsd-signature tsd-kind-icon">ext<span class="tsd-signature-symbol">:</span> <a href="_extensions_index_.extensionmanager.html" class="tsd-signature-type">ExtensionManager</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/4266372/common/Component.ts#L64">common/Component.ts:64</a></li>
+							<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/535534c/src/common/Component.ts#L64">common/Component.ts:64</a></li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Manage all extensions &amp; Help component communicate for each other.</p>
-						</div>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 					<a name="extradata" class="tsd-anchor"></a>
@@ -292,19 +259,9 @@
 					<div class="tsd-signature tsd-kind-icon">extra<wbr>Data<span class="tsd-signature-symbol">:</span> <a href="../interfaces/_common_component_.extradata.html" class="tsd-signature-type">ExtraData</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/4266372/common/Component.ts#L52">common/Component.ts:52</a></li>
+							<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/535534c/src/common/Component.ts#L52">common/Component.ts:52</a></li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>An ext extra</p>
-						</div>
-						<dl class="tsd-comment-tags">
-							<dt>see</dt>
-							<dd><p>ExtraData</p>
-							</dd>
-						</dl>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 					<a name="name" class="tsd-anchor"></a>
@@ -312,15 +269,19 @@
 					<div class="tsd-signature tsd-kind-icon">name<span class="tsd-signature-symbol">:</span> <a href="../enums/_common_definitions_.sn.html" class="tsd-signature-type">SN</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/4266372/common/Component.ts#L47">common/Component.ts:47</a></li>
+							<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/535534c/src/common/Component.ts#L47">common/Component.ts:47</a></li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Component name.
-							Be filled when the engine&#39;s class constructed.</p>
-						</div>
-					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="ratio" class="tsd-anchor"></a>
+					<h3>ratio</h3>
+					<div class="tsd-signature tsd-kind-icon">ratio<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> =&nbsp;window.devicePixelRatio || 1</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/535534c/src/common/Component.ts#L74">common/Component.ts:74</a></li>
+						</ul>
+					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 					<a name="theme" class="tsd-anchor"></a>
@@ -328,15 +289,9 @@
 					<div class="tsd-signature tsd-kind-icon">theme<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/4266372/common/Component.ts#L42">common/Component.ts:42</a></li>
+							<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/535534c/src/common/Component.ts#L42">common/Component.ts:42</a></li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Theme name.
-							Be filled when the theme&#39;s class constructed.</p>
-						</div>
-					</div>
 				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group tsd-is-private-protected">
@@ -344,29 +299,12 @@
 				<section class="tsd-panel tsd-member tsd-kind-get-signature tsd-parent-kind-class tsd-is-protected">
 					<a name="l" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagProtected">Protected</span> l</h3>
-					<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class tsd-is-protected">
-						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> l<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">(Anonymous function)</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/4266372/common/Component.ts#L177">common/Component.ts:177</a></li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Print log if the DEBUG is true.</p>
-								</div>
-								<dl class="tsd-comment-tags">
-									<dt>example</dt>
-									<dd><p>this.l<code>Hello world</code></p>
-									</dd>
-								</dl>
-							</div>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">(Anonymous function)</span></h4>
-						</li>
-					</ul>
+					<div class="tsd-signature tsd-kind-icon">l<span class="tsd-signature-symbol">:</span> </div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/535534c/src/common/Component.ts#L191">common/Component.ts:191</a></li>
+						</ul>
+					</aside>
 				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
@@ -375,29 +313,19 @@
 					<a name="apply" class="tsd-anchor"></a>
 					<h3>apply</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">apply<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">...</span>args<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../enums/_common_component_.must_call_and_return_super_method.html" class="tsd-signature-type">MUST_CALL_AND_RETURN_SUPER_METHOD</a><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">apply<span class="tsd-signature-symbol">(</span>args<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../enums/_common_component_.must_call_and_return_super_method.html" class="tsd-signature-type">MUST_CALL_AND_RETURN_SUPER_METHOD</a><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/4266372/common/Component.ts#L128">common/Component.ts:128</a></li>
+									<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/535534c/src/common/Component.ts#L141">common/Component.ts:141</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Apply this.drawInfo in component.
-									This method should&#39;t change any property in this.drawInfo except this.drawInfo.box.</p>
-								</div>
-								<dl class="tsd-comment-tags">
-									<dt>async</dt>
-									<dd></dd>
-								</dl>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5><span class="tsd-flag ts-flagRest">Rest</span> <span class="tsd-signature-symbol">...</span>args: <span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span></h5>
+									<h5><span class="tsd-flag ts-flagRest">Rest</span> args: <span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../enums/_common_component_.must_call_and_return_super_method.html" class="tsd-signature-type">MUST_CALL_AND_RETURN_SUPER_METHOD</a><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -414,15 +342,9 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/4266372/common/Component.ts#L184">common/Component.ts:184</a></li>
+									<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/535534c/src/common/Component.ts#L198">common/Component.ts:198</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Verify a component is destroyed or not.
-									Throw an error if this.destroyed is true.</p>
-								</div>
-							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 						</li>
 					</ul>
@@ -437,16 +359,9 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/4266372/common/Component.ts#L98">common/Component.ts:98</a></li>
+									<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/535534c/src/common/Component.ts#L111">common/Component.ts:111</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Create a box object to fill this.drawInfo.box.
-										It should be called in apply() at least once.
-									Write this method if you need to change the behavior about box.</p>
-								</div>
-							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 						</li>
 					</ul>
@@ -461,17 +376,9 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/4266372/common/Component.ts#L84">common/Component.ts:84</a></li>
+									<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/535534c/src/common/Component.ts#L97">common/Component.ts:97</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Optional. Depend on the draw this component is need HTML element or not.
-										Create an HTML element base on this.drawInfo to fill this.element
-										and append to this.container.
-									Be called in this.apply and this.draw.</p>
-								</div>
-							</div>
 							<h4 class="tsd-returns-title">Returns <a href="../enums/_common_component_.must_call_and_return_super_method.html" class="tsd-signature-type">MUST_CALL_AND_RETURN_SUPER_METHOD</a></h4>
 						</li>
 					</ul>
@@ -486,15 +393,9 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/4266372/common/Component.ts#L109">common/Component.ts:109</a></li>
+									<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/535534c/src/common/Component.ts#L122">common/Component.ts:122</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Destroy self.
-									It should remove all element from dom and clear all trace in canvas if that&#39;s made by self.</p>
-								</div>
-							</div>
 							<h4 class="tsd-returns-title">Returns <a href="../enums/_common_component_.must_call_and_return_super_method.html" class="tsd-signature-type">MUST_CALL_AND_RETURN_SUPER_METHOD</a></h4>
 						</li>
 					</ul>
@@ -509,16 +410,9 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/4266372/common/Component.ts#L139">common/Component.ts:139</a></li>
+									<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/535534c/src/common/Component.ts#L153">common/Component.ts:153</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Draw self base on this.drawInfo.
-										It should can be call multiple times.
-									Call this.apply before this.draw.</p>
-								</div>
-							</div>
 							<h4 class="tsd-returns-title">Returns <a href="../enums/_common_component_.must_call_and_return_super_method.html" class="tsd-signature-type">MUST_CALL_AND_RETURN_SUPER_METHOD</a></h4>
 						</li>
 					</ul>
@@ -533,16 +427,9 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/4266372/common/Component.ts#L151">common/Component.ts:151</a></li>
+									<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/535534c/src/common/Component.ts#L165">common/Component.ts:165</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Hide all of trace created by self.
-										Hidden is not destroyed. Ensure the component is still available when this.hide have call.
-									This method will try set &quot;visibility: &#39;hidden&#39;&quot; for this.element rather than remove it.</p>
-								</div>
-							</div>
 							<h4 class="tsd-returns-title">Returns <a href="../enums/_common_component_.must_call_and_return_super_method.html" class="tsd-signature-type">MUST_CALL_AND_RETURN_SUPER_METHOD</a></h4>
 						</li>
 					</ul>
@@ -551,28 +438,39 @@
 					<a name="importdrawinfo" class="tsd-anchor"></a>
 					<h3>import<wbr>Draw<wbr>Info</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">import<wbr>Draw<wbr>Info<span class="tsd-signature-symbol">(</span>drawInfo<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ComponentDrawInfo</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">this</span></li>
+						<li class="tsd-signature tsd-kind-icon">import<wbr>Draw<wbr>Info<span class="tsd-signature-symbol">(</span>drawInfo<span class="tsd-signature-symbol">: </span><a href="../interfaces/_types_.componentdrawinfo.html" class="tsd-signature-type">ComponentDrawInfo</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">this</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/4266372/common/Component.ts#L168">common/Component.ts:168</a></li>
+									<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/535534c/src/common/Component.ts#L182">common/Component.ts:182</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Set a whole drawInfo into component.
-									The component still need this.apply called before draw when this.importDrawInfo been called.</p>
-								</div>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>drawInfo: <span class="tsd-signature-type">ComponentDrawInfo</span></h5>
+									<h5>drawInfo: <a href="../interfaces/_types_.componentdrawinfo.html" class="tsd-signature-type">ComponentDrawInfo</a></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">this</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="setupradio" class="tsd-anchor"></a>
+					<h3>setup<wbr>Radio</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">setup<wbr>Radio<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/535534c/src/common/Component.ts#L76">common/Component.ts:76</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -656,11 +554,14 @@
 					<li class=" tsd-kind-external-module">
 						<a href="../modules/_index_.html">"index"</a>
 					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="../modules/_types_.html">"types"</a>
+					</li>
 				</ul>
 			</nav>
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
-					<li class=" tsd-kind-enum tsd-parent-kind-external-module tsd-is-not-exported">
+					<li class=" tsd-kind-enum tsd-parent-kind-external-module">
 						<a href="../enums/_common_component_.must_call_and_return_super_method.html" class="tsd-kind-icon">MUST_<wbr>CALL_<wbr>AND_<wbr>RETURN_<wbr>SUPER_<wbr>METHOD</a>
 					</li>
 				</ul>
@@ -696,6 +597,9 @@
 								<a href="_common_component_.component.html#name" class="tsd-kind-icon">name</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class">
+								<a href="_common_component_.component.html#ratio" class="tsd-kind-icon">ratio</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class">
 								<a href="_common_component_.component.html#theme" class="tsd-kind-icon">theme</a>
 							</li>
 							<li class=" tsd-kind-get-signature tsd-parent-kind-class tsd-is-protected">
@@ -724,6 +628,9 @@
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="_common_component_.component.html#importdrawinfo" class="tsd-kind-icon">import<wbr>Draw<wbr>Info</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="_common_component_.component.html#setupradio" class="tsd-kind-icon">setup<wbr>Radio</a>
 							</li>
 						</ul>
 					</li>

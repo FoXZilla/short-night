@@ -69,14 +69,6 @@
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
-			<section class="tsd-panel tsd-comment">
-				<div class="tsd-comment tsd-typography">
-					<div class="lead">
-						<p>The whole Axis. Contain some AxisMilestone, some AxisScale and a AxisBody.
-						The Manage-Component. All of draw is resolved by child component.</p>
-					</div>
-				</div>
-			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
@@ -115,6 +107,7 @@
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_axis_index_.axis.html#milestoneconstructor" class="tsd-kind-icon">milestone<wbr>Constructor</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_axis_index_.axis.html#milestones" class="tsd-kind-icon">milestones</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-overwrite"><a href="_axis_index_.axis.html#name" class="tsd-kind-icon">name</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="_axis_index_.axis.html#ratio" class="tsd-kind-icon">ratio</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_axis_index_.axis.html#scaleconstructor" class="tsd-kind-icon">scale<wbr>Constructor</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_axis_index_.axis.html#scales" class="tsd-kind-icon">scales</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="_axis_index_.axis.html#theme" class="tsd-kind-icon">theme</a></li>
@@ -140,6 +133,7 @@
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_axis_index_.axis.html#initbody" class="tsd-kind-icon">init<wbr>Body</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_axis_index_.axis.html#initmilestones" class="tsd-kind-icon">init<wbr>Milestones</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_axis_index_.axis.html#initscales" class="tsd-kind-icon">init<wbr>Scales</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_axis_index_.axis.html#setupradio" class="tsd-kind-icon">setup<wbr>Radio</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="_axis_index_.axis.html#is" class="tsd-kind-icon">is</a></li>
 							</ul>
 						</section>
@@ -165,7 +159,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="_common_component_.component.html">Component</a>.<a href="_common_component_.component.html#constructor">constructor</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/4266372/Axis/index.ts#L36">Axis/index.ts:36</a></li>
+									<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/535534c/src/Axis/index.ts#L36">Axis/index.ts:36</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -187,7 +181,7 @@
 					<div class="tsd-signature tsd-kind-icon">body<span class="tsd-signature-symbol">:</span> <a href="_axis_axisbody_.axisbody.html" class="tsd-signature-type">AxisBody</a><span class="tsd-signature-symbol"> =&nbsp;null as any</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/4266372/Axis/index.ts#L60">Axis/index.ts:60</a></li>
+							<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/535534c/src/Axis/index.ts#L60">Axis/index.ts:60</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -197,7 +191,7 @@
 					<div class="tsd-signature tsd-kind-icon">body<wbr>Constructor<span class="tsd-signature-symbol">:</span> <a href="_axis_axisbody_.axisbody.html" class="tsd-signature-type">AxisBody</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/4266372/Axis/index.ts#L65">Axis/index.ts:65</a></li>
+							<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/535534c/src/Axis/index.ts#L65">Axis/index.ts:65</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -208,14 +202,9 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_common_component_.component.html">Component</a>.<a href="_common_component_.component.html#canvas">canvas</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/4266372/common/Component.ts#L56">common/Component.ts:56</a></li>
+							<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/535534c/src/common/Component.ts#L56">common/Component.ts:56</a></li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>The canvas where component draw on.</p>
-						</div>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 					<a name="container" class="tsd-anchor"></a>
@@ -224,14 +213,9 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_common_component_.component.html">Component</a>.<a href="_common_component_.component.html#container">container</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/4266372/common/Component.ts#L60">common/Component.ts:60</a></li>
+							<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/535534c/src/common/Component.ts#L60">common/Component.ts:60</a></li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>The container which contain all of component&#39;s element.</p>
-						</div>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 					<a name="destroyed" class="tsd-anchor"></a>
@@ -240,15 +224,9 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_common_component_.component.html">Component</a>.<a href="_common_component_.component.html#destroyed">destroyed</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/4266372/common/Component.ts#L104">common/Component.ts:104</a></li>
+							<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/535534c/src/common/Component.ts#L117">common/Component.ts:117</a></li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Means that the component has been destroyed.
-							Call any method on component when it has destroyed will got an error.</p>
-						</div>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 					<a name="element" class="tsd-anchor"></a>
@@ -257,15 +235,9 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_common_component_.component.html">Component</a>.<a href="_common_component_.component.html#element">element</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/4266372/common/Component.ts#L77">common/Component.ts:77</a></li>
+							<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/535534c/src/common/Component.ts#L90">common/Component.ts:90</a></li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Optional. Be filled in this.createElement.
-							The HTML element which be needed by component draw.</p>
-						</div>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 					<a name="ext" class="tsd-anchor"></a>
@@ -274,14 +246,9 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_common_component_.component.html">Component</a>.<a href="_common_component_.component.html#ext">ext</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/4266372/common/Component.ts#L64">common/Component.ts:64</a></li>
+							<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/535534c/src/common/Component.ts#L64">common/Component.ts:64</a></li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Manage all extensions &amp; Help component communicate for each other.</p>
-						</div>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 					<a name="extradata" class="tsd-anchor"></a>
@@ -290,27 +257,17 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_common_component_.component.html">Component</a>.<a href="_common_component_.component.html#extradata">extraData</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/4266372/common/Component.ts#L52">common/Component.ts:52</a></li>
+							<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/535534c/src/common/Component.ts#L52">common/Component.ts:52</a></li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>An ext extra</p>
-						</div>
-						<dl class="tsd-comment-tags">
-							<dt>see</dt>
-							<dd><p>ExtraData</p>
-							</dd>
-						</dl>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 					<a name="grid" class="tsd-anchor"></a>
 					<h3>grid</h3>
-					<div class="tsd-signature tsd-kind-icon">grid<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">GridConfig</span></div>
+					<div class="tsd-signature tsd-kind-icon">grid<span class="tsd-signature-symbol">:</span> <a href="../interfaces/_types_.gridconfig.html" class="tsd-signature-type">GridConfig</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/4266372/Axis/index.ts#L43">Axis/index.ts:43</a></li>
+							<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/535534c/src/Axis/index.ts#L43">Axis/index.ts:43</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -320,7 +277,7 @@
 					<div class="tsd-signature tsd-kind-icon">milestone<wbr>Constructor<span class="tsd-signature-symbol">:</span> <a href="_axis_axismilestone_.axismilestone.html" class="tsd-signature-type">AxisMilestone</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/4266372/Axis/index.ts#L63">Axis/index.ts:63</a></li>
+							<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/535534c/src/Axis/index.ts#L63">Axis/index.ts:63</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -330,7 +287,7 @@
 					<div class="tsd-signature tsd-kind-icon">milestones<span class="tsd-signature-symbol">:</span> <a href="_axis_axismilestone_.axismilestone.html" class="tsd-signature-type">AxisMilestone</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> =&nbsp;[]</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/4266372/Axis/index.ts#L58">Axis/index.ts:58</a></li>
+							<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/535534c/src/Axis/index.ts#L58">Axis/index.ts:58</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -341,7 +298,18 @@
 					<aside class="tsd-sources">
 						<p>Overrides <a href="_common_component_.component.html">Component</a>.<a href="_common_component_.component.html#name">name</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/4266372/Axis/index.ts#L44">Axis/index.ts:44</a></li>
+							<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/535534c/src/Axis/index.ts#L44">Axis/index.ts:44</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
+					<a name="ratio" class="tsd-anchor"></a>
+					<h3>ratio</h3>
+					<div class="tsd-signature tsd-kind-icon">ratio<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> =&nbsp;window.devicePixelRatio || 1</span></div>
+					<aside class="tsd-sources">
+						<p>Inherited from <a href="_common_component_.component.html">Component</a>.<a href="_common_component_.component.html#ratio">ratio</a></p>
+						<ul>
+							<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/535534c/src/common/Component.ts#L74">common/Component.ts:74</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -351,7 +319,7 @@
 					<div class="tsd-signature tsd-kind-icon">scale<wbr>Constructor<span class="tsd-signature-symbol">:</span> <a href="_axis_axisscale_.axisscale.html" class="tsd-signature-type">AxisScale</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/4266372/Axis/index.ts#L64">Axis/index.ts:64</a></li>
+							<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/535534c/src/Axis/index.ts#L64">Axis/index.ts:64</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -361,7 +329,7 @@
 					<div class="tsd-signature tsd-kind-icon">scales<span class="tsd-signature-symbol">:</span> <a href="_axis_axisscale_.axisscale.html" class="tsd-signature-type">AxisScale</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> =&nbsp;[]</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/4266372/Axis/index.ts#L59">Axis/index.ts:59</a></li>
+							<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/535534c/src/Axis/index.ts#L59">Axis/index.ts:59</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -372,15 +340,9 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_common_component_.component.html">Component</a>.<a href="_common_component_.component.html#theme">theme</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/4266372/common/Component.ts#L42">common/Component.ts:42</a></li>
+							<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/535534c/src/common/Component.ts#L42">common/Component.ts:42</a></li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Theme name.
-							Be filled when the theme&#39;s class constructed.</p>
-						</div>
-					</div>
 				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group tsd-is-inherited tsd-is-private-protected">
@@ -388,30 +350,13 @@
 				<section class="tsd-panel tsd-member tsd-kind-get-signature tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
 					<a name="l" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagProtected">Protected</span> l</h3>
-					<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
-						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> l<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">(Anonymous function)</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<p>Inherited from <a href="_common_component_.component.html">Component</a>.<a href="_common_component_.component.html#l">l</a></p>
-								<ul>
-									<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/4266372/common/Component.ts#L177">common/Component.ts:177</a></li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Print log if the DEBUG is true.</p>
-								</div>
-								<dl class="tsd-comment-tags">
-									<dt>example</dt>
-									<dd><p>this.l<code>Hello world</code></p>
-									</dd>
-								</dl>
-							</div>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">(Anonymous function)</span></h4>
-						</li>
-					</ul>
+					<div class="tsd-signature tsd-kind-icon">l<span class="tsd-signature-symbol">:</span> </div>
+					<aside class="tsd-sources">
+						<p>Inherited from <a href="_common_component_.component.html">Component</a>.<a href="_common_component_.component.html#l">l</a></p>
+						<ul>
+							<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/535534c/src/common/Component.ts#L191">common/Component.ts:191</a></li>
+						</ul>
+					</aside>
 				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
@@ -427,7 +372,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="_common_component_.component.html">Component</a>.<a href="_common_component_.component.html#apply">apply</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/4266372/Axis/index.ts#L75">Axis/index.ts:75</a></li>
+									<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/535534c/src/Axis/index.ts#L75">Axis/index.ts:75</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../enums/_common_component_.must_call_and_return_super_method.html" class="tsd-signature-type">MUST_CALL_AND_RETURN_SUPER_METHOD</a><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -445,15 +390,9 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_common_component_.component.html">Component</a>.<a href="_common_component_.component.html#checkdestroy">checkDestroy</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/4266372/common/Component.ts#L184">common/Component.ts:184</a></li>
+									<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/535534c/src/common/Component.ts#L198">common/Component.ts:198</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Verify a component is destroyed or not.
-									Throw an error if this.destroyed is true.</p>
-								</div>
-							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 						</li>
 					</ul>
@@ -469,7 +408,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="_common_component_.component.html">Component</a>.<a href="_common_component_.component.html#createbox">createBox</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/4266372/Axis/index.ts#L67">Axis/index.ts:67</a></li>
+									<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/535534c/src/Axis/index.ts#L67">Axis/index.ts:67</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -487,17 +426,9 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_common_component_.component.html">Component</a>.<a href="_common_component_.component.html#createelement">createElement</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/4266372/common/Component.ts#L84">common/Component.ts:84</a></li>
+									<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/535534c/src/common/Component.ts#L97">common/Component.ts:97</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Optional. Depend on the draw this component is need HTML element or not.
-										Create an HTML element base on this.drawInfo to fill this.element
-										and append to this.container.
-									Be called in this.apply and this.draw.</p>
-								</div>
-							</div>
 							<h4 class="tsd-returns-title">Returns <a href="../enums/_common_component_.must_call_and_return_super_method.html" class="tsd-signature-type">MUST_CALL_AND_RETURN_SUPER_METHOD</a></h4>
 						</li>
 					</ul>
@@ -513,7 +444,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="_common_component_.component.html">Component</a>.<a href="_common_component_.component.html#destroy">destroy</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/4266372/Axis/index.ts#L97">Axis/index.ts:97</a></li>
+									<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/535534c/src/Axis/index.ts#L97">Axis/index.ts:97</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <a href="../enums/_common_component_.must_call_and_return_super_method.html" class="tsd-signature-type">MUST_CALL_AND_RETURN_SUPER_METHOD</a></h4>
@@ -531,7 +462,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="_common_component_.component.html">Component</a>.<a href="_common_component_.component.html#draw">draw</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/4266372/Axis/index.ts#L90">Axis/index.ts:90</a></li>
+									<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/535534c/src/Axis/index.ts#L90">Axis/index.ts:90</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <a href="../enums/_common_component_.must_call_and_return_super_method.html" class="tsd-signature-type">MUST_CALL_AND_RETURN_SUPER_METHOD</a></h4>
@@ -549,7 +480,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="_common_component_.component.html">Component</a>.<a href="_common_component_.component.html#hide">hide</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/4266372/Axis/index.ts#L104">Axis/index.ts:104</a></li>
+									<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/535534c/src/Axis/index.ts#L104">Axis/index.ts:104</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <a href="../enums/_common_component_.must_call_and_return_super_method.html" class="tsd-signature-type">MUST_CALL_AND_RETURN_SUPER_METHOD</a></h4>
@@ -560,26 +491,20 @@
 					<a name="importdrawinfo" class="tsd-anchor"></a>
 					<h3>import<wbr>Draw<wbr>Info</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-						<li class="tsd-signature tsd-kind-icon">import<wbr>Draw<wbr>Info<span class="tsd-signature-symbol">(</span>drawInfo<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ComponentDrawInfo</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">this</span></li>
+						<li class="tsd-signature tsd-kind-icon">import<wbr>Draw<wbr>Info<span class="tsd-signature-symbol">(</span>drawInfo<span class="tsd-signature-symbol">: </span><a href="../interfaces/_types_.componentdrawinfo.html" class="tsd-signature-type">ComponentDrawInfo</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">this</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_common_component_.component.html">Component</a>.<a href="_common_component_.component.html#importdrawinfo">importDrawInfo</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/4266372/common/Component.ts#L168">common/Component.ts:168</a></li>
+									<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/535534c/src/common/Component.ts#L182">common/Component.ts:182</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Set a whole drawInfo into component.
-									The component still need this.apply called before draw when this.importDrawInfo been called.</p>
-								</div>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>drawInfo: <span class="tsd-signature-type">ComponentDrawInfo</span></h5>
+									<h5>drawInfo: <a href="../interfaces/_types_.componentdrawinfo.html" class="tsd-signature-type">ComponentDrawInfo</a></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">this</span></h4>
@@ -596,7 +521,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/4266372/Axis/index.ts#L112">Axis/index.ts:112</a></li>
+									<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/535534c/src/Axis/index.ts#L112">Axis/index.ts:112</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -613,7 +538,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/4266372/Axis/index.ts#L136">Axis/index.ts:136</a></li>
+									<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/535534c/src/Axis/index.ts#L136">Axis/index.ts:136</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -630,7 +555,25 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/4266372/Axis/index.ts#L122">Axis/index.ts:122</a></li>
+									<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/535534c/src/Axis/index.ts#L122">Axis/index.ts:122</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+					<a name="setupradio" class="tsd-anchor"></a>
+					<h3>setup<wbr>Radio</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+						<li class="tsd-signature tsd-kind-icon">setup<wbr>Radio<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from <a href="_common_component_.component.html">Component</a>.<a href="_common_component_.component.html#setupradio">setupRadio</a></p>
+								<ul>
+									<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/535534c/src/common/Component.ts#L76">common/Component.ts:76</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -647,7 +590,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/4266372/Axis/index.ts#L149">Axis/index.ts:149</a></li>
+									<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/535534c/src/Axis/index.ts#L149">Axis/index.ts:149</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -670,7 +613,7 @@
 					<aside class="tsd-sources">
 						<p>Overrides <a href="_common_component_.component.html">Component</a>.<a href="_common_component_.component.html#drawinfo">drawInfo</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/4266372/Axis/index.ts#L45">Axis/index.ts:45</a></li>
+							<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/535534c/src/Axis/index.ts#L45">Axis/index.ts:45</a></li>
 						</ul>
 					</aside>
 					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
@@ -679,7 +622,7 @@
 						<div class="tsd-signature tsd-kind-icon">length<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> =&nbsp;0</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/4266372/Axis/index.ts#L48">Axis/index.ts:48</a></li>
+								<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/535534c/src/Axis/index.ts#L48">Axis/index.ts:48</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -689,7 +632,7 @@
 						<div class="tsd-signature tsd-kind-icon">milestones<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">never</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> =&nbsp;[]</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/4266372/Axis/index.ts#L47">Axis/index.ts:47</a></li>
+								<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/535534c/src/Axis/index.ts#L47">Axis/index.ts:47</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -699,7 +642,7 @@
 						<div class="tsd-signature tsd-kind-icon">scales<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">never</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> =&nbsp;[]</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/4266372/Axis/index.ts#L46">Axis/index.ts:46</a></li>
+								<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/535534c/src/Axis/index.ts#L46">Axis/index.ts:46</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -709,7 +652,7 @@
 						<div class="tsd-signature tsd-kind-icon">box<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/4266372/Axis/index.ts#L49">Axis/index.ts:49</a></li>
+								<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/535534c/src/Axis/index.ts#L49">Axis/index.ts:49</a></li>
 							</ul>
 						</aside>
 						<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
@@ -718,7 +661,7 @@
 							<div class="tsd-signature tsd-kind-icon">height<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> =&nbsp;0</span></div>
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/4266372/Axis/index.ts#L53">Axis/index.ts:53</a></li>
+									<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/535534c/src/Axis/index.ts#L53">Axis/index.ts:53</a></li>
 								</ul>
 							</aside>
 						</section>
@@ -728,7 +671,7 @@
 							<div class="tsd-signature tsd-kind-icon">width<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> =&nbsp;0</span></div>
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/4266372/Axis/index.ts#L52">Axis/index.ts:52</a></li>
+									<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/535534c/src/Axis/index.ts#L52">Axis/index.ts:52</a></li>
 								</ul>
 							</aside>
 						</section>
@@ -738,7 +681,7 @@
 							<div class="tsd-signature tsd-kind-icon">x<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> =&nbsp;0</span></div>
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/4266372/Axis/index.ts#L50">Axis/index.ts:50</a></li>
+									<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/535534c/src/Axis/index.ts#L50">Axis/index.ts:50</a></li>
 								</ul>
 							</aside>
 						</section>
@@ -748,7 +691,7 @@
 							<div class="tsd-signature tsd-kind-icon">y<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> =&nbsp;0</span></div>
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/4266372/Axis/index.ts#L51">Axis/index.ts:51</a></li>
+									<li>Defined in <a href="https://github.com/FoXZilla/short-night/blob/535534c/src/Axis/index.ts#L51">Axis/index.ts:51</a></li>
 								</ul>
 							</aside>
 						</section>
@@ -834,6 +777,9 @@
 					<li class=" tsd-kind-external-module">
 						<a href="../modules/_index_.html">"index"</a>
 					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="../modules/_types_.html">"types"</a>
+					</li>
 				</ul>
 			</nav>
 			<nav class="tsd-navigation secondary menu-sticky">
@@ -882,6 +828,9 @@
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-overwrite">
 								<a href="_axis_index_.axis.html#name" class="tsd-kind-icon">name</a>
 							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
+								<a href="_axis_index_.axis.html#ratio" class="tsd-kind-icon">ratio</a>
+							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class">
 								<a href="_axis_index_.axis.html#scaleconstructor" class="tsd-kind-icon">scale<wbr>Constructor</a>
 							</li>
@@ -926,6 +875,9 @@
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="_axis_index_.axis.html#initscales" class="tsd-kind-icon">init<wbr>Scales</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+								<a href="_axis_index_.axis.html#setupradio" class="tsd-kind-icon">setup<wbr>Radio</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-static">
 								<a href="_axis_index_.axis.html#is" class="tsd-kind-icon">is</a>
