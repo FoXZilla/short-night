@@ -2,6 +2,8 @@
 
 > The night is short, walk on girl.
 
+http://short-night.pea3nut.org 
+
 :deciduous_tree: An engine for drawing timeline graph.
 
 # What is project doing?
@@ -14,6 +16,9 @@ An engine for draw a timeline graph:
 
 ![](result-demo.jpg)
 
-# Development & Documents
+# Documents
 
-See the [wiki](https://github.com/FoXZilla/short-night/wiki).
+Wanna using a timeline? click [here](http://short-night.pea3nut.org/example)
+
+Wanna to develop a new timeline? click [here](https://github.com/FoXZilla/short-night/wiki)
+
