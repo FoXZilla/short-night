@@ -76,20 +76,20 @@ export default abstract class EventBody extends Component{
     createElement() {
         const flag = super.createElement(); // Must return this flag
 
-        if (this.drawInfo.floated) this.element.classList.add('floated');
-        if (this.drawInfo.folded) this.element.classList.add('folded');
+        if (this.drawInfo.floated) this.element.classList.add('sn-floated');
+        if (this.drawInfo.folded) this.element.classList.add('sn-folded');
 
         this.element.innerHTML = `
-            <div class="foldPlaceholder" title="${this.drawInfo.title}">
+            <div class="sn-foldPlaceholder" title="${this.drawInfo.title}">
                 ${this.drawInfo.foldPlaceholder || this.drawInfo.title}
             </div>
-            <div class="title">${this.drawInfo.title}</div>
-            <div class="date">${parseDate(this.drawInfo.date).toLocaleDateString()}</div>
-            <div class="description">${this.drawInfo.description}</div>
+            <div class="sn-title">${this.drawInfo.title}</div>
+            <div class="sn-date">${parseDate(this.drawInfo.date).toLocaleDateString()}</div>
+            <div class="sn-description">${this.drawInfo.description}</div>
         `;
 
         if (!this.drawInfo.description) {
-            this.element.removeChild(this.element.querySelector('.description')!);
+            this.element.removeChild(this.element.querySelector('.sn-description')!);
         }
 
         if (this.drawInfo.floated) {

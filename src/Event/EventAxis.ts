@@ -52,7 +52,7 @@ export default abstract class EventAxis extends Component{
 
         const target = this.drawInfo.markDrawInfo.target;
 
-        this.element!.classList.add('endText');
+        this.element!.classList.add('sn-endText');
         this.element!.innerHTML = this.drawInfo.text!;
 
         const box = parseBox(this.element!);

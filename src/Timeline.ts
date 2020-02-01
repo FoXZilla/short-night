@@ -547,12 +547,12 @@ export default abstract class Timeline extends Component{
             : el as HTMLElement
         ;
         container.innerHTML = '';
-        container.classList.add('short-night', themeName, 'container');
+        container.classList.add('short-night', `sn-${themeName}`, 'sn-container');
 
         const canvas = document.createElement('canvas') as HTMLCanvasElement;
         canvas.height = 6000;
         canvas.width = 600;
-        canvas.classList.add('short-night', themeName, 'canvas');
+        canvas.classList.add('short-night', `sn-${themeName}`, 'sn-canvas');
 
         container.appendChild(canvas);
 

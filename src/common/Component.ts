@@ -98,7 +98,7 @@ export default abstract class Component{
         if (this.element) this.container.removeChild(this.element);
 
         this.element = document.createElement('div');
-        this.element.classList.add('short-night', this.theme, this.name);
+        this.element.classList.add('short-night', `sn-${this.theme}`, `sn-${this.name}`);
         this.container.appendChild(this.element);
 
         return MUST_CALL_AND_RETURN_SUPER_METHOD.SUPER_CREATE_ELEMENT;

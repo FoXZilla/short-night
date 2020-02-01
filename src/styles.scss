@@ -5,46 +5,46 @@
         margin: 0;
         padding: 0;
     }
-    &.axis_milestone{
+    &.sn-axis_milestone{
         font-family: sans-serif;
         position: absolute;
         padding: 5px 10px;
     }
-    &.event_body{
+    &.sn-event_body{
         position: absolute;
         color: #000;
         padding: 7px 10px 7px 5px;
-        &.folded{
+        &.sn-folded{
             cursor: pointer;
-            .title{
+            .sn-title{
                 display: none;
             }
-            .foldPlaceholder{
+            .sn-foldPlaceholder{
                 display: block;
             }
         }
-        .title{
+        .sn-title{
             font-size: 1em;
             text-overflow:ellipsis;
             text-align: right;
         }
-        .date{
+        .sn-date{
             font-size: 0.6em;
             font-weight: normal;
             font-style: italic;
             text-align: right;
         }
-        .description{
+        .sn-description{
             word-break: break-all;
             font-size: 0.8em;
             text-align: justify;
         }
-        .foldPlaceholder{
-            @extend .title;
+        .sn-foldPlaceholder{
+            @extend .sn-title;
             display: none;
         }
     }
-    &.event_axis.endText{
+    &.sn-event_axis.sn-endText{
         position: absolute;
         padding: 0 0 2px 5px;
         font-size: 0.8em;
