@@ -65,7 +65,7 @@ export default class EventBody2EventBodyMover {
 
         return await walkLoop(async () => [
             await this.tryFixOne(),
-        ]);
+        ]).catch(() => ConflictFixResult.Failed);
     }
 
     /**
@@ -218,18 +218,30 @@ export default class EventBody2EventBodyMover {
         if (below.length) {
             result.bottom = Math.max(
                 ...below.map((lower) => {
+                    const avoidBox = (
+                        origin.drawInfo.box.y
+                        + origin.drawInfo.box.height
+                        - lower.drawInfo.box.y
+                    );
+
                     if (lower.drawInfo.floated === origin.drawInfo.floated) {
-                        return (
-                            origin.drawInfo.box.y
-                            + origin.drawInfo.box.height
-                            - lower.drawInfo.box.y
-                        );
+                        return avoidBox;
                     } else if (origin.drawInfo.floated) {
-                        return origin.drawInfo.markDrawInfo.target.y - lower.drawInfo.box.y;
+                        const avoidFloatLine = origin.drawInfo.markDrawInfo.target.y
+                            - lower.drawInfo.box.y
+                        ;
+                        return Math.max(
+                            avoidBox,
+                            avoidFloatLine,
+                        );
                     } else if (lower.drawInfo.floated) {
-                        return (
-                            (origin.drawInfo.box.y + origin.drawInfo.box.height)
+                        const avoidFloatLine = (origin.drawInfo.box.y + origin.drawInfo.box.height)
                             - lower.drawInfo.markDrawInfo.target.y
+                        ;
+
+                        return Math.max(
+                            avoidBox,
+                            avoidFloatLine,
                         );
                     }
                     throw SyntaxError('floated is not a boolean');
