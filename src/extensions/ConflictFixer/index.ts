@@ -47,10 +47,14 @@ export default class ConflictFixer implements Partial<Extension> {
         this.counter++;
 
         if (this.counter > 10) { // TODO: make configurable
-            const msg = `Too many times(${this.counter}) of try fix conflict.`;
+            const msg = `[ShortNight]: Too many times(${this.counter}) of try fix conflict.`;
 
-            if (DEBUG) throw new Error(msg);
-            else console.warn(msg);
+            if (DEBUG) {
+                throw new Error(msg);
+            } else {
+                console.warn(msg);
+                return;
+            }
         }
 
         await Promise.resolve().then(() => timeline.apply({
