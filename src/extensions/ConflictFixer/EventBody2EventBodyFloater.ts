@@ -81,8 +81,15 @@ export default class EventBody2EventBodyFloater {
                 forward: true,
             },
         );
-        return ConflictFixResult.Alleviated;
 
+        // add conflicts data in conflicts object which is define by the Extension class
+        if (this.conflicts.length) {
+            this.ext.conflicts.event_body = this.conflicts.map(v => v);
+        } else {
+            this.ext.conflicts.event_body = [];
+        }
+
+        return ConflictFixResult.Alleviated;
     }
 
     protected pickRingleader() :Conflict|undefined {

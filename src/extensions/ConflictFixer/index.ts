@@ -47,6 +47,48 @@ export default class ConflictFixer implements Partial<Extension> {
         this.counter++;
 
         if (this.counter > 10) { // TODO: make configurable
+
+            if (this.ext.conflicts.event_body.length) {
+
+                const userData =  this.ext.components.timeline[0].drawInfo.events;
+
+                let filterData: any[] = [];
+
+                userData.forEach(ud => {
+                    return this.ext.conflicts.event_body.forEach(eb => {
+
+                        if (eb.self.drawInfo.date === ud.date) {
+
+                            filterData.push(JSON.stringify(ud));
+                        }
+                    })
+                });
+
+                filterData = filterData.filter((v, i, arr) => arr.indexOf(v) === i);
+
+                let x = `%cAn error was received:`;
+
+                if (filterData.length === 1 ) {
+
+                    x = `${x} %c“Too many long text found.”`;
+                } else {
+
+                    const dates = filterData.map(v => JSON.parse(v)).map(v => new Date(v.date).getTime());
+
+                    const dateDiff = dates.map((v, i, arr) => Math.abs(new Date(v).getTime() - new Date(arr[i + 1]).getTime()) / (1000 * 60 * 60 * 24)).filter(v => !Number.isNaN(v));
+
+                    if (!dateDiff.sort().reverse()[0]) {
+                        x = `${x} %c“Duplicate entry found for event.date”`;
+                    } else {
+                        x = `${x} %c“Too close entry found for event.date”`;
+                    }
+                }
+
+                x = `${x} %c${filterData.toString()}`;
+
+                console.log(x, 'color: #D0342C; font-size: 16px;', 'color: #D0342C; font-size: 16px;', 'color: #F6E7D8; font-size: 16px; border: 1px groove  #F5F5F5; padding: 4px;');
+            }
+
             const msg = `[ShortNight]: Too many times(${this.counter}) of try fix conflict.`;
 
             if (DEBUG) {

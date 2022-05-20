@@ -14,7 +14,7 @@ import BreakpointAnimation, { BreakpointAnimationConfig } from './BreakpointAnim
 import BoxElementGenerator from './BoxElementGenerator';
 import IdGenerator from './IdGenerator';
 import PositionCounter from './PositionCounter';
-import ConflictFixer from './ConflictFixer';
+import ConflictFixer, { Conflict } from './ConflictFixer';
 
 export {
     BoxElementGenerator,
@@ -127,6 +127,9 @@ export class ExtensionManager implements Extension {
         [SN.EventAxis]: [],
     };
     extensions :Partial<Extension>[];
+
+        // holds the conflicts which are occurs during the timeline creation
+    conflicts: {event_body: Conflict<EventBody>[]} = {event_body: []};
 
     getParent(comp :EventAxis|EventBody|EventMark) :Event;
     getParent(comp :AxisBody|AxisMilestone|AxisScale) :Axis;
