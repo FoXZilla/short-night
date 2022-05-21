@@ -128,9 +128,6 @@ export class ExtensionManager implements Extension {
     };
     extensions :Partial<Extension>[];
 
-        // holds the conflicts which are occurs during the timeline creation
-    conflicts: {event_body: Conflict<EventBody>[]} = {event_body: []};
-
     getParent(comp :EventAxis|EventBody|EventMark) :Event;
     getParent(comp :AxisBody|AxisMilestone|AxisScale) :Axis;
     getParent(comp :Event|Axis) :Timeline;

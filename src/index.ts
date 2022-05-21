@@ -12,7 +12,7 @@ export { default as Event, ConstructInfo as EventConstructInfo  } from './Event'
 export { default as EventMark } from './Event/EventMark';
 export { default as EventAxis } from './Event/EventAxis';
 export { default as EventBody } from './Event/EventBody';
-
+export { createDraw } from './common/functions';
 export { default as Component } from './common/Component';
 export {
     ExtensionManager,

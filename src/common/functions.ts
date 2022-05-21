@@ -239,7 +239,7 @@ export function parseDate(material :any) :Date {
     ;
     if (pureNumberString) {
         const date = new Date();
-        date.setFullYear(material);
+        date.setFullYear(Number(material));
         return date;
     }
 

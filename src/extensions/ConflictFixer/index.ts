@@ -8,6 +8,7 @@ import EventAxis2EventAxis from './EventAxis2EventAxis';
 import EventBody2EventBodyMover from './EventBody2EventBodyMover';
 import EventBody2EventBodyFloater from './EventBody2EventBodyFloater';
 import { ConflictFixResult } from '../../types';
+import EventBody from '../../Event/EventBody';
 
 export interface Conflict<T = Component>{
     with :T[];
@@ -21,6 +22,8 @@ export interface Conflict<T = Component>{
  * */
 export default class ConflictFixer implements Partial<Extension> {
     constructor(public ext :ExtensionManager) {}
+
+    conflicts: {event_body: Conflict<EventBody>[]} = {event_body: []};
 
     fixers :{ fix() :Promise<ConflictFixResult> }[] = [
         new EventBody2AxisMilestone(this.ext),
@@ -48,50 +51,63 @@ export default class ConflictFixer implements Partial<Extension> {
 
         if (this.counter > 10) { // TODO: make configurable
 
-            if (this.ext.conflicts.event_body.length) {
-
-                const userData =  this.ext.components.timeline[0].drawInfo.events;
-
-                let filterData: any[] = [];
-
-                userData.forEach(ud => {
-                    return this.ext.conflicts.event_body.forEach(eb => {
-
-                        if (eb.self.drawInfo.date === ud.date) {
-
-                            filterData.push(JSON.stringify(ud));
-                        }
-                    })
-                });
-
-                filterData = filterData.filter((v, i, arr) => arr.indexOf(v) === i);
-
-                let x = `%cAn error was received:`;
-
-                if (filterData.length === 1 ) {
-
-                    x = `${x} %c“Too many long text found.”`;
-                } else {
-
-                    const dates = filterData.map(v => JSON.parse(v)).map(v => new Date(v.date).getTime());
-
-                    const dateDiff = dates.map((v, i, arr) => Math.abs(new Date(v).getTime() - new Date(arr[i + 1]).getTime()) / (1000 * 60 * 60 * 24)).filter(v => !Number.isNaN(v));
-
-                    if (!dateDiff.sort().reverse()[0]) {
-                        x = `${x} %c“Duplicate entry found for event.date”`;
-                    } else {
-                        x = `${x} %c“Too close entry found for event.date”`;
-                    }
-                }
-
-                x = `${x} %c${filterData.toString()}`;
-
-                console.log(x, 'color: #D0342C; font-size: 16px;', 'color: #D0342C; font-size: 16px;', 'color: #F6E7D8; font-size: 16px; border: 1px groove  #F5F5F5; padding: 4px;');
-            }
-
             const msg = `[ShortNight]: Too many times(${this.counter}) of try fix conflict.`;
 
             if (DEBUG) {
+
+                /**
+                 * Holds the filter data from the event which have generated the conflicts
+                 * */
+                const filterData = ((ud) => {
+
+                    const eventsData = ud.map(ud => {
+                        return this.conflicts.event_body.map(eb => {
+                            if (eb.self.drawInfo.date === ud.date) {
+                                return JSON.stringify(ud);
+                            }
+                        })
+                    });
+
+                    const flatenTheEvents = eventsData.flat(1);
+
+                    return flatenTheEvents.filter(Boolean) as string[];
+                    
+                })(this.ext.components.timeline[0].drawInfo.events);
+
+                let errorMsg = `An error was received:`;
+
+                if (filterData.length === 1) {
+
+                    errorMsg = `${errorMsg} “Too many long text found.”`;
+
+                } else {
+
+                    /**
+                     * Finding the difference between two date and return the day
+                     * */
+                    const dayDifference = ((dateList) => {
+
+                        const oneDayMs = 1000 * 60 * 60 * 24;
+                        
+                        const countDiff = (date1: Date, date2: Date) => Math.abs(date1.getTime() - (date2 || new Date(date2)).getTime()) / oneDayMs;
+    
+                        const dateListMS = dateList.map((v, i, arr) => countDiff(v, arr[i + 1]));
+    
+                        return dateListMS.filter(v => !Number.isNaN(v)).sort().reverse()[0];
+    
+                    })(filterData.map(v => JSON.parse(v)).map(v => new Date(v.date)));
+
+                    if (!dayDifference) {
+                        errorMsg = `${errorMsg} “Duplicate entry found for event.date”`;
+                    } else {
+                        errorMsg = `${errorMsg} “Too close entry found for event.date”`;
+                    }
+                }
+
+                errorMsg = `${errorMsg} ${filterData.toString()}`;
+
+                console.error(errorMsg);
+                
                 throw new Error(msg);
             } else {
                 console.warn(msg);
@@ -102,7 +118,6 @@ export default class ConflictFixer implements Partial<Extension> {
         await Promise.resolve().then(() => timeline.apply({
             axisLength: timeline.runtime.axisLength * 1.3,
         }));
-
     }
 
     /**
@@ -117,5 +132,4 @@ export default class ConflictFixer implements Partial<Extension> {
             return results;
         });
     }
-
 }

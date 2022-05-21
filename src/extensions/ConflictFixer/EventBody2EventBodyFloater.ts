@@ -2,7 +2,7 @@ import { SN } from '../../common/definitions';
 import EventBody from '../../Event/EventBody';
 import { isOverlap } from '../../common/functions';
 import { ExtensionManager } from '..';
-import { Conflict as ComponentConflict } from '.';
+import ConflictFixer, { Conflict as ComponentConflict } from '.';
 import Timeline from '../../Timeline';
 import AxisBody from '../../Axis/AxisBody';
 import { Breakpoint } from '../BreakpointAnimation';
@@ -82,11 +82,13 @@ export default class EventBody2EventBodyFloater {
             },
         );
 
-        // add conflicts data in conflicts object which is define by the Extension class
+        const conflictFixer = this.ext.extensions.filter(v => v instanceof ConflictFixer)[0] as ConflictFixer;
+
         if (this.conflicts.length) {
-            this.ext.conflicts.event_body = this.conflicts.map(v => v);
+
+            conflictFixer.conflicts.event_body = Array.from(this.conflicts);
         } else {
-            this.ext.conflicts.event_body = [];
+            conflictFixer.conflicts.event_body = [];
         }
 
         return ConflictFixResult.Alleviated;
