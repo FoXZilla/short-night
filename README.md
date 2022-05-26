@@ -143,7 +143,9 @@ export const draw = Engine.createDraw<Timeline, typeof Timeline>('roshan-demo', 
 
 # Documents
 
-Wanna using a timeline? click [here](http://short-night.pea3nut.org/example)
+- More info see the Short-Night engine Public API? click [here](https://foxzilla.github.io/short-night/index.html)
 
-Wanna to develop a new timeline? click [here](https://github.com/FoXZilla/short-night/wiki)
+- Wanna using a timeline? click [here](http://short-night.pea3nut.org/example)
+
+- Wanna to develop a new timeline? click [here](https://github.com/FoXZilla/short-night/wiki)
 
