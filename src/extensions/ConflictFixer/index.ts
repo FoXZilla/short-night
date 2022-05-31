@@ -74,11 +74,11 @@ export default class ConflictFixer implements Partial<Extension> {
                     
                 })(this.ext.components.timeline[0].drawInfo.events);
 
-                let errorMsg = `An error was received:`;
+                let errorMsg = `[ShortNight]:`;
 
                 if (filterData.length === 1) {
 
-                    errorMsg = `${errorMsg} “Too many long text found.”`;
+                    errorMsg = `${errorMsg} “You used too many characters in the field description/title. Please reduce the number of characters to fit in the box.”`;
 
                 } else {
 

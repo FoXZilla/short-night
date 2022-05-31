@@ -82,7 +82,7 @@ export default class EventBody2EventBodyFloater {
             },
         );
 
-        const conflictFixer = this.ext.extensions.filter(v => v instanceof ConflictFixer)[0] as ConflictFixer;
+        const conflictFixer = this.ext.extensions.find(v => v instanceof ConflictFixer) as ConflictFixer;
 
         if (this.conflicts.length) {
 
