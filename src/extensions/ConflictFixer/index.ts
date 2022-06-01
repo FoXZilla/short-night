@@ -78,7 +78,9 @@ export default class ConflictFixer implements Partial<Extension> {
 
                 if (filterData.length === 1) {
 
-                    errorMsg = `${errorMsg} “You used too many characters in the field description/title. Please reduce the number of characters to fit in the box.”`;
+                    const description = JSON.parse(filterData.find(Boolean) as string).description;
+
+                    errorMsg = `${errorMsg} Description “${description}” is overlapping the other event data.`;
 
                 } else {
 
@@ -104,7 +106,10 @@ export default class ConflictFixer implements Partial<Extension> {
                     }
                 }
 
-                errorMsg = `${errorMsg} ${filterData.toString()}`;
+                if (filterData.length > 1) {
+
+                    errorMsg = `${errorMsg} ${filterData.toString()}`;
+                }
 
                 console.error(errorMsg);
                 
