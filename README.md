@@ -26,7 +26,7 @@ npm install short-night
 
 # Usage
 
-```Javascript
+```javascript
 import * as Engine from 'short-night';
 ```
 ### For Creating Axis
@@ -118,7 +118,7 @@ import * as Engine from 'short-night';
 .
 .
 export const draw = Engine.createDraw<Timeline, typeof Timeline>('roshan-demo', Timeline);
-````
+```
 
 ```javascript
 (async function () {
@@ -149,3 +149,52 @@ export const draw = Engine.createDraw<Timeline, typeof Timeline>('roshan-demo', 
 
 - Wanna to develop a new timeline? click [here](https://github.com/FoXZilla/short-night/wiki)
 
+
+# Contributor's Guide
+Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
+
+Please make sure to update tests as appropriate.
+
+1. Fork the project on GitHub.
+
+2. Clone the project.
+
+3. perform the below command
+```
+npm link
+```
+4. Create a branch specific to the issue you are working on.
+```
+git checkout -b branch-name
+```
+5. Add your modified files to Git,
+```
+git add path/to/filename.ext
+```
+You can also add all unstaged files using:
+```
+git add .
+```
+Note: using a git add . will automatically add all files. You can do a git status to see your changes, but do it before git add.
+
+6. Commit your changes using a descriptive commit message.
+```
+git commit -m "Brief Description of Commit"
+```
+7. Push your commits to your GitHub Fork:
+```
+git push -u origin branch-name
+```
+8. Submit a pull request.
+
+
+### Follow the below step in your local project
+
+1. Installing the short-night
+```
+npm install short-night
+```
+2. Linking the short-night with your local connection
+```
+npm link short-night
+```
