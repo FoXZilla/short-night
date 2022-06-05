@@ -20,7 +20,7 @@ An engine for draw a timeline graph:
 
 NPM
 
-```
+```sh
 npm install short-night
 ```
 
@@ -160,29 +160,29 @@ Please make sure to update tests as appropriate.
 2. Clone the project.
 
 3. perform the below command
-```
+```sh
 npm link
 ```
 4. Create a branch specific to the issue you are working on.
-```
+```sh
 git checkout -b branch-name
 ```
 5. Add your modified files to Git,
-```
+```sh
 git add path/to/filename.ext
 ```
 You can also add all unstaged files using:
-```
+```sh
 git add .
 ```
 Note: using a git add . will automatically add all files. You can do a git status to see your changes, but do it before git add.
 
 6. Commit your changes using a descriptive commit message.
-```
+```sh
 git commit -m "Brief Description of Commit"
 ```
 7. Push your commits to your GitHub Fork:
-```
+```sh
 git push -u origin branch-name
 ```
 8. Submit a pull request.
@@ -191,10 +191,10 @@ git push -u origin branch-name
 ### Follow the below step in your local project
 
 1. Installing the short-night
-```
+```sh
 npm install short-night
 ```
 2. Linking the short-night with your local connection
-```
+```sh
 npm link short-night
 ```
