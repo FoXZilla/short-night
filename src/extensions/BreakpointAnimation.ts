@@ -148,7 +148,7 @@ export default class BreakpointAnimation implements Partial<Extension>, Breakpoi
             if (onBlock) await onBlock();
             components.forEach(comp => comp.draw());
 
-            await new Promise((resolve) => {
+            await new Promise<void>((resolve) => {
                 this.stepIn = async () => {
                     if (onNext) await onNext();
                     components.forEach(comp => comp.hide());
