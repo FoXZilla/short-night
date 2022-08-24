@@ -175,7 +175,7 @@ export async function walkLoop(
 ) :Promise<ConflictFixResult> {
     let alleviated = false;
 
-    for (let i = 0 ; i < max ; i++) {
+    for (let i = 0; i < max; i++) {
         const result = await fn();
 
         if (result.includes(ConflictFixResult.Alleviated)) {

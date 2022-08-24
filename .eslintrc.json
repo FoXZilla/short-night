@@ -90,7 +90,7 @@
         "padded-blocks": ["off"],
         "prefer-destructuring": ["off"],
         "prefer-object-spread": ["off"],
-        "semi-spacing": ["off"],
+        "semi-spacing": ["error"],
         "semi-style": ["off"]
     }
 }
