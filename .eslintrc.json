@@ -80,7 +80,7 @@
         "no-labels": ["off"],
         "no-lonely-if": ["off"],
         "no-mixed-operators": ["off"],
-        "no-multi-spaces": ["off"],
+        "no-multi-spaces": ["error"],
         "no-param-reassign": ["off"],
         "no-restricted-globals": ["off"],
         "no-restricted-syntax": ["off"],

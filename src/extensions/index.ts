@@ -81,7 +81,7 @@ export class ExtensionManager implements Extension {
         this.disableAll = disableAll;
         this.disableAllButDebug = disableAllButDebug;
         this.breakpoint = new BreakpointAnimation(this, breakpointAnimation);
-        this.extensions  = [
+        this.extensions = [
             new Base(this),
             new IdGenerator(this),
             new BoxElementGenerator(this),

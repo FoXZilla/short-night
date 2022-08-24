@@ -39,4 +39,4 @@ export const WALK_ON = {
     },
 };
 
-export const SN_VERSION :string =  packageJson.version;
+export const SN_VERSION :string = packageJson.version;
