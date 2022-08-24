@@ -1,8 +1,8 @@
 import { ComponentConstructorInfo, ComponentDrawInfo, GridConfig } from '../types';
 import Component from '../common/Component';
-import AxisMilestone from '../Axis/AxisMilestone';
-import AxisScale from '../Axis/AxisScale';
-import AxisBody from '../Axis/AxisBody';
+import AxisMilestone from './AxisMilestone';
+import AxisScale from './AxisScale';
+import AxisBody from './AxisBody';
 import { SN } from '../common/definitions';
 import { deepFreeze, mergeBox } from '../common/functions';
 

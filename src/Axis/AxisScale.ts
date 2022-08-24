@@ -1,7 +1,7 @@
 import { ComponentConstructorInfo, ComponentDrawInfo, Coordinate } from '../types';
 import Component from '../common/Component';
 import { SN } from '../common/definitions';
-import AxisBody from '../Axis/AxisBody';
+import AxisBody from './AxisBody';
 
 /**
  * @property {Readonly<AxisBodyDrawInfo>} bodyDrawInfo - the DrawInfo of AxisBody.
