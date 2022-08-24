@@ -144,7 +144,6 @@ export default class PositionCounter implements Partial<Extension> {
         }
 
         await Promise.all(events.map(event => event.apply()));
-
     }
 
     protected pushConfigs :PushConfig[] = [];

@@ -106,5 +106,4 @@ export default class TimeSpliter {
                 return date;
             },
         };
-
 }

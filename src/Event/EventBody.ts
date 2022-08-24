@@ -139,5 +139,4 @@ export default abstract class EventBody extends Component {
     static is(comp :Component) :comp is EventBody {
         return comp.name === SN.EventBody;
     }
-
 }

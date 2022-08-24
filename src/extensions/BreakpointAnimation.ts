@@ -155,7 +155,6 @@ export default class BreakpointAnimation implements Partial<Extension>, Breakpoi
                     resolve();
                 };
             });
-
         })();
     }
     /**

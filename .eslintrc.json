@@ -87,7 +87,7 @@
         "no-return-assign": ["off"],
         "object-curly-newline": ["off"],
         "operator-linebreak": ["error"],
-        "padded-blocks": ["off"],
+        "padded-blocks": ["error"],
         "prefer-destructuring": ["off"],
         "prefer-object-spread": ["off"],
         "semi-spacing": ["error"],

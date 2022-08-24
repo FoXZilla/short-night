@@ -92,5 +92,4 @@ export default abstract class EventAxis extends Component {
     static is(comp :Component) :comp is EventAxis {
         return comp.name === SN.EventAxis;
     }
-
 }

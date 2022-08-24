@@ -64,5 +64,4 @@ export default class BoxElementGenerator implements Partial<Extension> {
             elt.parentElement.removeChild(elt);
         }
     }
-
 }

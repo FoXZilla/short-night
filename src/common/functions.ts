@@ -185,11 +185,9 @@ export async function walkLoop(
                 ? ConflictFixResult.Alleviated
                 : ConflictFixResult.Failed;
         }
-
     }
 
     throw new Error('too many loop');
-
 }
 /**
  * Instead of the console.log.
