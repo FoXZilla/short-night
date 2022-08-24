@@ -95,12 +95,12 @@ export function isIntersecting(line1 :Line, line2 :Line) :boolean {
         if (slope1 === 0) {
             return ((y3 <= bixY && y3 >= smallY) || (y4 <= bixY && y4 >= smallY))
                 && x1 === x3
-                ;
+            ;
         }
         if (slope1 === Infinity) {
             return ((x3 <= bixX && x3 >= smallX) || (x4 <= bixX && x4 >= smallX))
                 && y1 === y3
-                ;
+            ;
         }
         return ((x3 <= bixX && x3 >= smallX) && (y3 <= bixY && y3 >= smallY))
             || ((x4 <= bixX && x4 >= smallX) || (y4 <= bixY && y4 >= smallY))

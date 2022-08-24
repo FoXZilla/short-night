@@ -116,16 +116,16 @@ export class ExtensionManager implements Extension {
         [SN.EventMark] :EventMark[];
         [SN.EventAxis] :EventAxis[];
     } = {
-        [SN.Timeline]: [],
-        [SN.Axis]: [],
-        [SN.AxisBody]: [],
-        [SN.AxisScale]: [],
-        [SN.AxisMilestone]: [],
-        [SN.Event]: [],
-        [SN.EventBody]: [],
-        [SN.EventMark]: [],
-        [SN.EventAxis]: [],
-    };
+            [SN.Timeline]: [],
+            [SN.Axis]: [],
+            [SN.AxisBody]: [],
+            [SN.AxisScale]: [],
+            [SN.AxisMilestone]: [],
+            [SN.Event]: [],
+            [SN.EventBody]: [],
+            [SN.EventMark]: [],
+            [SN.EventAxis]: [],
+        };
     extensions :Partial<Extension>[];
 
     getParent(comp :EventAxis|EventBody|EventMark) :Event;
