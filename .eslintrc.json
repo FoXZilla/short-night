@@ -91,6 +91,6 @@
         "prefer-destructuring": ["off"],
         "prefer-object-spread": ["off"],
         "semi-spacing": ["error"],
-        "semi-style": ["off"]
+        "semi-style": ["error"]
     }
 }

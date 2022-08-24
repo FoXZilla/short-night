@@ -7,8 +7,7 @@ export function isBox(obj :any) :obj is Box {
         && typeof obj.x === 'number'
         && typeof obj.y === 'number'
         && typeof obj.width === 'number'
-        && typeof obj.height === 'number'
-    ;
+        && typeof obj.height === 'number';
 }
 export function box2Lines(box :Box) :Line[] {
     return [
@@ -94,17 +93,14 @@ export function isIntersecting(line1 :Line, line2 :Line) :boolean {
         const [bixY, smallY] = [y1, y2].sort((n1, n2) => n2 - n1);
         if (slope1 === 0) {
             return ((y3 <= bixY && y3 >= smallY) || (y4 <= bixY && y4 >= smallY))
-                && x1 === x3
-            ;
+                && x1 === x3;
         }
         if (slope1 === Infinity) {
             return ((x3 <= bixX && x3 >= smallX) || (x4 <= bixX && x4 >= smallX))
-                && y1 === y3
-            ;
+                && y1 === y3;
         }
         return ((x3 <= bixX && x3 >= smallX) && (y3 <= bixY && y3 >= smallY))
-            || ((x4 <= bixX && x4 >= smallX) || (y4 <= bixY && y4 >= smallY))
-        ;
+            || ((x4 <= bixX && x4 >= smallX) || (y4 <= bixY && y4 >= smallY));
     }
     if (slope1 === Infinity) y1 += 0.0001;
     if (slope2 === Infinity) y3 += 0.0001;
@@ -112,11 +108,9 @@ export function isIntersecting(line1 :Line, line2 :Line) :boolean {
     if (slope2 === 0) x3 += 0.0001;
 
     const x = ((x1 * y2 - y1 * x2) * (x3 - x4) - (x1 - x2) * (x3 * y4 - y3 * x4))
-        / ((x1 - x2) * (y3 - y4) - (y1 - y2) * (x3 - x4))
-    ;
+        / ((x1 - x2) * (y3 - y4) - (y1 - y2) * (x3 - x4));
     const y = ((x1 * y2 - y1 * x2) * (y3 - y4) - (y1 - y2) * (x3 * y4 - y3 * x4))
-        / ((x1 - x2) * (y3 - y4) - (y1 - y2) * (x3 - x4))
-    ;
+        / ((x1 - x2) * (y3 - y4) - (y1 - y2) * (x3 - x4));
     if (isNaN(x) || isNaN(y)) {
         return false;
         // eslint-disable-next-line no-else-return
@@ -189,8 +183,7 @@ export async function walkLoop(
         if (result.includes(ConflictFixResult.Failed)) {
             return alleviated
                 ? ConflictFixResult.Alleviated
-                : ConflictFixResult.Failed
-            ;
+                : ConflictFixResult.Failed;
         }
 
     }
@@ -236,8 +229,7 @@ export function deepFreeze<T>(originObject :T) :Readonly<T> {
 
 export function parseDate(material :any) :Date {
     const pureNumberString = typeof material === 'string'
-        && String(Number(material)) === material
-    ;
+        && String(Number(material)) === material;
     if (pureNumberString) {
         const date = new Date();
         date.setFullYear(Number(material));

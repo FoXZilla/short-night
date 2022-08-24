@@ -15,8 +15,7 @@ export default class IdGenerator implements Partial<Extension> {
     onConstruct(comp :Component) {
         const randomString :string = Number(Math.random().toString().split('.')[1])
             .toString(36)
-            .slice(0, 5)
-        ;
+            .slice(0, 5);
         // comp.name is undefined now
         Object.defineProperty(comp.extraData, 'id', {
             get() { return `${comp.name}_${randomString}`; },

@@ -53,19 +53,16 @@ export default class PositionCounter implements Partial<Extension> {
             ...axis.milestones,
         ];
         const milestones = Array.from(axis.milestones)
-            .sort((comp1, comp2) => comp1.drawInfo.alignY - comp2.drawInfo.alignY)
-        ;
+            .sort((comp1, comp2) => comp1.drawInfo.alignY - comp2.drawInfo.alignY);
         const scales = Array.from(axis.scales)
-            .sort((comp1, comp2) => comp1.drawInfo.alignY - comp2.drawInfo.alignY)
-        ;
+            .sort((comp1, comp2) => comp1.drawInfo.alignY - comp2.drawInfo.alignY);
 
         // Milestone cannot occupy the space of Axis
         axis.extraData.realLength = axis.drawInfo.length
             - axis.milestones.reduce( // Reserved space for Milestone
                 (h :number, m :AxisMilestone) => h + m.drawInfo.box.height,
                 0,
-            )
-        ;
+            );
         const toRealLength = axis.extraData.realLength! / axis.drawInfo.length;
 
         // Set real Y in milestones and scales
@@ -94,8 +91,7 @@ export default class PositionCounter implements Partial<Extension> {
 
         for (const comp of milestones) {
             const distance = this.countCritical(comp.drawInfo.alignY, comp)
-                + axisSpace
-            ;
+                + axisSpace;
 
             await Promise.all(milestones.map(component => component.apply()));
             await this.ext.breakpoint.block(Breakpoint.PushScalesAndMilestones, {
@@ -113,8 +109,7 @@ export default class PositionCounter implements Partial<Extension> {
 
         for (const comp of scales) {
             const distance = this.countCritical(comp.drawInfo.alignY, comp)
-                + axisSpace
-            ;
+                + axisSpace;
 
             comp.drawInfo.alignY += distance;
         }
@@ -142,8 +137,7 @@ export default class PositionCounter implements Partial<Extension> {
             if (event.drawInfo.axisLength) {
                 event.drawInfo.axisLength *= toRealLength;
                 event.drawInfo.axisLength += this.countCritical(event.drawInfo.target.y)
-                    - this.countCritical(event.drawInfo.target.y - event.drawInfo.axisLength)
-                ;
+                    - this.countCritical(event.drawInfo.target.y - event.drawInfo.axisLength);
             }
 
             event.drawInfo.target.y += axis.body.drawInfo.box.y;

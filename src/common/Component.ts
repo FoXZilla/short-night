@@ -198,8 +198,7 @@ export default abstract class Component {
     protected checkDestroy() {
         if (this.destroyed) {
             const msg = `${this.theme}/${this.name} has bean destroyed,`
-                + 'however, you still called it\'s method.'
-            ;
+                + 'however, you still called it\'s method.';
             if (DEBUG) {
                 throw new Error(msg);
             } else {
