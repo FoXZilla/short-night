@@ -56,7 +56,7 @@
         "@typescript-eslint/object-curly-spacing": ["error"],
         "@typescript-eslint/return-await": ["off"],
         "@typescript-eslint/space-before-blocks": ["error"],
-        "@typescript-eslint/space-before-function-paren": ["off"],
+        "@typescript-eslint/space-before-function-paren": ["error"],
         "@typescript-eslint/space-infix-ops": ["off"],
         "arrow-parens": ["off"],
         "class-methods-use-this": ["off"],

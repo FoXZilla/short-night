@@ -176,7 +176,7 @@ export default class BreakpointAnimation implements Partial<Extension>, Breakpoi
      * */
     protected stepIn ? :() => Promise<void>;
     /** Get a instance of moveto */
-    protected get moveTo () :moveto {
+    protected get moveTo() :moveto {
         return new moveto({
             duration: this.scrollDuration,
             container: this.scrollContainer,
