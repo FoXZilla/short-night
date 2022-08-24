@@ -144,7 +144,7 @@ export default class BreakpointAnimation implements Partial<Extension>, Breakpoi
             setTimeout(() => this.next(), this.timeoutCounter(point, config));
         }
 
-        return (async () => {
+        (async () => {
             if (onBlock) await onBlock();
             components.forEach(comp => comp.draw());
 

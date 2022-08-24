@@ -60,7 +60,7 @@
         "@typescript-eslint/space-infix-ops": ["error"],
         "arrow-parens": ["off"],
         "class-methods-use-this": ["off"],
-        "consistent-return": ["off"],
+        "consistent-return": ["error"],
         "func-names": ["off"],
         "function-paren-newline": ["off"],
         "guard-for-in": ["off"],
