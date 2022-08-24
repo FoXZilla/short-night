@@ -61,6 +61,8 @@
         "padded-blocks": ["error"],
         "semi-spacing": ["error"],
         "semi-style": ["error"],
+        "key-spacing": ["error"],
+        "no-return-assign": ["error"],
         "@typescript-eslint/lines-between-class-members": ["off"],
         "func-names": ["off"],
         "function-paren-newline": ["off"],
@@ -74,7 +76,6 @@
         "@typescript-eslint/no-unused-vars": ["off"],
         "@typescript-eslint/no-use-before-define": ["off"],
         "import/order": ["off"],
-        "key-spacing": ["error"],
         "max-classes-per-file": ["off"],
         "new-cap": ["off"],
         "no-await-in-loop": ["off"],
@@ -89,7 +90,6 @@
         "no-mixed-operators": ["off"],
         "no-restricted-globals": ["off"],
         "no-restricted-syntax": ["off"],
-        "no-return-assign": ["off"],
         "object-curly-newline": ["off"],
         "prefer-object-spread": ["off"]
     }

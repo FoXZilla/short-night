@@ -66,8 +66,12 @@ export default class PositionCounter implements Partial<Extension> {
         const toRealLength = axis.extraData.realLength! / axis.drawInfo.length;
 
         // Set real Y in milestones and scales
-        axis.milestones.forEach(m => m.drawInfo.alignY *= toRealLength);
-        axis.scales.forEach(s => s.drawInfo.alignY *= toRealLength);
+        axis.milestones.forEach(m => {
+            m.drawInfo.alignY *= toRealLength;
+        });
+        axis.scales.forEach(s => {
+            s.drawInfo.alignY *= toRealLength;
+        });
         await Promise.all([...axis.milestones, ...axis.scales].map(c => c.apply()));
         await this.ext.breakpoint.block(Breakpoint.PushScalesAndMilestones, {
             components: childComponents,
