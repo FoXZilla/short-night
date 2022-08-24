@@ -23,8 +23,8 @@ export interface ExtraData {
     id ? :string;
     boxElement ? :HTMLElement;
     realLength ? :number;
-    needed? :{top :number, bottom :number};
-    space? :{top :number, bottom :number};
+    needed? :{ top :number, bottom :number };
+    space? :{ top :number, bottom :number };
 }
 
 export default abstract class Component{

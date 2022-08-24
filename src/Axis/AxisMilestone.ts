@@ -12,7 +12,7 @@ import AxisBody from '../Axis/AxisBody';
 interface DrawInfo extends ComponentDrawInfo{
     bodyDrawInfo :Readonly<AxisBody['drawInfo']>;
     alignY :number;
-    content :string | {date :string, by :DateBy};
+    content :string | { date :string, by :DateBy };
 }
 
 /**

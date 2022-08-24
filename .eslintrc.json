@@ -53,7 +53,7 @@
         "@typescript-eslint/no-unused-expressions": ["error"],
         "@typescript-eslint/no-unused-vars": ["off"],
         "@typescript-eslint/no-use-before-define": ["off"],
-        "@typescript-eslint/object-curly-spacing": ["off"],
+        "@typescript-eslint/object-curly-spacing": ["error"],
         "@typescript-eslint/return-await": ["off"],
         "@typescript-eslint/space-before-blocks": ["off"],
         "@typescript-eslint/space-before-function-paren": ["off"],
