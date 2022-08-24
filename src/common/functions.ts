@@ -119,7 +119,8 @@ export function isIntersecting(line1 :Line, line2 :Line) :boolean {
     ;
     if (isNaN(x) || isNaN(y)) {
         return false;
-    } else { // tslint:disable-line
+        // eslint-disable-next-line no-else-return
+    } else {
         if (x1 >= x2) {
             if (!(x2 <= x && x <= x1)) {
                 return false;

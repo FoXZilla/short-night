@@ -11,7 +11,7 @@
         // "indent": ["error", 4, { "SwitchCase": 1 }],
         "@typescript-eslint/indent": ["error", 4],
         "no-plusplus": ["off"],
-        "no-else-return": ["off", { "allowElseIf": true }],
+        "no-else-return": ["error", { "allowElseIf": true }],
         "@typescript-eslint/type-annotation-spacing": [
             "off",
             {
