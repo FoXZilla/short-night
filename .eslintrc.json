@@ -63,6 +63,7 @@
         "semi-style": ["error"],
         "key-spacing": ["error"],
         "no-return-assign": ["error"],
+        "prefer-object-spread": ["error"],
         "@typescript-eslint/lines-between-class-members": ["off"],
         "func-names": ["off"],
         "function-paren-newline": ["off"],
@@ -81,7 +82,6 @@
         "no-await-in-loop": ["off"],
         "no-bitwise": ["off"],
         "no-console": ["off"],
-        "prefer-destructuring": ["off"],
         "no-param-reassign": ["off"],
         "no-continue": ["off"],
         "no-extra-label": ["off"],
@@ -91,6 +91,6 @@
         "no-restricted-globals": ["off"],
         "no-restricted-syntax": ["off"],
         "object-curly-newline": ["off"],
-        "prefer-object-spread": ["off"]
+        "prefer-destructuring": ["off"]
     }
 }

@@ -162,7 +162,7 @@ export default abstract class Event extends Component {
         this.body.drawInfo.description = this.drawInfo.description;
         this.body.drawInfo.folded = this.drawInfo.folded;
         this.body.drawInfo.foldPlaceholder = this.drawInfo.foldPlaceholder;
-        this.body.drawInfo.offset = Object.assign({}, this.drawInfo.offset);
+        this.body.drawInfo.offset = { ...this.drawInfo.offset };
         this.body.drawInfo.endText = this.drawInfo.endText;
         this.body.drawInfo.endDate = this.drawInfo.endDate;
     }
