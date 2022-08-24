@@ -180,7 +180,7 @@ export default abstract class Component{
      * The component still need this.apply called before draw when this.importDrawInfo been called.
      * */
     importDrawInfo(drawInfo :ComponentDrawInfo) {
-        (<any>this).drawInfo = drawInfo;
+        (<any> this).drawInfo = drawInfo;
         return this;
     }
 

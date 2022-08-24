@@ -94,7 +94,7 @@ export default class TimeSpliter {
 
                 do {
                     date.setTime(date.getTime() + 1000 * 60 * 60 * 24);
-                }while (date.getDay() !== 1);
+                } while (date.getDay() !== 1);
 
                 return date;
             },

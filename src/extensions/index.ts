@@ -58,12 +58,12 @@ export class Base implements Partial<Extension>{
     constructor(public ext :ExtensionManager) {}
 
     onConstruct(comp :Component) {
-        (<any>this.ext.components)[comp.name].push(comp);
+        (<any> this.ext.components)[comp.name].push(comp);
     }
 
     onDestroy(comp :Component) {
-        (<any>this.ext.components)[comp.name].splice(
-            (<any>this.ext.components)[comp.name].indexOf(comp),
+        (<any> this.ext.components)[comp.name].splice(
+            (<any> this.ext.components)[comp.name].indexOf(comp),
             1,
         );
     }
