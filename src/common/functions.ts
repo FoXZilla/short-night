@@ -66,7 +66,7 @@ export function mergeBox(...args :Box[]) :Box {
         height: rightBottom.y - leftTop.y,
     };
 }
-export function shrinkBox(box :Box, distance= 1) :Box {
+export function shrinkBox(box :Box, distance = 1) :Box {
     return {
         x: box.x + distance,
         y: box.y + distance,
@@ -160,9 +160,9 @@ export function isIntersecting(line1 :Line, line2 :Line) :boolean {
     }
     return true;
 }
-export function isOverlap(item1 :Box|Line, item2 :Box|Line) :boolean {
-    const lines1 = isBox(item1) ? box2Lines(item1) :[item1];
-    const lines2 = isBox(item2) ? box2Lines(item2) :[item2];
+export function isOverlap(item1 :Box | Line, item2 :Box | Line) :boolean {
+    const lines1 = isBox(item1) ? box2Lines(item1) : [item1];
+    const lines2 = isBox(item2) ? box2Lines(item2) : [item2];
     return lines1.some(line1 => lines2.some(line2 => isIntersecting(line1, line2)));
 }
 

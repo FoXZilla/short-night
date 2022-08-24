@@ -185,7 +185,7 @@ export default class BreakpointAnimation implements Partial<Extension>, Breakpoi
     /**
      * Count a number that be used scroll to focus when play animation.
      * */
-    protected countScrollTarget(config :Partial<BlockConfig>) :number|null {
+    protected countScrollTarget(config :Partial<BlockConfig>) :number | null {
         const { components, protagonist } = config;
 
         const topPadding = 100;

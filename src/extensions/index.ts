@@ -128,9 +128,9 @@ export class ExtensionManager implements Extension {
         };
     extensions :Partial<Extension>[];
 
-    getParent(comp :EventAxis|EventBody|EventMark) :Event;
-    getParent(comp :AxisBody|AxisMilestone|AxisScale) :Axis;
-    getParent(comp :Event|Axis) :Timeline;
+    getParent(comp :EventAxis | EventBody | EventMark) :Event;
+    getParent(comp :AxisBody | AxisMilestone | AxisScale) :Axis;
+    getParent(comp :Event | Axis) :Timeline;
     getParent(comp :any) :any {
         if (Axis.is(comp)) return this.components[SN.Timeline][0];
         if (Event.is(comp)) return this.components[SN.Timeline][0];

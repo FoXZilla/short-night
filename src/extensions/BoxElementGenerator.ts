@@ -58,7 +58,7 @@ export default class BoxElementGenerator implements Partial<Extension> {
      * Remove element created in onApply.
      * */
     onDestroy(comp :Component) {
-        const elt :HTMLElement|undefined = comp.extraData.boxElement;
+        const elt :HTMLElement | undefined = comp.extraData.boxElement;
 
         if (elt && elt.parentElement) {
             elt.parentElement.removeChild(elt);

@@ -87,7 +87,7 @@ export default abstract class Event extends Component {
     // The instances
     mark :EventMark = null as any;
     body :EventBody = null as any;
-    axis :EventAxis|null = null;
+    axis :EventAxis | null = null;
 
     // The Constructors
     abstract bodyConstructor :typeof EventBody;
