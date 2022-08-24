@@ -131,14 +131,14 @@ export default abstract class Event extends Component{
     hide() {
         this.mark.hide();
         this.body.hide();
-        this.axis && this.axis.hide();
+        this.axis?.hide();
 
         return super.hide();
     }
     destroy() {
         this.mark.destroy();
         this.body.destroy();
-        this.axis && this.axis.destroy();
+        this.axis?.destroy();
 
         return super.destroy();
     }
