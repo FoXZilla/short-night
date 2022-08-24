@@ -48,7 +48,7 @@
         "@typescript-eslint/comma-spacing": ["error"],
         "@typescript-eslint/keyword-spacing": ["error"],
         "@typescript-eslint/lines-between-class-members": ["off"],
-        "@typescript-eslint/naming-convention": ["off"],
+        "@typescript-eslint/naming-convention": ["error"],
         "@typescript-eslint/no-shadow": ["off"],
         "@typescript-eslint/no-unused-expressions": ["off"],
         "@typescript-eslint/no-unused-vars": ["off"],
