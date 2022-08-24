@@ -57,8 +57,7 @@ export default class PositionCounter implements Partial<Extension> {
         ;
 
         // Milestone cannot occupy the space of Axis
-        axis.extraData.realLength =
-            axis.drawInfo.length
+        axis.extraData.realLength = axis.drawInfo.length
             - axis.milestones.reduce( // Reserved space for Milestone
                 (h :number, m :AxisMilestone) => h + m.drawInfo.box.height,
                 0,
@@ -91,8 +90,7 @@ export default class PositionCounter implements Partial<Extension> {
         });
 
         for (const comp of milestones) {
-            const distance =
-                this.countCritical(comp.drawInfo.alignY, comp)
+            const distance = this.countCritical(comp.drawInfo.alignY, comp)
                 + axisSpace
             ;
 
@@ -111,8 +109,7 @@ export default class PositionCounter implements Partial<Extension> {
         });
 
         for (const comp of scales) {
-            const distance =
-                this.countCritical(comp.drawInfo.alignY, comp)
+            const distance = this.countCritical(comp.drawInfo.alignY, comp)
                 + axisSpace
             ;
 
@@ -141,8 +138,7 @@ export default class PositionCounter implements Partial<Extension> {
 
             if (event.drawInfo.axisLength) {
                 event.drawInfo.axisLength *= toRealLength;
-                event.drawInfo.axisLength +=
-                    this.countCritical(event.drawInfo.target.y)
+                event.drawInfo.axisLength += this.countCritical(event.drawInfo.target.y)
                     - this.countCritical(event.drawInfo.target.y - event.drawInfo.axisLength)
                 ;
             }
