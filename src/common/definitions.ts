@@ -10,7 +10,7 @@ try {
     DEBUG = false;
 }
 
-export enum SN{
+export enum SN {
     Timeline = 'timeline',
     Axis = 'axis',
     AxisBody = 'axis_body',

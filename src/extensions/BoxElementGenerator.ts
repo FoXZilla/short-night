@@ -6,7 +6,7 @@ import { DEBUG } from '../common/definitions';
  * Create element following comp.drawInfo.box for debug.
  * Using this extension, the development can inspect an Short-Night Component by Web Console.
  * */
-export default class BoxElementGenerator implements Partial<Extension>{
+export default class BoxElementGenerator implements Partial<Extension> {
     constructor(public ext :ExtensionManager) {
         if (DEBUG) {
             (<any>window).clearBox = () => {

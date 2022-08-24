@@ -14,7 +14,7 @@ import AxisScale from '../Axis/AxisScale';
  * @property {number} additional - what number a component need move for this config.
  * @property {Component} component - which component made this config.
  * */
-interface PushConfig{
+interface PushConfig {
     critical :number;
     additional :number;
     component :Component;

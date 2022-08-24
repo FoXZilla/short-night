@@ -22,7 +22,7 @@ import AxisBody from '../Axis/AxisBody';
  * @property {[Date]} endDate - the date of event end.
  * @property {[string]} endText - the description about event ended.
  * */
-interface DrawInfo extends ComponentDrawInfo{
+interface DrawInfo extends ComponentDrawInfo {
     target :Coordinate;
     offset :Coordinate;
 
@@ -45,7 +45,7 @@ interface DrawInfo extends ComponentDrawInfo{
 /**
  * @property {GridConfig} grid - the whole config of GRID.
  * */
-export interface ConstructInfo extends ComponentConstructorInfo{
+export interface ConstructInfo extends ComponentConstructorInfo {
     grid :GridConfig;
 }
 
@@ -53,7 +53,7 @@ export interface ConstructInfo extends ComponentConstructorInfo{
  * The whole Event. Contain an EventBody and an EventMark, maybe has a EventAxis too.
  * The Manage-Component. All of draw is resolved by child component.
  * */
-export default abstract class Event extends Component{
+export default abstract class Event extends Component {
     constructor(props :ConstructInfo) {
         super(props);
         this.grid = props.grid;

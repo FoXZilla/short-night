@@ -20,7 +20,7 @@ import Timeline from '../Timeline';
  * Set a Breakpoint for debug.
  * When debug-mode enabled, short-night will blocking at Breakpoint.Debug automatically.
  * */
-export enum Breakpoint{
+export enum Breakpoint {
     PushScalesAndMilestones = 'PushScalesAndMilestones',
     FixEventBody2AxisMilestone = 'FixEventBody2AxisMilestone',
     FixEventAxis2EventAxis = 'FixEventAxis2EventAxis',
@@ -69,7 +69,7 @@ export interface BlockConfig {
  * 1. Support that set a Breakpoint .
  * 2. Support that play animation base on Breakpoints.
  * */
-export default class BreakpointAnimation implements Partial<Extension>, BreakpointAnimationConfig{
+export default class BreakpointAnimation implements Partial<Extension>, BreakpointAnimationConfig {
     constructor(
         public ext :ExtensionManager,
         {

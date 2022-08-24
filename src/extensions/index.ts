@@ -54,7 +54,7 @@ const METHODS :ExtensionHandler[] = ['onConstruct', 'onApply', 'onDestroy', 'onH
 /**
  * Manage ExtensionManager#components.
  * */
-export class Base implements Partial<Extension>{
+export class Base implements Partial<Extension> {
     constructor(public ext :ExtensionManager) {}
 
     onConstruct(comp :Component) {

@@ -9,7 +9,7 @@ import AxisBody from '../Axis/AxisBody';
  * @property {number} alignY - the y point which is the AxisMilestone align target.
  * @property {number} description - the showed description of milestone.
  * */
-interface DrawInfo extends ComponentDrawInfo{
+interface DrawInfo extends ComponentDrawInfo {
     bodyDrawInfo :Readonly<AxisBody['drawInfo']>;
     alignY :number;
     content :string | { date :string, by :DateBy };
@@ -19,7 +19,7 @@ interface DrawInfo extends ComponentDrawInfo{
  * The milestone on Axis, for indicate time of nearby area.
  * Can conflict with EventBody.
  * */
-export default abstract class AxisMilestone extends Component{
+export default abstract class AxisMilestone extends Component {
     constructor(props :ComponentConstructorInfo) {
         super(props);
         this.ext.onConstruct(this);
@@ -41,7 +41,7 @@ export default abstract class AxisMilestone extends Component{
 
     formatDate(date :Date, by :DateBy) :string {
         const monthAbbr = date.toDateString().split(' ')[1];
-        switch (by){
+        switch (by) {
             case DateBy.FiveCentury:
             case DateBy.Century:
             case DateBy.TenYear:

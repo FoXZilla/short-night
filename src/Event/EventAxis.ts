@@ -12,7 +12,7 @@ import EventMark from './EventMark';
  * @property {number} offsetX - the offset X with Axis in EventAxis.
  * @property {[string]} text - the description about event ended.
  * */
-interface DrawInfo extends ComponentDrawInfo{
+interface DrawInfo extends ComponentDrawInfo {
     axisBodyDrawInfo :Readonly<AxisBody['drawInfo']>;
     markDrawInfo :Readonly<EventMark['drawInfo']>;
 
@@ -26,7 +26,7 @@ interface DrawInfo extends ComponentDrawInfo{
  * Some Event have no duration, so it needn't EventAxis.
  * Can conflict with AxisMilestone and EventAxis.
  * */
-export default abstract class EventAxis extends Component{
+export default abstract class EventAxis extends Component {
     constructor(props :ComponentConstructorInfo) {
         super(props);
         this.ext.onConstruct(this);

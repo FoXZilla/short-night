@@ -27,7 +27,7 @@ export interface ExtraData {
     space? :{ top :number, bottom :number };
 }
 
-export default abstract class Component{
+export default abstract class Component {
     constructor({ ext, canvas, container } :ComponentConstructorInfo) {
         this.ext = ext;
 
