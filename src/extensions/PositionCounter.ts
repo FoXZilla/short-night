@@ -96,7 +96,7 @@ export default class PositionCounter implements Partial<Extension> {
                 + axisSpace
             ;
 
-            await Promise.all(milestones.map(comp => comp.apply()));
+            await Promise.all(milestones.map(component => component.apply()));
             await this.ext.breakpoint.block(Breakpoint.PushScalesAndMilestones, {
                 components: childComponents,
             });
@@ -172,7 +172,7 @@ export default class PositionCounter implements Partial<Extension> {
         await Promise.all(axis.milestones.map(c => c.apply()));
         axis.milestones.forEach((milestone) => {
             const config :PushConfig | undefined = this.pushConfigs.find(
-                config => config.component === milestone,
+                conf => conf.component === milestone,
             );
 
             if (config) {
