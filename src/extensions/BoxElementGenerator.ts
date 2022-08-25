@@ -12,6 +12,7 @@ export default class BoxElementGenerator implements Partial<Extension> {
             (<any>window).clearBox = () => {
                 const componentMap :any = this.ext.components;
                 for (const snName in componentMap) {
+                    if (!Object.prototype.hasOwnProperty.call(componentMap, snName)) continue;
                     for (const component of componentMap[snName]) {
                         const elt = component.extraData.boxElement;
                         if (elt && elt.parentElement) {
