@@ -42,13 +42,12 @@ export default class EventBody2EventBodyFloater {
     }
 
     async fix() :Promise<ConflictFixResult> {
-        this.timeline = this.ext.components[SN.Timeline][0];
-        this.axisBody = this.ext.components[SN.AxisBody][0];
+        [this.timeline] = this.ext.components[SN.Timeline];
+        [this.axisBody] = this.ext.components[SN.AxisBody];
         this.eventBodyList = Array.from(this.ext.components[SN.EventBody])
-            .sort((eb1, eb2) =>
-                eb1.drawInfo.markDrawInfo.target.y - eb2.drawInfo.markDrawInfo.target.y,
-            )
-        ;
+            .sort((eb1, eb2) => eb1.drawInfo.markDrawInfo.target.y
+                - eb2.drawInfo.markDrawInfo.target.y,
+            );
 
         this.countConflict();
         if (this.conflicts.length === 0) {
@@ -82,14 +81,14 @@ export default class EventBody2EventBodyFloater {
             },
         );
         return ConflictFixResult.Alleviated;
-
     }
 
-    protected pickRingleader() :Conflict|undefined {
+    protected pickRingleader() :Conflict | undefined {
         const maxTimes = Math.max(...this.conflicts.map(c => c.with.length));
         const candidates = this.conflicts.filter(c => c.with.length === maxTimes);
 
         if (candidates.length === 0) return;
+        // @todo: check this linting error
         if (candidates.length === 1) return candidates[0];
 
         candidates.sort((c1, c2) => {
@@ -103,8 +102,10 @@ export default class EventBody2EventBodyFloater {
             return (descriptionLength1 + titleLength1) - (descriptionLength2 + titleLength2);
         });
 
+        // @todo: check this linting error
         return candidates[0];
     }
+
     protected countConflict() {
         this.conflicts.length = 0;
 
@@ -118,5 +119,4 @@ export default class EventBody2EventBodyFloater {
             if (conflict.with.length) this.conflicts.push(conflict);
         }
     }
-
 }

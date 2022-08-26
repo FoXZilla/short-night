@@ -16,20 +16,18 @@ export default class EventBody2EventBodyMover {
      * above EventBody is above, below EventBody is below
      * */
     eventBodyList :EventBody[] = [];
-    spaceMap = new Map as Map<EventBody, {top :number, bottom :number}>;
+    spaceMap = new Map() as Map<EventBody, { top :number, bottom :number }>;
 
     static async avoid(
         { mover, fixed, direction }
-        :{mover :EventBody, fixed :EventBody, direction :1|-1},
+        :{ mover :EventBody, fixed :EventBody, direction :1 | -1 },
     ) {
         if (direction > 0) {
-            mover.drawInfo.offset.y +=
-                (fixed.drawInfo.box.y + fixed.drawInfo.box.height)
+            mover.drawInfo.offset.y += (fixed.drawInfo.box.y + fixed.drawInfo.box.height)
                 - mover.drawInfo.box.y
                 + 1;
         } else {
-            mover.drawInfo.offset.y -=
-                (mover.drawInfo.box.y + mover.drawInfo.box.height)
+            mover.drawInfo.offset.y -= (mover.drawInfo.box.y + mover.drawInfo.box.height)
                 - fixed.drawInfo.box.y
                 + 1;
         }
@@ -40,7 +38,7 @@ export default class EventBody2EventBodyMover {
 
         if (eb1.drawInfo.floated !== eb2.drawInfo.floated) {
             const floated = (eb1.drawInfo.floated ? eb1 : eb2) as EventBody;
-            const another =  (eb1 === floated ? eb2 : eb1) as EventBody;
+            const another = (eb1 === floated ? eb2 : eb1) as EventBody;
 
             if ( // floated's line overlapped with another's body
                 (floated.drawInfo.markDrawInfo.target.y > another.drawInfo.box.y)
@@ -49,7 +47,6 @@ export default class EventBody2EventBodyMover {
                     < (another.drawInfo.box.y + another.drawInfo.box.height)
                 )
             ) return true;
-
         }
 
         return isOverlap(eb1.drawInfo.box, eb2.drawInfo.box);
@@ -60,8 +57,7 @@ export default class EventBody2EventBodyMover {
             .sort((eb1, eb2) => (
                 eb1.drawInfo.markDrawInfo.target.y
                 - eb2.drawInfo.markDrawInfo.target.y
-            ))
-        ;
+            ));
 
         return await walkLoop(async () => [
             await this.tryFixOne(),
@@ -113,8 +109,8 @@ export default class EventBody2EventBodyMover {
         );
 
         return ConflictFixResult.Alleviated;
-
     }
+
     protected isPossible(conflict :Conflict) {
         if (
             conflict.self.drawInfo.floated
@@ -125,8 +121,7 @@ export default class EventBody2EventBodyMover {
         const space = this.spaceMap.get(conflict.self)!;
 
         return (needed.bottom === 0 || needed.top === 0)
-            && (space.bottom >= needed.bottom && space.top >= needed.top)
-            ;
+            && (space.bottom >= needed.bottom && space.top >= needed.top);
     }
     protected async fixConflict(conflict :Conflict) {
         const needed = this.countNeeded(conflict);
@@ -156,7 +151,6 @@ export default class EventBody2EventBodyMover {
                 });
             } else break;
         }
-
     }
 
     protected async countConflict() {
@@ -181,7 +175,7 @@ export default class EventBody2EventBodyMover {
     /**
      * Count the number how many space needed for fix the conflict by verticalMove
      * */
-    protected countNeeded(conflict :Conflict) :{top :number, bottom :number} {
+    protected countNeeded(conflict :Conflict) :{ top :number, bottom :number } {
         const origin = conflict.self;
         const result = {
             top: 0,
@@ -190,8 +184,8 @@ export default class EventBody2EventBodyMover {
         const above :EventBody[] = conflict.with.filter(
             cb => cb.drawInfo.markDrawInfo.target.y < origin.drawInfo.markDrawInfo.target.y,
         );
-        const below :EventBody[] = conflict.with.filter(cb =>
-            cb.drawInfo.markDrawInfo.target.y > origin.drawInfo.markDrawInfo.target.y,
+        const below :EventBody[] = conflict.with.filter(
+            cb => cb.drawInfo.markDrawInfo.target.y > origin.drawInfo.markDrawInfo.target.y,
         );
 
         if (above.length) {
@@ -228,16 +222,15 @@ export default class EventBody2EventBodyMover {
                         return avoidBox;
                     } else if (origin.drawInfo.floated) {
                         const avoidFloatLine = origin.drawInfo.markDrawInfo.target.y
-                            - lower.drawInfo.box.y
-                        ;
+                            - lower.drawInfo.box.y;
+
                         return Math.max(
                             avoidBox,
                             avoidFloatLine,
                         );
                     } else if (lower.drawInfo.floated) {
                         const avoidFloatLine = (origin.drawInfo.box.y + origin.drawInfo.box.height)
-                            - lower.drawInfo.markDrawInfo.target.y
-                        ;
+                            - lower.drawInfo.markDrawInfo.target.y;
 
                         return Math.max(
                             avoidBox,
@@ -299,10 +292,8 @@ export default class EventBody2EventBodyMover {
                 const nowData = this.spaceMap.get(now)!;
                 const previousData = this.spaceMap.get(previous)!;
 
-                const distance =
-                    now.drawInfo.box.y -
-                    (previous.drawInfo.box.y + previous.drawInfo.box.height)
-                ;
+                const distance = now.drawInfo.box.y
+                    - (previous.drawInfo.box.y + previous.drawInfo.box.height);
 
                 nowData.bottom = Math.min(
                     nowData.bottom,
@@ -315,10 +306,8 @@ export default class EventBody2EventBodyMover {
                 const nowData = this.spaceMap.get(now)!;
                 const nextData = this.spaceMap.get(next)!;
 
-                const distance =
-                    next.drawInfo.box.y -
-                    (now.drawInfo.box.y + now.drawInfo.box.height)
-                ;
+                const distance = next.drawInfo.box.y
+                    - (now.drawInfo.box.y + now.drawInfo.box.height);
 
                 nowData.top = Math.min(
                     nowData.top,
@@ -336,6 +325,8 @@ export default class EventBody2EventBodyMover {
         applyLimiting(this.eventBodyList.filter(eb => eb.drawInfo.floated));
         applyLimiting(this.eventBodyList.filter(eb => !eb.drawInfo.floated));
 
-        this.eventBodyList.forEach(eb => eb.extraData.space = this.spaceMap.get(eb));
+        this.eventBodyList.forEach(eb => {
+            eb.extraData.space = this.spaceMap.get(eb);
+        });
     }
 }

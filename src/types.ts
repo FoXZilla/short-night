@@ -2,22 +2,22 @@ import { ExtensionManager } from './extensions';
 
 // Base types
 
-export interface Coordinate{
+export interface Coordinate {
     x :number;
     y :number;
 }
-export interface Box extends Coordinate{
+export interface Box extends Coordinate {
     width :number;
     height :number;
 }
-export interface Line{
+export interface Line {
     startX :number;
     startY :number;
     endX :number;
     endY :number;
 }
 
-export const enum DateBy{
+export const enum DateBy {
     FiveCentury = 'fiveCentury',
     Century = 'century',
     TenYear = 'tenYear',
@@ -34,7 +34,7 @@ export const enum DateBy{
  * The box in the Container and the Canvas of component.
  * The box should contain all trace of component.
  * */
-export interface ComponentDrawInfo{
+export interface ComponentDrawInfo {
     box :Box;
 }
 
@@ -44,7 +44,7 @@ export interface ComponentDrawInfo{
  * Must be filled before apply() called.
  * todo: add description about props
  * */
-export interface GridConfig{
+export interface GridConfig {
     eventOffset :Coordinate;
 
     minEventAxisOffset :number;
