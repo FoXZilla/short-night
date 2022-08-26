@@ -43,7 +43,7 @@ export default abstract class EventMark extends Component {
     };
 
     createBox() {
-        const width = this.drawInfo.width;
+        const { width } = this.drawInfo;
         const height = this.drawInfo.height || width;
         this.drawInfo.box = {
             width,

@@ -128,7 +128,7 @@ export default class PositionCounter implements Partial<Extension> {
         axis.drawInfo.box = mergeBox(...childComponents.map(c => c.drawInfo.box));
     }
     async adjustEvent(timeline :Timeline) {
-        const events = timeline.events;
+        const { events } = timeline;
         const axis = this.ext.components[SN.Axis][0];
         const toRealLength = axis.extraData.realLength! / axis.drawInfo.length;
 

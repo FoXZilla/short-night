@@ -50,7 +50,7 @@ export default abstract class EventAxis extends Component {
     createElement() {
         const flag = super.createElement(); // Must return this flag
 
-        const target = this.drawInfo.markDrawInfo.target;
+        const { target } = this.drawInfo.markDrawInfo;
 
         this.element!.classList.add('sn-endText');
         this.element!.innerHTML = this.drawInfo.text!;
@@ -63,7 +63,7 @@ export default abstract class EventAxis extends Component {
         return flag;
     }
     createBox() {
-        const target = this.drawInfo.markDrawInfo.target;
+        const { target } = this.drawInfo.markDrawInfo;
 
         this.drawInfo.box = {
             x: target.x,
