@@ -3,7 +3,7 @@ import { DateBy } from '../types';
 import packageJson = require('../package.json');
 
 // @ts-ignore
-export const DEBUG :boolean = process?.env?.NODE_ENV === 'development';
+export const DEBUG :boolean = typeof process === 'undefined' ? false : process.env.NODE_ENV === 'development';
 
 export enum SN {
     Timeline = 'timeline',
