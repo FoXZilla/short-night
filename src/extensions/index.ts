@@ -137,15 +137,14 @@ export class ExtensionManager implements Extension {
 function createHandler(methodName :ExtensionHandler, ext :ExtensionManager) {
     return async function extensionManagerMethod(comp :Component) {
         if (ext.disableAll) return;
-        // eslint-disable-next-line no-restricted-syntax
-        skip_extension: for (const extension of ext.extensions) {
-            if (extension.type === ExtensionType.DebugOnly && !DEBUG) continue skip_extension;
+        for (const extension of ext.extensions) {
+            if (extension.type === ExtensionType.DebugOnly && !DEBUG) continue;
             if (ext.disableAllButDebug) {
-                if (!DEBUG) continue skip_extension;
-                if (!extension.type) continue skip_extension;
+                if (!DEBUG) continue;
+                if (!extension.type) continue;
                 if (
                     ![ExtensionType.DebugOnly, ExtensionType.Debug].includes(extension.type)
-                ) continue skip_extension;
+                ) continue;
             }
 
             if (methodName in extension) {
