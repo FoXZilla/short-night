@@ -10,6 +10,7 @@ import EventBody from '../Event/EventBody';
 import EventMark from '../Event/EventMark';
 import EventAxis from '../Event/EventAxis';
 
+import Base from './Base';
 import BreakpointAnimation, { BreakpointAnimationConfig } from './BreakpointAnimation';
 import BoxElementGenerator from './BoxElementGenerator';
 import IdGenerator from './IdGenerator';
@@ -50,24 +51,6 @@ type ExtensionHandler = 'onConstruct' | 'onApply' | 'onDraw' | 'onHide' | 'onDes
 export interface ExtraData {}
 
 const METHODS :ExtensionHandler[] = ['onConstruct', 'onApply', 'onDestroy', 'onHide', 'onDraw'];
-
-/**
- * Manage ExtensionManager#components.
- * */
-export class Base implements Partial<Extension> {
-    constructor(public ext :ExtensionManager) {}
-
-    onConstruct(comp :Component) {
-        (<any> this.ext.components)[comp.name].push(comp);
-    }
-
-    onDestroy(comp :Component) {
-        (<any> this.ext.components)[comp.name].splice(
-            (<any> this.ext.components)[comp.name].indexOf(comp),
-            1,
-        );
-    }
-}
 
 export class ExtensionManager implements Extension {
     constructor(
