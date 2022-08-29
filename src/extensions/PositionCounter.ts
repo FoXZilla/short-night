@@ -28,11 +28,9 @@ export default class PositionCounter implements Partial<Extension> {
     constructor(public ext :ExtensionManager) {}
 
     async onApply(comp :Component) {
-        if (Axis.is(comp)) {
-            await this.adjustAxis(comp);
-            return;
-        }
-        if (Timeline.is(comp)) await this.adjustEvent(comp);
+        if (Axis.is(comp)) return await this.adjustAxis(comp);
+        if (Timeline.is(comp)) return await this.adjustEvent(comp);
+        return Promise.resolve();
     }
     /**
      * When a component destroyed, remove a config made by it.

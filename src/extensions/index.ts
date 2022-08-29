@@ -52,6 +52,30 @@ export interface ExtraData {}
 
 const METHODS :ExtensionHandler[] = ['onConstruct', 'onApply', 'onDestroy', 'onHide', 'onDraw'];
 
+function createHandler(methodName :ExtensionHandler, ext :ExtensionManager) {
+    return async function extensionManagerMethod(comp :Component) {
+        if (ext.disableAll) return;
+        for (const extension of ext.extensions) {
+            if (extension.type === ExtensionType.DebugOnly && !DEBUG) continue;
+            if (ext.disableAllButDebug) {
+                if (!DEBUG) continue;
+                if (!extension.type) continue;
+                if (
+                    ![ExtensionType.DebugOnly, ExtensionType.Debug].includes(extension.type)
+                ) continue;
+            }
+
+            if (methodName in extension) {
+                if (methodName === 'onApply') {
+                    await extension[methodName]!(comp); // eslint-disable-line no-await-in-loop
+                } else {
+                    extension[methodName]!(comp);
+                }
+            }
+        }
+    };
+}
+
 export class ExtensionManager implements Extension {
     constructor(
         { breakpointAnimation, disableAll = false, disableAllButDebug = false }
@@ -132,28 +156,4 @@ export class ExtensionManager implements Extension {
     onHide = createHandler('onHide', this);
     onDraw = createHandler('onDraw', this);
     onDestroy = createHandler('onDestroy', this);
-}
-
-function createHandler(methodName :ExtensionHandler, ext :ExtensionManager) {
-    return async function extensionManagerMethod(comp :Component) {
-        if (ext.disableAll) return;
-        for (const extension of ext.extensions) {
-            if (extension.type === ExtensionType.DebugOnly && !DEBUG) continue;
-            if (ext.disableAllButDebug) {
-                if (!DEBUG) continue;
-                if (!extension.type) continue;
-                if (
-                    ![ExtensionType.DebugOnly, ExtensionType.Debug].includes(extension.type)
-                ) continue;
-            }
-
-            if (methodName in extension) {
-                if (methodName === 'onApply') {
-                    await extension[methodName]!(comp); // eslint-disable-line no-await-in-loop
-                } else {
-                    extension[methodName]!(comp);
-                }
-            }
-        }
-    };
 }
