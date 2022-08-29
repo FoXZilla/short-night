@@ -87,8 +87,7 @@ export default class EventBody2EventBodyFloater {
         const maxTimes = Math.max(...this.conflicts.map(c => c.with.length));
         const candidates = this.conflicts.filter(c => c.with.length === maxTimes);
 
-        if (candidates.length === 0) return;
-        // @todo: check this linting error
+        if (candidates.length === 0) return undefined;
         if (candidates.length === 1) return candidates[0];
 
         candidates.sort((c1, c2) => {

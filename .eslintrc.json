@@ -20,7 +20,7 @@
         "@typescript-eslint/space-before-function-paren": ["error"],
         "@typescript-eslint/space-infix-ops": ["error"],
         "no-else-return": ["error", { "allowElseIf": true }],
-        "consistent-return": ["off"],
+        "consistent-return": ["error"],
         "import/no-useless-path-segments": ["error"],
         "import/no-mutable-exports": ["error"],
         "no-constant-condition": ["error", { "checkLoops": false }],
