@@ -38,7 +38,7 @@ export interface Extension {
     /**
      * Specify the purpose of extension.
      * */
-    type? :ExtensionType;
+    type ?:ExtensionType;
 
     onConstruct(comp :Component) :void;
     onApply(comp :Component) :Promise<void>;
@@ -56,9 +56,9 @@ export class ExtensionManager implements Extension {
     constructor(
         { breakpointAnimation, disableAll = false, disableAllButDebug = false }
         :{
-            disableAll? :boolean,
-            disableAllButDebug? :boolean,
-            breakpointAnimation? :Partial<BreakpointAnimationConfig>,
+            disableAll ?:boolean,
+            disableAllButDebug ?:boolean,
+            breakpointAnimation ?:Partial<BreakpointAnimationConfig>,
         } = {},
     ) {
         this.disableAll = disableAll;

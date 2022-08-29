@@ -24,15 +24,15 @@ interface DrawInfo extends ComponentDrawInfo {
 
     date :string;
     title :string;
-    description? :string;
+    description ?:string;
 
     floated :boolean;
 
     folded :boolean;
-    foldPlaceholder? :string;
+    foldPlaceholder ?:string;
 
-    endDate? :string;
-    endText? :string;
+    endDate ?:string;
+    endText ?:string;
 }
 
 /**

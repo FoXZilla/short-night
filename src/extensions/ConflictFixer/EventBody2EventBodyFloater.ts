@@ -11,8 +11,8 @@ import { ConflictFixResult } from '../../types';
 type Conflict = ComponentConflict<EventBody>;
 
 export default class EventBody2EventBodyFloater {
-    timeline ? :Timeline;
-    axisBody ? :AxisBody;
+    timeline ?:Timeline;
+    axisBody ?:AxisBody;
 
     constructor(public ext :ExtensionManager) {}
 

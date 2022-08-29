@@ -164,7 +164,7 @@ export function isOverlap(item1 :Box | Line, item2 :Box | Line) :boolean {
  * Instead of the while when fix conflict.
  * */
 export async function walkLoop(
-    fn :() => Promise<ConflictFixResult[]>,
+    fn :() =>Promise<ConflictFixResult[]>,
     max = 10,
 ) :Promise<ConflictFixResult> {
     let alleviated = false;

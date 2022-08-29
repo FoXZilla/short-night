@@ -39,12 +39,12 @@ interface DrawInfo extends ComponentDrawInfo {
         date :string,
         title :string,
 
-        description? :string,
-        endDate? :string | 'now',
-        endText? :string,
+        description ?:string,
+        endDate ?:string | 'now',
+        endText ?:string,
 
-        folded? :boolean,
-        foldPlaceholder? :string,
+        folded ?:boolean,
+        foldPlaceholder ?:string,
     }[];
 }
 /**
@@ -65,8 +65,8 @@ export interface RuntimeInfo {
 export interface ConstructInfo {
     canvas :HTMLCanvasElement;
     container :HTMLElement;
-    ext ? :ExtensionManager;
-    grid ? :GridConfig;
+    ext ?:ExtensionManager;
+    grid ?:GridConfig;
 }
 
 /**
@@ -129,7 +129,7 @@ export default abstract class Timeline extends Component {
     /**
      * @param {Partial<RuntimeInfo>} runtime - manually specify some runtime info.
      * */
-    async apply(runtime ? :Partial<RuntimeInfo>) {
+    async apply(runtime ?:Partial<RuntimeInfo>) {
         if (!this.drawInfo.events.length) throw new Error('No event passed the timeline!');
 
         this.initRuntime(runtime);
@@ -326,7 +326,7 @@ export default abstract class Timeline extends Component {
     }
 
     // Count runtime info
-    protected initRuntime(runtime? :Partial<RuntimeInfo>) {
+    protected initRuntime(runtime ?:Partial<RuntimeInfo>) {
         this.runtime = Object.create(runtime || Object.prototype);
 
         this.runtime.startDate = ('startDate' in this.runtime)

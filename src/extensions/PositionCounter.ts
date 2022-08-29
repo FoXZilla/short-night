@@ -154,7 +154,7 @@ export default class PositionCounter implements Partial<Extension> {
     protected addPushConfig(config :PushConfig) {
         this.pushConfigs.push(config);
     }
-    protected countCritical(num :number, comp ? :Component) :number {
+    protected countCritical(num :number, comp ?:Component) :number {
         if (this.pushConfigs.length === 0) return 0;
         return this.pushConfigs.reduce(
             (result :number, config :PushConfig) => {

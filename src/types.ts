@@ -50,7 +50,7 @@ export interface GridConfig {
     minEventAxisOffset :number;
 
     markWidth :number;
-    markHeight? :number;
+    markHeight ?:number;
 
     scaleHeight :number;
     axisWidth :number;

@@ -20,11 +20,11 @@ export enum MustCallAndReturnSuperMethod {
  * @property space - using in ConflictFixer, existing in EventBody only.
  * */
 export interface ExtraData {
-    id ? :string;
-    boxElement ? :HTMLElement;
-    realLength ? :number;
-    needed? :{ top :number, bottom :number };
-    space? :{ top :number, bottom :number };
+    id ?:string;
+    boxElement ?:HTMLElement;
+    realLength ?:number;
+    needed ?:{ top :number, bottom :number };
+    space ?:{ top :number, bottom :number };
 }
 
 export default abstract class Component {
@@ -87,7 +87,7 @@ export default abstract class Component {
      * Optional. Be filled in this.createElement.
      * The HTML element which be needed by component draw.
      * */
-    element ? :HTMLElement;
+    element ?:HTMLElement;
     /**
      * Optional. Depend on the draw this component is need HTML element or not.
      * Create an HTML element base on this.drawInfo to fill this.element

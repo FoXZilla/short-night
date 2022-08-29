@@ -28,15 +28,15 @@ interface DrawInfo extends ComponentDrawInfo {
 
     date :string;
     title :string;
-    description? :string;
+    description ?:string;
     folded :boolean;
-    foldPlaceholder? :string;
+    foldPlaceholder ?:string;
 
-    endDate? :string;
-    endText? :string;
+    endDate ?:string;
+    endText ?:string;
 
-    axisLength? :number;
-    axisOffset? :number;
+    axisLength ?:number;
+    axisOffset ?:number;
 
     axisBodyDrawInfo :Readonly<AxisBody['drawInfo']>;
 

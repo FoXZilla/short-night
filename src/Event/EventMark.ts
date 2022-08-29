@@ -13,7 +13,7 @@ interface DrawInfo extends ComponentDrawInfo {
     axisBodyDrawInfo :Readonly<AxisBody['drawInfo']>;
     target :Coordinate;
     width :number;
-    height? :number;
+    height ?:number;
 }
 
 /**

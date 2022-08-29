@@ -18,7 +18,7 @@ interface DrawInfo extends ComponentDrawInfo {
 
     length :number;
     offsetX :number;
-    text? :string;
+    text ?:string;
 }
 
 /**

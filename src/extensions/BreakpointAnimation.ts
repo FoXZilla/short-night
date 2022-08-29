@@ -49,7 +49,7 @@ export interface BreakpointAnimationConfig {
 
     // About animation
     autoScroll :boolean;
-    timeoutCounter :(point :Breakpoint, config :Partial<BlockConfig>) => number;
+    timeoutCounter :(point :Breakpoint, config :Partial<BlockConfig>) =>number;
     scrollDuration :number;
     scrollContainer :Window | HTMLElement;
 }
@@ -61,8 +61,8 @@ export interface BlockConfig {
     protagonist :Component;
     components :Component[];
     forward :boolean;
-    onBlock :() => Promise<void>;
-    onNext :() => Promise<void>;
+    onBlock :() =>Promise<void>;
+    onNext :() =>Promise<void>;
 }
 
 /**
@@ -173,7 +173,7 @@ export default class BreakpointAnimation implements Partial<Extension>, Breakpoi
     /**
      * Fill when short-night is blocking. Step in a breakpoint.
      * */
-    protected stepIn ? :() => Promise<void>;
+    protected stepIn ?:() =>Promise<void>;
     /** Get a instance of moveto */
     protected get moveTo() :moveto {
         return new moveto({
