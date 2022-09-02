@@ -5,7 +5,7 @@
   "scripts": {
     "lint": "eslint 'src/**/*.ts'",
     "fix-lint": "eslint 'src/**/*.ts' --fix",
-    "docs": "typedoc ./src --exclude **/node_modules/** --out docs/ --readme ./index.docs.md --tsconfig ./tsconfig.json --name \"Short Night TypeScript Modules\" && nodetouch docs/.nojekyll",
+    "docs": "typedoc './src/*.ts' --exclude **/node_modules/** --out docs/ --readme ./index.docs.md --tsconfig ./tsconfig.json --gitRemote upstream --name \"Short Night TypeScript Modules\" && nodetouch docs/.nojekyll",
     "watch-css": "node-sass src/styles.scss -o ./dist && node-sass src/styles.scss -wo ./dist",
     "watch-ts": "tsc --watch",
     "watch-pkg": "copy-and-watch --watch package.json ./dist",
