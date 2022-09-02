@@ -1,8 +1,8 @@
 import { ComponentConstructorInfo, ComponentDrawInfo, GridConfig } from '../types';
 import Component from '../common/Component';
-import AxisMilestone from '../Axis/AxisMilestone';
-import AxisScale from '../Axis/AxisScale';
-import AxisBody from '../Axis/AxisBody';
+import AxisMilestone from './AxisMilestone';
+import AxisScale from './AxisScale';
+import AxisBody from './AxisBody';
 import { SN } from '../common/definitions';
 import { deepFreeze, mergeBox } from '../common/functions';
 
@@ -13,7 +13,7 @@ import { deepFreeze, mergeBox } from '../common/functions';
  * @property {string} milestones[].text. - the showed text of milestone.
  * @property {number} length - the axis length.
  * */
-interface DrawInfo extends ComponentDrawInfo{
+interface DrawInfo extends ComponentDrawInfo {
     scales :number[];
     milestones :{
         position :number;
@@ -25,7 +25,7 @@ interface DrawInfo extends ComponentDrawInfo{
 /**
  * @property {GridConfig} grid - the whole config of GRID.
  * */
-export interface ConstructInfo extends ComponentConstructorInfo{
+export interface ConstructInfo extends ComponentConstructorInfo {
     grid :GridConfig;
 }
 
@@ -33,7 +33,7 @@ export interface ConstructInfo extends ComponentConstructorInfo{
  * The whole Axis. Contain some AxisMilestone, some AxisScale and a AxisBody.
  * The Manage-Component. All of draw is resolved by child component.
  * */
-export default abstract class Axis extends Component{
+export default abstract class Axis extends Component {
     constructor(props :ConstructInfo) {
         super(props);
         this.grid = props.grid;

@@ -10,8 +10,7 @@ export default class EventAxis2EventAxis {
 
     async fix() :Promise<ConflictFixResult> {
         const eventAxisList :EventAxis[] = Array.from(this.ext.components[SN.EventAxis])
-            .sort((ea1, ea2) => ea2.drawInfo.length - ea1.drawInfo.length)
-        ;
+            .sort((ea1, ea2) => ea2.drawInfo.length - ea1.drawInfo.length);
 
         while (
             eventAxisList.some(
@@ -48,7 +47,7 @@ export default class EventAxis2EventAxis {
         return ConflictFixResult.NoConflict;
     }
 
-    static isConflict (ea1 :EventAxis, ea2 :EventAxis) :boolean {
+    static isConflict(ea1 :EventAxis, ea2 :EventAxis) :boolean {
         if (ea1 === ea2) return false;
         const line1 :Line = {
             startX: ea1.drawInfo.markDrawInfo.target.x + ea1.drawInfo.offsetX,

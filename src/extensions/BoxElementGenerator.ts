@@ -6,12 +6,13 @@ import { DEBUG } from '../common/definitions';
  * Create element following comp.drawInfo.box for debug.
  * Using this extension, the development can inspect an Short-Night Component by Web Console.
  * */
-export default class BoxElementGenerator implements Partial<Extension>{
+export default class BoxElementGenerator implements Partial<Extension> {
     constructor(public ext :ExtensionManager) {
         if (DEBUG) {
             (<any>window).clearBox = () => {
                 const componentMap :any = this.ext.components;
                 for (const snName in componentMap) {
+                    if (!Object.prototype.hasOwnProperty.call(componentMap, snName)) continue;
                     for (const component of componentMap[snName]) {
                         const elt = component.extraData.boxElement;
                         if (elt && elt.parentElement) {
@@ -58,11 +59,10 @@ export default class BoxElementGenerator implements Partial<Extension>{
      * Remove element created in onApply.
      * */
     onDestroy(comp :Component) {
-        const elt :HTMLElement|undefined = comp.extraData.boxElement;
+        const elt :HTMLElement | undefined = comp.extraData.boxElement;
 
         if (elt && elt.parentElement) {
             elt.parentElement.removeChild(elt);
         }
     }
-
 }

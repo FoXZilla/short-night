@@ -8,7 +8,7 @@ import { SN } from '../common/definitions';
  * @property {Coordinate} start - where coordinate to start axis.
  * @property {number} start.x - the axis will align this point rather than start.
  * */
-interface DrawInfo extends ComponentDrawInfo{
+interface DrawInfo extends ComponentDrawInfo {
     length :number;
     width :number;
     start :Coordinate;
@@ -18,7 +18,7 @@ interface DrawInfo extends ComponentDrawInfo{
  * The body of Axis.
  * Draw the axis using this component.
  * */
-export default abstract class AxisBody extends Component{
+export default abstract class AxisBody extends Component {
     constructor(props :ComponentConstructorInfo) {
         super(props);
         this.ext.onConstruct(this);

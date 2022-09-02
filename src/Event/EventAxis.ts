@@ -12,13 +12,13 @@ import EventMark from './EventMark';
  * @property {number} offsetX - the offset X with Axis in EventAxis.
  * @property {[string]} text - the description about event ended.
  * */
-interface DrawInfo extends ComponentDrawInfo{
+interface DrawInfo extends ComponentDrawInfo {
     axisBodyDrawInfo :Readonly<AxisBody['drawInfo']>;
     markDrawInfo :Readonly<EventMark['drawInfo']>;
 
     length :number;
     offsetX :number;
-    text? :string;
+    text ?:string;
 }
 
 /**
@@ -26,7 +26,7 @@ interface DrawInfo extends ComponentDrawInfo{
  * Some Event have no duration, so it needn't EventAxis.
  * Can conflict with AxisMilestone and EventAxis.
  * */
-export default abstract class EventAxis extends Component{
+export default abstract class EventAxis extends Component {
     constructor(props :ComponentConstructorInfo) {
         super(props);
         this.ext.onConstruct(this);
@@ -50,7 +50,7 @@ export default abstract class EventAxis extends Component{
     createElement() {
         const flag = super.createElement(); // Must return this flag
 
-        const target = this.drawInfo.markDrawInfo.target;
+        const { target } = this.drawInfo.markDrawInfo;
 
         this.element!.classList.add('sn-endText');
         this.element!.innerHTML = this.drawInfo.text!;
@@ -63,7 +63,7 @@ export default abstract class EventAxis extends Component{
         return flag;
     }
     createBox() {
-        const target = this.drawInfo.markDrawInfo.target;
+        const { target } = this.drawInfo.markDrawInfo;
 
         this.drawInfo.box = {
             x: target.x,
@@ -92,5 +92,4 @@ export default abstract class EventAxis extends Component{
     static is(comp :Component) :comp is EventAxis {
         return comp.name === SN.EventAxis;
     }
-
 }

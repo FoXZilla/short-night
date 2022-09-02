@@ -1,0 +1,42 @@
+{
+    "extends": ["airbnb-base", "airbnb-typescript/base"],
+    "parser": "@typescript-eslint/parser",
+    "parserOptions": {
+        "project": "./tsconfig.json"
+    },
+    "plugins": [
+        "@typescript-eslint"
+    ],
+    "rules": {
+        "indent": ["error", 4, { "SwitchCase": 1 }],
+        "@typescript-eslint/indent": ["error", 4, { "SwitchCase": 1 }],
+        "@typescript-eslint/type-annotation-spacing": ["error", { "before": true, "after": false}],
+        "no-else-return": ["error", { "allowElseIf": true }],
+        "no-constant-condition": ["error", { "checkLoops": false }],
+
+        "@typescript-eslint/no-unused-expressions": ["warn"],
+        "@typescript-eslint/no-unused-vars": ["warn"],
+
+        "@typescript-eslint/lines-between-class-members": ["off"],
+        "@typescript-eslint/return-await": ["off"],
+        "func-names": ["off"],
+        "function-paren-newline": ["off"],
+        "class-methods-use-this": ["off"],
+        "arrow-parens": ["off"],
+        "object-curly-newline": ["off"],
+        "no-plusplus": ["off"],
+        "import/order": ["off"],
+        "no-console": ["off"],
+        "no-bitwise": ["off"],
+        "no-mixed-operators": ["off"],
+        "no-await-in-loop": ["off"],
+        "no-continue": ["off"],
+        "no-labels": ["off"],
+        "no-restricted-globals": ["off"],
+        "no-restricted-syntax": ["off"],
+        "import/no-cycle": ["off"],
+        "no-param-reassign": ["off"],
+        "no-lonely-if": ["off"],
+        "new-cap": ["off"]
+    }
+}

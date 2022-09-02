@@ -9,7 +9,7 @@ import EventBody2EventBodyMover from './EventBody2EventBodyMover';
 import EventBody2EventBodyFloater from './EventBody2EventBodyFloater';
 import { ConflictFixResult } from '../../types';
 
-export interface Conflict<T = Component>{
+export interface Conflict<T = Component> {
     with :T[];
     self :T;
 }
@@ -60,7 +60,6 @@ export default class ConflictFixer implements Partial<Extension> {
         await Promise.resolve().then(() => timeline.apply({
             axisLength: timeline.runtime.axisLength * 1.3,
         }));
-
     }
 
     /**
@@ -75,5 +74,4 @@ export default class ConflictFixer implements Partial<Extension> {
             return results;
         });
     }
-
 }

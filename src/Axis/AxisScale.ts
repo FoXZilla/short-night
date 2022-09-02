@@ -1,14 +1,14 @@
 import { ComponentConstructorInfo, ComponentDrawInfo, Coordinate } from '../types';
 import Component from '../common/Component';
 import { SN } from '../common/definitions';
-import AxisBody from '../Axis/AxisBody';
+import AxisBody from './AxisBody';
 
 /**
  * @property {Readonly<AxisBodyDrawInfo>} bodyDrawInfo - the DrawInfo of AxisBody.
  * @property {number} alignY - the y point which is the AxisScale align target.
  * @property {number} height - the height of AxisScale.
  * */
-interface DrawInfo extends ComponentDrawInfo{
+interface DrawInfo extends ComponentDrawInfo {
     bodyDrawInfo :Readonly<AxisBody['drawInfo']>;
     alignY :number;
     height :number;
@@ -18,7 +18,7 @@ interface DrawInfo extends ComponentDrawInfo{
  * In axis, mark a mark for recognize time easy.
  * Optional, a theme can omit this component by situation.
  * */
-export default abstract class AxisScale extends Component{
+export default abstract class AxisScale extends Component {
     constructor(props :ComponentConstructorInfo) {
         super(props);
         this.ext.onConstruct(this);

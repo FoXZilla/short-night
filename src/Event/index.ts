@@ -22,21 +22,21 @@ import AxisBody from '../Axis/AxisBody';
  * @property {[Date]} endDate - the date of event end.
  * @property {[string]} endText - the description about event ended.
  * */
-interface DrawInfo extends ComponentDrawInfo{
+interface DrawInfo extends ComponentDrawInfo {
     target :Coordinate;
     offset :Coordinate;
 
     date :string;
     title :string;
-    description? :string;
+    description ?:string;
     folded :boolean;
-    foldPlaceholder? :string;
+    foldPlaceholder ?:string;
 
-    endDate? :string;
-    endText? :string;
+    endDate ?:string;
+    endText ?:string;
 
-    axisLength? :number;
-    axisOffset? :number;
+    axisLength ?:number;
+    axisOffset ?:number;
 
     axisBodyDrawInfo :Readonly<AxisBody['drawInfo']>;
 
@@ -45,7 +45,7 @@ interface DrawInfo extends ComponentDrawInfo{
 /**
  * @property {GridConfig} grid - the whole config of GRID.
  * */
-export interface ConstructInfo extends ComponentConstructorInfo{
+export interface ConstructInfo extends ComponentConstructorInfo {
     grid :GridConfig;
 }
 
@@ -53,7 +53,7 @@ export interface ConstructInfo extends ComponentConstructorInfo{
  * The whole Event. Contain an EventBody and an EventMark, maybe has a EventAxis too.
  * The Manage-Component. All of draw is resolved by child component.
  * */
-export default abstract class Event extends Component{
+export default abstract class Event extends Component {
     constructor(props :ConstructInfo) {
         super(props);
         this.grid = props.grid;
@@ -87,7 +87,7 @@ export default abstract class Event extends Component{
     // The instances
     mark :EventMark = null as any;
     body :EventBody = null as any;
-    axis :EventAxis|null = null;
+    axis :EventAxis | null = null;
 
     // The Constructors
     abstract bodyConstructor :typeof EventBody;
@@ -131,14 +131,14 @@ export default abstract class Event extends Component{
     hide() {
         this.mark.hide();
         this.body.hide();
-        this.axis && this.axis.hide();
+        this.axis?.hide();
 
         return super.hide();
     }
     destroy() {
         this.mark.destroy();
         this.body.destroy();
-        this.axis && this.axis.destroy();
+        this.axis?.destroy();
 
         return super.destroy();
     }
@@ -162,7 +162,7 @@ export default abstract class Event extends Component{
         this.body.drawInfo.description = this.drawInfo.description;
         this.body.drawInfo.folded = this.drawInfo.folded;
         this.body.drawInfo.foldPlaceholder = this.drawInfo.foldPlaceholder;
-        this.body.drawInfo.offset =  Object.assign({}, this.drawInfo.offset);
+        this.body.drawInfo.offset = { ...this.drawInfo.offset };
         this.body.drawInfo.endText = this.drawInfo.endText;
         this.body.drawInfo.endDate = this.drawInfo.endDate;
     }

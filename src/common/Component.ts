@@ -3,7 +3,7 @@ import { ExtensionManager } from '../extensions';
 import { DEBUG, SN } from './definitions';
 import { createLogFunction } from './functions';
 
-export enum MUST_CALL_AND_RETURN_SUPER_METHOD {
+export enum MustCallAndReturnSuperMethod {
     SUPER_APPLY,
     SUPER_DRAW,
     SUPER_DESTROY,
@@ -20,14 +20,14 @@ export enum MUST_CALL_AND_RETURN_SUPER_METHOD {
  * @property space - using in ConflictFixer, existing in EventBody only.
  * */
 export interface ExtraData {
-    id ? :string;
-    boxElement ? :HTMLElement;
-    realLength ? :number;
-    needed? :{top :number, bottom :number};
-    space? :{top :number, bottom :number};
+    id ?:string;
+    boxElement ?:HTMLElement;
+    realLength ?:number;
+    needed ?:{ top :number, bottom :number };
+    space ?:{ top :number, bottom :number };
 }
 
-export default abstract class Component{
+export default abstract class Component {
     constructor({ ext, canvas, container } :ComponentConstructorInfo) {
         this.ext = ext;
 
@@ -87,21 +87,21 @@ export default abstract class Component{
      * Optional. Be filled in this.createElement.
      * The HTML element which be needed by component draw.
      * */
-    element ? :HTMLElement;
+    element ?:HTMLElement;
     /**
      * Optional. Depend on the draw this component is need HTML element or not.
      * Create an HTML element base on this.drawInfo to fill this.element
      * and append to this.container.
      * Be called in this.apply and this.draw.
      * */
-    createElement() :MUST_CALL_AND_RETURN_SUPER_METHOD {
+    createElement() :MustCallAndReturnSuperMethod {
         if (this.element) this.container.removeChild(this.element);
 
         this.element = document.createElement('div');
         this.element.classList.add('short-night', `sn-${this.theme}`, `sn-${this.name}`);
         this.container.appendChild(this.element);
 
-        return MUST_CALL_AND_RETURN_SUPER_METHOD.SUPER_CREATE_ELEMENT;
+        return MustCallAndReturnSuperMethod.SUPER_CREATE_ELEMENT;
     }
     /**
      * Create a box object to fill this.drawInfo.box.
@@ -119,7 +119,7 @@ export default abstract class Component{
      * Destroy self.
      * It should remove all element from dom and clear all trace in canvas if that's made by self.
      * */
-    destroy() :MUST_CALL_AND_RETURN_SUPER_METHOD {
+    destroy() :MustCallAndReturnSuperMethod {
         this.checkDestroy();
 
         this.destroyed = true;
@@ -130,7 +130,7 @@ export default abstract class Component{
 
         this.ext.onDestroy(this);
 
-        return MUST_CALL_AND_RETURN_SUPER_METHOD.SUPER_DESTROY;
+        return MustCallAndReturnSuperMethod.SUPER_DESTROY;
     }
 
     /**
@@ -138,31 +138,31 @@ export default abstract class Component{
      * This method should't change any property in this.drawInfo except this.drawInfo.box.
      * @async
      * */
-    async apply(...args :any[]) :Promise<MUST_CALL_AND_RETURN_SUPER_METHOD> {
+    async apply(...args :any[]) :Promise<MustCallAndReturnSuperMethod> {
         this.checkDestroy();
 
         await this.ext.onApply(this);
 
-        return MUST_CALL_AND_RETURN_SUPER_METHOD.SUPER_APPLY;
+        return MustCallAndReturnSuperMethod.SUPER_APPLY;
     }
     /**
      * Draw self base on this.drawInfo.
      * It should can be call multiple times.
      * Call this.apply before this.draw.
      * */
-    draw() :MUST_CALL_AND_RETURN_SUPER_METHOD {
+    draw() :MustCallAndReturnSuperMethod {
         this.checkDestroy();
 
         this.ext.onDraw(this);
 
-        return MUST_CALL_AND_RETURN_SUPER_METHOD.SUPER_DRAW;
+        return MustCallAndReturnSuperMethod.SUPER_DRAW;
     }
     /**
      * Hide all of trace created by self.
      * Hidden is not destroyed. Ensure the component is still available when this.hide have call.
      * This method will try set "visibility: 'hidden'" for this.element rather than remove it.
      * */
-    hide() :MUST_CALL_AND_RETURN_SUPER_METHOD {
+    hide() :MustCallAndReturnSuperMethod {
         this.checkDestroy();
 
         if (this.element) this.element.style.visibility = 'hidden';
@@ -172,7 +172,7 @@ export default abstract class Component{
 
         this.ext.onHide(this);
 
-        return MUST_CALL_AND_RETURN_SUPER_METHOD.SUPER_HIDE;
+        return MustCallAndReturnSuperMethod.SUPER_HIDE;
     }
 
     /**
@@ -180,7 +180,7 @@ export default abstract class Component{
      * The component still need this.apply called before draw when this.importDrawInfo been called.
      * */
     importDrawInfo(drawInfo :ComponentDrawInfo) {
-        (<any>this).drawInfo = drawInfo;
+        (<any> this).drawInfo = drawInfo;
         return this;
     }
 
@@ -198,8 +198,7 @@ export default abstract class Component{
     protected checkDestroy() {
         if (this.destroyed) {
             const msg = `${this.theme}/${this.name} has bean destroyed,`
-                + 'however, you still called it\'s method.'
-            ;
+                + 'however, you still called it\'s method.';
             if (DEBUG) {
                 throw new Error(msg);
             } else {

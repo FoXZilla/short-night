@@ -17,28 +17,28 @@ import EventMark from './EventMark';
  * @property {[Date]} endDate - the date of event end.
  * @property {[string]} endText - the description about event ended.
  * */
-interface DrawInfo extends ComponentDrawInfo{
+interface DrawInfo extends ComponentDrawInfo {
     markDrawInfo :EventMark['drawInfo'];
     offset :Coordinate;
     maxWidth :number;
 
     date :string;
     title :string;
-    description? :string;
+    description ?:string;
 
     floated :boolean;
 
     folded :boolean;
-    foldPlaceholder? :string;
+    foldPlaceholder ?:string;
 
-    endDate? :string;
-    endText? :string;
+    endDate ?:string;
+    endText ?:string;
 }
 
 /**
  * Can conflict with AxisMilestone and EventBody.
  * */
-export default abstract class EventBody extends Component{
+export default abstract class EventBody extends Component {
     constructor(props :ComponentConstructorInfo) {
         super(props);
         this.ext.onConstruct(this);
@@ -139,5 +139,4 @@ export default abstract class EventBody extends Component{
     static is(comp :Component) :comp is EventBody {
         return comp.name === SN.EventBody;
     }
-
 }

@@ -7,8 +7,7 @@ export function isBox(obj :any) :obj is Box {
         && typeof obj.x === 'number'
         && typeof obj.y === 'number'
         && typeof obj.width === 'number'
-        && typeof obj.height === 'number'
-    ;
+        && typeof obj.height === 'number';
 }
 export function box2Lines(box :Box) :Line[] {
     return [
@@ -66,7 +65,7 @@ export function mergeBox(...args :Box[]) :Box {
         height: rightBottom.y - leftTop.y,
     };
 }
-export function shrinkBox(box :Box, distance= 1) :Box {
+export function shrinkBox(box :Box, distance = 1) :Box {
     return {
         x: box.x + distance,
         y: box.y + distance,
@@ -94,17 +93,14 @@ export function isIntersecting(line1 :Line, line2 :Line) :boolean {
         const [bixY, smallY] = [y1, y2].sort((n1, n2) => n2 - n1);
         if (slope1 === 0) {
             return ((y3 <= bixY && y3 >= smallY) || (y4 <= bixY && y4 >= smallY))
-                && x1 === x3
-                ;
+                && x1 === x3;
         }
         if (slope1 === Infinity) {
             return ((x3 <= bixX && x3 >= smallX) || (x4 <= bixX && x4 >= smallX))
-                && y1 === y3
-                ;
+                && y1 === y3;
         }
         return ((x3 <= bixX && x3 >= smallX) && (y3 <= bixY && y3 >= smallY))
-            || ((x4 <= bixX && x4 >= smallX) || (y4 <= bixY && y4 >= smallY))
-        ;
+            || ((x4 <= bixX && x4 >= smallX) || (y4 <= bixY && y4 >= smallY));
     }
     if (slope1 === Infinity) y1 += 0.0001;
     if (slope2 === Infinity) y3 += 0.0001;
@@ -112,14 +108,13 @@ export function isIntersecting(line1 :Line, line2 :Line) :boolean {
     if (slope2 === 0) x3 += 0.0001;
 
     const x = ((x1 * y2 - y1 * x2) * (x3 - x4) - (x1 - x2) * (x3 * y4 - y3 * x4))
-        / ((x1 - x2) * (y3 - y4) - (y1 - y2) * (x3 - x4))
-    ;
+        / ((x1 - x2) * (y3 - y4) - (y1 - y2) * (x3 - x4));
     const y = ((x1 * y2 - y1 * x2) * (y3 - y4) - (y1 - y2) * (x3 * y4 - y3 * x4))
-        / ((x1 - x2) * (y3 - y4) - (y1 - y2) * (x3 - x4))
-    ;
+        / ((x1 - x2) * (y3 - y4) - (y1 - y2) * (x3 - x4));
     if (isNaN(x) || isNaN(y)) {
         return false;
-    } else { // tslint:disable-line
+        // eslint-disable-next-line no-else-return
+    } else {
         if (x1 >= x2) {
             if (!(x2 <= x && x <= x1)) {
                 return false;
@@ -159,9 +154,9 @@ export function isIntersecting(line1 :Line, line2 :Line) :boolean {
     }
     return true;
 }
-export function isOverlap(item1 :Box|Line, item2 :Box|Line) :boolean {
-    const lines1 = isBox(item1) ? box2Lines(item1) :[item1];
-    const lines2 = isBox(item2) ? box2Lines(item2) :[item2];
+export function isOverlap(item1 :Box | Line, item2 :Box | Line) :boolean {
+    const lines1 = isBox(item1) ? box2Lines(item1) : [item1];
+    const lines2 = isBox(item2) ? box2Lines(item2) : [item2];
     return lines1.some(line1 => lines2.some(line2 => isIntersecting(line1, line2)));
 }
 
@@ -169,12 +164,12 @@ export function isOverlap(item1 :Box|Line, item2 :Box|Line) :boolean {
  * Instead of the while when fix conflict.
  * */
 export async function walkLoop(
-    fn :() => Promise<ConflictFixResult[]>,
+    fn :() =>Promise<ConflictFixResult[]>,
     max = 10,
 ) :Promise<ConflictFixResult> {
     let alleviated = false;
 
-    for (let i = 0 ; i < max ; i++) {
+    for (let i = 0; i < max; i++) {
         const result = await fn();
 
         if (result.includes(ConflictFixResult.Alleviated)) {
@@ -188,14 +183,11 @@ export async function walkLoop(
         if (result.includes(ConflictFixResult.Failed)) {
             return alleviated
                 ? ConflictFixResult.Alleviated
-                : ConflictFixResult.Failed
-            ;
+                : ConflictFixResult.Failed;
         }
-
     }
 
     throw new Error('too many loop');
-
 }
 /**
  * Instead of the console.log.
@@ -235,8 +227,7 @@ export function deepFreeze<T>(originObject :T) :Readonly<T> {
 
 export function parseDate(material :any) :Date {
     const pureNumberString = typeof material === 'string'
-        && String(Number(material)) === material
-    ;
+        && String(Number(material)) === material;
     if (pureNumberString) {
         const date = new Date();
         date.setFullYear(Number(material));

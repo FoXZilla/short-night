@@ -20,7 +20,7 @@ import Timeline from '../Timeline';
  * Set a Breakpoint for debug.
  * When debug-mode enabled, short-night will blocking at Breakpoint.Debug automatically.
  * */
-export enum Breakpoint{
+export enum Breakpoint {
     PushScalesAndMilestones = 'PushScalesAndMilestones',
     FixEventBody2AxisMilestone = 'FixEventBody2AxisMilestone',
     FixEventAxis2EventAxis = 'FixEventAxis2EventAxis',
@@ -49,7 +49,7 @@ export interface BreakpointAnimationConfig {
 
     // About animation
     autoScroll :boolean;
-    timeoutCounter :(point :Breakpoint, config :Partial<BlockConfig>) => number;
+    timeoutCounter :(point :Breakpoint, config :Partial<BlockConfig>) =>number;
     scrollDuration :number;
     scrollContainer :Window | HTMLElement;
 }
@@ -61,15 +61,15 @@ export interface BlockConfig {
     protagonist :Component;
     components :Component[];
     forward :boolean;
-    onBlock :() => Promise<void>;
-    onNext :() => Promise<void>;
+    onBlock :() =>Promise<void>;
+    onNext :() =>Promise<void>;
 }
 
 /**
  * 1. Support that set a Breakpoint .
  * 2. Support that play animation base on Breakpoints.
  * */
-export default class BreakpointAnimation implements Partial<Extension>, BreakpointAnimationConfig{
+export default class BreakpointAnimation implements Partial<Extension>, BreakpointAnimationConfig {
     constructor(
         public ext :ExtensionManager,
         {
@@ -144,7 +144,7 @@ export default class BreakpointAnimation implements Partial<Extension>, Breakpoi
             setTimeout(() => this.next(), this.timeoutCounter(point, config));
         }
 
-        return (async () => {
+        (async () => {
             if (onBlock) await onBlock();
             components.forEach(comp => comp.draw());
 
@@ -155,7 +155,6 @@ export default class BreakpointAnimation implements Partial<Extension>, Breakpoi
                     resolve();
                 };
             });
-
         })();
     }
     /**
@@ -174,9 +173,9 @@ export default class BreakpointAnimation implements Partial<Extension>, Breakpoi
     /**
      * Fill when short-night is blocking. Step in a breakpoint.
      * */
-    protected stepIn ? :() => Promise<void>;
+    protected stepIn ?:() =>Promise<void>;
     /** Get a instance of moveto */
-    protected get moveTo () :moveto {
+    protected get moveTo() :moveto {
         return new moveto({
             duration: this.scrollDuration,
             container: this.scrollContainer,
@@ -185,7 +184,7 @@ export default class BreakpointAnimation implements Partial<Extension>, Breakpoi
     /**
      * Count a number that be used scroll to focus when play animation.
      * */
-    protected countScrollTarget(config :Partial<BlockConfig>) :number|null {
+    protected countScrollTarget(config :Partial<BlockConfig>) :number | null {
         const { components, protagonist } = config;
 
         const topPadding = 100;

@@ -9,18 +9,18 @@ import AxisBody from '../Axis/AxisBody';
  * @property {width} width - the width of mark.
  * @property {[number]} height - the height of mark.
  * */
-interface DrawInfo extends ComponentDrawInfo{
+interface DrawInfo extends ComponentDrawInfo {
     axisBodyDrawInfo :Readonly<AxisBody['drawInfo']>;
     target :Coordinate;
     width :number;
-    height? :number;
+    height ?:number;
 }
 
 /**
  * In axis, mark a mark for recognize event point when event take place.
  * Optional, a theme can omit this component by situation.
  * */
-export default abstract class EventMark extends Component{
+export default abstract class EventMark extends Component {
     constructor(props :ComponentConstructorInfo) {
         super(props);
         this.ext.onConstruct(this);
@@ -43,7 +43,7 @@ export default abstract class EventMark extends Component{
     };
 
     createBox() {
-        const width = this.drawInfo.width;
+        const { width } = this.drawInfo;
         const height = this.drawInfo.height || width;
         this.drawInfo.box = {
             width,
