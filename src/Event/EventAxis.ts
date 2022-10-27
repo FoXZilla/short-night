@@ -11,6 +11,7 @@ import EventMark from './EventMark';
  * @property {number} length - the length of EventAxis.
  * @property {number} offsetX - the offset X with Axis in EventAxis.
  * @property {[string]} text - the description about event ended.
+ * @property {[boolean]} ongoing - whether event is still ongoing or not
  * */
 interface DrawInfo extends ComponentDrawInfo {
     axisBodyDrawInfo :Readonly<AxisBody['drawInfo']>;
@@ -19,6 +20,7 @@ interface DrawInfo extends ComponentDrawInfo {
     length :number;
     offsetX :number;
     text ?:string;
+    ongoing ?:boolean;
 }
 
 /**

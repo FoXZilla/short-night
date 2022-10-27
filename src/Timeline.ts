@@ -23,9 +23,9 @@ import html2canvas from 'html2canvas';
  * @property {string} title - the title of event.
  *
  * @property {[string]} description - the description of event.
- * @property {[Date|'now']} endDate
+ * @property {[Date|'ongoing']} endDate
  * A date of event ended if event has.
- * Set "now" to specify the event is continuous.
+ * Set "ongoing" to specify the event is continuous.
  * @property {[string]} endText - the description of event ended if event has.
  *
  * @property {[boolean]} folded - the event is folded or not when timeline drawn.
@@ -40,7 +40,7 @@ interface DrawInfo extends ComponentDrawInfo {
         title :string,
 
         description ?:string,
-        endDate ?:string | 'now',
+        endDate ?:string | 'ongoing',
         endText ?:string,
 
         folded ?:boolean,
@@ -495,12 +495,13 @@ export default abstract class Timeline extends Component {
             event.drawInfo.endText = data.endText;
             if (data.endDate) {
                 const endDate :Date = parseDate(
-                    data.endDate === 'now'
+                    data.endDate === 'ongoing'
                         ? this.runtime.endDate
                         : data.endDate
                     ,
                 );
                 event.drawInfo.endDate = endDate.toISOString();
+                event.drawInfo.ongoing = data.endDate === 'ongoing';
                 event.drawInfo.axisLength = (endDate.getTime() - parseDate(data.date).getTime())
                     / dateLength
                     * this.axis.drawInfo.length;
