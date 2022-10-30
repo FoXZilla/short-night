@@ -21,6 +21,7 @@ import AxisBody from '../Axis/AxisBody';
  * @property {[number]} axisOffset - the offset X with Axis in EventAxis.
  * @property {[Date]} endDate - the date of event end.
  * @property {[string]} endText - the description about event ended.
+ * @property {[boolean]} ongoing - whether event is still ongoing or not
  * */
 interface DrawInfo extends ComponentDrawInfo {
     target :Coordinate;
@@ -40,6 +41,7 @@ interface DrawInfo extends ComponentDrawInfo {
 
     axisBodyDrawInfo :Readonly<AxisBody['drawInfo']>;
 
+    ongoing ?:boolean;
 }
 
 /**
@@ -174,12 +176,13 @@ export default abstract class Event extends Component {
 
         if (this.drawInfo.axisLength) {
             // @ts-ignore - realize a absolute class that will re-init in the theme.
-            const axis = this.axis || new this.axisConstructor(this);
+            const axis :EventAxis = this.axis || new this.axisConstructor(this);
             axis.drawInfo.axisBodyDrawInfo = this.drawInfo.axisBodyDrawInfo;
             axis.drawInfo.markDrawInfo = deepFreeze(this.mark.drawInfo);
             axis.drawInfo.offsetX = this.grid.minEventAxisOffset;
             axis.drawInfo.length = this.drawInfo.axisLength;
             axis.drawInfo.text = this.drawInfo.endText;
+            axis.drawInfo.ongoing = this.drawInfo.ongoing;
             this.axis = axis;
         }
     }
